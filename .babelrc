@@ -1,0 +1,15 @@
+{
+  "presets": [
+    "react-native"
+  ],
+  "plugins": [
+    [
+      "module-resolver", {
+        "root": ["."]
+      }
+    ],
+    "transform-export-extensions",
+    "transform-function-bind",
+    "transform-decorators-legacy",
+  ]
+}

@@ -1,0 +1,23 @@
+# General
+.DS_Store
+.swp
+.idea/
+
+# Node / NPM
+node_modules/
+npm-debug.*
+
+# XCode
+ios/build
+*.xcuserstate
+*.xcsettings
+xcuserdata/
+project.xcworkspace/
+ios/Irmagobridge.framework
+ios/sentry.properties
+
+# Android
+android/build
+android/app/build
+android/.gradle
+*.jsbundle
