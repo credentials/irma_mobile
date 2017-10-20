@@ -23,7 +23,7 @@ RCT_EXPORT_METHOD(dispatch:(NSString *)action) {
 }
 
 -(void)debugLog:(NSString*)message {
-  NSLog(message);
+  NSLog(@"%@\n", message);
 }
 
 @end
