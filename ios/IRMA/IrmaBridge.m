@@ -4,8 +4,6 @@
 
 @implementation IrmaBridge
 
-@synthesize bridge = _bridge;
-
 RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(start) {
@@ -18,8 +16,12 @@ RCT_EXPORT_METHOD(dispatch:(NSString *)action) {
   IrmagobridgeReceiveAction(action);
 }
 
--(void)sendEvent:(NSString*)channel message:(NSString*)message{
-  [self.bridge.eventDispatcher sendDeviceEventWithName:channel body:message];
+-(void)sendEvent:(NSString*)channel message:(NSString*)message {
+  [self sendEventWithName:channel body:message];
+}
+
+-(NSArray<NSString *> *)supportedEvents {
+  return @[@"irmago"];
 }
 
 -(void)debugLog:(NSString*)message {
