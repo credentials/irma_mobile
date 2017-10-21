@@ -1,0 +1,4 @@
+*.iml
+irmagobridge.aar
+local.properties
+keystores/*
