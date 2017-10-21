@@ -20,18 +20,11 @@ export default class Error extends Component {
 
   renderErrorText() {
     const { session: {errorType, errorInfo} } = this.props;
-
-    switch(errorType) {
-      case 'transport':
-      case 'protocolVersionNotSupported':
-        return t('.' + errorType);
-      case 'unknownSchemeManager':
-        return t('.unknownSchemeManager', {manager: errorInfo});
-      case 'keyshareBlocked':
-        return t('.blocked', {seconds: errorInfo});
-      default:
-        return t('.unknown');
-    }
+    let msg = t(`.${errorType}`, {
+      defaultValue: t('.unknown'),
+      errorInfo
+    });
+    return msg + '\n\n' + t('.persists');
   }
 
   render() {
