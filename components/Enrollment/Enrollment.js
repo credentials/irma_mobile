@@ -59,7 +59,7 @@ export default class Enrollment extends Component {
     return (
       <Header style={{height: 80, paddingTop: 20}}>
         <Left>
-          { currentStep === 1 ?
+          { currentStep === 0 ?
               <Thumbnail source={irmaLogo} /> :
               <Button transparent onPress={prevStep}>
                 <Text>{ t('.back') }</Text>
@@ -73,9 +73,10 @@ export default class Enrollment extends Component {
                 t('.title')
             }
           </Title>
-          <Text note>
-            { t('.subtitle', { step: currentStep }) }
-          </Text>
+          { currentStep !== 0 ?
+            <Text note>{ t('.subtitle', { step: currentStep }) }</Text> :
+            null
+          }
         </Body>
         <Right>
           <Button transparent onPress={nextStep}>
@@ -88,10 +89,40 @@ export default class Enrollment extends Component {
     );
   }
 
+  renderIntro() {
+    const {
+      dismiss,
+    } = this.props;
+
+    return [
+      <PaddedContent key="intro">
+        <Card>
+          <CardItem>
+            <Body>
+              <Text>{ t('.intro.text') }</Text>
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Body>
+              <Text>
+                <Text style={{fontWeight: 'bold'}}>{t('.intro.notice')}:</Text>&nbsp;
+                {t('.intro.warning')}
+              </Text>
+            </Body>
+          </CardItem>
+        </Card>
+      </PaddedContent>,
+      <Footer key="footer" style={{height: 40}}>
+        <Button transparent small onPress={dismiss} style={{paddingTop: 14}}>
+          <Text>{ t('.notnow') }</Text>
+        </Button>
+      </Footer>
+    ];
+  }
+
   renderStepOne() {
     const {
       changeEmail,
-      dismiss,
       email,
       forceValidation,
     } = this.props;
@@ -107,7 +138,7 @@ export default class Enrollment extends Component {
       keyboardType: 'email-address',
     };
 
-    return [
+    return (
       <PaddedContent key="stepOne">
         <Card>
           <CardItem>
@@ -126,13 +157,8 @@ export default class Enrollment extends Component {
           repeatLabel={ t('.stepOne.repeatLabel') }
           validate={validate}
         />
-      </PaddedContent>,
-      <Footer key="footer" style={{height: 40}}>
-        <Button transparent small onPress={dismiss} style={{paddingTop: 14}}>
-          <Text>Not now</Text>
-        </Button>
-      </Footer>
-    ];
+      </PaddedContent>
+    );
   }
 
   renderStepTwo() {
@@ -223,7 +249,7 @@ export default class Enrollment extends Component {
   render() {
     const { currentStep } = this.props;
     const stepRenderers = [
-      null, ::this.renderStepOne, ::this.renderStepTwo, ::this.renderStepThree
+      ::this.renderIntro, ::this.renderStepOne, ::this.renderStepTwo, ::this.renderStepThree
     ];
 
     return (
