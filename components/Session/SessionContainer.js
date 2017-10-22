@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { NavigationActions } from 'react-navigation';
+import { Dimensions, Keyboard, Platform } from 'react-native';
 
 import IssuanceSession from './IssuanceSession';
 import DisclosureSession from './DisclosureSession';
@@ -12,7 +12,8 @@ import fullCandidates from 'store/mappers/fullCandidates';
 
 import {
   Container,
-  Text
+  Text,
+  View
 } from 'native-base';
 
 import PaddedContent from 'lib/PaddedContent';
@@ -63,9 +64,23 @@ export default class SessionContainer extends Component {
   state = {
     forceValidation: false,
     pin: null,
+    visibleHeight: Dimensions.get('window').height,
 
     // Meant for disclosure in issuance and signing
     showDisclosureStep: false
+  }
+
+  componentWillMount () {
+    // On Android the buttons in the footer move up automatically when the keyboard is shown.
+    if (Platform.OS === 'ios') {
+      Keyboard.addListener('keyboardWillShow', (e) => {
+        let newSize = Dimensions.get('window').height - e.endCoordinates.height;
+        this.setState({visibleHeight: newSize});
+      });
+      Keyboard.addListener('keyboardWillHide', () =>
+        this.setState({visibleHeight: Dimensions.get('window').height})
+      );
+    }
   }
 
   componentWillUnmount() {
@@ -173,7 +188,7 @@ export default class SessionContainer extends Component {
 
   render() {
     const { irmaConfiguration, session } = this.props;
-    const { forceValidation, showDisclosureStep } = this.state;
+    const { forceValidation, showDisclosureStep, visibleHeight } = this.state;
 
     // Introduce a pseudo-status for when we're disclosing in issuance or signing
     let status = this.props.session.status;
@@ -195,19 +210,25 @@ export default class SessionContainer extends Component {
       },
     };
 
+    let content;
     switch(session.irmaAction) {
       case 'issuing':
-        return <IssuanceSession {...sessionProps} />;
-
+        content = <IssuanceSession {...sessionProps} />;
+        break;
       case 'disclosing':
-        return <DisclosureSession {...sessionProps} />;
-
+        content = <DisclosureSession {...sessionProps} />;
+        break;
       case 'signing':
-        return <SigningSession {...sessionProps} />;
-
+        content = <SigningSession {...sessionProps} />;
+        break;
       case undefined:
-        return <Container />;
-
+        return (
+          <Container>
+            <PaddedContent>
+              <Text>Unrecognized IRMA action.</Text>
+            </PaddedContent>
+          </Container>
+        );
       default:
         return (
           <Container>
@@ -217,5 +238,7 @@ export default class SessionContainer extends Component {
           </Container>
         );
     }
+
+    return <View style={{height: visibleHeight}}>{ content }</View>;
   }
 }
