@@ -42,7 +42,7 @@ export default class EnrollmentContainer extends Component {
   }
 
   state = {
-    currentStep: 1,
+    currentStep: 0,
     email: null,
     forceValidation: false,
     pin: null,
@@ -52,6 +52,7 @@ export default class EnrollmentContainer extends Component {
     const { currentStep } = this.state;
 
     switch(currentStep) {
+      case 1:
       case 2:
       case 3:
         this.setState({currentStep: currentStep - 1, forceValidation: false});
@@ -62,6 +63,10 @@ export default class EnrollmentContainer extends Component {
     const { currentStep, email, pin } = this.state;
 
     switch(currentStep) {
+      case 0:
+        this.setState({currentStep: 1});
+      break;
+
       case 1:
         if(email)
           this.setState({currentStep: 2, forceValidation: false});
