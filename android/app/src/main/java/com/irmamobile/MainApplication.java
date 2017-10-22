@@ -28,7 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new RNSentryPackage(MainApplication.this),
             new RNI18nPackage(),
-            new RCTCameraPackage()
+            new RCTCameraPackage(),
+            new IrmaBridgePackage()
       );
     }
   };
