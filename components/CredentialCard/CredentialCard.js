@@ -50,7 +50,7 @@ export default class CredentialCard extends Component {
     const { credential } = this.props;
 
     const source = credential.Logo !== '' ?
-      {uri: credential.Logo} : irmaLogo;
+      {uri: 'file://' + credential.Logo} : irmaLogo;
 
     return (
       <Thumbnail square source={source} resizeMode="contain" />
