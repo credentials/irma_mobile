@@ -29,7 +29,7 @@ export default class Header extends Component {
       <NBHeader>
         <Left>
           <Button
-            onPress={() => navigation.navigate('DrawerOpen')}
+            onPress={() => navigation.navigate('DrawerToggle')}
             transparent
           >
             <Icon name="menu"  />
