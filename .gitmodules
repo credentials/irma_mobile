@@ -1,6 +1,3 @@
 [submodule "ios/irma_configuration/pbdf"]
 	path = ios/irma_configuration/pbdf
 	url = git@github.com:credentials/pbdf-schememanager.git
-[submodule "ios/irma_configuration/irma-demo"]
-	path = ios/irma_configuration/irma-demo
-	url = git@github.com:credentials/irma_configuration.git
