@@ -41,7 +41,6 @@
 		4777D4960A96464F8BB4F986 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97C21D9F48F34B9383EBF5BE /* MaterialIcons.ttf */; };
 		523AF7262C4B4BE09EC576A9 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EB8629A5E214DE89D6541CB /* Octicons.ttf */; };
 		525C3D7B1F893D4F00291A0D /* irma_configuration in Resources */ = {isa = PBXBuildFile; fileRef = 525C3D7A1F893D4F00291A0D /* irma_configuration */; };
-		525C3D7D1F895FA500291A0D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 525C3D7C1F895FA500291A0D /* main.jsbundle */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		86E51C460C534D6F9B33EA25 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3550796646C64205AC4195B0 /* libz.tbd */; };
@@ -319,7 +318,6 @@
 		3EB8629A5E214DE89D6541CB /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/native-base/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		3FA38C1894E6411495CE7728 /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 		525C3D7A1F893D4F00291A0D /* irma_configuration */ = {isa = PBXFileReference; lastKnownFileType = folder; path = irma_configuration; sourceTree = "<group>"; };
-		525C3D7C1F895FA500291A0D /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		68E2549BCD204073BB248FE8 /* libRCTCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTCamera.a; sourceTree = "<group>"; };
 		6A53264C9938442BA9925B38 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -482,7 +480,6 @@
 				525C3D7A1F893D4F00291A0D /* irma_configuration */,
 				D06376E81F68662600F6EFAB /* IrmaBridge.h */,
 				D06376E91F68662600F6EFAB /* IrmaBridge.m */,
-				525C3D7C1F895FA500291A0D /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -1052,7 +1049,6 @@
 				525C3D7B1F893D4F00291A0D /* irma_configuration in Resources */,
 				E124605B4BE343128797FB23 /* FontAwesome.ttf in Resources */,
 				DE9A5D99D0734CC49CDB2B0C /* Foundation.ttf in Resources */,
-				525C3D7D1F895FA500291A0D /* main.jsbundle in Resources */,
 				A877564B0096488B9038521F /* Ionicons.ttf in Resources */,
 				4777D4960A96464F8BB4F986 /* MaterialIcons.ttf in Resources */,
 				523AF7262C4B4BE09EC576A9 /* Octicons.ttf in Resources */,
