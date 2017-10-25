@@ -10,19 +10,19 @@ type ActionHandler struct {
 }
 
 type EnrollAction struct {
-	SchemeManagerId irmago.SchemeManagerIdentifier
+	SchemeManagerId irma.SchemeManagerIdentifier
 	Email           string
 	Pin             string
 }
 
 func (ah *ActionHandler) Enroll(action *EnrollAction) (err error) {
-	credentialManager.KeyshareEnroll(action.SchemeManagerId, action.Email, action.Pin)
+	client.KeyshareEnroll(action.SchemeManagerId, action.Email, action.Pin)
 	return nil
 }
 
 type NewSessionAction struct {
 	SessionID int
-	Qr        *irmago.Qr
+	Qr        *irma.Qr
 }
 
 func (ah *ActionHandler) NewSession(action *NewSessionAction) (err error) {
@@ -33,14 +33,14 @@ func (ah *ActionHandler) NewSession(action *NewSessionAction) (err error) {
 	sessionHandler := &SessionHandler{sessionID: action.SessionID}
 	ah.sessionLookup[sessionHandler.sessionID] = sessionHandler
 
-	sessionHandler.dismisser = credentialManager.NewSession(action.Qr, sessionHandler)
+	sessionHandler.dismisser = client.NewSession(action.Qr, sessionHandler)
 	return nil
 }
 
 type RespondPermissionAction struct {
 	SessionID         int
 	Proceed           bool
-	DisclosureChoices []*irmago.AttributeIdentifier
+	DisclosureChoices []*irma.AttributeIdentifier
 }
 
 func (ah *ActionHandler) RespondPermission(action *RespondPermissionAction) (err error) {
@@ -52,7 +52,7 @@ func (ah *ActionHandler) RespondPermission(action *RespondPermissionAction) (err
 		return errors.Errorf("Unset permissionHandler in RespondPermission")
 	}
 
-	disclosureChoice := &irmago.DisclosureChoice{Attributes: action.DisclosureChoices}
+	disclosureChoice := &irma.DisclosureChoice{Attributes: action.DisclosureChoices}
 	sh.permissionHandler(action.Proceed, disclosureChoice)
 
 	return nil
@@ -78,10 +78,10 @@ func (ah *ActionHandler) RespondPin(action *RespondPinAction) (err error) {
 }
 
 func (ah *ActionHandler) RemoveAll() (err error) {
-	if err := credentialManager.RemoveAllCredentials(); err != nil {
+	if err := client.RemoveAllCredentials(); err != nil {
 		return err
 	}
-	if err := credentialManager.KeyshareRemoveAll(); err != nil {
+	if err := client.KeyshareRemoveAll(); err != nil {
 		return err
 	}
 

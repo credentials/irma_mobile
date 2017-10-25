@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/credentials/irmago"
+	"github.com/credentials/irmago/irmaclient"
 	"github.com/getsentry/raven-go"
 	"github.com/go-errors/errors"
 )
@@ -19,7 +19,7 @@ type IrmaBridge interface {
 type OutgoingAction map[string]interface{}
 
 var bridge IrmaBridge
-var credentialManager *irmago.CredentialManager
+var client *irmaclient.Client
 var appDataVersion = "v2"
 
 var actionHandler = &ActionHandler{
@@ -43,14 +43,14 @@ func recoveredStart(givenBridge IrmaBridge, appDataPath string, assetsPath strin
 	bridge = givenBridge
 
 	// Check for user data directory, and create version-specific directory
-	exists, err := irmago.PathExists(appDataPath)
+	exists, err := pathExists(appDataPath)
 	if err != nil || !exists {
 		logError(errors.Errorf("Cannot access app data directory: %s", err))
 		return
 	}
 
 	appVersionDataPath := filepath.Join(appDataPath, appDataVersion)
-	exists, err = irmago.PathExists(appVersionDataPath)
+	exists, err = pathExists(appVersionDataPath)
 	if err != nil {
 		logError(errors.Errorf("Cannot check for app data path existence: %s", err))
 		return
@@ -64,9 +64,9 @@ func recoveredStart(givenBridge IrmaBridge, appDataPath string, assetsPath strin
 	// androidPath := filepath.Join(appDataPath, "android")
 	androidPath := ""
 
-	credentialManager, err = irmago.NewCredentialManager(appVersionDataPath, configurationPath, androidPath, clientHandler)
+	client, err = irmaclient.New(appVersionDataPath, configurationPath, androidPath, clientHandler)
 	if err != nil {
-		logError(errors.Errorf("Cannot initialize credential manager: %s", err))
+		logError(errors.Errorf("Cannot initialize client: %s", err))
 		return
 	}
 
@@ -88,21 +88,21 @@ func sendAction(action *OutgoingAction) {
 func getConfiguration() {
 	sendAction(&OutgoingAction{
 		"type":          "CredentialManager.Configuration",
-		"configuration": credentialManager.ConfigurationStore,
+		"configuration": client.Configuration,
 	})
 }
 
 func getCredentials() {
 	sendAction(&OutgoingAction{
 		"type":        "CredentialManager.Credentials",
-		"credentials": credentialManager.CredentialInfoList(),
+		"credentials": client.CredentialInfoList(),
 	})
 }
 
 func getEnrollmentStatus() {
 	sendAction(&OutgoingAction{
 		"type":     "CredentialManager.UnenrolledSchemeManagers",
-		"managers": credentialManager.UnenrolledSchemeManagers,
+		"managers": client.UnenrolledSchemeManagers,
 	})
 }
 
@@ -115,4 +115,16 @@ func logError(err error) {
 
 func logDebug(message string) {
 	bridge.DebugLog(message)
+}
+
+// PathExists checks if the specified path exists.
+func pathExists(path string) (bool, error) {
+	_, err := os.Stat(path)
+	if err == nil {
+		return true, nil
+	}
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	return true, err
 }
