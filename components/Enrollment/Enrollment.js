@@ -16,6 +16,7 @@ import {
   CardItem,
   Container,
   Header,
+  Icon,
   Text,
   Title,
   Left,
@@ -69,7 +70,7 @@ export default class Enrollment extends Component {
           { currentStep === 0 ?
               <Thumbnail small={small} source={irmaLogo} /> :
               <Button transparent onPress={prevStep}>
-                <Text>{ t('.back') }</Text>
+                <Icon name='arrow-back' />
               </Button>
           }
         </Left>
