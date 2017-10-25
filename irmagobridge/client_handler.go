@@ -5,8 +5,8 @@ import "github.com/credentials/irmago"
 type ClientHandler struct {
 }
 
-func (ch *ClientHandler) UpdateConfigurationStore(new *irmago.IrmaIdentifierSet) {
-	logDebug("Handling UpdateConfigurationStore")
+func (ch *ClientHandler) UpdateConfiguration(new *irma.IrmaIdentifierSet) {
+	logDebug("Handling UpdateConfiguration")
 	getConfiguration()
 }
 
@@ -15,7 +15,7 @@ func (ch *ClientHandler) UpdateAttributes() {
 	getCredentials()
 }
 
-func (ch *ClientHandler) EnrollmentError(managerIdentifier irmago.SchemeManagerIdentifier, err error) {
+func (ch *ClientHandler) EnrollmentError(managerIdentifier irma.SchemeManagerIdentifier, err error) {
 	logDebug("Handling EnrollmentError")
 
 	action := &OutgoingAction{
@@ -27,7 +27,7 @@ func (ch *ClientHandler) EnrollmentError(managerIdentifier irmago.SchemeManagerI
 	sendAction(action)
 }
 
-func (ch *ClientHandler) EnrollmentSuccess(managerIdentifier irmago.SchemeManagerIdentifier) {
+func (ch *ClientHandler) EnrollmentSuccess(managerIdentifier irma.SchemeManagerIdentifier) {
 	logDebug("Handling EnrollmentSuccess")
 
 	action := &OutgoingAction{

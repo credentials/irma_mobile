@@ -2,16 +2,17 @@ package irmagobridge
 
 import (
 	"github.com/credentials/irmago"
+	"github.com/credentials/irmago/irmaclient"
 )
 
 type SessionHandler struct {
 	sessionID         int
-	dismisser         irmago.SessionDismisser
-	permissionHandler irmago.PermissionHandler
-	pinHandler        irmago.PinHandler
+	dismisser         irmaclient.SessionDismisser
+	permissionHandler irmaclient.PermissionHandler
+	pinHandler        irmaclient.PinHandler
 }
 
-func (sh *SessionHandler) StatusUpdate(irmaAction irmago.Action, status irmago.Status) {
+func (sh *SessionHandler) StatusUpdate(irmaAction irma.Action, status irma.Status) {
 	logDebug("Handling StatusUpdate")
 	action := &OutgoingAction{
 		"type":       "SessionHandler.StatusUpdate",
@@ -23,7 +24,7 @@ func (sh *SessionHandler) StatusUpdate(irmaAction irmago.Action, status irmago.S
 	sendAction(action)
 }
 
-func (sh *SessionHandler) Success(irmaAction irmago.Action) {
+func (sh *SessionHandler) Success(irmaAction irma.Action) {
 	logDebug("Handling Success")
 	action := &OutgoingAction{
 		"type":       "SessionHandler.Success",
@@ -34,7 +35,7 @@ func (sh *SessionHandler) Success(irmaAction irmago.Action) {
 	sendAction(action)
 }
 
-func (sh *SessionHandler) Failure(irmaAction irmago.Action, err *irmago.SessionError) {
+func (sh *SessionHandler) Failure(irmaAction irma.Action, err *irma.SessionError) {
 	logDebug("Handling Failure")
 	action := &OutgoingAction{
 		"type":         "SessionHandler.Failure",
@@ -50,7 +51,7 @@ func (sh *SessionHandler) Failure(irmaAction irmago.Action, err *irmago.SessionE
 	sendAction(action)
 }
 
-func (sh *SessionHandler) Cancelled(irmaAction irmago.Action) {
+func (sh *SessionHandler) Cancelled(irmaAction irma.Action) {
 	logDebug("Handling Cancelled")
 	action := &OutgoingAction{
 		"type":      "SessionHandler.Cancelled",
@@ -60,7 +61,7 @@ func (sh *SessionHandler) Cancelled(irmaAction irmago.Action) {
 	sendAction(action)
 }
 
-func (sh *SessionHandler) UnsatisfiableRequest(irmaAction irmago.Action, missingAttributes irmago.AttributeDisjunctionList) {
+func (sh *SessionHandler) UnsatisfiableRequest(irmaAction irma.Action, missingAttributes irma.AttributeDisjunctionList) {
 	logDebug("Handling UnsatisfiableRequest")
 	action := &OutgoingAction{
 		"type":              "SessionHandler.UnsatisfiableRequest",
@@ -71,7 +72,7 @@ func (sh *SessionHandler) UnsatisfiableRequest(irmaAction irmago.Action, missing
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestIssuancePermission(request irmago.IssuanceRequest, issuerName string, ph irmago.PermissionHandler) {
+func (sh *SessionHandler) RequestIssuancePermission(request irma.IssuanceRequest, issuerName string, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestIssuancePermission")
 	action := &OutgoingAction{
 		"type":                 "SessionHandler.RequestIssuancePermission",
@@ -86,7 +87,7 @@ func (sh *SessionHandler) RequestIssuancePermission(request irmago.IssuanceReque
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestVerificationPermission(request irmago.DisclosureRequest, verifierName string, ph irmago.PermissionHandler) {
+func (sh *SessionHandler) RequestVerificationPermission(request irma.DisclosureRequest, verifierName string, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestVerificationPermission")
 	action := &OutgoingAction{
 		"type":                 "SessionHandler.RequestVerificationPermission",
@@ -100,7 +101,7 @@ func (sh *SessionHandler) RequestVerificationPermission(request irmago.Disclosur
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestSignaturePermission(request irmago.SignatureRequest, requesterName string, ph irmago.PermissionHandler) {
+func (sh *SessionHandler) RequestSignaturePermission(request irma.SignatureRequest, requesterName string, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestSignaturePermission")
 	action := &OutgoingAction{
 		"type":                 "SessionHandler.RequestSignaturePermission",
@@ -116,7 +117,7 @@ func (sh *SessionHandler) RequestSignaturePermission(request irmago.SignatureReq
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestPin(remainingAttempts int, ph irmago.PinHandler) {
+func (sh *SessionHandler) RequestPin(remainingAttempts int, ph irmaclient.PinHandler) {
 	logDebug("Handling RequestPin")
 	action := &OutgoingAction{
 		"type":              "SessionHandler.RequestPin",
@@ -128,12 +129,12 @@ func (sh *SessionHandler) RequestPin(remainingAttempts int, ph irmago.PinHandler
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestSchemeManagerPermission(manager *irmago.SchemeManager, callback func(proceed bool)) {
+func (sh *SessionHandler) RequestSchemeManagerPermission(manager *irma.SchemeManager, callback func(proceed bool)) {
 	logDebug("Handling RequestSchemeManagerPermission")
 	callback(false)
 }
 
-func (sh *SessionHandler) MissingKeyshareEnrollment(manager irmago.SchemeManagerIdentifier) {
+func (sh *SessionHandler) MissingKeyshareEnrollment(manager irma.SchemeManagerIdentifier) {
 	logDebug("Handling MissingKeyshareEnrollment")
 	action := &OutgoingAction{
 		"type":            "SessionHandler.MissingKeyshareEnrollment",
