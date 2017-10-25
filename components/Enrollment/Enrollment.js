@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 
 import { namespacedTranslation } from 'lib/i18n';
 import PaddedContent from 'lib/PaddedContent';
@@ -56,11 +56,18 @@ export default class Enrollment extends Component {
 
     const {width: screenWidth} = Dimensions.get('window');
 
+    let headerstyle;
+    let small = false;
+    if (Platform.OS === 'ios')
+      headerstyle = {height: 80, paddingTop: 20};
+    else
+      small = true;
+
     return (
-      <Header style={{height: 80, paddingTop: 20}}>
+      <Header style={headerstyle}>
         <Left>
           { currentStep === 0 ?
-              <Thumbnail source={irmaLogo} /> :
+              <Thumbnail small={small} source={irmaLogo} /> :
               <Button transparent onPress={prevStep}>
                 <Text>{ t('.back') }</Text>
               </Button>
