@@ -58,6 +58,12 @@ func recoveredReceiveAction(actionJSONString string) {
 			err = actionHandler.DismissSession(action)
 		}
 
+	case "SendCrashReports":
+		action := &struct{ SendCrashReports bool }{true}
+		if err = json.Unmarshal(actionJSON, &action); err == nil {
+			client.SendCrashReports(action.SendCrashReports)
+		}
+
 	default:
 		err = errors.Errorf("Unrecognized action type %s", actionType)
 	}
