@@ -21,11 +21,14 @@ RCT_EXPORT_METHOD(dispatch:(NSString *)action) {
 }
 
 -(NSArray<NSString *> *)supportedEvents {
-  return @[@"irmago"];
+  return @[@"irmago", @"log"];
 }
 
 -(void)debugLog:(NSString*)message {
-  NSLog(@"%@\n", message);
+#if DEBUG
+  [self sendEvent:@"log" message:message];
+#endif
+  NSLog(@"%@n", message);
 }
 
 @end
