@@ -1,5 +1,6 @@
 import React from 'react';
 import { Linking, AsyncStorage } from 'react-native';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { namespacedTranslation } from 'lib/i18n';
 import {
@@ -7,7 +8,6 @@ import {
   Content,
   Text,
   Right,
-  Icon,
   Switch,
 } from 'native-base';
 import PreferenceItem from './children/PreferenceItem';
@@ -15,10 +15,12 @@ import PreferenceItem from './children/PreferenceItem';
 const t = namespacedTranslation('Preferences');
 const privacypolicy = 'https://privacybydesign.foundation/privacy-policy-en/';
 
+@connect()
 export default class PreferencesDashboard extends React.Component {
 
   static propTypes = {
     navigation: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
 
   static navigationOptions = () => ({
@@ -36,9 +38,11 @@ export default class PreferencesDashboard extends React.Component {
     }).done();
   }
 
-  updateSendCrashReports(v) {
-    this.setState({sendCrashReports: v});
-    AsyncStorage.setItem('sendCrashReports', JSON.stringify(v));
+  updateSendCrashReports(sendCrashReports) {
+    const { dispatch } = this.props;
+    this.setState({sendCrashReports});
+    AsyncStorage.setItem('sendCrashReports', JSON.stringify(sendCrashReports));
+    dispatch({type: 'IrmaBridge.SendCrashReports', sendCrashReports});
   }
 
   render() {
