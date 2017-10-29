@@ -27,6 +27,10 @@ export default () => {
 
     store.dispatch(JSON.parse(actionJson));
   });
+  irmaBridge.addListener('log', log => {
+    if(__DEV__)
+      console.log('Go: ', log); // eslint-disable-line no-console
+  });
 
   NativeModules.IrmaBridge.start();
 
