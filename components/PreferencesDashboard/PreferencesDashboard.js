@@ -4,17 +4,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { namespacedTranslation } from 'lib/i18n';
 import {
-  Body,
   Container,
   Content,
-  List,
-  ListItem,
   Text,
   Right,
   Switch,
 } from 'native-base';
+import PreferenceItem from './children/PreferenceItem';
 
 const t = namespacedTranslation('Preferences');
+const privacypolicy = 'https://privacybydesign.foundation/privacy-policy-en/';
 
 @connect()
 export default class PreferencesDashboard extends React.Component {
@@ -49,32 +48,29 @@ export default class PreferencesDashboard extends React.Component {
   render() {
     let { sendCrashReports } = this.state;
 
+    const crashesExplanation = (
+      <Text>
+        { t('.crashes.explanation') }
+        <Text style={{color: 'blue'}} onPress={() => Linking.openURL(privacypolicy)}>
+          { t('.crashes.privacypolicy') }&nbsp;
+        </Text>
+        { t('.crashes.moreinfo') }
+      </Text>
+    );
+
     return (
       <Container>
         <Content style={{marginTop: 10}}>
-          <List style={{backgroundColor: 'white'}}>
-            <ListItem icon>
-              <Body><Text>{t('.crashes.title')}</Text></Body>
-              <Right>
-                <Switch value={sendCrashReports} onValueChange={(v) => this.updateSendCrashReports(v) }/>
-              </Right>
-            </ListItem>
-          </List>
-          <Text style={{paddingLeft: 10, paddingRight: 10, paddingTop: 10, paddingBottom: 20}}>
-            { t('.crashes.explanation') }
-            <Text style={{color: 'blue'}} onPress={() => Linking.openURL('https://privacybydesign.foundation/privacy-policy-en/')}>
-               { t('.crashes.privacypolicy') }&nbsp;
-            </Text>
-            { t('.crashes.moreinfo') }
-          </Text>
-          {/* <List style={{backgroundColor: 'white'}}>
-            <ListItem icon>
-              <Body><Text>{ t('.schememanagers.title') }</Text></Body>
-              <Right>
-                <Icon name="arrow-forward" />
-              </Right>
-            </ListItem>
-          </List> */}
+          <PreferenceItem name={t('.crashes.title')} explanation={crashesExplanation}>
+            <Right>
+              <Switch value={sendCrashReports} onValueChange={(v) => this.updateSendCrashReports(v) }/>
+            </Right>
+          </PreferenceItem>
+          {/* <PreferenceItem name={t('.schememanagers.title')}>
+            <Right>
+              <Icon name="arrow-forward" />
+            </Right>
+          </PreferenceItem> */}
         </Content>
       </Container>
     );
