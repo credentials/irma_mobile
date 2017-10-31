@@ -18,13 +18,13 @@ export default class Error extends Component {
     session: PropTypes.object.isRequired,
   }
 
-  renderErrorText() {
-    const { session: {errorType, errorInfo} } = this.props;
-    let msg = t(`.${errorType}`, {
+  renderMessage() {
+    const { session: { errorType, errorInfo } } = this.props;
+
+    return t(`.${errorType}`, {
       defaultValue: t('.unknown'),
       errorInfo
     });
-    return msg + '\n\n' + t('.persists');
   }
 
   render() {
@@ -36,7 +36,8 @@ export default class Error extends Component {
       <Card>
         <CardItem>
           <Body>
-            <Text>{ this.renderErrorText() }</Text>
+            <Text>{ this.renderMessage() }</Text>
+            <Text>{ '\n' }{ t('.persists') }</Text>
           </Body>
         </CardItem>
       </Card>
