@@ -73,15 +73,17 @@ export default class Enrollment extends Component {
                 t('.title')
             }
           </Title>
-          { currentStep !== 0 ?
-            <Text note>{ t('.subtitle', { step: currentStep }) }</Text> :
-            null
+          { currentStep === 0 ? null :
+              <Text note>{ t('.subtitle', { step: currentStep }) }</Text>
           }
         </Body>
         <Right>
           <Button transparent onPress={nextStep}>
             <Text>
-              { currentStep == 3 ? t('.finish') : t('.next') }
+              { currentStep === 3 ?
+                  t('.finish') :
+                  t('.next')
+              }
             </Text>
           </Button>
         </Right>
@@ -89,24 +91,24 @@ export default class Enrollment extends Component {
     );
   }
 
-  renderIntro() {
+  renderStepZero() {
     const {
       dismiss,
     } = this.props;
 
     return [
-      <PaddedContent key="intro">
+      <PaddedContent key="stepZero">
         <Card>
           <CardItem>
             <Body>
-              <Text>{ t('.intro.text') }</Text>
+              <Text>{ t('.stepZero.text') }</Text>
             </Body>
           </CardItem>
           <CardItem>
             <Body>
               <Text>
-                <Text style={{fontWeight: 'bold'}}>{t('.intro.notice')}:</Text>&nbsp;
-                {t('.intro.warning')}
+                <Text style={{fontWeight: 'bold'}}>{ t('.stepZero.note') }:</Text>&nbsp;
+                { t('.stepZero.warning') }
               </Text>
             </Body>
           </CardItem>
@@ -148,13 +150,13 @@ export default class Enrollment extends Component {
           </CardItem>
         </Card>
         <RepeatedValueForm
-          firstLabel={ t('.stepOne.label') }
+          firstLabel={t('.stepOne.label')}
           forceValidation={forceValidation}
           initialValue={email}
           inputProps={inputProps}
-          invalidMessage={ t('.stepOne.invalid') }
+          invalidMessage={t('.stepOne.invalid')}
           onChange={changeEmail}
-          repeatLabel={ t('.stepOne.repeatLabel') }
+          repeatLabel={t('.stepOne.repeatLabel')}
           validate={validate}
         />
       </PaddedContent>
@@ -185,20 +187,20 @@ export default class Enrollment extends Component {
             <Body>
               <Text>
                 { t('.stepTwo.pleaseEnterPin') }
-                {'\n\n'}<Text style={{fontWeight: 'bold'}}>{ t('.stepTwo.important') }</Text>:&nbsp;
+                { '\n\n' }<Text style={{fontWeight: 'bold'}}>{ t('.stepTwo.important') }</Text>:&nbsp;
                 { t('.stepTwo.rememberPin') }
               </Text>
             </Body>
           </CardItem>
         </Card>
         <RepeatedValueForm
-          firstLabel={ t('.stepTwo.label') }
+          firstLabel={t('.stepTwo.label')}
           forceValidation={forceValidation}
           initialValue={pin}
           inputProps={inputProps}
-          invalidMessage={ t('.stepTwo.invalid') }
+          invalidMessage={t('.stepTwo.invalid')}
           onChange={changePin}
-          repeatLabel={ t('.stepTwo.repeatLabel') }
+          repeatLabel={t('.stepTwo.repeatLabel')}
           validate={validate}
         />
       </PaddedContent>
@@ -211,7 +213,7 @@ export default class Enrollment extends Component {
     return (
       <CardItem>
         <Body>
-          <Text>{ t('.stepThree.success', { email })}</Text>
+          <Text>{ t('.stepThree.success', { email }) }</Text>
         </Body>
       </CardItem>
     );
@@ -249,7 +251,7 @@ export default class Enrollment extends Component {
   render() {
     const { currentStep } = this.props;
     const stepRenderers = [
-      ::this.renderIntro, ::this.renderStepOne, ::this.renderStepTwo, ::this.renderStepThree
+      ::this.renderStepZero, ::this.renderStepOne, ::this.renderStepTwo, ::this.renderStepThree
     ];
 
     return (
