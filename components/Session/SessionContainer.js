@@ -73,12 +73,14 @@ export default class SessionContainer extends Component {
   componentWillMount () {
     // On Android the buttons in the footer move up automatically when the keyboard is shown.
     if (Platform.OS === 'ios') {
-      Keyboard.addListener('keyboardWillShow', (e) => {
-        let newSize = Dimensions.get('window').height - e.endCoordinates.height;
-        this.setState({visibleHeight: newSize});
-      });
+      const windowHeight = Dimensions.get('window').height;
+
+      Keyboard.addListener('keyboardWillShow', e =>
+        this.setState({visibleHeight: windowHeight - e.endCoordinates.height})
+      );
+
       Keyboard.addListener('keyboardWillHide', () =>
-        this.setState({visibleHeight: Dimensions.get('window').height})
+        this.setState({visibleHeight: windowHeight})
       );
     }
   }
@@ -221,14 +223,11 @@ export default class SessionContainer extends Component {
       case 'signing':
         content = <SigningSession {...sessionProps} />;
         break;
+
+      // Display an empty container while awaiting irmago response
       case undefined:
-        return (
-          <Container>
-            <PaddedContent>
-              <Text>Unrecognized IRMA action.</Text>
-            </PaddedContent>
-          </Container>
-        );
+        return <Container />;
+
       default:
         return (
           <Container>
@@ -239,6 +238,10 @@ export default class SessionContainer extends Component {
         );
     }
 
-    return <View style={{height: visibleHeight}}>{ content }</View>;
+    return (
+      <View style={{height: visibleHeight}}>
+        { content }
+      </View>
+    );
   }
 }
