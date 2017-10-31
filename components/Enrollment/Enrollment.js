@@ -220,12 +220,10 @@ export default class Enrollment extends Component {
   }
 
   renderFailure() {
-    const { enrollmentError } = this.props;
-
     return (
       <CardItem>
         <Body>
-          <Text>{ t('.stepThree.failure', { enrollmentError }) }</Text>
+          <Text>{ t('.stepThree.failure') }</Text>
         </Body>
       </CardItem>
     );
