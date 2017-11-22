@@ -1,8 +1,9 @@
 package irmagobridge
 
 import (
-	"github.com/privacybydesign/irmago"
-	"github.com/privacybydesign/irmago/irmaclient"
+	"github.com/credentials/irmago"
+	"github.com/credentials/irmago/irmaclient"
+	"github.com/go-errors/errors"
 )
 
 type SessionHandler struct {
@@ -37,14 +38,21 @@ func (sh *SessionHandler) Success(irmaAction irma.Action) {
 
 func (sh *SessionHandler) Failure(irmaAction irma.Action, err *irma.SessionError) {
 	logDebug("Handling Failure")
+
+	var stack string
+	if terr, ok := err.Err.(*errors.Error); ok {
+		stack = string(terr.Stack())
+	}
+
 	action := &OutgoingAction{
 		"type":         "SessionHandler.Failure",
 		"sessionId":    sh.sessionID,
 		"irmaAction":   irmaAction,
 		"errorType":    err.ErrorType,
-		"errorMessage": err.Err.Error(),
+		"errorMessage": err.Error(),
 		"errorInfo":    err.Info,
 		"errorStatus":  err.Status,
+		"errorStack":   stack,
 		"apiError":     err.ApiError,
 	}
 
