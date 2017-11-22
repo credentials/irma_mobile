@@ -95,6 +95,7 @@ export default function credentials(state = initialState, action) {
           errorMessage: action.errorMessage,
           errorInfo: action.errorInfo,
           errorStatus: action.errorStatus,
+          errorStack: action.errorStack,
           apiError: action.apiError,
         }
       };
