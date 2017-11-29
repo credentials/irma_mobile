@@ -22,3 +22,7 @@ android/build
 android/app/build
 android/.gradle
 *.jsbundle
+
+# Go libs
+*.jar
+*.aar
