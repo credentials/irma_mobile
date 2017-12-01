@@ -45,14 +45,14 @@ func recoveredStart(givenBridge IrmaBridge, appDataPath string, assetsPath strin
 	// Check for user data directory, and create version-specific directory
 	exists, err := pathExists(appDataPath)
 	if err != nil || !exists {
-		logError(errors.Errorf("Cannot access app data directory: %s", err))
+		logError(errors.WrapPrefix(err, "Cannot access app data directory", 0))
 		return
 	}
 
 	appVersionDataPath := filepath.Join(appDataPath, appDataVersion)
 	exists, err = pathExists(appVersionDataPath)
 	if err != nil {
-		logError(errors.Errorf("Cannot check for app data path existence: %s", err))
+		logError(errors.WrapPrefix(err, "Cannot check for app data path existence", 0))
 		return
 	}
 
@@ -66,7 +66,7 @@ func recoveredStart(givenBridge IrmaBridge, appDataPath string, assetsPath strin
 
 	client, err = irmaclient.New(appVersionDataPath, configurationPath, androidPath, clientHandler)
 	if err != nil {
-		logError(errors.Errorf("Cannot initialize client: %s", err))
+		logError(errors.WrapPrefix(err, "Cannot initialize client", 0))
 		return
 	}
 
