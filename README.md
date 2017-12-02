@@ -20,16 +20,11 @@ This application is still under development and not ready for use.
     ```
     go get golang.org/x/mobile/cmd/gomobile
     ```
-- Symlink irmagobridge package
-    ```
-    cd $GOPATH/src/github.com/credentials 
-    ln -s /PATH/TO/SRC/CODE/irma_mobile/irmagobridge
-    ```
 - Init and build go package:
     ```
     cd /PATH/TO/SRC/CODE/irma_mobile/android/irmagobridge
     gomobile init -ndk /opt/android-ndk/
-    gomobile bind -target android github.com/credentials/irmagobridge
+    gomobile bind -target android github.com/credentials/irma_mobile/irmagobridge
     ```
 - Start the app in debug mode:
     ```
