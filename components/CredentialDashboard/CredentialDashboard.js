@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { namespacedTranslation } from 'lib/i18n';
 import PaddedContent from 'lib/PaddedContent';
 import CredentialCard from 'components/CredentialCard';
-import Card from 'lib/UnwrappedCard';
 
 import {
   Button,

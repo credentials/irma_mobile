@@ -49,3 +49,13 @@ This application is still under development and not ready for use.
   ```
 
   Then try `adb reconnect`
+- If you get this error while running the app:
+
+  Then try to reset the babel transform cache for imports:
+
+  ```
+  yarn start --reset-cache
+
+  ```
+
+  You may need to kill old Node server (`killall node`)  if you get a port binding error.

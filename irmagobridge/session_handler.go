@@ -24,7 +24,7 @@ func (sh *SessionHandler) StatusUpdate(irmaAction irma.Action, status irma.Statu
 	sendAction(action)
 }
 
-func (sh *SessionHandler) Success(irmaAction irma.Action) {
+func (sh *SessionHandler) Success(irmaAction irma.Action, result string) {
 	logDebug("Handling Success")
 	action := &OutgoingAction{
 		"type":       "SessionHandler.Success",

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 import RootNavigatorContainer from './RootNavigatorContainer';
 
@@ -59,6 +60,36 @@ export default class RootContainer extends Component {
     );
   }
 
+  // Handle URL
+  handleUrl(url, navigator) {
+    // TODO: Fix this for iOS as well!
+    if (url.startsWith('content://')) {
+      return this.handleContentUrl(url, navigator);
+    }
+
+    // Handle errors in handleIrmaUrl
+    return this.handleIrmaUrl(url, navigator);
+  }
+
+  // Handle an URL of the form content://path/to/content for signature requests
+  handleContentUrl(url, navigator) {
+    // TODO
+    RNFetchBlob.fs.readFile(url, 'utf-8')
+      .then(result => {
+        const { dispatch } = this.props;
+        dispatch({
+          type: 'IrmaBridge.NewManualSession',
+          request: JSON.stringify(JSON.parse(result)),
+        });
+
+        navigator.dispatch(
+          NavigationActions.navigate({
+            routeName: 'ManualSession',
+          })
+        );
+      });
+  }
+
   // Handle an URL of the form irma://qr/json/$json
   handleIrmaUrl(url, navigator) {
     const decodedUrl = decodeURIComponent(url.replace(/^.*?:\/\//g, ''));
@@ -108,7 +139,7 @@ export default class RootContainer extends Component {
     return (
       <RootNavigatorContainer
         ensureEnrollment={::this.ensureEnrollment}
-        handleIrmaUrl={::this.handleIrmaUrl}
+        handleUrl={::this.handleUrl}
       />
     );
   }

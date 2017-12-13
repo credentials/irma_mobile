@@ -12,7 +12,7 @@ const getCurrentRoute = (state) => (
 export default class RootNavigatorContainer extends Component {
   static propTypes = {
     ensureEnrollment: PropTypes.func.isRequired,
-    handleIrmaUrl: PropTypes.func.isRequired,
+    handleUrl: PropTypes.func.isRequired,
   }
 
   state = {
@@ -29,7 +29,7 @@ export default class RootNavigatorContainer extends Component {
   }
 
   componentDidMount() {
-    const { ensureEnrollment, handleIrmaUrl } = this.props;
+    const { ensureEnrollment, handleUrl } = this.props;
 
     // Set the initial current route
     const currentRoute = getCurrentRoute(this.navigator.state.nav);
@@ -42,12 +42,12 @@ export default class RootNavigatorContainer extends Component {
     // Also on mount, handle any initial IRMA URL with which the app was starter
     Linking.getInitialURL().then( irmaUrl => {
       if (irmaUrl)
-        handleIrmaUrl(irmaUrl, this.navigator);
+        handleUrl(irmaUrl, this.navigator);
     }).catch();
 
     // Setup a handler for any IRMA URLs which are opened later
     Linking.addEventListener('url', event =>
-      handleIrmaUrl(event.url, this.navigator)
+      handleUrl(event.url, this.navigator)
     );
   }
 

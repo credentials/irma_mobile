@@ -24,6 +24,7 @@ func recoveredReceiveAction(actionJSONString string) {
 
 	logDebug("Received action with type " + actionType)
 
+	logDebug("Action json string: " + actionJSONString)
 	switch actionType {
 	case "Enroll":
 		action := &EnrollAction{}
@@ -37,16 +38,35 @@ func recoveredReceiveAction(actionJSONString string) {
 			err = actionHandler.NewSession(action)
 		}
 
+	case "NewManualSession":
+		logDebug("New manual session!")
+		action := &NewManualSessionAction{}
+		if err = json.Unmarshal(actionJSON, action); err == nil {
+			err = manualSessionHandler.NewManualSession(action)
+		}
+
 	case "RespondPermission":
 		action := &RespondPermissionAction{}
 		if err = json.Unmarshal(actionJSON, action); err == nil {
 			err = actionHandler.RespondPermission(action)
 		}
 
+	case "ManualRespondPermission":
+		action := &ManualRespondPermissionAction{}
+		if err = json.Unmarshal(actionJSON, action); err == nil {
+			err = manualSessionHandler.RespondPermission(action)
+		}
+
 	case "RespondPin":
 		action := &RespondPinAction{}
 		if err = json.Unmarshal(actionJSON, action); err == nil {
 			err = actionHandler.RespondPin(action)
+		}
+
+	case "ManualRespondPin":
+		action := &ManualRespondPinAction{}
+		if err = json.Unmarshal(actionJSON, action); err == nil {
+			err = manualSessionHandler.RespondPin(action)
 		}
 
 	case "RemoveAllAttributes":

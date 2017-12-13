@@ -58,7 +58,6 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           id: sessionId,
           qr: action.qr,
-          didRespondPermission: false,
         }
       };
     }
@@ -196,7 +195,6 @@ export default function credentials(state = initialState, action) {
         ...state,
         [sessionId]: {
           ...state[sessionId],
-          didRespondPermission: true,
         }
       };
     }

@@ -3,6 +3,7 @@ package foundation.privacybydesign.irmamobile;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import io.sentry.RNSentryPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import org.irmacard.cardemu.BuildConfig;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFetchBlobPackage(),
             new RNSentryPackage(MainApplication.this),
             new RNI18nPackage(),
             new RCTCameraPackage(),
