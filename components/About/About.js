@@ -17,7 +17,7 @@ import irmaLogo from 'assets/irmaLogo.png';
 
 const t = namespacedTranslation('About');
 const homeURL = 'https://privacybydesign.foundation';
-const sourceURL = 'https://github.com/credentials';
+const sourceURL = 'https://github.com/privacybydesign';
 
 export default class About extends React.Component {
 

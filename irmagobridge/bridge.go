@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/credentials/irmago/irmaclient"
+	"github.com/privacybydesign/irmago/irmaclient"
 	"github.com/getsentry/raven-go"
 	"github.com/go-errors/errors"
 )
