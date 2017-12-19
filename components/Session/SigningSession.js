@@ -28,6 +28,7 @@ export default class SigningSession extends Component {
     makeDisclosureChoice: PropTypes.func.isRequired,
     message: PropTypes.string,
     navigateBack: PropTypes.func.isRequired,
+    sendMail: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,
     nextStep: PropTypes.func.isRequired,
     pinChange: PropTypes.func.isRequired,
@@ -122,6 +123,7 @@ export default class SigningSession extends Component {
     const {
       forceValidation,
       navigateBack,
+      sendMail,
       nextStep,
       pinChange,
       session,
@@ -142,6 +144,7 @@ export default class SigningSession extends Component {
         </PaddedContent>
         <Footer
           navigateBack={navigateBack}
+          sendMail={sendMail}
           nextStep={nextStep}
           session={session}
         />

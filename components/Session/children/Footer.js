@@ -19,6 +19,7 @@ export default class Footer extends Component {
     session: PropTypes.object.isRequired,
     nextStep: PropTypes.func.isRequired,
     navigateBack: PropTypes.func.isRequired,
+    sendMail: PropTypes.func.isRequired,
   }
 
   state = {
@@ -75,7 +76,7 @@ export default class Footer extends Component {
   }
 
   renderDismiss() {
-    const { session: { status }, navigateBack } = this.props;
+    const { session: { status, result }, navigateBack } = this.props;
     const { hidden } = this.state;
 
     if(!_.includes(['success', 'failure' , 'cancelled', 'unsatisfiableRequest', 'missingKeyshareEnrollment'], status))
@@ -84,6 +85,11 @@ export default class Footer extends Component {
     if(hidden)
       return null;
 
+    // Don't render anything for manual session result
+    if (status === 'success' && result !== undefined) {
+      return null;
+    }
+
     return (
       <Button onPress={navigateBack} >
         <Text>{ t('.dismiss') }</Text>
@@ -91,11 +97,29 @@ export default class Footer extends Component {
     );
   }
 
+  renderSendEmail() {
+    const { session: { status, result }, navigateBack, sendMail } = this.props;
+    if (status === 'success' && result !== undefined) {
+      return [
+        <Button key="sendMail" success onPress={() => {sendMail(); navigateBack();}} >
+          <Icon name="send" />
+          <Text>E-mail result</Text>
+        </Button>,
+        <Button key="dismiss" danger onPress={navigateBack} style={{marginLeft: 20}}>
+          <Icon name="close-circle" />
+          <Text>{ t('.dismiss') }</Text>
+        </Button>
+      ];
+    }
+    return null;
+  }
+
   render() {
     return (
       <NBFooter style={{height: 60, paddingTop: 7}}>
         { this.renderYesNo() }
         { this.renderDismiss() }
+        { this.renderSendEmail() }
       </NBFooter>
     );
   }

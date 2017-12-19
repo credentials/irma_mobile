@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Dimensions, Keyboard, Platform } from 'react-native';
+import RNFetchBlob from 'react-native-fetch-blob';
+import Mailer from 'react-native-mail';
 
 //import DisclosureSession from './DisclosureSession'; // TODO: implement disclosure as well
 import SigningSession from '../Session/SigningSession';
@@ -81,6 +83,32 @@ export default class ManualSessionContainer extends Component {
     navigation.goBack();
   }
 
+  saveResult(result) {
+    const dir = RNFetchBlob.fs.dirs['SDCardDir'] + '/irma_signature';
+    return RNFetchBlob.fs.writeFile(dir, result, 'utf8')
+      .then(() => dir);
+  }
+
+  sendMail() {
+    const { session: { result }} = this.props;
+    this.saveResult(result)
+      .then(path => {
+        Mailer.mail({ // TODO: Get this info from somewhere?
+          subject: 'IRMA signature response',
+          body: 'Attached you\'ll find the IRMA signature for your IRMA signature request.',
+          isHTML: false,
+          attachment: {
+            path: path,
+            type: 'text/plain',
+          },
+        }, () => {
+          // if (error == 'not_available') {
+          //   TODO: show info that no mail apps are installed
+          // }
+        });
+      });
+  }
+
   // TODO!
   navigateToEnrollment() { }
 
@@ -152,6 +180,7 @@ export default class ManualSessionContainer extends Component {
       navigateToEnrollment: ::this.navigateToEnrollment,
       nextStep: ::this.nextStep,
       pinChange: ::this.pinChange,
+      sendMail: ::this.sendMail,
 
       session: {
         ...session,
