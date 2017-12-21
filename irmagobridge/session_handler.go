@@ -1,8 +1,8 @@
 package irmagobridge
 
 import (
-	"github.com/credentials/irmago"
-	"github.com/credentials/irmago/irmaclient"
+	"github.com/privacybydesign/irmago"
+	"github.com/privacybydesign/irmago/irmaclient"
 )
 
 type SessionHandler struct {
@@ -30,6 +30,7 @@ func (sh *SessionHandler) Success(irmaAction irma.Action, result string) {
 		"type":       "SessionHandler.Success",
 		"sessionId":  sh.sessionID,
 		"irmaAction": irmaAction,
+		"result":     result,
 	}
 
 	sendAction(action)

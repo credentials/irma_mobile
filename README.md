@@ -24,7 +24,7 @@ This application is still under development and not ready for use.
     ```
     cd /PATH/TO/SRC/CODE/irma_mobile/android/irmagobridge
     gomobile init -ndk /opt/android-ndk/
-    gomobile bind -target android github.com/credentials/irma_mobile/irmagobridge
+    gomobile bind -target android github.com/privacybydesign/irma_mobile/irmagobridge
     ```
 - Start the app in debug mode:
     ```

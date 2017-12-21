@@ -1,6 +1,6 @@
 # General
 .DS_Store
-.swp
+*.swp
 .idea/
 .vscode/
 

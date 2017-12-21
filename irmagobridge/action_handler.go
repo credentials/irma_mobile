@@ -1,12 +1,13 @@
 package irmagobridge
 
 import (
-	"github.com/credentials/irmago"
 	"github.com/go-errors/errors"
+	"github.com/privacybydesign/irmago"
 )
 
 type ActionHandler struct {
-	sessionLookup map[int]*SessionHandler
+	sessionLookup        map[int]*SessionHandler
+	manualSessionHandler *SessionHandler
 }
 
 type EnrollAction struct {
@@ -34,6 +35,19 @@ func (ah *ActionHandler) NewSession(action *NewSessionAction) (err error) {
 	ah.sessionLookup[sessionHandler.sessionID] = sessionHandler
 
 	sessionHandler.dismisser = client.NewSession(action.Qr, sessionHandler)
+	return nil
+}
+
+type NewManualSessionAction struct {
+	Request string
+}
+
+func (ah *ActionHandler) NewManualSession(action *NewManualSessionAction) (err error) {
+	ah.manualSessionHandler = &SessionHandler{
+		sessionID: 0,
+	}
+
+	client.NewManualSession(action.Request, ah.manualSessionHandler)
 	return nil
 }
 
@@ -95,6 +109,10 @@ type DismissSessionAction struct {
 }
 
 func (ah *ActionHandler) DismissSession(action *DismissSessionAction) error {
+	if action.SessionID == 0 {
+		// Manual sessions don't need to be dismissed
+		return nil
+	}
 	sh, err := ah.findSessionHandler(action.SessionID)
 	if err != nil {
 		return err
@@ -106,6 +124,9 @@ func (ah *ActionHandler) DismissSession(action *DismissSessionAction) error {
 }
 
 func (ah *ActionHandler) findSessionHandler(sessionID int) (*SessionHandler, error) {
+	if sessionID == 0 {
+		return ah.manualSessionHandler, nil
+	}
 	sh := ah.sessionLookup[sessionID]
 	if sh == nil {
 		return nil, errors.Errorf("Invalid session ID in RespondPermission: %d", sessionID)

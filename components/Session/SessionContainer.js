@@ -9,6 +9,8 @@ import SigningSession from './SigningSession';
 import fullCredentials from 'store/mappers/fullCredentials';
 import fullCandidates from 'store/mappers/fullCandidates';
 
+import { sendMail } from 'lib/mail';
+
 import {
   Container,
   Text,
@@ -74,6 +76,11 @@ export default class SessionContainer extends Component {
   navigateBack() {
     const { navigation } = this.props;
     navigation.goBack();
+  }
+
+  sendMail() {
+    const { session: { result }} = this.props;
+    sendMail(result);
   }
 
   navigateToEnrollment() {
@@ -176,8 +183,9 @@ export default class SessionContainer extends Component {
     
     // Introduce a pseudo-status for when we're disclosing in issuance or signing
     let status = this.props.session.status;
-    if(status === 'requestPermission' && showDisclosureStep)
+    if(status === 'requestPermission' && showDisclosureStep) {
       status = 'requestDisclosurePermission';
+    }
 
     const sessionProps = {
       forceValidation,
@@ -187,6 +195,7 @@ export default class SessionContainer extends Component {
       navigateToEnrollment: ::this.navigateToEnrollment,
       nextStep: ::this.nextStep,
       pinChange: ::this.pinChange,
+      sendMail: ::this.sendMail,
 
       session: {
         ...session,

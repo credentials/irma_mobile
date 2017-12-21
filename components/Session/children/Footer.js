@@ -19,7 +19,7 @@ export default class Footer extends Component {
     session: PropTypes.object.isRequired,
     nextStep: PropTypes.func.isRequired,
     navigateBack: PropTypes.func.isRequired,
-    sendMail: PropTypes.func.isRequired,
+    sendMail: PropTypes.func,
   }
 
   state = {
@@ -76,7 +76,7 @@ export default class Footer extends Component {
   }
 
   renderDismiss() {
-    const { session: { status, result }, navigateBack } = this.props;
+    const { session: { status, result, id }, navigateBack } = this.props;
     const { hidden } = this.state;
 
     if(!_.includes(['success', 'failure' , 'cancelled', 'unsatisfiableRequest', 'missingKeyshareEnrollment'], status))
@@ -86,7 +86,7 @@ export default class Footer extends Component {
       return null;
 
     // Don't render anything for manual session result
-    if (status === 'success' && result !== undefined) {
+    if (id === 0 && status === 'success' && result !== undefined) {
       return null;
     }
 
@@ -98,8 +98,13 @@ export default class Footer extends Component {
   }
 
   renderSendEmail() {
-    const { session: { status, result }, navigateBack, sendMail } = this.props;
-    if (status === 'success' && result !== undefined) {
+    const { session: { status, result, id }, navigateBack, sendMail } = this.props;
+
+    if (!sendMail) { // sendMail func prop doesn't exist in Issuance / Disclosure sessions
+      return null;
+    }
+
+    if (id === 0 && status === 'success' && result !== undefined) {
       return [
         <Button key="sendMail" success onPress={() => {sendMail(); navigateBack();}} >
           <Icon name="send" />

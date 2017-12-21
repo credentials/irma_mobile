@@ -1,6 +1,6 @@
 package irmagobridge
 
-import "github.com/credentials/irmago"
+import "github.com/privacybydesign/irmago"
 
 type ClientHandler struct {
 }

@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/credentials/irmago/irmaclient"
 	"github.com/getsentry/raven-go"
 	"github.com/go-errors/errors"
+	"github.com/privacybydesign/irmago/irmaclient"
 )
 
 type IrmaBridge interface {
@@ -25,8 +25,6 @@ var appDataVersion = "v2"
 var actionHandler = &ActionHandler{
 	sessionLookup: map[int]*SessionHandler{},
 }
-
-var manualSessionHandler = &ManualSessionHandler{}
 
 var clientHandler = &ClientHandler{}
 

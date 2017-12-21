@@ -6,6 +6,8 @@ import RNFetchBlob from 'react-native-fetch-blob';
 
 import RootNavigatorContainer from './RootNavigatorContainer';
 
+import { validateSigrequest } from 'lib/requestValidators.js';
+
 const mapStateToProps = (state) => {
   const {
     irmaConfiguration: {
@@ -72,22 +74,30 @@ export default class RootContainer extends Component {
   }
 
   // Handle an URL of the form content://path/to/content for signature requests
+  // TODO: handle disclosure requests as well
   handleContentUrl(url, navigator) {
-    // TODO
     RNFetchBlob.fs.readFile(url, 'utf-8')
       .then(result => {
+        const sigRequest = JSON.parse(result);
+
+        if (!validateSigrequest(sigRequest)) {
+          // TODO: Show error
+          return;
+        }
+
         const { dispatch } = this.props;
         dispatch({
           type: 'IrmaBridge.NewManualSession',
-          request: JSON.stringify(JSON.parse(result)),
+          sessionId: 0,
+          request: JSON.stringify(sigRequest),
         });
 
         navigator.dispatch(
           NavigationActions.navigate({
-            routeName: 'ManualSession',
+            routeName: 'Session',
+            params: { sessionId: 0 },
           })
-        );
-      });
+        ); });
   }
 
   // Handle an URL of the form irma://qr/json/$json
