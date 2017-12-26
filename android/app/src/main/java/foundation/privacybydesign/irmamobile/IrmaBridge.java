@@ -1,4 +1,4 @@
-package com.irmamobile;
+package foundation.privacybydesign.irmamobile;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;

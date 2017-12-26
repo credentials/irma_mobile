@@ -1,4 +1,4 @@
-package com.irmamobile;
+package foundation.privacybydesign.irmamobile;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;

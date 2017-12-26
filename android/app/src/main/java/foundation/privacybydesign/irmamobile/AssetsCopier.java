@@ -1,7 +1,4 @@
-package com.irmamobile;
-
-import android.content.res.AssetManager;
-import android.util.Log;
+package foundation.privacybydesign.irmamobile;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 
