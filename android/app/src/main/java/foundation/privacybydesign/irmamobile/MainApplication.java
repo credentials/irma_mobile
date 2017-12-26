@@ -5,7 +5,7 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import io.sentry.RNSentryPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
-import com.irmamobile.BuildConfig;
+import org.irmacard.cardemu.BuildConfig;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
