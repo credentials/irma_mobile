@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import { namespacedTranslation } from 'lib/i18n';
 import PaddedContent from 'lib/PaddedContent';
+import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
 
 import DisclosureChoices from './children/DisclosureChoices';
 import Error from './children/Error';
@@ -13,7 +14,6 @@ import PinEntry from './children/PinEntry';
 import StatusCard from './children/StatusCard';
 
 import {
-  Container,
   Text,
   View,
 } from 'native-base';
@@ -128,7 +128,7 @@ export default class SigningSession extends Component {
     } = this.props;
 
     return (
-      <Container>
+      <KeyboardAwareContainer>
         <Header title={t('.headerTitle')} navigateBack={navigateBack} />
         <PaddedContent>
           { this.renderStatusCard() }
@@ -145,7 +145,7 @@ export default class SigningSession extends Component {
           nextStep={nextStep}
           session={session}
         />
-      </Container>
+      </KeyboardAwareContainer>
     );
   }
 }

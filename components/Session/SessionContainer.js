@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Dimensions, Keyboard, Platform } from 'react-native';
 
 import IssuanceSession from './IssuanceSession';
 import DisclosureSession from './DisclosureSession';
@@ -13,7 +12,6 @@ import fullCandidates from 'store/mappers/fullCandidates';
 import {
   Container,
   Text,
-  View
 } from 'native-base';
 
 import PaddedContent from 'lib/PaddedContent';
@@ -64,25 +62,9 @@ export default class SessionContainer extends Component {
   state = {
     forceValidation: false,
     pin: null,
-    visibleHeight: Dimensions.get('window').height,
 
     // Meant for disclosure in issuance and signing
     showDisclosureStep: false
-  }
-
-  componentWillMount () {
-    // On Android the buttons in the footer move up automatically when the keyboard is shown.
-    if (Platform.OS === 'ios') {
-      const windowHeight = Dimensions.get('window').height;
-
-      Keyboard.addListener('keyboardWillShow', e =>
-        this.setState({visibleHeight: windowHeight - e.endCoordinates.height})
-      );
-
-      Keyboard.addListener('keyboardWillHide', () =>
-        this.setState({visibleHeight: windowHeight})
-      );
-    }
   }
 
   componentWillUnmount() {
@@ -190,8 +172,8 @@ export default class SessionContainer extends Component {
 
   render() {
     const { irmaConfiguration, session } = this.props;
-    const { forceValidation, showDisclosureStep, visibleHeight } = this.state;
-
+    const { forceValidation, showDisclosureStep } = this.state;
+    
     // Introduce a pseudo-status for when we're disclosing in issuance or signing
     let status = this.props.session.status;
     if(status === 'requestPermission' && showDisclosureStep)
@@ -238,10 +220,6 @@ export default class SessionContainer extends Component {
         );
     }
 
-    return (
-      <View style={{height: visibleHeight}}>
-        { content }
-      </View>
-    );
+    return content;
   }
 }
