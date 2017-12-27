@@ -79,7 +79,7 @@ export default class Enrollment extends Component {
           }
         </Body>
         <Right>
-          <Button transparent onPress={nextStep}>
+          <Button transparent onPress={nextStep} style={{paddingRight: 0}}>
             <Text>
               { currentStep === 3 ?
                   t('.finish') :

@@ -39,7 +39,7 @@ export default class CredentialCard extends Component {
     return (
       <CardItem key={attribute.Type.ID}>
         <Text>{ attribute.Type.Name[lang] }</Text>
-        <Right>
+        <Right style={{flex: 1}}>
           <Text note>{ attribute[lang] }</Text>
         </Right>
       </CardItem>

@@ -63,11 +63,11 @@ export default class Footer extends Component {
     }
 
     return [
-      <Button key="yes" success onPress={() => this.press(true)} >
+      <Button key="yes" success iconLeft onPress={() => this.press(true)}>
         <Icon name="checkmark-circle" />
         <Text>{ yesLabel }</Text>
       </Button>,
-      <Button key="no" danger onPress={() => this.press(false)} style={{marginLeft: 20}}>
+      <Button key="no" danger iconLeft onPress={() => this.press(false)} style={{marginLeft: 20}}>
         <Icon name="close-circle" />
         <Text>{ noLabel }</Text>
       </Button>
