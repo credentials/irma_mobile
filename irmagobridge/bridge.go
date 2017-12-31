@@ -1,33 +1,35 @@
 package irmagobridge
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
 
-	"github.com/privacybydesign/irmago/irmaclient"
 	"github.com/getsentry/raven-go"
 	"github.com/go-errors/errors"
+	"github.com/privacybydesign/irmago/irmaclient"
 )
 
+// IrmaBridge is the Objective C or Java component we use to communicate to Javascript
 type IrmaBridge interface {
 	SendEvent(channel string, message string)
 	DebugLog(message string)
 }
 
-type OutgoingAction map[string]interface{}
-
 var bridge IrmaBridge
 var client *irmaclient.Client
 var appDataVersion = "v2"
 
+// actionHandler maintains a sessionLookup for actions incoming
+// from irma_mobile (see action_handler.go)
 var actionHandler = &ActionHandler{
 	sessionLookup: map[int]*SessionHandler{},
 }
 
+// clientHandler is used for messages coming in from irmago (see client_handler.go)
 var clientHandler = &ClientHandler{}
 
+// The Start function is invoked from Javascript via native code, when the app starts
 func Start(givenBridge IrmaBridge, appDataPath string, assetsPath string) {
 	raven.CapturePanic(func() {
 		recoveredStart(givenBridge, appDataPath, assetsPath)
@@ -55,6 +57,7 @@ func recoveredStart(givenBridge IrmaBridge, appDataPath string, assetsPath strin
 		os.Mkdir(appVersionDataPath, 0770)
 	}
 
+	// Initialize the client
 	configurationPath := filepath.Join(assetsPath, "irma_configuration")
 	// androidPath := filepath.Join(appDataPath, "android")
 	androidPath := ""
@@ -65,40 +68,11 @@ func recoveredStart(givenBridge IrmaBridge, appDataPath string, assetsPath strin
 		return
 	}
 
-	getConfiguration()
-	getEnrollmentStatus()
-	getCredentials()
-}
-
-func sendAction(action *OutgoingAction) {
-	jsonBytes, err := json.Marshal(action)
-	if err != nil {
-		logError(errors.Errorf("Cannot marshal action: %s", err))
-		return
-	}
-
-	bridge.SendEvent("irmago", string(jsonBytes))
-}
-
-func getConfiguration() {
-	sendAction(&OutgoingAction{
-		"type":          "CredentialManager.Configuration",
-		"configuration": client.Configuration,
-	})
-}
-
-func getCredentials() {
-	sendAction(&OutgoingAction{
-		"type":        "CredentialManager.Credentials",
-		"credentials": client.CredentialInfoList(),
-	})
-}
-
-func getEnrollmentStatus() {
-	sendAction(&OutgoingAction{
-		"type":     "CredentialManager.UnenrolledSchemeManagers",
-		"managers": client.UnenrolledSchemeManagers,
-	})
+	// Grab information from the client and send it to irma_mobile
+	sendConfiguration()
+	sendPreferences()
+	sendEnrollmentStatus()
+	sendCredentials()
 }
 
 func logError(err error) {

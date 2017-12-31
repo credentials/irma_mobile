@@ -14,16 +14,16 @@ const isValidSessionAction = (state, action) => {
       return true;
     }
 
-    case 'SessionHandler.StatusUpdate':
-    case 'SessionHandler.Success':
-    case 'SessionHandler.Failure':
-    case 'SessionHandler.Cancelled':
-    case 'SessionHandler.UnsatisfiableRequest':
-    case 'SessionHandler.RequestIssuancePermission':
-    case 'SessionHandler.RequestVerificationPermission':
-    case 'SessionHandler.RequestSignaturePermission':
-    case 'SessionHandler.RequestPin':
-    case 'SessionHandler.MissingKeyshareEnrollment':
+    case 'IrmaSession.StatusUpdate':
+    case 'IrmaSession.Success':
+    case 'IrmaSession.Failure':
+    case 'IrmaSession.Cancelled':
+    case 'IrmaSession.UnsatisfiableRequest':
+    case 'IrmaSession.RequestIssuancePermission':
+    case 'IrmaSession.RequestVerificationPermission':
+    case 'IrmaSession.RequestSignaturePermission':
+    case 'IrmaSession.RequestPin':
+    case 'IrmaSession.MissingKeyshareEnrollment':
     case 'IrmaBridge.RespondPermission':
     case 'Session.MakeDisclosureChoice':{
       if(!state.hasOwnProperty(action.sessionId)) {
@@ -63,7 +63,7 @@ export default function credentials(state = initialState, action) {
       };
     }
 
-    case 'SessionHandler.StatusUpdate': {
+    case 'IrmaSession.StatusUpdate': {
       return {
         ...state,
         [sessionId]: {
@@ -74,7 +74,7 @@ export default function credentials(state = initialState, action) {
       };
     }
 
-    case 'SessionHandler.Success': {
+    case 'IrmaSession.Success': {
       return {
         ...state,
         [sessionId]: {
@@ -84,7 +84,7 @@ export default function credentials(state = initialState, action) {
       };
     }
 
-    case 'SessionHandler.Failure': {
+    case 'IrmaSession.Failure': {
       return {
         ...state,
         [sessionId]: {
@@ -101,7 +101,7 @@ export default function credentials(state = initialState, action) {
       };
     }
 
-    case 'SessionHandler.Cancelled': {
+    case 'IrmaSession.Cancelled': {
       return {
         ...state,
         [sessionId]: {
@@ -111,7 +111,7 @@ export default function credentials(state = initialState, action) {
       };
     }
 
-    case 'SessionHandler.UnsatisfiableRequest': {
+    case 'IrmaSession.UnsatisfiableRequest': {
       return {
         ...state,
         [sessionId]: {
@@ -122,7 +122,7 @@ export default function credentials(state = initialState, action) {
       };
     }
 
-    case 'SessionHandler.RequestIssuancePermission': {
+    case 'IrmaSession.RequestIssuancePermission': {
       return {
         ...state,
         [sessionId]: {
@@ -138,7 +138,7 @@ export default function credentials(state = initialState, action) {
       };
     }
 
-    case 'SessionHandler.RequestVerificationPermission': {
+    case 'IrmaSession.RequestVerificationPermission': {
       return {
         ...state,
         [sessionId]: {
@@ -153,7 +153,7 @@ export default function credentials(state = initialState, action) {
       };
     }
 
-    case 'SessionHandler.RequestSignaturePermission': {
+    case 'IrmaSession.RequestSignaturePermission': {
       return {
         ...state,
         [sessionId]: {
@@ -170,7 +170,7 @@ export default function credentials(state = initialState, action) {
       };
     }
 
-    case 'SessionHandler.RequestPin': {
+    case 'IrmaSession.RequestPin': {
       return {
         ...state,
         [sessionId]: {
@@ -181,7 +181,7 @@ export default function credentials(state = initialState, action) {
       };
     }
 
-    case 'SessionHandler.MissingKeyshareEnrollment': {
+    case 'IrmaSession.MissingKeyshareEnrollment': {
       return {
         ...state,
         [sessionId]: {

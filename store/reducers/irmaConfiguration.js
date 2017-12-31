@@ -2,6 +2,9 @@ const initialState = {
   credentialTypes: {},
   issuers: {},
   schemeManagers: {},
+
+  preferences: {},
+
   unenrolledSchemeManagers: [],
 
   loaded: false,
@@ -9,15 +12,15 @@ const initialState = {
 
 export default function irmaConfiguration(state = initialState, action) {
   switch(action.type) {
-    case 'CredentialManager.Configuration': {
-      const config = action.configuration;
+    case 'IrmaClient.Configuration': {
+      const irmaConfig = action.irmaConfiguration;
 
       return {
         ...state,
         loaded: true,
-        credentialTypes: config.CredentialTypes,
-        issuers: config.Issuers,
-        schemeManagers: config.SchemeManagers,
+        credentialTypes: irmaConfig.CredentialTypes,
+        issuers: irmaConfig.Issuers,
+        schemeManagers: irmaConfig.SchemeManagers,
       };
     }
 

@@ -58,10 +58,10 @@ func recoveredReceiveAction(actionJSONString string) {
 			err = actionHandler.DismissSession(action)
 		}
 
-	case "SendCrashReports":
-		action := &struct{ SendCrashReports bool }{true}
+	case "SetCrashReportingPreference":
+		action := &SetCrashReportingPreferenceAction{}
 		if err = json.Unmarshal(actionJSON, &action); err == nil {
-			client.SendCrashReports(action.SendCrashReports)
+			err = actionHandler.SetCrashReportingPreference(action)
 		}
 
 	default:

@@ -2,13 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
+import { Sentry } from 'react-native-sentry';
+import Raven from 'raven-js';
 
 import RootNavigatorContainer from './RootNavigatorContainer';
 
 const mapStateToProps = (state) => {
   const {
     irmaConfiguration: {
-      loaded: configurationLoaded
+      loaded: configurationLoaded,
+    },
+    preferences: {
+      loaded: preferencesLoaded,
+      sentryDSN,
+      enableCrashReporting,
     },
     enrollment: {
       loaded: enrollmentLoaded,
@@ -19,11 +26,12 @@ const mapStateToProps = (state) => {
     }
   } = state;
 
-  const loaded = configurationLoaded && enrollmentLoaded && credentialsLoaded;
+  const loaded = configurationLoaded && preferencesLoaded && enrollmentLoaded && credentialsLoaded;
 
   return {
     loaded,
     unenrolledSchemeManagerIds,
+    sentryDSN: enableCrashReporting ? sentryDSN : '',
   };
 };
 
@@ -34,6 +42,23 @@ export default class RootContainer extends Component {
     dispatch: PropTypes.func.isRequired,
     loaded: PropTypes.bool.isRequired,
     unenrolledSchemeManagerIds: PropTypes.array.isRequired,
+    sentryDSN: PropTypes.string.isRequired,
+  }
+
+  nativeSentryInitialized = false
+  componentWillReceiveProps(nextProps) {
+    const { sentryDSN } = nextProps;
+
+    // Unfortunately we cannot set the DSN for the native Sentry client
+    // after it has been configured. See react-native-sentry#320
+    if(this.props.sentryDSN !== sentryDSN) {
+      if(!this.nativeSentryInitialized) {
+        Sentry.config(sentryDSN).install();
+        this.nativeSentryInitialized = true;
+      } else {
+        Raven.setDSN(sentryDSN);
+      }
+    }
   }
 
   ensureEnrollment(navigator) {
