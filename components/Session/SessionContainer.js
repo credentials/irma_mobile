@@ -79,8 +79,8 @@ export default class SessionContainer extends Component {
   }
 
   sendMail() {
-    const { session: { result }} = this.props;
-    sendMail(result);
+    const { session: { result, request }} = this.props;
+    sendMail(result, JSON.parse(request));
   }
 
   navigateToEnrollment() {

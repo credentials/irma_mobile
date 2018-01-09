@@ -45,6 +45,7 @@ export default class SigningSession extends Component {
         requesterName,
         status,
         toDisclose,
+        request,
       }
     } = this.props;
 
@@ -68,10 +69,17 @@ export default class SigningSession extends Component {
         const attributeAmount = t('common.attributes', { count: toDisclose.length });
         const maxCandidates = _.max(disclosureCandidates, cs => cs.length);
 
+        let name;
+        if ( request !== undefined && JSON.parse(request).name !== undefined) {
+          name = JSON.parse(request).name;
+        } else {
+          name = requesterName;
+        }
+
         explanation = (
           <View>
             <Text>
-              <Text style={{fontWeight: 'bold'}}>{ requesterName }</Text>&nbsp;
+              <Text style={{fontWeight: 'bold'}}>{ name }</Text>&nbsp;
               { t('.requestPermission.beforeExplanation', {attributeAmount}) }
             </Text>
             { messageText }

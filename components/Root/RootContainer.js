@@ -7,6 +7,7 @@ import RNFetchBlob from 'react-native-fetch-blob';
 import RootNavigatorContainer from './RootNavigatorContainer';
 
 import { validateSigrequest } from 'lib/requestValidators.js';
+import { canSendMail } from 'lib/mail.js';
 
 const mapStateToProps = (state) => {
   const {
@@ -65,8 +66,11 @@ export default class RootContainer extends Component {
   // Handle URL
   handleUrl(url, navigator) {
     // TODO: Fix this for iOS as well!
+    // if url startswith content:// then we'll start a manual session
     if (url.startsWith('content://')) {
-      return this.handleContentUrl(url, navigator);
+      return canSendMail()
+        .then(() => this.handleContentUrl(url, navigator))
+        .catch(() => {}); // TODO: show error that no mail client is installed
     }
 
     // Handle errors in handleIrmaUrl
@@ -97,7 +101,8 @@ export default class RootContainer extends Component {
             routeName: 'Session',
             params: { sessionId: 0 },
           })
-        ); });
+        ); })
+      .catch(() => {}); // TODO: show error that reading content failed?
   }
 
   // Handle an URL of the form irma://qr/json/$json
