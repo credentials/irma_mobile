@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import RNFetchBlob from 'react-native-fetch-blob';
+import { PermissionsAndroid } from 'react-native';
 
 import RootNavigatorContainer from './RootNavigatorContainer';
 
@@ -68,9 +69,18 @@ export default class RootContainer extends Component {
     // TODO: Fix this for iOS as well!
     // if url startswith content:// then we'll start a manual session
     if (url.startsWith('content://')) {
-      return canSendMail()
-        .then(() => this.handleContentUrl(url, navigator))
-        .catch(() => {}); // TODO: show error that no mail client is installed
+      // Check if we can write to SD card
+      // This is needed to mail attachment
+      // TODO: check if we can also do this via Android intent to avoid requesting this permission
+      return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
+        .then(permissionResult => {
+          if (permissionResult === 'granted') {
+            return canSendMail()
+              .then(() => this.handleContentUrl(url, navigator))
+              .catch(() => {}); // TODO: show error that no mail client is installed
+          }
+          // TODO: show error that permission to write to SD card has been rejected
+        });
     }
 
     // Handle errors in handleIrmaUrl
