@@ -49,7 +49,7 @@ This application is still under development and not ready for use.
   ```
 
   Then try `adb reconnect`
-- If you get this error while running the app:
+- If you get some strange import resolv errors while running the app (i.e. cannot resolve 'lib/...').
 
   Then try to reset the babel transform cache for imports:
 
