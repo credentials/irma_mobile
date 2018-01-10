@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { namespacedTranslation } from 'lib/i18n';
+import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
 
 import DisclosureChoices from './children/DisclosureChoices';
 import Error from './children/Error';
@@ -14,7 +15,6 @@ import StatusCard from './children/StatusCard';
 
 import PaddedContent from 'lib/PaddedContent';
 import {
-  Container,
   Text,
   View,
 } from 'native-base';
@@ -131,7 +131,7 @@ export default class IssuanceSession extends Component {
     } = this.props;
 
     return (
-      <Container>
+      <KeyboardAwareContainer>
         <Header title={t('.headerTitle')} navigateBack={navigateBack} />
         <PaddedContent>
           { this.renderStatusCard() }
@@ -149,7 +149,7 @@ export default class IssuanceSession extends Component {
           nextStep={nextStep}
           session={session}
         />
-      </Container>
+      </KeyboardAwareContainer>
     );
   }
 }

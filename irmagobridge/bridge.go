@@ -59,8 +59,7 @@ func recoveredStart(givenBridge IrmaBridge, appDataPath string, assetsPath strin
 
 	// Initialize the client
 	configurationPath := filepath.Join(assetsPath, "irma_configuration")
-	// androidPath := filepath.Join(appDataPath, "android")
-	androidPath := ""
+	androidPath := appDataPath
 
 	client, err = irmaclient.New(appVersionDataPath, configurationPath, androidPath, clientHandler)
 	if err != nil {

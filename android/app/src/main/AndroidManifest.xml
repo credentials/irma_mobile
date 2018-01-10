@@ -1,0 +1,42 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.irmacard.cardemu">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+      android:name="foundation.privacybydesign.irmamobile.MainApplication"
+      android:allowBackup="true"
+      android:label="@string/app_name"
+      android:icon="@mipmap/ic_launcher"
+      android:theme="@style/AppTheme">
+      <activity
+        android:name="foundation.privacybydesign.irmamobile.MainActivity"
+        android:label="@string/app_name"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+        android:windowSoftInputMode="adjustResize"
+        android:launchMode="singleTask">
+          <!-- The singleTask launchmode means that in the recept app list (i.e., this:
+               https://developer.android.com/guide/components/recents.html), the MainActivity
+               always has its own dedicated entry to which intents are routed - as opposed to
+               the MainActivity appearing "on top of" the browser when the browser sends an
+               intent to us. See also
+               https://developer.android.com/guide/topics/manifest/activity-element.html#lmode
+          -->>
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:scheme="irma"/>
+            <data android:scheme="cardemu"/>
+        </intent-filter>
+      </activity>
+      <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+    </application>
+
+</manifest>
