@@ -59,7 +59,7 @@ export default class RootNavigatorContainer extends Component {
 
   render() {
     const { currentRoute } = this.state;
-    const drawerLockMode = currentRoute === 'CredentialDashboard' ?
+    const drawerLockMode = currentRoute === 'CredentialDashboard' || currentRoute === 'DrawerOpen' ?
       'unlocked' : 'locked-closed';
 
     return (
