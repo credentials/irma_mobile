@@ -46,18 +46,24 @@ export default class RootContainer extends Component {
   }
 
   nativeSentryInitialized = false
+  configureErrorReporting(sentryDSN) {
+    // Unfortunately we cannot set the DSN for the native Sentry client
+    // after it has been configured. See react-native-sentry#320
+    if(!this.nativeSentryInitialized) {
+      if(sentryDSN !== '') {
+        Sentry.config(sentryDSN).install();
+        this.nativeSentryInitialized = true;
+      }
+    } else {
+      Raven.setDSN(sentryDSN);
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     const { sentryDSN } = nextProps;
 
-    // Unfortunately we cannot set the DSN for the native Sentry client
-    // after it has been configured. See react-native-sentry#320
     if(this.props.sentryDSN !== sentryDSN) {
-      if(!this.nativeSentryInitialized) {
-        Sentry.config(sentryDSN).install();
-        this.nativeSentryInitialized = true;
-      } else {
-        Raven.setDSN(sentryDSN);
-      }
+      this.configureErrorReporting(sentryDSN);
     }
   }
 
