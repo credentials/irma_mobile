@@ -10,7 +10,6 @@ export default function preferences(state = initialState, action) {
 
       return {
         ...state,
-        sentryDSN: prefs.SentryDSN,
         enableCrashReporting: prefs.EnableCrashReporting,
         loaded: true,
       };

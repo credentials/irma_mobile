@@ -3,9 +3,7 @@ const initialState = {
   issuers: {},
   schemeManagers: {},
 
-  preferences: {},
-
-  unenrolledSchemeManagers: [],
+  sentryDSN: '',
 
   loaded: false,
 };
@@ -21,6 +19,7 @@ export default function irmaConfiguration(state = initialState, action) {
         credentialTypes: irmaConfig.CredentialTypes,
         issuers: irmaConfig.Issuers,
         schemeManagers: irmaConfig.SchemeManagers,
+        sentryDSN: action.sentryDSN,
       };
     }
 

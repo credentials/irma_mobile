@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import { Sentry } from 'react-native-sentry';
-import Raven from 'raven-js';
 
 import RootNavigatorContainer from './RootNavigatorContainer';
 
@@ -11,10 +10,10 @@ const mapStateToProps = (state) => {
   const {
     irmaConfiguration: {
       loaded: configurationLoaded,
+      sentryDSN,
     },
     preferences: {
       loaded: preferencesLoaded,
-      sentryDSN,
       enableCrashReporting,
     },
     enrollment: {

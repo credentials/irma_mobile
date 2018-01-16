@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/go-errors/errors"
+	"github.com/privacybydesign/irmago/irmaclient"
 )
 
 type OutgoingAction map[string]interface{}
@@ -12,6 +13,7 @@ func sendConfiguration() {
 	sendAction(&OutgoingAction{
 		"type":              "IrmaClient.Configuration",
 		"irmaConfiguration": client.Configuration,
+		"sentryDSN":         irmaclient.SentryDSN,
 	})
 }
 
