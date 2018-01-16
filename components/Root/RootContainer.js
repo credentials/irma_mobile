@@ -47,15 +47,11 @@ export default class RootContainer extends Component {
 
   nativeSentryInitialized = false
   configureErrorReporting(sentryDSN) {
-    // Unfortunately we cannot set the DSN for the native Sentry client
+    // Unfortunately we cannot set the DSN for the Sentry client
     // after it has been configured. See react-native-sentry#320
-    if(!this.nativeSentryInitialized) {
-      if(sentryDSN !== '') {
-        Sentry.config(sentryDSN).install();
-        this.nativeSentryInitialized = true;
-      }
-    } else {
-      Raven.setDSN(sentryDSN);
+    if(!this.nativeSentryInitialized && sentryDSN !== '') {
+      Sentry.config(sentryDSN).install();
+      this.nativeSentryInitialized = true;
     }
   }
 
