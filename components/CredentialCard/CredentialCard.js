@@ -73,7 +73,7 @@ export default class CredentialCard extends Component {
                 <Text note>Expires on { moment.unix(credential.Expires).format('D MMM YYYY') }</Text>
               </Body>
               { !collapsable ? null :
-                  <Icon name={collapsed ? 'arrow-forward' : 'arrow-down'} />
+                  <Icon name={collapsed ? 'ios-arrow-forward' : 'ios-arrow-down'} />
               }
             </Left>
           </CardItem>
