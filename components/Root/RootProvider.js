@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { Root as NBRoot } from 'native-base';
+import { Provider as ReduxProvider } from 'react-redux';
+import { Root as NBRoot, StyleProvider } from 'native-base';
 
 import init from 'store/init';
+import getTheme from 'lib/native-base-theme/components';
+
 import RootContainer from './RootContainer';
 
 const {
@@ -12,11 +14,13 @@ const {
 export default class RootProvider extends Component {
   render() {
     return (
-      <Provider store={store}>
-        <NBRoot>
-          <RootContainer />
-        </NBRoot>
-      </Provider>
+      <ReduxProvider store={store}>
+        <StyleProvider style={getTheme()}>
+          <NBRoot>
+            <RootContainer />
+          </NBRoot>
+        </StyleProvider>
+      </ReduxProvider>
     );
   }
 }
