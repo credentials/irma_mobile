@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import { namespacedTranslation } from 'lib/i18n';
 
+import { Keyboard } from 'react-native';
+
 import {
   Footer as NBFooter,
   Button,
@@ -47,6 +49,7 @@ export default class Footer extends Component {
         toDisclose,
       }
     } = this.props;
+    const { hidden } = this.state;
 
     if(!_.includes(['requestPermission', 'requestDisclosurePermission', 'requestPin'], status))
       return null;
@@ -58,6 +61,10 @@ export default class Footer extends Component {
       yesLabel = t('.next');
 
     if(status === 'requestPin') {
+      if (hidden) {
+        Keyboard.dismiss();
+        return null;
+      }
       yesLabel = t('.submit');
       noLabel = t('.cancel');
     }
