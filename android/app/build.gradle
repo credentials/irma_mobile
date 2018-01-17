@@ -163,5 +163,3 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
-
-if (project.file('keys.gradle').exists()) { apply from: 'keys.gradle' }
