@@ -1,38 +1,61 @@
 irma_mobile
 ===========
 
-This application is still under development and not ready for use.
+### Authentication made easy, privacy-friendly, and secure
 
+IRMA offers a privacy-friendly, flexible and secure solution to many authentication problems, putting the user in full control over his/her data.
 
-## Developing on Android phone
+The IRMA app manages the user's IRMA attributes: receiving new attributes, selectively disclosing them to others, and attaching them to signed statements. These attributes can be relevant properties, such as: "I am over 18", "my name is ..." and "I am entitled to access ....". They are only stored on the user's device and nowhere else.
 
-- Install Android SDK tools
-    - https://developer.android.com/studio/index.html#downloads
-- Install Android NDK tools
-    - https://developer.android.com/ndk/downloads/index.html
-- Connect phone in USB debug mode
-    - Verify if device is visible with the command `adb devices`
-- Install javascript/react-native dependencies
-    ```
-    yarn  # or 'npm install'
-    ```
-- Install gomobile:
+<img src="https://credentials.github.io/images/irma_mobile/2-android.png" width="200" alt="Screenshot of the IRMA app on Android, showing the 'Your Attributes' screen with four credentials." /> &nbsp;
+<img src="https://credentials.github.io/images/irma_mobile/1-ios.png" width="200" alt="Screenshot of the IRMA app on iOS, showing the 'Your Attributes' screen with two credentials." /> &nbsp;
+<img src="https://credentials.github.io/images/irma_mobile/4-android.png" width="200" alt="Screenshot of the IRMA app on Android, showing the 'disclose these attributes?' screen." />
+<img src="https://credentials.github.io/images/irma_mobile/3-ios.png" width="200" alt="Screenshot of the IRMA app on iOS, showing the PIN entry screen during a disclosure session." /> &nbsp;
+
+## Developing for Android
+
+- Follow the steps for "Installing dependencies" for "Building Projects with Native Code" (not the "Quick Start"):
+    - https://facebook.github.io/react-native/docs/0.51/getting-started.html
+    - You may skip the step to install `react-native-cli`
+    - The Android NDK should also be installed through the SDK Manager (as is done by default)
+    - Verify that `$ANDROID_HOME` is properly set for your current and future shells
+- Connect your phone in USB debug mode or use an Android Virtual Device
+    - If using a physical phone, verify that the device is visible with the command `adb devices`
+    - To create an Android Virtual Device, follow the steps under "Preparing the Android device" for "Building Projects with Native Code":
+        - https://facebook.github.io/react-native/docs/0.51/getting-started.html
+- Install the Go toolchain:
+    - https://golang.org/doc/install
+    - Setup your [GOPATH environmental variable](https://github.com/golang/go/wiki/SettingGOPATH)
+- Install and init gomobile:
+    - `gomobile init` should automatically pickup the Android NDK if it is installed through the SDK Manager and `$ANDROID_HOME` is set. Otherwise you need to use the `-ndk` option.
     ```
     go get golang.org/x/mobile/cmd/gomobile
+    gomobile init
     ```
-- Init and build go package:
+- Clone this project so it is located inside your `$GOPATH`, and fetch Go dependencies:
+    - `go get github.com/privacybydesign/irma_mobile/irmagobridge/...` should do the trick
+- Init and build Go package (in the future this will be handled by Gradle):
     ```
-    cd /PATH/TO/SRC/CODE/irma_mobile/android/irmagobridge
-    gomobile init -ndk /opt/android-ndk/
-    gomobile bind -target android github.com/credentials/irma_mobile/irmagobridge
+    cd $GOPATH/github.com/privacybydesign/irma_mobile/android/irmagobridge
+    gomobile bind -target android github.com/privacybydesign/irma_mobile/irmagobridge
+    ```
+- Install javascript dependencies using Yarn or NPM:
+    ```
+    cd $GOPATH/github.com/privacybydesign/irma_mobile
+    yarn
     ```
 - Start the app in debug mode:
     ```
-    yarn run android
+    yarn android
     ```
 
+## Developing for iOS
+
+Full instruction are coming soon. Following the "Building Projects with Native Code" guide for iOS and the gomobile steps for Android (see above) should go a long way. You can then fire up Xcode and press ⌘R; the compilation of the `irmagobridge` is handled by Xcode. 
+
 ### Troubleshooting
-- If you get this error during compilation of the go bridge:
+- If Javascript compilation fails with an error that some source cannot be resolved or located, it often helps to clear the Babel build cache with `yarn start --reset-cache`.
+- If you get this error during compilation of the go bridge for Android:
 
   ```
   seq_android.c:213:3: error: implicitly declaring library function 'memcpy' with type 'void *(void *, const void *, unsigned long)' [-Werror,-Wimplicit-function-declaration]
@@ -42,7 +65,7 @@ This application is still under development and not ready for use.
   Then you have a too new version of the Android NDK (>=r16), see here: https://github.com/golang/go/issues/22766
   
   You can workaround this by including `string.h` in the following file: `$GOPATH/src/golang.org/x/mobile/bind/java/seq_android.c.support`
-- If you get this error during running in debug mode:
+- If you get this error during running on Android in debug mode:
 
   ```
   adb server version (36) doesn't match this client (39); killing...
