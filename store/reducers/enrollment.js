@@ -9,7 +9,7 @@ export default function enrollment(state = initialState, action) {
   const schemeManagerId = action.schemeManagerId;
 
   switch(action.type) {
-    case 'CredentialManager.UnenrolledSchemeManagers': {
+    case 'IrmaClient.UnenrolledSchemeManagers': {
       return {
         ...state,
         loaded: true,
@@ -27,7 +27,7 @@ export default function enrollment(state = initialState, action) {
       };
     }
 
-    case 'ClientHandler.EnrollmentSuccess': {
+    case 'IrmaClient.EnrollmentSuccess': {
       return {
         ...state,
         [schemeManagerId]: {
@@ -37,7 +37,7 @@ export default function enrollment(state = initialState, action) {
       };
     }
 
-    case 'ClientHandler.EnrollmentError': {
+    case 'IrmaClient.EnrollmentError': {
       return {
         ...state,
         [schemeManagerId]: {

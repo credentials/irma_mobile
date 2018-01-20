@@ -10,6 +10,7 @@ type ActionHandler struct {
 	manualSessionHandler *SessionHandler
 }
 
+// Enrollment to a keyshare server
 type EnrollAction struct {
 	SchemeManagerId irma.SchemeManagerIdentifier
 	Email           string
@@ -21,6 +22,7 @@ func (ah *ActionHandler) Enroll(action *EnrollAction) (err error) {
 	return nil
 }
 
+// Initiating a new session
 type NewSessionAction struct {
 	SessionID int
 	Qr        *irma.Qr
@@ -38,6 +40,7 @@ func (ah *ActionHandler) NewSession(action *NewSessionAction) (err error) {
 	return nil
 }
 
+// Initiating a new manual session
 type NewManualSessionAction struct {
 	Request string
 }
@@ -51,6 +54,7 @@ func (ah *ActionHandler) NewManualSession(action *NewManualSessionAction) (err e
 	return nil
 }
 
+// Responding to a permission prompt when disclosing, issuing or signing
 type RespondPermissionAction struct {
 	SessionID         int
 	Proceed           bool
@@ -72,6 +76,7 @@ func (ah *ActionHandler) RespondPermission(action *RespondPermissionAction) (err
 	return nil
 }
 
+// Responding to a request for a pin code
 type RespondPinAction struct {
 	SessionID int
 	Proceed   bool
@@ -91,6 +96,7 @@ func (ah *ActionHandler) RespondPin(action *RespondPinAction) (err error) {
 	return nil
 }
 
+// Request to remove all attributes and keyshare enrollment
 func (ah *ActionHandler) RemoveAll() (err error) {
 	if err := client.RemoveAllCredentials(); err != nil {
 		return err
@@ -99,11 +105,12 @@ func (ah *ActionHandler) RemoveAll() (err error) {
 		return err
 	}
 
-	getCredentials()
-	getEnrollmentStatus()
+	sendCredentials()
+	sendEnrollmentStatus()
 	return nil
 }
 
+// Dismiss the current session
 type DismissSessionAction struct {
 	SessionID int
 }
@@ -123,6 +130,19 @@ func (ah *ActionHandler) DismissSession(action *DismissSessionAction) error {
 	return nil
 }
 
+// Set the crash reporting preference, and return the current preferences to irma_mobile
+type SetCrashReportingPreferenceAction struct {
+	EnableCrashReporting bool
+}
+
+func (ah *ActionHandler) SetCrashReportingPreference(action *SetCrashReportingPreferenceAction) error {
+	client.SetCrashReportingPreference(action.EnableCrashReporting)
+	sendPreferences()
+
+	return nil
+}
+
+// findSessionHandler is a helper function to find a session in the sessionLookup
 func (ah *ActionHandler) findSessionHandler(sessionID int) (*SessionHandler, error) {
 	if sessionID == 0 {
 		return ah.manualSessionHandler, nil

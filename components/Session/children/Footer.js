@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import { namespacedTranslation } from 'lib/i18n';
 
+import { Keyboard } from 'react-native';
+
 import {
   Footer as NBFooter,
   Button,
@@ -48,6 +50,7 @@ export default class Footer extends Component {
         toDisclose,
       }
     } = this.props;
+    const { hidden } = this.state;
 
     if(!_.includes(['requestPermission', 'requestDisclosurePermission', 'requestPin'], status))
       return null;
@@ -59,16 +62,23 @@ export default class Footer extends Component {
       yesLabel = t('.next');
 
     if(status === 'requestPin') {
+      // TODO: We probably shouldn't be dismissing the keyboard on every render,
+      // and the responsibilty of hiding lies closer to the PinEntry component
+      if (hidden) {
+        Keyboard.dismiss();
+        return null;
+      }
+
       yesLabel = t('.submit');
       noLabel = t('.cancel');
     }
 
     return [
-      <Button key="yes" success onPress={() => this.press(true)} >
+      <Button key="yes" success iconLeft onPress={() => this.press(true)}>
         <Icon name="checkmark-circle" />
         <Text>{ yesLabel }</Text>
       </Button>,
-      <Button key="no" danger onPress={() => this.press(false)} style={{marginLeft: 20}}>
+      <Button key="no" danger iconLeft onPress={() => this.press(false)} style={{marginLeft: 20}}>
         <Icon name="close-circle" />
         <Text>{ noLabel }</Text>
       </Button>

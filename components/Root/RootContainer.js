@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import RNFetchBlob from 'react-native-fetch-blob';
 import { PermissionsAndroid } from 'react-native';
+import { Sentry } from 'react-native-sentry';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 import RootNavigatorContainer from './RootNavigatorContainer';
 
@@ -13,7 +14,12 @@ import { canSendMail } from 'lib/mail.js';
 const mapStateToProps = (state) => {
   const {
     irmaConfiguration: {
-      loaded: configurationLoaded
+      loaded: configurationLoaded,
+      sentryDSN,
+    },
+    preferences: {
+      loaded: preferencesLoaded,
+      enableCrashReporting,
     },
     enrollment: {
       loaded: enrollmentLoaded,
@@ -24,11 +30,12 @@ const mapStateToProps = (state) => {
     }
   } = state;
 
-  const loaded = configurationLoaded && enrollmentLoaded && credentialsLoaded;
+  const loaded = configurationLoaded && preferencesLoaded && enrollmentLoaded && credentialsLoaded;
 
   return {
     loaded,
     unenrolledSchemeManagerIds,
+    sentryDSN: enableCrashReporting ? sentryDSN : '',
   };
 };
 
@@ -39,6 +46,25 @@ export default class RootContainer extends Component {
     dispatch: PropTypes.func.isRequired,
     loaded: PropTypes.bool.isRequired,
     unenrolledSchemeManagerIds: PropTypes.array.isRequired,
+    sentryDSN: PropTypes.string.isRequired,
+  }
+
+  nativeSentryInitialized = false
+  configureErrorReporting(sentryDSN) {
+    // Unfortunately we cannot set the DSN for the Sentry client
+    // after it has been configured. See react-native-sentry#320
+    if(!this.nativeSentryInitialized && sentryDSN !== '') {
+      Sentry.config(sentryDSN).install();
+      this.nativeSentryInitialized = true;
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { sentryDSN } = nextProps;
+
+    if(this.props.sentryDSN !== sentryDSN) {
+      this.configureErrorReporting(sentryDSN);
+    }
   }
 
   ensureEnrollment(navigator) {

@@ -42,17 +42,16 @@ const sidebarListItems = [
       );
     }
   },
-  // { // currently disabled as there are no preferences yet
-  //   icon: {android: 'md-settings', ios: 'ios-settings'},
-  //   text: t('.preferences'),
-  //   navigateTo: 'PreferencesDashboard',
-  // },
+  {
+    icon: {android: 'md-settings', ios: 'ios-settings'},
+    text: t('.preferences'),
+    navigateTo: 'PreferencesDashboard',
+  },
   // { // NYI
   //   icon: {ios: 'ios-paper', android: 'md-paper'},
   //   text: t('.log'),
   //   navigateTo: false,
   // },
-
   {
     icon: {name: 'md-add'},
     text: t('.moreAttributes'),

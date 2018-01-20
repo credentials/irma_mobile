@@ -5,7 +5,7 @@ const initialState = {
 
 export default function credentials(state = initialState, action) {
   switch(action.type) {
-    case 'CredentialManager.Credentials': {
+    case 'IrmaClient.Credentials': {
       return {
         ...state,
         loaded: true,

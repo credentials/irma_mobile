@@ -98,10 +98,20 @@ android {
         applicationId "org.irmacard.cardemu"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 20
-        versionName "1.0"
+        versionCode 21
+        versionName "5.0.1"
         ndk {
             abiFilters "armeabi-v7a", "x86"
+        }
+    }
+    signingConfigs {
+        release {
+            if (project.hasProperty('IRMA_RELEASE_STORE_FILE')) {
+                storeFile file(IRMA_RELEASE_STORE_FILE)
+                storePassword IRMA_RELEASE_STORE_PASSWORD
+                keyAlias IRMA_RELEASE_KEY_ALIAS
+                keyPassword IRMA_RELEASE_KEY_PASSWORD
+            }
         }
     }
     splits {
@@ -114,8 +124,13 @@ android {
     }
     buildTypes {
         release {
+            manifestPlaceholders = [excludeSystemAlertWindowPermission: "true"]
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+        }
+        debug {
+            manifestPlaceholders = [excludeSystemAlertWindowPermission: "false"]
         }
     }
     // applicationVariants are e.g. debug, release
@@ -151,5 +166,3 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
-
-if (project.file('keys.gradle').exists()) { apply from: 'keys.gradle' }

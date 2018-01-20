@@ -7,19 +7,19 @@ type ClientHandler struct {
 
 func (ch *ClientHandler) UpdateConfiguration(new *irma.IrmaIdentifierSet) {
 	logDebug("Handling UpdateConfiguration")
-	getConfiguration()
+	sendConfiguration()
 }
 
 func (ch *ClientHandler) UpdateAttributes() {
 	logDebug("Handling UpdateAttributes")
-	getCredentials()
+	sendCredentials()
 }
 
 func (ch *ClientHandler) EnrollmentError(managerIdentifier irma.SchemeManagerIdentifier, err error) {
 	logDebug("Handling EnrollmentError")
 
 	action := &OutgoingAction{
-		"type":            "ClientHandler.EnrollmentError",
+		"type":            "IrmaClient.EnrollmentError",
 		"schemeManagerId": managerIdentifier,
 		"error":           err.Error(),
 	}
@@ -31,10 +31,10 @@ func (ch *ClientHandler) EnrollmentSuccess(managerIdentifier irma.SchemeManagerI
 	logDebug("Handling EnrollmentSuccess")
 
 	action := &OutgoingAction{
-		"type":            "ClientHandler.EnrollmentSuccess",
+		"type":            "IrmaClient.EnrollmentSuccess",
 		"schemeManagerId": managerIdentifier,
 	}
 
-	getEnrollmentStatus()
+	sendEnrollmentStatus()
 	sendAction(action)
 }

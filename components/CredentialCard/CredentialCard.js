@@ -39,7 +39,7 @@ export default class CredentialCard extends Component {
     return (
       <CardItem key={attribute.Type.ID}>
         <Text>{ attribute.Type.Name[lang] }</Text>
-        <Right>
+        <Right style={{flex: 1}}>
           <Text note>{ attribute[lang] }</Text>
         </Right>
       </CardItem>
@@ -73,7 +73,7 @@ export default class CredentialCard extends Component {
                 <Text note>Expires on { moment.unix(credential.Expires).format('D MMM YYYY') }</Text>
               </Body>
               { !collapsable ? null :
-                  <Icon name={collapsed ? 'arrow-forward' : 'arrow-down'} />
+                  <Icon name={collapsed ? 'ios-arrow-forward' : 'ios-arrow-down'} />
               }
             </Left>
           </CardItem>

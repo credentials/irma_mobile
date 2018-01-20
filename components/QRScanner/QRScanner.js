@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import { Platform } from 'react-native';
 
 import { namespacedTranslation } from 'lib/i18n';
 
@@ -43,8 +44,9 @@ export default class QRScanner extends Component {
 
   samplePress(type) {
     const { newSession } = this.props;
+    const host = Platform.OS === 'ios' ? '127.0.0.1' : '10.0.2.2';
 
-    window.fetch(`http://127.0.0.1:7000?type=${type}`).then( (res) => {
+    window.fetch(`http://${host}:7000?type=${type}`).then( (res) => {
       res.json().then( (qr) => {
         newSession(qr);
       });

@@ -28,7 +28,6 @@ RCT_EXPORT_METHOD(dispatch:(NSString *)action) {
 #if DEBUG
   [self sendEvent:@"log" message:message];
 #endif
-  NSLog(@"%@n", message);
 }
 
 @end

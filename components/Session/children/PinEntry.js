@@ -56,6 +56,7 @@ export default class PinEntry extends Component {
       keyboardType: 'numeric',
       maxLength: 16,
       secureTextEntry: true,
+      autoFocus: true,
     };
 
     const validate = value => /\d{5,}/.test(value);

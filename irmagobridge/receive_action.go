@@ -64,6 +64,12 @@ func recoveredReceiveAction(actionJSONString string) {
 			err = actionHandler.DismissSession(action)
 		}
 
+	case "SetCrashReportingPreference":
+		action := &SetCrashReportingPreferenceAction{}
+		if err = json.Unmarshal(actionJSON, &action); err == nil {
+			err = actionHandler.SetCrashReportingPreference(action)
+		}
+
 	default:
 		err = errors.Errorf("Unrecognized action type %s", actionType)
 	}
