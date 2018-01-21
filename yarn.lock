@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@sentry/cli@^1.26.1":
-  version "1.26.1"
-  resolved "https://registry.yarnpkg.com/@sentry/cli/-/cli-1.26.1.tgz#2c803e985b1b662b9a05eadb15b65d5b6ba2921d"
+"@sentry/cli@^1.28.1":
+  version "1.28.1"
+  resolved "https://registry.yarnpkg.com/@sentry/cli/-/cli-1.28.1.tgz#42feaa7f5db056dad1ebfbb80af5c01c1f46b82d"
   dependencies:
     progress "2.0.0"
 
-"@sentry/wizard@^0.7.3":
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/@sentry/wizard/-/wizard-0.7.3.tgz#76782f79aedb3774e79e60b7dd73cee32308ad18"
+"@sentry/wizard@^0.7":
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/@sentry/wizard/-/wizard-0.7.5.tgz#c791669d66bf96634abf275a671261935949b732"
   dependencies:
-    "@sentry/cli" "^1.26.1"
+    "@sentry/cli" "^1.28.1"
     chalk "^2.3.0"
     glob "^7.1.2"
     inquirer "^4.0.0"
@@ -3474,11 +3474,11 @@ react-native-qrcode-scanner@^0.0.28:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-sentry@^0.32.0:
-  version "0.32.0"
-  resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.32.0.tgz#f99530836ca0f9e4ea053fb7c73f7f4b1d493646"
+"react-native-sentry@https://github.com/confiks/react-native-sentry#04800":
+  version "0.32.1"
+  resolved "https://github.com/confiks/react-native-sentry#048005eef52f91ef546875425a5bea366cf5e7d6"
   dependencies:
-    "@sentry/wizard" "^0.7.3"
+    "@sentry/wizard" "^0.7"
     raven-js "^3.19.1"
 
 react-native-tab-view@^0.0.74:
