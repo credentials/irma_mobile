@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { namespacedTranslation } from 'lib/i18n';
 import Card from 'lib/UnwrappedCard';
-import { Sentry, SentrySeverity, } from 'react-native-sentry';
+import { Sentry } from 'react-native-sentry';
 
 import {
   Body,
@@ -38,7 +38,6 @@ export default class Error extends Component {
   report() {
     const extra = this.reportObject();
     Sentry.captureMessage('User reported: ' + extra.errorType, {
-      level: SentrySeverity.Error,
       extra,
     });
 

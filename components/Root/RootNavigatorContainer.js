@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Linking } from 'react-native';
+import { Sentry } from 'react-native-sentry';
 
 import RootNavigator from './RootNavigator';
 
@@ -19,11 +20,20 @@ export default class RootNavigatorContainer extends Component {
     currentRoute: null,
   }
 
-  componentWillUnmount() {
-    Linking.removeEventListener('url', this.boundHandleOpenURL);
+  constructor(props) {
+    super(props);
+
+    this.setNavigatorRef = ::this.setNavigatorRef;
   }
 
-  boundHandleOpenURL = null
+  componentWillUnmount() {
+    // This defensive statement can be readily removed
+    Sentry.captureMessage(
+      'RootNavigationContainer unexpectedly unmounted',
+      {extra: {currentRoute: this.state.currentRoute}}
+    );
+  }
+
   handleOpenURL(event) {
     this.openURL(event.url);
   }
@@ -39,13 +49,14 @@ export default class RootNavigatorContainer extends Component {
     // scheme managers for which we need to start a keyshare enrollment
     ensureEnrollment(this.navigator);
 
-    // Also on mount, handle any initial IRMA URL with which the app was starter
+    // Also on mount, handle any initial IRMA URL with which the app was started
     Linking.getInitialURL().then( irmaUrl => {
       if (irmaUrl)
         handleIrmaUrl(irmaUrl, this.navigator);
     }).catch();
 
     // Setup a handler for any IRMA URLs which are opened later
+    // We do not unsubscribe because the Root hierachy is not expected to unmount
     Linking.addEventListener('url', event =>
       handleIrmaUrl(event.url, this.navigator)
     );
@@ -57,14 +68,22 @@ export default class RootNavigatorContainer extends Component {
     this.setState({currentRoute});
   }
 
+  // This ref setting function in bound only once in the constructor instead of with an arrow function in render
+  // due to the ref prop behaving as described here: https://github.com/facebook/react/issues/9328#issuecomment-298438237
+  // We originally crashed because Linking.getInitialURL's promise resolved while this.navigator was null
+  setNavigatorRef(nav) {
+    this.navigator = nav;
+  }
+
   render() {
+    // Lock the drawer on screens other than the Dashboard or the Drawer itself
     const { currentRoute } = this.state;
     const drawerLockMode = currentRoute === 'CredentialDashboard' || currentRoute === 'DrawerOpen' ?
       'unlocked' : 'locked-closed';
 
     return (
       <RootNavigator
-        ref={nav => { this.navigator = nav; }}
+        ref={this.setNavigatorRef}
         onNavigationStateChange={::this.navigationStateChange}
         screenProps={{drawerLockMode}}
       />
