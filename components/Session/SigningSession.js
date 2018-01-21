@@ -39,11 +39,11 @@ export default class SigningSession extends Component {
       navigateToEnrollment,
       session,
       session: {
-        disclosureCandidates,
+        disclosuresCandidates,
         message,
         requesterName,
         status,
-        toDisclose,
+        disclosures,
       }
     } = this.props;
 
@@ -64,8 +64,8 @@ export default class SigningSession extends Component {
     let explanation;
     switch(status) {
       case 'requestPermission': {
-        const attributeAmount = t('common.attributes', { count: toDisclose.length });
-        const maxCandidates = _.max(disclosureCandidates, cs => cs.length);
+        const attributeAmount = t('common.attributes', { count: disclosures.length });
+        const maxCandidates = _.max(disclosuresCandidates, cs => cs.length);
 
         explanation = (
           <View>

@@ -39,11 +39,11 @@ export default class IssuanceSession extends Component {
       navigateToEnrollment,
       session,
       session: {
-        disclosureCandidates,
+        disclosuresCandidates,
         issuedCredentials,
         issuerName,
         status,
-        toDisclose,
+        disclosures,
       }
     } = this.props;
 
@@ -77,8 +77,8 @@ export default class IssuanceSession extends Component {
       }
 
       case 'requestDisclosurePermission': {
-        const attributeAmount = t('common.attributes', { count: toDisclose.length });
-        const maxCandidates = _.max(disclosureCandidates, cs => cs.length);
+        const attributeAmount = t('common.attributes', { count: disclosures.length });
+        const maxCandidates = _.max(disclosuresCandidates, cs => cs.length);
 
         explanation = (
           <View>

@@ -23,7 +23,7 @@ const t = namespacedTranslation('Session.DisclosureSession');
 export default class DisclosureSession extends Component {
 
   static propTypes = {
-    disclosureCandidates: PropTypes.array,
+    disclosuresCandidates: PropTypes.array,
     forceValidation: PropTypes.bool.isRequired,
     irmaConfiguration: PropTypes.object.isRequired,
     makeDisclosureChoice: PropTypes.func.isRequired,
@@ -32,7 +32,7 @@ export default class DisclosureSession extends Component {
     nextStep: PropTypes.func.isRequired,
     pinChange: PropTypes.func.isRequired,
     session: PropTypes.object.isRequired,
-    toDisclose: PropTypes.array,
+    disclosures: PropTypes.array,
   }
 
   renderStatusCard() {
@@ -40,9 +40,9 @@ export default class DisclosureSession extends Component {
       navigateToEnrollment,
       session,
       session: {
-        disclosureCandidates,
+        disclosuresCandidates,
         status,
-        toDisclose,
+        disclosures,
         verifierName,
       }
     } = this.props;
@@ -58,8 +58,8 @@ export default class DisclosureSession extends Component {
     let explanation;
     switch(status) {
       case 'requestPermission': {
-        const attributeAmount = t('common.attributes', { count: toDisclose.length });
-        const maxCandidates = _.max(disclosureCandidates, cs => cs.length);
+        const attributeAmount = t('common.attributes', { count: disclosures.length });
+        const maxCandidates = _.max(disclosuresCandidates, cs => cs.length);
 
         explanation = (
           <View>

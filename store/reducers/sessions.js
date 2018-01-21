@@ -40,8 +40,8 @@ const isValidSessionAction = (state, action) => {
   }
 };
 
-const initialDisclosureChoices = (disclosureCandidates) =>
-  disclosureCandidates.map(dc => dc[0]);
+const initialDisclosureChoices = (disclosuresCandidates) =>
+  disclosuresCandidates.map(dc => dc[0]);
 
 const initialState = {};
 export default function credentials(state = initialState, action) {
@@ -117,7 +117,7 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           ...state[sessionId],
           status: 'unsatisfiableRequest',
-          missingAttributes: action.missingAttributes,
+          missingDisclosures: action.missingDisclosures,
         }
       };
     }
@@ -130,10 +130,10 @@ export default function credentials(state = initialState, action) {
           status: 'requestPermission',
           issuerName: action.issuerName,
           issuedCredentials: action.issuedCredentials,
-          toDisclose: action.toDisclose || [], // TODO: Fix defensive
-          disclosureCandidates: action.disclosureCandidates,
+          disclosures: action.disclosures,
+          disclosuresCandidates: action.disclosuresCandidates,
 
-          disclosureChoices: initialDisclosureChoices(action.disclosureCandidates),
+          disclosureChoices: initialDisclosureChoices(action.disclosuresCandidates),
         }
       };
     }
@@ -145,10 +145,10 @@ export default function credentials(state = initialState, action) {
           ...state[sessionId],
           status: 'requestPermission',
           verifierName: action.verifierName,
-          toDisclose: action.toDisclose || [], // TODO: Fix defensive
-          disclosureCandidates: action.disclosureCandidates,
+          disclosures: action.disclosures,
+          disclosuresCandidates: action.disclosuresCandidates,
 
-          disclosureChoices: initialDisclosureChoices(action.disclosureCandidates),
+          disclosureChoices: initialDisclosureChoices(action.disclosuresCandidates),
         }
       };
     }
@@ -160,12 +160,12 @@ export default function credentials(state = initialState, action) {
           ...state[sessionId],
           status: 'requestPermission',
           requesterName: action.requesterName,
-          toDisclose: action.toDisclose || [], // TODO: Fix defensive
-          disclosureCandidates: action.disclosureCandidates,
+          disclosures: action.disclosures,
+          disclosuresCandidates: action.disclosuresCandidates,
           message: action.message,
           messageType: action.messageType,
 
-          disclosureChoices: initialDisclosureChoices(action.disclosureCandidates),
+          disclosureChoices: initialDisclosureChoices(action.disclosuresCandidates),
         }
       };
     }

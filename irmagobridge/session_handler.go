@@ -1,9 +1,9 @@
 package irmagobridge
 
 import (
+	"github.com/go-errors/errors"
 	"github.com/privacybydesign/irmago"
 	"github.com/privacybydesign/irmago/irmaclient"
-	"github.com/go-errors/errors"
 )
 
 type SessionHandler struct {
@@ -69,12 +69,12 @@ func (sh *SessionHandler) Cancelled(irmaAction irma.Action) {
 	sendAction(action)
 }
 
-func (sh *SessionHandler) UnsatisfiableRequest(irmaAction irma.Action, missingAttributes irma.AttributeDisjunctionList) {
+func (sh *SessionHandler) UnsatisfiableRequest(irmaAction irma.Action, missingDisclosures irma.AttributeDisjunctionList) {
 	logDebug("Handling UnsatisfiableRequest")
 	action := &OutgoingAction{
-		"type":              "IrmaSession.UnsatisfiableRequest",
-		"sessionId":         sh.sessionID,
-		"missingAttributes": missingAttributes,
+		"type":               "IrmaSession.UnsatisfiableRequest",
+		"sessionId":          sh.sessionID,
+		"missingDisclosures": missingDisclosures,
 	}
 
 	sendAction(action)
@@ -83,12 +83,12 @@ func (sh *SessionHandler) UnsatisfiableRequest(irmaAction irma.Action, missingAt
 func (sh *SessionHandler) RequestIssuancePermission(request irma.IssuanceRequest, issuerName string, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestIssuancePermission")
 	action := &OutgoingAction{
-		"type":                 "IrmaSession.RequestIssuancePermission",
-		"sessionId":            sh.sessionID,
-		"issuerName":           issuerName,
-		"issuedCredentials":    request.CredentialInfoList,
-		"toDisclose":           request.ToDisclose(),
-		"disclosureCandidates": request.Candidates,
+		"type":                  "IrmaSession.RequestIssuancePermission",
+		"sessionId":             sh.sessionID,
+		"issuerName":            issuerName,
+		"issuedCredentials":     request.CredentialInfoList,
+		"disclosures":           request.ToDisclose(),
+		"disclosuresCandidates": request.Candidates,
 	}
 
 	sh.permissionHandler = ph
@@ -98,11 +98,11 @@ func (sh *SessionHandler) RequestIssuancePermission(request irma.IssuanceRequest
 func (sh *SessionHandler) RequestVerificationPermission(request irma.DisclosureRequest, verifierName string, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestVerificationPermission")
 	action := &OutgoingAction{
-		"type":                 "IrmaSession.RequestVerificationPermission",
-		"sessionId":            sh.sessionID,
-		"verifierName":         verifierName,
-		"toDisclose":           request.ToDisclose(),
-		"disclosureCandidates": request.Candidates,
+		"type":                  "IrmaSession.RequestVerificationPermission",
+		"sessionId":             sh.sessionID,
+		"verifierName":          verifierName,
+		"disclosures":           request.ToDisclose(),
+		"disclosuresCandidates": request.Candidates,
 	}
 
 	sh.permissionHandler = ph
@@ -112,13 +112,13 @@ func (sh *SessionHandler) RequestVerificationPermission(request irma.DisclosureR
 func (sh *SessionHandler) RequestSignaturePermission(request irma.SignatureRequest, requesterName string, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestSignaturePermission")
 	action := &OutgoingAction{
-		"type":                 "IrmaSession.RequestSignaturePermission",
-		"sessionId":            sh.sessionID,
-		"requesterName":        requesterName,
-		"toDisclose":           request.ToDisclose(),
-		"disclosureCandidates": request.Candidates,
-		"message":              request.Message,
-		"messageType":          request.MessageType,
+		"type":                  "IrmaSession.RequestSignaturePermission",
+		"sessionId":             sh.sessionID,
+		"requesterName":         requesterName,
+		"disclosures":           request.ToDisclose(),
+		"disclosuresCandidates": request.Candidates,
+		"message":               request.Message,
+		"messageType":           request.MessageType,
 	}
 
 	sh.permissionHandler = ph

@@ -7,7 +7,7 @@ import DisclosureSession from './DisclosureSession';
 import SigningSession from './SigningSession';
 
 import fullCredentials from 'store/mappers/fullCredentials';
-import fullCandidates from 'store/mappers/fullCandidates';
+import fullDisclosuresCandidates from 'store/mappers/fullDisclosuresCandidates';
 
 import {
   Container,
@@ -36,7 +36,7 @@ const mapStateToProps = (state, props) => {
   const session = {
     ...bareSession,
     issuedCredentials: fullCredentials(bareSession.issuedCredentials, irmaConfiguration),
-    disclosureCandidates: fullCandidates(bareSession.disclosureCandidates, irmaConfiguration, credentials)
+    disclosuresCandidates: fullDisclosuresCandidates(bareSession.disclosuresCandidates, irmaConfiguration, credentials),
   };
 
   return {
@@ -130,13 +130,13 @@ export default class SessionContainer extends Component {
     const { pin, showDisclosureStep } = this.state;
     const {
       dispatch,
-      session: { id: sessionId, irmaAction, status, toDisclose, disclosureChoices },
+      session: { id: sessionId, irmaAction, status, disclosures, disclosureChoices },
     } = this.props;
 
     // In case we proceed on issuance and there are attributes
     // to disclose, continue to the disclosure step
     if(proceed && irmaAction === 'issuing' &&
-        !showDisclosureStep && toDisclose.length > 0) {
+        !showDisclosureStep && disclosures.length > 0) {
 
       this.setState({showDisclosureStep: true});
       return true;

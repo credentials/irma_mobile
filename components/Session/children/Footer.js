@@ -51,7 +51,7 @@ export default class Footer extends Component {
       session: {
         irmaAction,
         status,
-        toDisclose,
+        disclosures,
       }
     } = this.props;
     const { hidden } = this.state;
@@ -62,7 +62,7 @@ export default class Footer extends Component {
     let yesLabel = t('.accept');
     let noLabel = t('.decline');
 
-    if(status === 'requestPermission' && irmaAction === 'issuing' && toDisclose.length > 0)
+    if(status === 'requestPermission' && irmaAction === 'issuing' && disclosures.length > 0)
       yesLabel = t('.next');
 
     if(status === 'requestPin') {
