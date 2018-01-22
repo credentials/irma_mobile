@@ -80,9 +80,11 @@ export default class RootContainer extends Component {
     });
 
     navigator.dispatch(
-      NavigationActions.navigate({
-        routeName: 'Enrollment',
-        params: { schemeManagerId },
+      NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({routeName: 'Enrollment', params: { schemeManagerId }}),
+        ]
       })
     );
   }
@@ -121,9 +123,12 @@ export default class RootContainer extends Component {
     });
 
     navigator.dispatch(
-      NavigationActions.navigate({
-        routeName: 'Session',
-        params: { sessionId },
+      NavigationActions.reset({
+        index: 1,
+        actions: [
+          NavigationActions.navigate({routeName: 'CredentialDashboard'}),
+          NavigationActions.navigate({routeName: 'Session', params: { sessionId }}),
+        ]
       })
     );
   }
