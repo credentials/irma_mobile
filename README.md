@@ -34,11 +34,6 @@ The IRMA app manages the user's IRMA attributes: receiving new attributes, selec
     ```
 - Clone this project so it is located inside your `$GOPATH`, and fetch Go dependencies:
     - `go get github.com/privacybydesign/irma_mobile/irmagobridge/...` should do the trick
-- Init and build Go package (in the future this will be handled by Gradle):
-    ```
-    cd $GOPATH/github.com/privacybydesign/irma_mobile/android/irmagobridge
-    gomobile bind -target android github.com/privacybydesign/irma_mobile/irmagobridge
-    ```
 - Install javascript dependencies using Yarn or NPM:
     ```
     cd $GOPATH/github.com/privacybydesign/irma_mobile
