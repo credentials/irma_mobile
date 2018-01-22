@@ -28,8 +28,13 @@ export default class Footer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // When rendering the footer for a new status, reset the hidden status
-    if(this.props.session.status !== nextProps.session.status)
+    const { session } = this.props;
+    const { session: nextSession } = nextProps;
+
+    // Reset the hidden state when rendering the footer for a new status,
+    // or for another amount of PIN attempts.
+    if(session.status !== nextSession.status ||
+       session.remainingAttempts !== nextSession.remainingAttempts)
       this.setState({hidden: false});
   }
 
