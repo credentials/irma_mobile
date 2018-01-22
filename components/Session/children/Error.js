@@ -116,7 +116,7 @@ export default class Error extends Component {
     const { moreInfo } = this.state;
     return (
         <Button small
-          style={{width: 125, justifyContent: 'center', alignSelf: 'center'}}
+          style={{width: 130, justifyContent: 'center', alignSelf: 'center'}}
           onPress={() => this.setState({moreInfo: !moreInfo})}
         >
           <Text style={{alignSelf: 'center'}} >{ moreInfo ? t('.hideinfo') : t('.showinfo') }</Text>
