@@ -3474,9 +3474,9 @@ react-native-qrcode-scanner@^0.0.28:
   dependencies:
     prop-types "^15.5.10"
 
-"react-native-sentry@https://github.com/confiks/react-native-sentry#04800":
+"react-native-sentry@https://github.com/confiks/react-native-sentry#c3302ab":
   version "0.32.1"
-  resolved "https://github.com/confiks/react-native-sentry#048005eef52f91ef546875425a5bea366cf5e7d6"
+  resolved "https://github.com/confiks/react-native-sentry#c3302abc1731800b0f695e06d9db2c09da04d11d"
   dependencies:
     "@sentry/wizard" "^0.7"
     raven-js "^3.19.1"
