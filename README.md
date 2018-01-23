@@ -39,6 +39,11 @@ The IRMA app manages the user's IRMA attributes: receiving new attributes, selec
     cd $GOPATH/github.com/privacybydesign/irma_mobile
     yarn
     ```
+- Start the React Native development server and forward connections from ADB:
+    ```
+    yarn start
+    adb reverse tcp:8081 tcp:8082
+    ```
 - Start the app in debug mode:
     ```
     yarn android
