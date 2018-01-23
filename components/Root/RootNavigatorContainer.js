@@ -23,19 +23,8 @@ export default class RootNavigatorContainer extends Component {
   constructor(props) {
     super(props);
 
+    this.urlListener = ::this.urlListener;
     this.setNavigatorRef = ::this.setNavigatorRef;
-  }
-
-  componentWillUnmount() {
-    // This defensive statement can be readily removed
-    Sentry.captureMessage(
-      'RootNavigationContainer unexpectedly unmounted',
-      {extra: {currentRoute: this.state.currentRoute}}
-    );
-  }
-
-  handleOpenURL(event) {
-    this.openURL(event.url);
   }
 
   componentDidMount() {
@@ -51,15 +40,28 @@ export default class RootNavigatorContainer extends Component {
 
     // Also on mount, handle any initial IRMA URL with which the app was started
     Linking.getInitialURL().then( irmaUrl => {
-      if (irmaUrl)
+      if (this.navigator && irmaUrl)
         handleIrmaUrl(irmaUrl, this.navigator);
     }).catch();
 
     // Setup a handler for any IRMA URLs which are opened later
     // We do not unsubscribe because the Root hierachy is not expected to unmount
-    Linking.addEventListener('url', event =>
-      handleIrmaUrl(event.url, this.navigator)
+    Linking.addEventListener('url', this.urlListener);
+  }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.urlListener);
+
+    // This defensive statement can be readily removed
+    Sentry.captureMessage(
+      'RootNavigationContainer unexpectedly unmounted',
+      {extra: {currentRoute: this.state.currentRoute}}
     );
+  }
+
+  urlListener(event) {
+    const { handleIrmaUrl } = this.props;
+    handleIrmaUrl(event.url, this.navigator);
   }
 
   navigationStateChange(prevState, newState) {
