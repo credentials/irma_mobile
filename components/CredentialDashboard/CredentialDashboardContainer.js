@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 
 import CredentialDashboard from './CredentialDashboard';
 import fullCredentials from 'store/mappers/fullCredentials';
@@ -33,7 +34,15 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   navigateToQRScanner() {
-    this.props.navigation.navigate('QRScanner');
+    this.props.navigation.dispatch(
+      NavigationActions.reset({
+        index: 1,
+        actions: [
+          NavigationActions.navigate({ routeName: 'CredentialDashboard' }),
+          NavigationActions.navigate({ routeName: 'QRScanner' }),
+        ],
+      }),
+    );
   }
 
   navigateToDetail(credential) {
