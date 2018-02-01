@@ -81,6 +81,7 @@ export default class QRScanner extends Component {
         onRead={::this.read}
         reactivate={true}
         reactivateTimeout={2000}
+        checkAndroid6Permissions={true}
       />
     );
   }

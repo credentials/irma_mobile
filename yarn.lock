@@ -3468,9 +3468,9 @@ react-native-i18n@^2.0.10:
     prop-types "^15.5.10"
     react-timer-mixin "^0.13.3"
 
-react-native-qrcode-scanner@^0.0.28:
-  version "0.0.28"
-  resolved "https://registry.yarnpkg.com/react-native-qrcode-scanner/-/react-native-qrcode-scanner-0.0.28.tgz#c9d2d40ff5594e5515c51fcd8faf2fdfeb69a092"
+"react-native-qrcode-scanner@https://github.com/sietseringers/react-native-qrcode-scanner#a60641":
+  version "0.0.29"
+  resolved "https://github.com/sietseringers/react-native-qrcode-scanner#a60641feff46c2475db50ecf60e390fc89aeb6a6"
   dependencies:
     prop-types "^15.5.10"
 
