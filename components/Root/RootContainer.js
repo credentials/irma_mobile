@@ -56,26 +56,11 @@ export default class RootContainer extends Component {
     }
   }
 
-  componentWillUnmount() {
-    // This defensive statement can be readily removed
-    Sentry.captureMessage(
-      'RootContainer unexpectedly unmounted'
-    );
-  }
-
   componentWillReceiveProps(nextProps) {
     const { loaded, enableCrashReporting, sentryDSN } = nextProps;
 
     if(loaded && enableCrashReporting) {
       this.configureErrorReporting(sentryDSN);
-    }
-
-    // This defensive statement can be readily removed
-    if(this.props.loaded && !loaded) {
-      Sentry.captureMessage(
-        'RootContainer unexpectedly became unloaded after being loaded',
-        {extra: {loaded}}
-      );
     }
   }
 

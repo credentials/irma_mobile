@@ -51,12 +51,6 @@ export default class RootNavigatorContainer extends Component {
 
   componentWillUnmount() {
     Linking.removeEventListener('url', this.urlListener);
-
-    // This defensive statement can be readily removed
-    Sentry.captureMessage(
-      'RootNavigationContainer unexpectedly unmounted',
-      {extra: {currentRoute: this.state.currentRoute}}
-    );
   }
 
   urlListener(event) {
