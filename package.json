@@ -30,7 +30,7 @@
     "react-native-hyperlink": "^0.0.11",
     "react-native-i18n": "^2.0.10",
     "react-native-qrcode-scanner": "^0.0.30",
-    "react-native-sentry": "https://github.com/confiks/react-native-sentry#c3302ab",
+    "react-native-sentry": "^0.33.0",
     "react-navigation": "1.0.0-beta.25",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
