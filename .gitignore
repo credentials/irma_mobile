@@ -4,9 +4,10 @@
 .idea/
 .vscode/
 
-# Node / NPM
+# Node / NPM / go dep
 node_modules/
 npm-debug.*
+vendor/
 
 # XCode
 ios/build
