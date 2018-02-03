@@ -9,7 +9,7 @@ const fullCandidateAttribute = (candidateAttribute, irmaConfiguration, credentia
   const SchemeManager = schemeManagers[schemeManagerId];
   const Issuer = issuers[`${schemeManagerId}.${issuerId}`];
   const CredentialType = credentialTypes[fullCredentialTypeId];
-  const Credential = _.find(credentials, c => c.CredentialTypeID == fullCredentialTypeId);
+  const Credential = _.find(credentials, c => c.Hash == candidateAttribute.Hash);
 
   const attributeIndex = _.findIndex(CredentialType.Attributes, a => a.ID == attributeId);
 
