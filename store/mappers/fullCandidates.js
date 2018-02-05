@@ -12,7 +12,7 @@ const fullCandidateAttribute = (candidateAttribute, irmaConfiguration, credentia
 
   // Find the credential in which the candidate attribute is contained,
   // plus the attribute type and value at the correct index
-  const Credential = _.find(credentials, c => c.Hash == candidateAttribute.Hash);
+  const Credential = _.find(credentials, c => c.Hash == candidateAttribute.CredentialHash);
 
   const attributeIndex = _.findIndex(CredentialType.Attributes, a => a.ID == attributeId);
   const attributeType = CredentialType.Attributes[attributeIndex];

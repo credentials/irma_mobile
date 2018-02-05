@@ -34,7 +34,7 @@
   version = "1.0.0"
 
 [[constraint]]
-  revision = "3ca0691fe623a450547efd63810c7717494e05df"
+  revision = "master"
   name = "github.com/privacybydesign/irmago"
 
 [prune]

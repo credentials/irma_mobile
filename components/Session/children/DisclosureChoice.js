@@ -32,15 +32,15 @@ export default class DisclosureChoice extends Component {
       makeDisclosureChoice,
     } = this.props;
 
-    const press = () => makeDisclosureChoice(disclosureIndex, candidate.Type, candidate.Hash);
-    const isSelected = choice.Type === candidate.Type && choice.Hash === candidate.Hash;
+    const press = () => makeDisclosureChoice(disclosureIndex, candidate.Type, candidate.CredentialHash);
+    const isSelected = choice.Type === candidate.Type && choice.CredentialHash === candidate.CredentialHash;
 
     if(hideUnchosen && !isSelected)
       return null;
 
     return (
       <ListItem
-        key={`${candidate.Type}-${candidate.Hash}`}
+        key={`${candidate.Type}-${candidate.CredentialHash}`}
         onPress={press}
       >
         <Body>
