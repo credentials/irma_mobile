@@ -99,14 +99,14 @@ export default class SessionContainer extends Component {
     );
   }
 
-  makeDisclosureChoice(disclosureIndex, Type, Hash) {
+  makeDisclosureChoice(disclosureIndex, Type, CredentialHash) {
     const { dispatch, session } = this.props;
 
     dispatch({
       type: 'Session.MakeDisclosureChoice',
       sessionId: session.id,
       disclosureIndex,
-      choice: {Type, Hash},
+      choice: {Type, CredentialHash},
     });
   }
 
@@ -173,7 +173,7 @@ export default class SessionContainer extends Component {
   render() {
     const { irmaConfiguration, session } = this.props;
     const { forceValidation, showDisclosureStep } = this.state;
-    
+
     // Introduce a pseudo-status for when we're disclosing in issuance or signing
     let status = this.props.session.status;
     if(status === 'requestPermission' && showDisclosureStep)
