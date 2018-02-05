@@ -44,14 +44,13 @@
   version = "v0.8.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
     "internal/fs",
     "irmaclient"
   ]
-  revision = "e4d9760664d83418ae29f0d608c987d4d129b380"
+  revision = "master"
 
 [[projects]]
   branch = "master"
