@@ -98,7 +98,7 @@ android {
         applicationId "org.irmacard.cardemu"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 25
+        versionCode 26
         versionName "5.0.5"
         ndk {
             abiFilters "armeabi-v7a", "x86"
