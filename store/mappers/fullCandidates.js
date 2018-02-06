@@ -17,6 +17,7 @@ const fullCandidateAttribute = (candidateAttribute, irmaConfiguration, credentia
   const attributeIndex = _.findIndex(CredentialType.Attributes, a => a.ID == attributeId);
   const attributeType = CredentialType.Attributes[attributeIndex];
   const Value = Credential.Attributes[attributeIndex];
+  const Logo = Credential.Logo;
 
   return {
     ...candidateAttribute,
@@ -26,6 +27,7 @@ const fullCandidateAttribute = (candidateAttribute, irmaConfiguration, credentia
     SchemeManager,
     Issuer,
     CredentialType,
+    Logo,
   };
 };
 

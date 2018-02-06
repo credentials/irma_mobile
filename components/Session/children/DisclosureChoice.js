@@ -3,15 +3,18 @@ import PropTypes from 'prop-types';
 import Card from 'lib/UnwrappedCard';
 import {
   CardItem,
+  Left,
   ListItem,
   Text,
   Body,
   Right,
   Radio,
+  Thumbnail,
 } from 'native-base';
 
 // TODO: Integrate into I18n
 const lang = 'en';
+import irmaLogo from 'assets/irmaLogo.png';
 
 export default class DisclosureChoice extends Component {
 
@@ -22,6 +25,14 @@ export default class DisclosureChoice extends Component {
     disclosureIndex: PropTypes.number.isRequired,
     hideUnchosen: PropTypes.bool,
     makeDisclosureChoice: PropTypes.func.isRequired,
+  }
+
+  renderThumbnail(candidate) {
+    const source = candidate.Logo !== '' ? {uri: 'file://' + candidate.Logo} : irmaLogo;
+
+    return (
+      <Thumbnail square small source={source} resizeMode="contain" />
+    );
   }
 
   renderCandidate(candidate) {
@@ -43,14 +54,17 @@ export default class DisclosureChoice extends Component {
         key={`${candidate.Type}-${candidate.CredentialHash}`}
         onPress={press}
       >
-        <Body>
-          <Text>
-            { candidate.Issuer.ShortName[lang] } - { candidate.Name[lang] }
-          </Text>
-          <Text note>
-            { candidate.Value[lang] }
-          </Text>
-        </Body>
+        <Left>
+          { this.renderThumbnail(candidate) }
+          <Body>
+            <Text>
+              { candidate.Value[lang] }
+            </Text>
+            <Text note>
+              { candidate.Name[lang] }
+            </Text>
+          </Body>
+        </Left>
         <Right>
           <Radio selected={isSelected} />
         </Right>
