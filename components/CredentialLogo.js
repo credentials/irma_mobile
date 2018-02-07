@@ -1,26 +1,38 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import {
   Thumbnail,
 } from 'native-base';
 
-import irmaLogo from 'assets/irmaLogo.png';
+const mapStateToProps = (state) => {
+  const {
+    irmaConfiguration: {
+      path: configurationPath,
+    }
+  } = state;
 
+  return {
+    configurationPath,
+  };
+};
+
+@connect(mapStateToProps)
 export default class CredentialLogo extends Component {
 
   static propTypes = {
-    // : PropTypes.string,
+    configurationPath : PropTypes.string,
+    credentialType: PropTypes.object,
   }
 
   render() {
-    // TODO: FIXME
+    const { configurationPath, credentialType } = this.props;
+    const { SchemeManagerID, IssuerID, ID } = credentialType;
 
-    // const {  } = this.props;
-    // const source =  !== '' ?
-    //   {uri: 'file://' + } : irmaLogo;
-
-    const source = irmaLogo;
+    const source = {
+      uri: `file://${configurationPath}/${SchemeManagerID}/${IssuerID}/Issues/${ID}/logo.png`,
+    };
 
     return (
       <Thumbnail

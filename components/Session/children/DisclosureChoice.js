@@ -48,7 +48,7 @@ export default class DisclosureChoice extends Component {
         onPress={press}
       >
         <Left>
-          <CredentialLogo />
+          <CredentialLogo credentialType={candidate.CredentialType} />
           <Body>
             <Text style={{fontWeight: 'normal'}}>
               { candidate.Value[lang] }

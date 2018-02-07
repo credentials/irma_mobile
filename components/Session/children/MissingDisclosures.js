@@ -27,7 +27,7 @@ export default class MissingDisclosures extends Component {
     return (
       <CardItem key={attribute.Type}>
         <Left>
-          <CredentialLogo />
+          <CredentialLogo credentialType={attribute.CredentialType} />
           <Body>
             <Text>{ attribute.Name[lang] }{ requiredValue }</Text>
             <Text note>From credential: { attribute.CredentialType.Name[lang] }</Text>

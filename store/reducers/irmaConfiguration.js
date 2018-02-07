@@ -19,6 +19,7 @@ export default function irmaConfiguration(state = initialState, action) {
         credentialTypes: irmaConfig.CredentialTypes,
         issuers: irmaConfig.Issuers,
         schemeManagers: irmaConfig.SchemeManagers,
+        path: irmaConfig.Path,
         sentryDSN: action.sentryDSN,
       };
     }

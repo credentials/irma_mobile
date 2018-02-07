@@ -89,7 +89,7 @@ export default class CredentialCard extends Component {
           <View>
             <CardItem>
               <Left>
-                <CredentialLogo />
+                <CredentialLogo credentialType={credential.Type} />
                 <Body>
                   <Text>{ credential.Type.Name[lang] }</Text>
                   <Text note>Expires on { moment.unix(credential.Expires).format('D MMM YYYY') }</Text>
