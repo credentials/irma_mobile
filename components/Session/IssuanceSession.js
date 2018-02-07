@@ -77,17 +77,11 @@ export default class IssuanceSession extends Component {
       }
 
       case 'requestDisclosurePermission': {
-        const attributeAmount = t('common.attributes', { count: toDisclose.length });
-        const maxCandidates = _.max(disclosureCandidates, cs => cs.length);
-
         explanation = (
           <View>
             <Text>
-              { t('.requestDisclosurePermission', {issuerName, attributeAmount}) }
+              { t('.requestDisclosurePermission', {issuerName}) }
             </Text>
-            { maxCandidates === 1 ? null :
-                <Text>{'\n'}{ t('Session.DisclosureSession.disclosureChoice') }</Text>
-            }
           </View>
         );
 

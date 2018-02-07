@@ -58,18 +58,12 @@ export default class DisclosureSession extends Component {
     let explanation;
     switch(status) {
       case 'requestPermission': {
-        const attributeAmount = t('common.attributes', { count: toDisclose.length });
-        const maxCandidates = _.max(disclosureCandidates, cs => cs.length);
-
         explanation = (
           <View>
             <Text>
               <Text style={{fontWeight: 'bold'}}>{ verifierName }</Text>&nbsp;
-              { t('.requestPermissionExplanation', {attributeAmount}) }
+              { t('.requestPermissionExplanation') }
             </Text>
-            { maxCandidates === 1 ? null :
-                <Text>{'\n'}{ t('.disclosureChoice') }</Text>
-            }
           </View>
         );
 

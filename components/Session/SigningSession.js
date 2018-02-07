@@ -64,19 +64,14 @@ export default class SigningSession extends Component {
     let explanation;
     switch(status) {
       case 'requestPermission': {
-        const attributeAmount = t('common.attributes', { count: toDisclose.length });
-        const maxCandidates = _.max(disclosureCandidates, cs => cs.length);
-
         explanation = (
           <View>
             <Text>
               <Text style={{fontWeight: 'bold'}}>{ requesterName }</Text>&nbsp;
-              { t('.requestPermission.beforeExplanation', {attributeAmount}) }
+              { t('.requestPermission.beforeExplanation') }
             </Text>
             { messageText }
-            { maxCandidates === 1 ? null :
-                <Text>{'\n'}{ t('Session.DisclosureSession.disclosureChoice') }</Text>
-            }
+            <Text>{'\n'}{ t('.requestPermission.afterExplanation') }</Text>
           </View>
         );
 
