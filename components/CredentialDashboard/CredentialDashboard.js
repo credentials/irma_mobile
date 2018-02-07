@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { namespacedTranslation } from 'lib/i18n';
 import PaddedContent from 'lib/PaddedContent';
 import CredentialCard from 'components/CredentialCard';
-import Card from 'lib/UnwrappedCard';
 
 import {
   Button,
@@ -24,13 +23,19 @@ export default class CredentialDashboard extends Component {
     credentials: PropTypes.array.isRequired,
     navigateToDetail: PropTypes.func.isRequired,
     navigateToQRScanner: PropTypes.func.isRequired,
+    deleteCredential: PropTypes.func.isRequired,
   }
 
   renderCredentials() {
-    const { credentials } = this.props;
+    const { credentials, deleteCredential } = this.props;
 
     return credentials.map( credential =>
-      <CredentialCard key={credential.Hash} credential={credential} collapsable={true} />
+      <CredentialCard
+        key={credential.Hash}
+        credential={credential}
+        collapsable={true}
+        deleteCredential={deleteCredential}
+      />
     );
   }
 

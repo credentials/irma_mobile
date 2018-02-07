@@ -10,13 +10,13 @@ import {
   Left,
   Right,
   Text,
+  View,
 } from 'native-base';
 
 import Card from 'lib/UnwrappedCard';
 import CredentialLogo from 'components/CredentialLogo';
 
-// TODO: Move to I18n
-const lang = 'en';
+const lang = 'en'; // TODO: Move to I18n
 
 export default class CredentialCard extends Component {
 
@@ -24,6 +24,7 @@ export default class CredentialCard extends Component {
     credential: PropTypes.object.isRequired,
     collapsedInitially: PropTypes.bool,
     collapsable: PropTypes.bool,
+    deleteCredential: PropTypes.func,
   }
 
   static defaultProps = {
@@ -47,28 +48,36 @@ export default class CredentialCard extends Component {
   }
 
   render() {
-    const { credential, collapsable } = this.props;
+    const { credential, collapsable, deleteCredential } = this.props;
     const { collapsed } = this.state;
 
     return (
       <Card>
-        <TouchableWithoutFeedback onPress={() => this.setState({collapsed: !collapsed})}>
-          <CardItem>
-            <Left>
-              <CredentialLogo />
-              <Body>
-                <Text>{ credential.Type.Name[lang] }</Text>
-                <Text note>Expires on { moment.unix(credential.Expires).format('D MMM YYYY') }</Text>
-              </Body>
-              { !collapsable ? null :
-                  <Icon name={collapsed ? 'ios-arrow-forward' : 'ios-arrow-down'} />
-              }
-            </Left>
-          </CardItem>
+        <TouchableWithoutFeedback
+          onPress={() => this.setState({collapsed: !collapsed})}
+          onLongPress={() => {
+            if (deleteCredential !== undefined)
+            deleteCredential(credential);
+          }}
+        >
+          <View>
+            <CardItem>
+              <Left>
+                <CredentialLogo />
+                <Body>
+                  <Text>{ credential.Type.Name[lang] }</Text>
+                  <Text note>Expires on { moment.unix(credential.Expires).format('D MMM YYYY') }</Text>
+                </Body>
+                { !collapsable ? null :
+                    <Icon name={collapsed ? 'ios-arrow-forward' : 'ios-arrow-down'} />
+                }
+              </Left>
+            </CardItem>
+            { collapsable && collapsed ? null :
+                credential.Attributes.map(::this.renderAttribute)
+            }
+          </View>
         </TouchableWithoutFeedback>
-        { collapsable && collapsed ? null :
-            credential.Attributes.map(::this.renderAttribute)
-        }
       </Card>
     );
   }

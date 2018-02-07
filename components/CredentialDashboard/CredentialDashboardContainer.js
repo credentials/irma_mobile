@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 
+import { namespacedTranslation } from 'lib/i18n';
 import CredentialDashboard from './CredentialDashboard';
 import fullCredentials from 'store/mappers/fullCredentials';
 import Header from './children/Header';
+
+const lang = 'en';
+const t = namespacedTranslation('CredentialDashboard');
 
 const mapStateToProps = (state) => {
   const {
@@ -49,6 +54,23 @@ export default class CredentialDashboardContainer extends React.Component {
     this.props.navigation.navigate('CredentialDetail', {credential});
   }
 
+  deleteCredential(credential) {
+    const credentialName = credential.Type.Name[lang];
+
+    Alert.alert(
+      t('.deleteCredential.title', {credentialName}),
+      t('.deleteCredential.message', {credentialName}),
+      [
+        {text: t('.deleteCredential.cancel'), style: 'cancel'},
+        {text: t('.deleteCredential.ok'), onPress: () => this.props.dispatch({
+          type: 'IrmaBridge.RemoveCredential',
+          Hash: credential.Hash
+        })},
+      ],
+      { cancelable: true }
+    );
+  }
+
   render() {
     const { credentials } = this.props;
 
@@ -57,6 +79,7 @@ export default class CredentialDashboardContainer extends React.Component {
         credentials={credentials}
         navigateToQRScanner={::this.navigateToQRScanner}
         navigateToDetail={::this.navigateToDetail}
+        deleteCredential={::this.deleteCredential}
       />
     );
   }

@@ -52,6 +52,12 @@ func recoveredReceiveAction(actionJSONString string) {
 	case "RemoveAllAttributes":
 		err = actionHandler.RemoveAll()
 
+	case "RemoveCredential":
+		action := &RemoveCredentialAction{}
+		if err = json.Unmarshal(actionJSON, action); err == nil {
+			err = actionHandler.RemoveCredential(action)
+		}
+
 	case "DismissSession":
 		action := &DismissSessionAction{}
 		if err = json.Unmarshal(actionJSON, action); err == nil {
