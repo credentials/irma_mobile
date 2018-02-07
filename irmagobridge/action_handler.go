@@ -95,11 +95,11 @@ func (ah *ActionHandler) RemoveAll() (err error) {
 	return nil
 }
 
-type RemoveCredentialAction struct {
+type DeleteCredentialAction struct {
 	Hash string
 }
 
-func (ah *ActionHandler) RemoveCredential(action *RemoveCredentialAction) error {
+func (ah *ActionHandler) DeleteCredential(action *DeleteCredentialAction) error {
 	if err := client.RemoveCredentialByHash(action.Hash); err != nil {
 		return err
 	}
