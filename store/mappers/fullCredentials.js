@@ -1,12 +1,10 @@
 import _ from 'lodash';
 
 const fullAttributes = (attributes, attributeTypes) => {
-  return _.zip(attributes, attributeTypes).map( ([attribute, attributeType]) => {
-    return {
-      ...attribute,
-      Type: attributeType,
-    };
-  });
+  return _.zip(attributes, attributeTypes).map( ([attribute, attributeType]) => ({
+    ...attribute,
+    Type: attributeType,
+  }));
 };
 
 const fullCredential = (credential, { schemeManagers, credentialTypes, issuers }) => {
@@ -19,12 +17,16 @@ const fullCredential = (credential, { schemeManagers, credentialTypes, issuers }
 
   return {
     ...credential,
-    Attributes,
-    Type,
-    Issuer,
     SchemeManager,
+    Issuer,
+    Type,
+    Attributes,
   };
 };
 
+// The first argument `credentials` is of type []irma.CredentialInfo
+// Information of the scheme manager, issuer, credential and attribute type is merged in
 export default (credentials = [], irmaConfiguration) =>
-  credentials.map(credential => fullCredential(credential, irmaConfiguration));
+  credentials.map(credential =>
+    fullCredential(credential, irmaConfiguration)
+  );

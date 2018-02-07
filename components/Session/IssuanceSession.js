@@ -7,9 +7,10 @@ import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
 
 import DisclosureChoices from './children/DisclosureChoices';
 import Error from './children/Error';
+import Footer from './children/Footer';
 import Header from './children/Header';
 import IssuedCredentials from './children/IssuedCredentials';
-import Footer from './children/Footer';
+import MissingDisclosures from './children/MissingDisclosures';
 import PinEntry from './children/PinEntry';
 import StatusCard from './children/StatusCard';
 
@@ -41,7 +42,7 @@ export default class IssuanceSession extends Component {
       session: {
         disclosuresCandidates,
         issuedCredentials,
-        issuerName,
+        serverName,
         status,
         disclosures,
       }
@@ -57,6 +58,17 @@ export default class IssuanceSession extends Component {
 
     let explanation;
     switch(status) {
+      case 'unsatisfiableRequest':
+        explanation = (
+          <Text>
+            { t('.unsatisfiableRequestExplanation.before') }
+            &nbsp;<Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
+            { t('.unsatisfiableRequestExplanation.after') }
+          </Text>
+        );
+
+        break;
+
       case 'requestPermission': {
         const credentialCount = issuedCredentials.length;
         const attributeCount = issuedCredentials.reduce(
@@ -68,7 +80,7 @@ export default class IssuanceSession extends Component {
 
         explanation = (
           <Text>
-            <Text style={{fontWeight: 'bold'}}>{ issuerName }</Text>&nbsp;
+            <Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
             { t('.requestPermissionExplanation', {credentialAmount, attributeAmount}) }
           </Text>
         );
@@ -83,7 +95,7 @@ export default class IssuanceSession extends Component {
         explanation = (
           <View>
             <Text>
-              { t('.requestDisclosurePermission', {issuerName, attributeAmount}) }
+              { t('.requestDisclosurePermission', {serverName, attributeAmount}) }
             </Text>
             { maxCandidates === 1 ? null :
                 <Text>{'\n'}{ t('Session.DisclosureSession.disclosureChoice') }</Text>
@@ -141,6 +153,7 @@ export default class IssuanceSession extends Component {
             forceValidation={forceValidation}
             pinChange={pinChange}
           />
+          <MissingDisclosures session={session} />
           <IssuedCredentials session={session} />
           { this.renderDisclosures() }
         </PaddedContent>

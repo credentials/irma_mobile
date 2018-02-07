@@ -8,8 +8,9 @@ import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
 
 import DisclosureChoices from './children/DisclosureChoices';
 import Error from './children/Error';
-import Header from './children/Header';
 import Footer from './children/Footer';
+import Header from './children/Header';
+import MissingDisclosures from './children/MissingDisclosures';
 import PinEntry from './children/PinEntry';
 import StatusCard from './children/StatusCard';
 
@@ -43,7 +44,7 @@ export default class DisclosureSession extends Component {
         disclosuresCandidates,
         status,
         disclosures,
-        verifierName,
+        serverName,
       }
     } = this.props;
 
@@ -57,6 +58,17 @@ export default class DisclosureSession extends Component {
 
     let explanation;
     switch(status) {
+      case 'unsatisfiableRequest':
+        explanation = (
+          <Text>
+            { t('.unsatisfiableRequestExplanation.before') }
+            &nbsp;<Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
+            { t('.unsatisfiableRequestExplanation.after') }
+          </Text>
+        );
+
+        break;
+
       case 'requestPermission': {
         const attributeAmount = t('common.attributes', { count: disclosures.length });
         const maxCandidates = _.max(disclosuresCandidates, cs => cs.length);
@@ -64,7 +76,7 @@ export default class DisclosureSession extends Component {
         explanation = (
           <View>
             <Text>
-              <Text style={{fontWeight: 'bold'}}>{ verifierName }</Text>&nbsp;
+              <Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
               { t('.requestPermissionExplanation', {attributeAmount}) }
             </Text>
             { maxCandidates === 1 ? null :
@@ -130,6 +142,7 @@ export default class DisclosureSession extends Component {
             forceValidation={forceValidation}
             pinChange={pinChange}
           />
+          <MissingDisclosures session={session} />
           { this.renderDisclosures() }
         </PaddedContent>
         <Footer

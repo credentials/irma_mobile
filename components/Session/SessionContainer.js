@@ -8,6 +8,7 @@ import SigningSession from './SigningSession';
 
 import fullCredentials from 'store/mappers/fullCredentials';
 import fullDisclosuresCandidates from 'store/mappers/fullDisclosuresCandidates';
+import fullMissingDisclosures from 'store/mappers/fullMissingDisclosures';
 
 import {
   Container,
@@ -37,6 +38,7 @@ const mapStateToProps = (state, props) => {
     ...bareSession,
     issuedCredentials: fullCredentials(bareSession.issuedCredentials, irmaConfiguration),
     disclosuresCandidates: fullDisclosuresCandidates(bareSession.disclosuresCandidates, irmaConfiguration, credentials),
+    missingDisclosures: fullMissingDisclosures(bareSession.missingDisclosures, irmaConfiguration),
   };
 
   return {

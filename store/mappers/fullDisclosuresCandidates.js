@@ -1,37 +1,41 @@
 import _ from 'lodash';
+import attributeInfo from './attributeInfo';
 
-const fullCandidateAttribute = (candidateAttribute, irmaConfiguration, credentials) => {
-  const { schemeManagers, issuers, credentialTypes } = irmaConfiguration;
-
-  // Split the candidate attribute type into parts, and get info out of irmaConfiguration
-  const [schemeManagerId, issuerId, credentialId, attributeId] = candidateAttribute.Type.split('.');
-
-  const SchemeManager = schemeManagers[schemeManagerId];
-  const Issuer = issuers[`${schemeManagerId}.${issuerId}`];
-  const CredentialType = credentialTypes[`${schemeManagerId}.${issuerId}.${credentialId}`];
-
-  // Find the credential in which the candidate attribute is contained,
-  // plus the attribute type and value at the correct index
-  const Credential = _.find(credentials, c => c.Hash == candidateAttribute.CredentialHash);
-
-  const attributeIndex = _.findIndex(CredentialType.Attributes, a => a.ID == attributeId);
-  const attributeType = CredentialType.Attributes[attributeIndex];
-  const Value = Credential.Attributes[attributeIndex];
-
-  return {
-    ...candidateAttribute,
-    ...attributeType,
-    Value,
-
+const fullCandidateAttribute = (disclosureCandidate, irmaConfiguration, credentials) => {
+  const {
     SchemeManager,
     Issuer,
     CredentialType,
+    AttributeType,
+    attributeIndex
+  } = attributeInfo(disclosureCandidate.Type, irmaConfiguration);
+
+  // Find the credential in which the candidate attribute is contained,
+  // plus the attribute type and value at the correct index
+  const Credential = _.find(credentials, credential =>
+    credential.Hash == disclosureCandidate.CredentialHash
+  );
+
+  const Value = Credential.Attributes[attributeIndex];
+
+  return {
+    SchemeManager,
+    Issuer,
+    CredentialType,
+
+    Type: disclosureCandidate.Type,
+    CredentialHash: disclosureCandidate.CredentialHash,
+    ...AttributeType,
+
+    Value,
   };
 };
 
-export default (candidates = [], irmaConfiguration, credentials) =>
-  candidates.map( candidateAttributes =>
-    candidateAttributes.map( candidateAttribute =>
-      fullCandidateAttribute(candidateAttribute, irmaConfiguration, credentials)
+// The first argument `disclosuresCandidates` is of type [][]irma.AttributeIdentifier.
+// A disclosureCandidate contains a Type and a CredentialHash
+export default (disclosuresCandidates = [], irmaConfiguration, credentials) =>
+  disclosuresCandidates.map(disclosureCandidates =>
+    disclosureCandidates.map(disclosureCandidate =>
+      fullCandidateAttribute(disclosureCandidate, irmaConfiguration, credentials)
     )
   );

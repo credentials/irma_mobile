@@ -117,6 +117,7 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           ...state[sessionId],
           status: 'unsatisfiableRequest',
+          serverName: action.serverName,
           missingDisclosures: action.missingDisclosures,
         }
       };
@@ -128,7 +129,7 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           ...state[sessionId],
           status: 'requestPermission',
-          issuerName: action.issuerName,
+          serverName: action.serverName,
           issuedCredentials: action.issuedCredentials,
           disclosures: action.disclosures,
           disclosuresCandidates: action.disclosuresCandidates,
@@ -144,7 +145,7 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           ...state[sessionId],
           status: 'requestPermission',
-          verifierName: action.verifierName,
+          serverName: action.serverName,
           disclosures: action.disclosures,
           disclosuresCandidates: action.disclosuresCandidates,
 
@@ -159,7 +160,7 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           ...state[sessionId],
           status: 'requestPermission',
-          requesterName: action.requesterName,
+          serverName: action.serverName,
           disclosures: action.disclosures,
           disclosuresCandidates: action.disclosuresCandidates,
           message: action.message,
