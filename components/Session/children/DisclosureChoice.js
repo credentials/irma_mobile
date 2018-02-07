@@ -12,9 +12,10 @@ import {
   Thumbnail,
 } from 'native-base';
 
+import CredentialLogo from 'components/CredentialLogo';
+
 // TODO: Integrate into I18n
 const lang = 'en';
-import irmaLogo from 'assets/irmaLogo.png';
 
 export default class DisclosureChoice extends Component {
 
@@ -25,14 +26,6 @@ export default class DisclosureChoice extends Component {
     disclosureIndex: PropTypes.number.isRequired,
     hideUnchosen: PropTypes.bool,
     makeDisclosureChoice: PropTypes.func.isRequired,
-  }
-
-  renderThumbnail(candidate) {
-    const source = candidate.Logo !== '' ? {uri: 'file://' + candidate.Logo} : irmaLogo;
-
-    return (
-      <Thumbnail square small source={source} resizeMode="contain" />
-    );
   }
 
   renderCandidate(candidate) {
@@ -55,7 +48,7 @@ export default class DisclosureChoice extends Component {
         onPress={press}
       >
         <Left>
-          { this.renderThumbnail(candidate) }
+          <CredentialLogo />
           <Body>
             <Text style={{fontWeight: 'normal'}}>
               { candidate.Value[lang] }

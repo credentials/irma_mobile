@@ -39,12 +39,10 @@ export default class IssuanceSession extends Component {
       navigateToEnrollment,
       session,
       session: {
-        disclosureCandidates,
         issuedCredentials,
         issuerName,
         status,
-        toDisclose,
-      }
+      },
     } = this.props;
 
     let heading;

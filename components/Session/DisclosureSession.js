@@ -40,9 +40,7 @@ export default class DisclosureSession extends Component {
       navigateToEnrollment,
       session,
       session: {
-        disclosureCandidates,
         status,
-        toDisclose,
         verifierName,
       }
     } = this.props;

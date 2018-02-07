@@ -118,7 +118,7 @@ android {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
-            universalApk true  // If true, also generate a universal APK
+            universalApk true
             include "armeabi-v7a", "x86"
         }
     }

@@ -39,12 +39,10 @@ export default class SigningSession extends Component {
       navigateToEnrollment,
       session,
       session: {
-        disclosureCandidates,
         message,
         requesterName,
         status,
-        toDisclose,
-      }
+      },
     } = this.props;
 
     let heading;

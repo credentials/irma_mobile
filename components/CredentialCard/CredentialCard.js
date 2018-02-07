@@ -10,16 +10,13 @@ import {
   Left,
   Right,
   Text,
-  Thumbnail,
 } from 'native-base';
 
 import Card from 'lib/UnwrappedCard';
-import { namespacedTranslation } from 'lib/i18n';
+import CredentialLogo from 'components/CredentialLogo';
 
-import irmaLogo from 'assets/irmaLogo.png';
-const lang = 'en'; // TODO: Move to I18n
-
-const t = namespacedTranslation('CredentialCard');
+// TODO: Move to I18n
+const lang = 'en';
 
 export default class CredentialCard extends Component {
 
@@ -49,17 +46,6 @@ export default class CredentialCard extends Component {
     );
   }
 
-  renderThumbnail() {
-    const { credential } = this.props;
-
-    const source = credential.Logo !== '' ?
-      {uri: 'file://' + credential.Logo} : irmaLogo;
-
-    return (
-      <Thumbnail square small source={source} resizeMode="contain" />
-    );
-  }
-
   render() {
     const { credential, collapsable } = this.props;
     const { collapsed } = this.state;
@@ -69,7 +55,7 @@ export default class CredentialCard extends Component {
         <TouchableWithoutFeedback onPress={() => this.setState({collapsed: !collapsed})}>
           <CardItem>
             <Left>
-              { this.renderThumbnail() }
+              <CredentialLogo />
               <Body>
                 <Text>{ credential.Type.Name[lang] }</Text>
                 <Text note>Expires on { moment.unix(credential.Expires).format('D MMM YYYY') }</Text>
