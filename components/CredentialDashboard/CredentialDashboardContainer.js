@@ -49,6 +49,13 @@ export default class CredentialDashboardContainer extends React.Component {
     this.props.navigation.navigate('CredentialDetail', {credential});
   }
 
+  deleteCredential(credential) {
+    this.props.dispatch({
+      type: 'IrmaBridge.DeleteCredential',
+      Hash: credential.Hash
+    });
+  }
+
   render() {
     const { credentials } = this.props;
 
@@ -57,6 +64,7 @@ export default class CredentialDashboardContainer extends React.Component {
         credentials={credentials}
         navigateToQRScanner={::this.navigateToQRScanner}
         navigateToDetail={::this.navigateToDetail}
+        deleteCredential={::this.deleteCredential}
       />
     );
   }

@@ -95,6 +95,18 @@ func (ah *ActionHandler) RemoveAll() (err error) {
 	return nil
 }
 
+type DeleteCredentialAction struct {
+	Hash string
+}
+
+func (ah *ActionHandler) DeleteCredential(action *DeleteCredentialAction) error {
+	if err := client.RemoveCredentialByHash(action.Hash); err != nil {
+		return err
+	}
+	sendCredentials()
+	return nil
+}
+
 // Dismiss the current session
 type DismissSessionAction struct {
 	SessionID int

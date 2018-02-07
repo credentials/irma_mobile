@@ -98,8 +98,8 @@ android {
         applicationId "org.irmacard.cardemu"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 24
-        versionName "5.0.4"
+        versionCode 26
+        versionName "5.0.5"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -118,7 +118,7 @@ android {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
+            universalApk true
             include "armeabi-v7a", "x86"
         }
     }

@@ -41,9 +41,7 @@ export default class DisclosureSession extends Component {
       navigateToEnrollment,
       session,
       session: {
-        disclosuresCandidates,
         status,
-        disclosures,
         serverName,
       }
     } = this.props;
@@ -70,18 +68,12 @@ export default class DisclosureSession extends Component {
         break;
 
       case 'requestPermission': {
-        const attributeAmount = t('common.attributes', { count: disclosures.length });
-        const maxCandidates = _.max(disclosuresCandidates, cs => cs.length);
-
         explanation = (
           <View>
             <Text>
               <Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
-              { t('.requestPermissionExplanation', {attributeAmount}) }
+              { t('.requestPermissionExplanation') }
             </Text>
-            { maxCandidates === 1 ? null :
-                <Text>{'\n'}{ t('.disclosureChoice') }</Text>
-            }
           </View>
         );
 

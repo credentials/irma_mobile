@@ -27,15 +27,16 @@ public class IrmaBridge extends ReactContextBaseJavaModule implements irmagobrid
     public void start() {
         ReactApplicationContext context = getReactApplicationContext();
         File assets = new File(context.getFilesDir().getPath() + "/assets");
-        if (assets.mkdir()) { // assets folder was successfully created
+        if (assets.mkdir() || assets.isDirectory()) { // assets folder was successfully created or already exists
             try {
+                System.out.println("Copying assets");
                 AssetsCopier.copyRecursively(context, "assets", "irma_configuration");
+                System.out.println("Done copying assets");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        } else { // either the assets folder already existed, or it could not be created
-            if (!assets.isDirectory())
-                throw new RuntimeException("Could not create assets dir");
+        } else { // the assets folder could not be created
+            throw new RuntimeException("Could not create assets dir");
         }
 
         try {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import { namespacedTranslation } from 'lib/i18n';
 import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
@@ -40,12 +39,10 @@ export default class IssuanceSession extends Component {
       navigateToEnrollment,
       session,
       session: {
-        disclosuresCandidates,
         issuedCredentials,
         serverName,
         status,
-        disclosures,
-      }
+      },
     } = this.props;
 
     let heading;
@@ -89,17 +86,11 @@ export default class IssuanceSession extends Component {
       }
 
       case 'requestDisclosurePermission': {
-        const attributeAmount = t('common.attributes', { count: disclosures.length });
-        const maxCandidates = _.max(disclosuresCandidates, cs => cs.length);
-
         explanation = (
           <View>
             <Text>
-              { t('.requestDisclosurePermission', {serverName, attributeAmount}) }
+              { t('.requestDisclosurePermission', {serverName}) }
             </Text>
-            { maxCandidates === 1 ? null :
-                <Text>{'\n'}{ t('Session.DisclosureSession.disclosureChoice') }</Text>
-            }
           </View>
         );
 

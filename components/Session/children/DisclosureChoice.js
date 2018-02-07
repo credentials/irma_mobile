@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 import Card from 'lib/UnwrappedCard';
 import {
   CardItem,
+  Left,
   ListItem,
   Text,
   Body,
   Right,
   Radio,
+  Thumbnail,
 } from 'native-base';
+
+import CredentialLogo from 'components/CredentialLogo';
 
 // TODO: Integrate into I18n
 const lang = 'en';
@@ -43,14 +47,17 @@ export default class DisclosureChoice extends Component {
         key={`${candidate.Type}-${candidate.CredentialHash}`}
         onPress={press}
       >
-        <Body>
-          <Text>
-            { candidate.Issuer.ShortName[lang] } - { candidate.Name[lang] }
-          </Text>
-          <Text note>
-            { candidate.Value[lang] }
-          </Text>
-        </Body>
+        <Left>
+          <CredentialLogo />
+          <Body>
+            <Text style={{fontWeight: 'normal'}}>
+              { candidate.Value[lang] }
+            </Text>
+            <Text note>
+              { candidate.Name[lang] }
+            </Text>
+          </Body>
+        </Left>
         <Right>
           <Radio selected={isSelected} />
         </Right>

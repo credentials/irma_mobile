@@ -15,7 +15,7 @@ export default class CredentialLogo extends Component {
 
   render() {
     // TODO: FIXME
-    
+
     // const {  } = this.props;
     // const source =  !== '' ?
     //   {uri: 'file://' + } : irmaLogo;
