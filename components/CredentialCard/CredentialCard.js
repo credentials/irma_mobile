@@ -39,12 +39,11 @@ export default class CredentialCard extends Component {
   }
 
   renderAttribute(attribute) {
-    const textStyle = attribute.IsIssuerName ? {fontStyle: 'italic'} : null;
     return (
       <CardItem key={attribute.Type.ID}>
-        <Text style={textStyle}>{ attribute.Type.Name[lang] }</Text>
+        <Text>{ attribute.Type.Name[lang] }</Text>
         <Right style={{flex: 1}}>
-          <Text note style={textStyle}>{ attribute[lang] }</Text>
+          <Text note>{ attribute[lang] }</Text>
         </Right>
       </CardItem>
     );
@@ -83,18 +82,6 @@ export default class CredentialCard extends Component {
         </TouchableWithoutFeedback>
         { collapsable && collapsed ? null :
             credential.Attributes.map(::this.renderAttribute)
-        }
-        { collapsable && collapsed ? null :
-            this.renderAttribute({
-              IsIssuerName: true,
-              Type: {
-                ID: '_issuedBy',
-                Name: {
-                  [lang]: t('.issuedBy'),
-                },
-              },
-              ...credential.Issuer.Name
-            })
         }
       </Card>
     );
