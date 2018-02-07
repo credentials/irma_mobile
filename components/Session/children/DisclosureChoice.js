@@ -57,7 +57,7 @@ export default class DisclosureChoice extends Component {
         <Left>
           { this.renderThumbnail(candidate) }
           <Body>
-            <Text>
+            <Text style={{fontWeight: 'normal'}}>
               { candidate.Value[lang] }
             </Text>
             <Text note>
