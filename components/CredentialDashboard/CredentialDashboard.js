@@ -21,11 +21,11 @@ export default class CredentialDashboard extends Component {
 
   static propTypes = {
     credentials: PropTypes.array.isRequired,
-    navigateToDetail: PropTypes.func.isRequired,
-    navigateToQRScanner: PropTypes.func.isRequired,
     deleteCredential: PropTypes.func.isRequired,
     enrolled: PropTypes.bool.isRequired,
-    enroll: PropTypes.func.isRequired,
+    navigateToDetail: PropTypes.func.isRequired,
+    navigateToEnrollment: PropTypes.func.isRequired,
+    navigateToQRScanner: PropTypes.func.isRequired,
   }
 
   renderCredentials() {
@@ -41,21 +41,27 @@ export default class CredentialDashboard extends Component {
     );
   }
 
-  renderEmptyBackgroundText() {
-    const { credentials, enrolled, enroll } = this.props;
-    if(credentials.length !== 0)
-      return null;
+  renderEnrollButton() {
+    const { navigateToEnrollment } = this.props;
 
-    const status = enrolled ? 'unenrolled' : 'noAttributes';
+    const buttonStyle = {alignSelf: 'center', borderRadius: 0, paddingHorizontal: 10};
 
-    const button = enrolled ? (
+    return (
       <View style={{paddingTop: 60}}>
-        <Button iconLeft light onPress={enroll} style={{alignSelf: 'center', borderRadius: 0, paddingHorizontal: 10}}>
+        <Button iconLeft light onPress={navigateToEnrollment} style={buttonStyle}>
           <Icon name="key" style={{color: 'white'}} />
           <Text style={{color: 'white'}}>{ t(`.${status}.button`) }</Text>
         </Button>
       </View>
-    ) : null;
+    );
+  }
+
+  renderNoCredentialsHint() {
+    const { credentials, enrolled } = this.props;
+    if(credentials.length !== 0)
+      return null;
+
+    const status = enrolled ? 'unenrolled' : 'noAttributes';
 
     return (
       <View key="title" style={{alignItems: 'center'}}>
@@ -66,7 +72,7 @@ export default class CredentialDashboard extends Component {
           <Text style={{paddingTop: 30, textAlign: 'justify', color: '#888888'}}>
             { t(`.${status}.text`) }
           </Text>
-          {button}
+          { enrolled ? null : this.renderEnrollButton() }
         </View>
       </View>
     );
@@ -78,7 +84,7 @@ export default class CredentialDashboard extends Component {
     return (
       <Container>
         <PaddedContent>
-          { this.renderEmptyBackgroundText() }
+          { this.renderNoCredentialsHint() }
           { this.renderCredentials() }
         </PaddedContent>
         <Footer style={{height: 60, paddingTop: 7}}>

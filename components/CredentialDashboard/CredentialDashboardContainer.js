@@ -54,14 +54,7 @@ export default class CredentialDashboardContainer extends React.Component {
     this.props.navigation.navigate('CredentialDetail', {credential});
   }
 
-  deleteCredential(credential) {
-    this.props.dispatch({
-      type: 'IrmaBridge.DeleteCredential',
-      Hash: credential.Hash
-    });
-  }
-
-  enroll() {
+  navigateToEnrollment() {
     const schemeManagerId = this.props.unenrolledSchemeManagerIds[0];
 
     this.props.dispatch({
@@ -70,8 +63,16 @@ export default class CredentialDashboardContainer extends React.Component {
     });
 
     this.props.navigation.navigate(
-      'Enrollment', {schemeManagerId}
+      'Enrollment',
+      {schemeManagerId}
     );
+  }
+
+  deleteCredential(credential) {
+    this.props.dispatch({
+      type: 'IrmaBridge.DeleteCredential',
+      Hash: credential.Hash
+    });
   }
 
   render() {
@@ -81,11 +82,11 @@ export default class CredentialDashboardContainer extends React.Component {
     return (
       <CredentialDashboard
         credentials={credentials}
-        enrolled={enrolled}
-        enroll={::this.enroll}
-        navigateToQRScanner={::this.navigateToQRScanner}
-        navigateToDetail={::this.navigateToDetail}
         deleteCredential={::this.deleteCredential}
+        enrolled={enrolled}
+        navigateToDetail={::this.navigateToDetail}
+        navigateToEnrollment={::this.navigateToEnrollment}
+        navigateToQRScanner={::this.navigateToQRScanner}
       />
     );
   }
