@@ -55,9 +55,9 @@ export default class StatusCard extends Component {
           explanation = [
             <Text key="text">{ t('.explanation.missingKeyshareEnrollment') }</Text>,
             <Body key="button" style={{paddingTop: 30, paddingBottom: 20}}>
-              <Button light iconLeft onPress={navigateToEnrollment}>
-                <Icon name="key" />
-                <Text>{ t('.explanation.registerMyIrma') }</Text>
+              <Button light iconLeft onPress={navigateToEnrollment} style={{borderRadius: 0, paddingHorizontal: 10}}>
+                <Icon name="key" style={{color: 'white'}} />
+                <Text style={{color: 'white'}}>{ t('.explanation.registerMyIrma') }</Text>
               </Button>
             </Body>
           ];

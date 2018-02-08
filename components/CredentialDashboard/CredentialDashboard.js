@@ -24,6 +24,8 @@ export default class CredentialDashboard extends Component {
     navigateToDetail: PropTypes.func.isRequired,
     navigateToQRScanner: PropTypes.func.isRequired,
     deleteCredential: PropTypes.func.isRequired,
+    enrolled: PropTypes.bool.isRequired,
+    enroll: PropTypes.func.isRequired,
   }
 
   renderCredentials() {
@@ -39,20 +41,32 @@ export default class CredentialDashboard extends Component {
     );
   }
 
-  renderGetMoreCredentials() {
-    const { credentials } = this.props;
+  renderEmptyBackgroundText() {
+    const { credentials, enrolled, enroll } = this.props;
     if(credentials.length !== 0)
       return null;
+
+    const status = enrolled ? 'unenrolled' : 'noAttributes';
+
+    const button = enrolled ? (
+      <View style={{paddingTop: 60}}>
+        <Button iconLeft light onPress={enroll} style={{alignSelf: 'center', borderRadius: 0, paddingHorizontal: 10}}>
+          <Icon name="key" style={{color: 'white'}} />
+          <Text style={{color: 'white'}}>{ t(`.${status}.button`) }</Text>
+        </Button>
+      </View>
+    ) : null;
 
     return (
       <View key="title" style={{alignItems: 'center'}}>
         <H3 style={{paddingTop: 30, color: '#888888'}}>
-          { t('.noAttributes') }
+          { t(`.${status}.header`) }
         </H3>
         <View style={{paddingHorizontal: 20, alignItems: 'center'}}>
           <Text style={{paddingTop: 30, textAlign: 'justify', color: '#888888'}}>
-            { t('.justRegistered') }
+            { t(`.${status}.text`) }
           </Text>
+          {button}
         </View>
       </View>
     );
@@ -64,13 +78,13 @@ export default class CredentialDashboard extends Component {
     return (
       <Container>
         <PaddedContent>
-          { this.renderGetMoreCredentials() }
+          { this.renderEmptyBackgroundText() }
           { this.renderCredentials() }
         </PaddedContent>
         <Footer style={{height: 60, paddingTop: 7}}>
           <Button primary onPress={navigateToQRScanner}>
             <Icon ios="ios-qr-scanner" android="md-qr-scanner" />
-            <Text style={{color: 'white', paddingLeft: 10}}>Scan QR Code</Text>
+            <Text style={{color: 'white', paddingLeft: 10}}>{ t('.scanQRCode') }</Text>
           </Button>
         </Footer>
       </Container>

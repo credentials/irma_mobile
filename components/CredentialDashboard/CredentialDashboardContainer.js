@@ -13,10 +13,14 @@ const mapStateToProps = (state) => {
       credentials,
     },
     irmaConfiguration,
+    enrollment: {
+      unenrolledSchemeManagerIds,
+    }
   } = state;
 
   return {
     credentials: fullCredentials(credentials, irmaConfiguration),
+    unenrolledSchemeManagerIds,
   };
 };
 
@@ -27,6 +31,7 @@ export default class CredentialDashboardContainer extends React.Component {
     credentials: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
+    unenrolledSchemeManagerIds: PropTypes.array.isRequired,
   }
 
   static navigationOptions = {
@@ -56,12 +61,28 @@ export default class CredentialDashboardContainer extends React.Component {
     });
   }
 
+  enroll() {
+    const schemeManagerId = this.props.unenrolledSchemeManagerIds[0];
+
+    this.props.dispatch({
+      type: 'Enrollment.Start',
+      schemeManagerId,
+    });
+
+    this.props.navigation.navigate(
+      'Enrollment', {schemeManagerId}
+    );
+  }
+
   render() {
-    const { credentials } = this.props;
+    const { credentials, unenrolledSchemeManagerIds  } = this.props;
+    const enrolled = unenrolledSchemeManagerIds.length > 0;
 
     return (
       <CredentialDashboard
         credentials={credentials}
+        enrolled={enrolled}
+        enroll={::this.enroll}
         navigateToQRScanner={::this.navigateToQRScanner}
         navigateToDetail={::this.navigateToDetail}
         deleteCredential={::this.deleteCredential}
