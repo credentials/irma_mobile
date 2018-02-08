@@ -14,6 +14,7 @@
 int main(int argc, char * argv[]) {
   signal(SIGPIPE, SIG_IGN);
   @autoreleasepool {
+    signal(SIGPIPE, SIG_IGN);
     return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
   }
 }
