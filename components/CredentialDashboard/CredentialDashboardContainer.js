@@ -77,7 +77,7 @@ export default class CredentialDashboardContainer extends React.Component {
 
   render() {
     const { credentials, unenrolledSchemeManagerIds  } = this.props;
-    const enrolled = unenrolledSchemeManagerIds.length > 0;
+    const enrolled = unenrolledSchemeManagerIds.length == 0;
 
     return (
       <CredentialDashboard

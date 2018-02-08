@@ -50,7 +50,7 @@ export default class CredentialDashboard extends Component {
       <View style={{paddingTop: 60}}>
         <Button iconLeft light onPress={navigateToEnrollment} style={buttonStyle}>
           <Icon name="key" style={{color: 'white'}} />
-          <Text style={{color: 'white'}}>{ t(`.${status}.button`) }</Text>
+          <Text style={{color: 'white'}}>{ t('.unenrolled.button') }</Text>
         </Button>
       </View>
     );
@@ -61,7 +61,7 @@ export default class CredentialDashboard extends Component {
     if(credentials.length !== 0)
       return null;
 
-    const status = enrolled ? 'unenrolled' : 'noAttributes';
+    const status = enrolled ? 'noAttributes' : 'unenrolled';
 
     return (
       <View key="title" style={{alignItems: 'center'}}>
