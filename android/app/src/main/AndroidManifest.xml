@@ -13,7 +13,7 @@
 
     <application
       android:name="foundation.privacybydesign.irmamobile.MainApplication"
-      android:allowBackup="true"
+      android:allowBackup="false"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:theme="@style/AppTheme">
