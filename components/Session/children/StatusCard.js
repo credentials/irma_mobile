@@ -51,9 +51,9 @@ export default class StatusCard extends Component {
 
     if(!explanation) {
       switch(status) {
-        case 'missingKeyshareEnrollment': {
+        case 'keyshareEnrollmentMissing': {
           explanation = [
-            <Text key="text">{ t('.explanation.missingKeyshareEnrollment') }</Text>,
+            <Text key="text">{ t('.explanation.keyshareEnrollmentMissing') }</Text>,
             <Body key="button" style={{paddingTop: 30, paddingBottom: 20}}>
               <Button light iconLeft onPress={navigateToEnrollment} style={{borderRadius: 0, paddingHorizontal: 10}}>
                 <Icon name="key" style={{color: 'white'}} />

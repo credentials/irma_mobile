@@ -143,10 +143,10 @@ func (sh *SessionHandler) RequestSchemeManagerPermission(manager *irma.SchemeMan
 	callback(false)
 }
 
-func (sh *SessionHandler) MissingKeyshareEnrollment(manager irma.SchemeManagerIdentifier) {
-	logDebug("Handling MissingKeyshareEnrollment")
+func (sh *SessionHandler) KeyshareEnrollmentMissing(manager irma.SchemeManagerIdentifier) {
+	logDebug("Handling KeyshareEnrollmentMissing")
 	action := &OutgoingAction{
-		"type":            "IrmaSession.MissingKeyshareEnrollment",
+		"type":            "IrmaSession.KeyshareEnrollmentMissing",
 		"sessionId":       sh.sessionID,
 		"schemeManagerId": manager,
 	}
