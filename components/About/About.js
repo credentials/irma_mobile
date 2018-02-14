@@ -44,24 +44,24 @@ export default class About extends React.Component {
               </CardItem>
               <CardItem>
                 <H3 style={{textAlign: 'center'}}>
-                  {t('.header')}
+                  { t('.header') }
                 </H3>
               </CardItem>
               <CardItem>
                 <Text>
-                  {t('.about')}
+                  { t('.about') }
                 </Text>
               </CardItem>
               <CardItem>
                 <Text>
-                  <Text style={{fontWeight: 'bold'}}>{t('.notice')}:</Text> {t('.warning')}
+                  { t('.problems') }
                 </Text>
               </CardItem>
               <CardItem>
                 <View>
-                  <Text>{t('.more')}:</Text>
+                  <Text>{ t('.more') }:</Text>
                   <Text>{homeURL}</Text>
-                  <Text>{t('.source')}:</Text>
+                  <Text>{ t('.source') }:</Text>
                   <Text>{sourceURL}</Text>
                 </View>
               </CardItem>
