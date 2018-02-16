@@ -1,6 +1,8 @@
 package irmagobridge
 
 import (
+	"strconv"
+
 	"github.com/go-errors/errors"
 	"github.com/privacybydesign/irmago"
 	"github.com/privacybydesign/irmago/irmaclient"
@@ -152,4 +154,21 @@ func (sh *SessionHandler) KeyshareEnrollmentMissing(manager irma.SchemeManagerId
 	}
 
 	sendAction(action)
+}
+
+func (sh *SessionHandler) KeyshareBlocked(manager irma.SchemeManagerIdentifier, duration int) {
+	// irma_mobile doesn't like it if we use irma.ActionUnknown here, use irma.ActionDisclosing
+	// for now, it makes no difference in the resulting error screen
+	sh.Failure(irma.ActionDisclosing, &irma.SessionError{
+		ErrorType: irma.ErrorType("keyshareBlocked"),
+		Err:       errors.New("Blocked at keyshare server"),
+		Info:      strconv.Itoa(duration),
+	})
+}
+
+func (sh *SessionHandler) KeyshareEnrollmentIncomplete(manager irma.SchemeManagerIdentifier) {
+	sh.Failure(irma.ActionDisclosing, &irma.SessionError{
+		ErrorType: irma.ErrorType("keyshareRegistrationIncomplete"),
+		Err:       errors.New("Keyshare registration incomplete"),
+	})
 }
