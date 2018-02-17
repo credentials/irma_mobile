@@ -1218,7 +1218,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export GOPATH=`echo ~/go`\n$GOPATH/bin/gomobile bind -target ios github.com/privacybydesign/irma_mobile/irmagobridge";
+			shellScript = "go_version=$(go version)\nif [[ $go_version = *'go1.9.4'* ]]; then\n  export CGO_CFLAGS_ALLOW='-fmodules|-fblocks'\nfi\n\nexport GOPATH=`echo ~/go`\n$GOPATH/bin/gomobile bind -target ios github.com/privacybydesign/irma_mobile/irmagobridge\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
