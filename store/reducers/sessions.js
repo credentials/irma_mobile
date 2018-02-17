@@ -24,6 +24,8 @@ const isValidSessionAction = (state, action) => {
     case 'IrmaSession.RequestSignaturePermission':
     case 'IrmaSession.RequestPin':
     case 'IrmaSession.KeyshareEnrollmentMissing':
+    case 'IrmaSession.KeyshareBlocked':
+    case 'IrmaSession.KeyshareEnrollmentIncomplete':
     case 'IrmaBridge.RespondPermission':
     case 'Session.MakeDisclosureChoice':{
       if(!state.hasOwnProperty(action.sessionId)) {
@@ -188,6 +190,29 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           ...state[sessionId],
           status: 'keyshareEnrollmentMissing',
+          missingSchemeManagerId: action.schemeManagerId,
+        }
+      };
+    }
+
+    case 'IrmaSession.KeyshareBlocked': {
+      return {
+        ...state,
+        [sessionId]: {
+          ...state[sessionId],
+          status: 'keyshareBlocked',
+          missingSchemeManagerId: action.schemeManagerId,
+          duration: action.duration,
+        }
+      };
+    }
+
+    case 'IrmaSession.KeyshareEnrollmentIncomplete': {
+      return {
+        ...state,
+        [sessionId]: {
+          ...state[sessionId],
+          status: 'keyshareEnrollmentIncomplete',
           missingSchemeManagerId: action.schemeManagerId,
         }
       };

@@ -46,7 +46,7 @@ export default class StatusCard extends Component {
   }
 
   renderExplanation() {
-    const { navigateToEnrollment, session: { status } } = this.props;
+    const { navigateToEnrollment, session: { status, duration } } = this.props;
     let { explanation } = this.props;
 
     if(!explanation) {
@@ -62,6 +62,11 @@ export default class StatusCard extends Component {
             </Body>
           ];
 
+          break;
+        }
+
+        case 'keyshareBlocked': {
+          explanation = <Text>{ t('.explanation.keyshareBlocked', {duration}) }</Text>;
           break;
         }
 
