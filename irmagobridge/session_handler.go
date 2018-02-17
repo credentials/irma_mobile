@@ -59,6 +59,14 @@ func (sh *SessionHandler) Failure(irmaAction irma.Action, err *irma.SessionError
 	sendAction(action)
 }
 
+func (sh *SessionHandler) KeyshareBlocked(manager irma.SchemeManagerIdentifier, duration int) {
+
+}
+
+func (sh *SessionHandler) KeyshareEnrollmentIncomplete(manager irma.SchemeManagerIdentifier) {
+
+}
+
 func (sh *SessionHandler) Cancelled(irmaAction irma.Action) {
 	logDebug("Handling Cancelled")
 	action := &OutgoingAction{

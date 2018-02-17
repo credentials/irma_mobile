@@ -31,6 +31,7 @@
     "react-native-i18n": "^2.0.10",
     "react-native-qrcode-scanner": "^0.0.30",
     "react-native-sentry": "^0.33.0",
+    "react-native-swiper": "^1.5.13",
     "react-navigation": "1.0.0-beta.25",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",

@@ -48,7 +48,7 @@ export default class CredentialDashboard extends Component {
 
     return (
       <View style={{paddingTop: 60}}>
-        <Button iconLeft light onPress={navigateToEnrollment} style={buttonStyle}>
+        <Button iconLeft primary onPress={navigateToEnrollment} style={buttonStyle}>
           <Icon name="key" style={{color: 'white'}} />
           <Text style={{color: 'white'}}>{ t('.unenrolled.button') }</Text>
         </Button>
@@ -78,9 +78,18 @@ export default class CredentialDashboard extends Component {
     );
   }
 
-  render() {
-    const { navigateToQRScanner } = this.props;
+  renderQRScannerButton() {
+    const { enrolled, navigateToQRScanner } = this.props;
 
+    return (
+      <Button primary={enrolled} light={!enrolled} onPress={navigateToQRScanner}>
+        <Icon ios="ios-qr-scanner" android="md-qr-scanner" />
+        <Text style={{paddingLeft: 10}}>{ t('.scanQRCode') }</Text>
+      </Button>
+    );
+  }
+
+  render() {
     return (
       <Container>
         <PaddedContent>
@@ -88,10 +97,7 @@ export default class CredentialDashboard extends Component {
           { this.renderCredentials() }
         </PaddedContent>
         <Footer style={{height: 60, paddingTop: 7}}>
-          <Button primary onPress={navigateToQRScanner}>
-            <Icon ios="ios-qr-scanner" android="md-qr-scanner" />
-            <Text style={{color: 'white', paddingLeft: 10}}>{ t('.scanQRCode') }</Text>
-          </Button>
+          { this.renderQRScannerButton() }
         </Footer>
       </Container>
     );

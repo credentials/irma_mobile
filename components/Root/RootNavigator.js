@@ -1,7 +1,7 @@
 import { DrawerNavigator } from 'react-navigation';
 
 import CredentialDashboard from 'components/CredentialDashboard';
-import Enrollment from 'components/Enrollment';
+import Enrollment from 'components/NewEnrollment';
 
 import Sidebar from './children/Sidebar';
 
