@@ -9,21 +9,21 @@ import {
   View,
 } from 'native-base';
 
-import passportImage from './passport.jpg';
-import shopImage from './shop.jpg';
-import authImage from './auth.jpg';
+import passportImage from './children/passport.jpg';
+import shopImage from './children/shop.jpg';
+import authImage from './children/auth.jpg';
 
 import Swiper from 'react-native-swiper';
 
-export default class Teaser extends Component {
+export default class EnrollmentTeaser extends Component {
 
   static propTypes = {
-    dismissEnrollment: PropTypes.func.isRequired,
-    dismissTeaser: PropTypes.func.isRequired,
+    navigateToEnrollment: PropTypes.func.isRequired,
+    navigateBack: PropTypes.func.isRequired,
   }
 
   renderFooter() {
-    const { dismissEnrollment, dismissTeaser } = this.props;
+    const { navigateToEnrollment, navigateBack } = this.props;
 
     const footerStyle = {
       height: 100,
@@ -33,10 +33,10 @@ export default class Teaser extends Component {
 
     return (
       <View {...footerStyle} style={{}}>
-        <Button info onPress={dismissEnrollment} style={{marginTop: 5, marginRight: 20}}>
+        <Button info onPress={navigateBack} style={{marginTop: 5, marginRight: 20}}>
           <Text>Demo</Text>
         </Button>
-        <Button info onPress={dismissTeaser} style={{marginTop: 5}}>
+        <Button info onPress={navigateToEnrollment} style={{marginTop: 5}}>
           <Text>Register</Text>
         </Button>
       </View>
@@ -73,7 +73,7 @@ export default class Teaser extends Component {
 
   render() {
     return (
-      <Swiper>
+      <Swiper loop={false} showsButtons={true}>
         <ImageBackground
           imageStyle={{marginTop: 300}}
           source={passportImage}

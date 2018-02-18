@@ -3,26 +3,22 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Enrollment from './Enrollment';
-import Teaser from './children/Teaser';
 
-const mapStateToProps = (state, props) => {
-  const {
-    navigation,
-  } = props;
-
-  const { schemeManagerId } = navigation.state.params;
-
+const mapStateToProps = (state) => {
   const {
     irmaConfiguration: {
       schemeManagers,
     },
     enrollment: {
-      [schemeManagerId]: {
-        status,
-        error,
-      }
+      error,
+      status,
+      unenrolledSchemeManagerIds,
     }
   } = state;
+
+  // Irmago doesn't actually support multiple scheme managers with keyshare enrollment,
+  // so we just pick the first unenrolled, which should be PBDF
+  const schemeManagerId = unenrolledSchemeManagerIds[0];
 
   return {
     schemeManager: schemeManagers[schemeManagerId],
@@ -42,8 +38,11 @@ export default class EnrollmentContainer extends Component {
     schemeManager: PropTypes.object.isRequired,
   }
 
+  static navigationOptions = {
+    title: 'IRMA registration'
+  }
+
   state = {
-    displayTeaser: true,
     email: null,
     forceValidation: false,
     pin: null,
@@ -69,41 +68,23 @@ export default class EnrollmentContainer extends Component {
     });
   }
 
-  dismissEnrollment() {
-    const { dispatch, navigation, schemeManager } = this.props;
+  navigateBack() {
+    const { dispatch, navigation } = this.props;
 
     dispatch({
-      type: 'Enrollment.Dismiss',
-      schemeManagerId: schemeManager.ID,
+      type: 'Enrollment.Dismiss'
     });
 
-    navigation.navigate('CredentialDashboard');
-  }
-
-  dismissTeaser() {
-    this.setState({displayTeaser: false});
-  }
-
-  backToTeaser() {
-    this.setState({displayTeaser: true});
+    navigation.goBack();
   }
 
   render() {
     const { enrollmentStatus, enrollmentError } = this.props;
-    const { currentStep, displayTeaser, email, pin, forceValidation } = this.state;
-
-    if(displayTeaser) {
-      return (
-        <Teaser
-          dismissEnrollment={::this.dismissEnrollment}
-          dismissTeaser={::this.dismissTeaser}
-        />
-      );
-    }
+    const { currentStep, email, pin, forceValidation } = this.state;
 
     return (
       <Enrollment
-        backToTeaser={::this.backToTeaser}
+        navigateBack={::this.navigateBack}
         changeEmail={::this.changeEmail}
         changePin={::this.changePin}
         email={email}
@@ -111,7 +92,6 @@ export default class EnrollmentContainer extends Component {
         pin={pin}
       />
     );
-
 
       //   currentStep={currentStep}
       //   dismiss={::this.dismiss}

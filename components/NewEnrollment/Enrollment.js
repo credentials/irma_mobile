@@ -27,39 +27,16 @@ const t = namespacedTranslation('Enrollment');
 export default class Enrollment extends Component {
 
   static propTypes = {
-    backToTeaser: PropTypes.func.isRequired,
-    pin: PropTypes.string,
+    changeEmail: PropTypes.func.isRequired,
     changePin: PropTypes.func.isRequired,
     email: PropTypes.string,
-    changeEmail: PropTypes.func.isRequired,
+    pin: PropTypes.string,
   }
 
   state = {
     emailFormExpanded: false,
     pinFormExpanded: false,
     forceValidation: false,
-  }
-
-  renderHeader() {
-    const {
-      backToTeaser
-    } = this.props;
-
-    return (
-      <Header>
-        <Left>
-          <Button transparent onPress={backToTeaser}>
-            <Text>Back</Text>
-          </Button>
-        </Left>
-        <Body style={{flex: 2}}>
-          <Title>
-            <Text>IRMA registration</Text>
-          </Title>
-        </Body>
-        <Right />
-      </Header>
-    );
   }
 
   renderIntro() {
@@ -73,8 +50,6 @@ export default class Enrollment extends Component {
       </Card>
     );
   }
-
-
 
   renderEmailForm() {
     const { email, changeEmail } = this.props;
@@ -221,7 +196,6 @@ export default class Enrollment extends Component {
   render() {
     return (
       <Container style={{backgroundColor: '#E9E9EF'}}>
-        { this.renderHeader() }
         <PaddedContent>
           { this.renderIntro() }
           { this.renderEmailForm() }

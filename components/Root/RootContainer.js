@@ -65,24 +65,18 @@ export default class RootContainer extends Component {
   }
 
   ensureEnrollment(navigator) {
-    const { dispatch, unenrolledSchemeManagerIds } = this.props;
+    const { unenrolledSchemeManagerIds } = this.props;
 
     if(unenrolledSchemeManagerIds.length === 0)
       return;
 
-    // Irmago doesn't actually support multiple scheme managers with keyshare enrollment,
-    // so we just pick the first unenrolled, which should be PBDF
-    const schemeManagerId = unenrolledSchemeManagerIds[0];
-
-    dispatch({
-      type: 'Enrollment.Start',
-      schemeManagerId
-    });
-
     navigator.dispatch(
-      NavigationActions.navigate({
-        routeName: 'Enrollment',
-        params: { schemeManagerId },
+      NavigationActions.reset({
+        index: 1,
+        actions: [
+          NavigationActions.navigate({ routeName: 'CredentialDashboard' }),
+          NavigationActions.navigate({ routeName: 'EnrollmentTeaser' }),
+        ],
       })
     );
   }
