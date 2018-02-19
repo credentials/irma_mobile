@@ -33,11 +33,11 @@ export default class EnrollmentTeaser extends Component {
 
     return (
       <View {...footerStyle} style={{}}>
-        <Button info onPress={navigateBack} style={{marginTop: 5, marginRight: 20}}>
+        <Button onPress={navigateBack} style={{marginTop: 5, marginRight: 20}}>
           <Text>Demo</Text>
         </Button>
-        <Button info onPress={navigateToEnrollment} style={{marginTop: 5}}>
-          <Text>Register</Text>
+        <Button onPress={navigateToEnrollment} style={{marginTop: 5}}>
+          <Text>Open IRMA account</Text>
         </Button>
       </View>
     );
@@ -80,18 +80,18 @@ export default class EnrollmentTeaser extends Component {
           style={{flex: 1, backgroundColor: '#2dbfce'}}
         >
           { this.renderTexts(
-              'IRMA is like a digital passport on your phone. It puts you in control and keeps your personal details private and secure.',
-              '"I reveal my attributes"'
+              'IRMA is like a personalized passport stored only on your phone. It puts you in control and keeps your personal data private and secure.',
+              '"I Reveal My Attributes"'
           )}
           { this.renderFooter() }
         </ImageBackground>
         <ImageBackground
           imageStyle={{marginTop: 100}}
-          source={shopImage}
+          source={shopImage} // Can this image be edited to show the wine bottle more prominently, for the >18 use case?
           style={{flex: 1, backgroundColor: '#abe3f4'}}
         >
           { this.renderTexts(
-              'Reveal what\'s relevant – and nothing more',
+              'IRMA allows you to reveal relevant attributes – and nothing more.',
               '"I\'m older than 18"'
           )}
           { this.renderFooter() }
@@ -102,7 +102,7 @@ export default class EnrollmentTeaser extends Component {
           style={{flex: 1, backgroundColor: '#65b7cc'}}
         >
           { this.renderTexts(
-              'Prove it\'s you, gain access, forget passwords...',
+              'IRMA allows you to gain access without passwords.',
               '"It\'s me, log me in!"'
           )}
           { this.renderFooter() }

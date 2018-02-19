@@ -36,7 +36,7 @@ export default class Enrollment extends Component {
   state = {
     showSuccessScreen: false,
     emailFormExpanded: false,
-    pinFormExpanded: false,
+    pinFormExpanded: true,
     forceValidation: false,
   }
 
@@ -45,7 +45,7 @@ export default class Enrollment extends Component {
       <Card>
         <CardItem>
           <Text>
-            You need to open an account with IRMA because ___.
+            Welcome to IRMA! Please open your IRMA account by completing the two steps below.
           </Text>
         </CardItem>
       </Card>
@@ -189,7 +189,7 @@ export default class Enrollment extends Component {
           <TouchableWithoutFeedback onPress={toggle}>
             <CardItem>
               <Body style={{justifyContent: 'center', flex: 3}}>
-                <Text>Step 1: Choose an IRMA pin</Text>
+                <Text>Step 1: Choose an IRMA PIN</Text>
               </Body>
               <Right>
                 <Button small transparent>
@@ -202,8 +202,8 @@ export default class Enrollment extends Component {
               <View>
                 <CardItem>
                   <Text>
-                    Enter a PIN of at least 5 digits. You will need to enter the PIN every time you use IRMA.
-                    If you forget it, you will lose access to your attributes and you will have to open a new account.
+                    Enter a PIN of at least 5 digits. You will need to enter your PIN every time you use IRMA.
+                    If you forget it, your attributes become unusable and you will have to open a new account.
                   </Text>
                 </CardItem>
                 <RepeatedValueForm
@@ -239,6 +239,8 @@ export default class Enrollment extends Component {
     );
   }
 
+  // Might be nicer if this is an extra card below the PIN and email cards that becomes
+  // expanded if both the PIN and email cards have been filled in (or not, in case of email)?
   renderSuccess() {
     const { navigateToDashboard } = this.props;
 
