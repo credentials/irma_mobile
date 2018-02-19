@@ -41,6 +41,13 @@ export default function enrollment(state = initialState, action) {
       return _.omit(state, 'status', 'error');
     }
 
+    case 'Enrollment.FakeEnrollment': {
+      return {
+        ...state,
+        unenrolledSchemeManagerIds: [],
+      };
+    }
+
     default:
       return state;
   }

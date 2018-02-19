@@ -35,11 +35,11 @@ export default class EnrollmentContainer extends Component {
     enrollmentError: PropTypes.string,
     enrollmentStatus: PropTypes.string.isRequired,
     navigation: PropTypes.object.isRequired,
-    schemeManager: PropTypes.object.isRequired,
+    schemeManager: PropTypes.object,
   }
 
   static navigationOptions = {
-    title: 'IRMA registration'
+    title: 'Open IRMA account'
   }
 
   state = {
@@ -54,6 +54,11 @@ export default class EnrollmentContainer extends Component {
 
   changePin(pin) {
     this.setState({pin});
+  }
+
+  fakeEnroll() {
+    const { dispatch } = this.props;
+    dispatch({type: 'Enrollment.FakeEnrollment'});
   }
 
   enroll() {
@@ -78,17 +83,23 @@ export default class EnrollmentContainer extends Component {
     navigation.goBack();
   }
 
+  navigateToDashboard() {
+    const { navigation } = this.props;
+    navigation.navigate('CredentialDashboard');
+  }
+
   render() {
-    const { enrollmentStatus, enrollmentError } = this.props;
-    const { currentStep, email, pin, forceValidation } = this.state;
+    const { email, pin, forceValidation } = this.state;
 
     return (
       <Enrollment
-        navigateBack={::this.navigateBack}
         changeEmail={::this.changeEmail}
         changePin={::this.changePin}
         email={email}
+        fakeEnroll={::this.fakeEnroll}
         forceValidation={forceValidation}
+        navigateBack={::this.navigateBack}
+        navigateToDashboard={::this.navigateToDashboard}
         pin={pin}
       />
     );

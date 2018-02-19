@@ -7,17 +7,15 @@ import RepeatedValueForm from 'lib/form/RepeatedValueForm';
 
 import {
   Body,
-  Header,
-  Left,
   Button,
   Text,
-  Title,
   Container,
   Right,
   Card,
   CardItem,
   Icon,
   View,
+  Footer,
 } from 'native-base';
 
 import PaddedContent from 'lib/PaddedContent';
@@ -30,10 +28,13 @@ export default class Enrollment extends Component {
     changeEmail: PropTypes.func.isRequired,
     changePin: PropTypes.func.isRequired,
     email: PropTypes.string,
+    fakeEnroll: PropTypes.func.isRequired,
+    navigateToDashboard: PropTypes.func.isRequired,
     pin: PropTypes.string,
   }
 
   state = {
+    showSuccessScreen: false,
     emailFormExpanded: false,
     pinFormExpanded: false,
     forceValidation: false,
@@ -44,7 +45,7 @@ export default class Enrollment extends Component {
       <Card>
         <CardItem>
           <Text>
-            Register with IRMA in 4 simple steps.
+            You need to open an account with IRMA because ___.
           </Text>
         </CardItem>
       </Card>
@@ -52,7 +53,7 @@ export default class Enrollment extends Component {
   }
 
   renderEmailForm() {
-    const { email, changeEmail } = this.props;
+    const { pin, email, changeEmail, fakeEnroll } = this.props;
     const { forceValidation, emailFormExpanded } = this.state;
 
     const toggle = () => this.setState({emailFormExpanded: !emailFormExpanded});
@@ -79,15 +80,36 @@ export default class Enrollment extends Component {
       [email ? 'success' : (forceValidation ? 'danger' : 'primary')]: true,
     };
 
-    const buttonPress = () => email ? this.setState({emailFormExpanded: false, pinFormExpanded: true,}) :
-      this.setState({forceValidation: true});
+    const nextPress = () => {
+      if(!email) {
+        this.setState({forceValidation: true});
+        return;
+      }
+
+      this.setState({emailFormExpanded: false, forceValidation: false});
+
+      if(pin)
+        this.setState({showSuccessScreen: true});
+      else
+        this.setState({pinFormExpanded: true});
+    };
+
+    const skipPress = () => {
+      this.setState({emailFormExpanded: false, forceValidation: false});
+
+      if(pin) {
+        fakeEnroll();
+        this.setState({showSuccessScreen: true});
+      } else
+        this.setState({pinFormExpanded: true});
+    };
 
     return (
         <Card onPress={toggle}>
           <TouchableWithoutFeedback onPress={toggle}>
             <CardItem>
               <Body style={{justifyContent: 'center', flex: 3}}>
-                <Text>Step 1: Enter your email address</Text>
+                <Text>Step 2: Add your email address</Text>
               </Body>
               <Right>
                 <Button small transparent>
@@ -98,6 +120,12 @@ export default class Enrollment extends Component {
           </TouchableWithoutFeedback>
           { !emailFormExpanded ? null :
               <View>
+                <CardItem>
+                  <Text>
+                    We strongly recommend to associate at least one email address with your account.
+                    It allows you to login to your MyIRMA environment in case your phone is lost or stolen, so you can close your account.
+                  </Text>
+                </CardItem>
                 <RepeatedValueForm
                   firstLabel={t('.stepOne.label')}
                   forceValidation={forceValidation}
@@ -108,13 +136,14 @@ export default class Enrollment extends Component {
                   repeatLabel={t('.stepOne.repeatLabel')}
                   validate={validate}
                 />
-                <Button
-                  {...buttonState}
-                  onPress={buttonPress}
-                  style={{alignSelf: 'center', margin: 10}}
-                >
-                  <Text>Next</Text>
-                </Button>
+                <View style={{marginVertical: 10, justifyContent: 'center', flexDirection: 'row'}}>
+                  <Button light onPress={skipPress} style={{marginRight: 20}}>
+                    <Text>Skip</Text>
+                  </Button>
+                  <Button {...buttonState} onPress={nextPress}>
+                    <Text>Next</Text>
+                  </Button>
+                </View>
               </View>
           }
         </Card>
@@ -137,11 +166,15 @@ export default class Enrollment extends Component {
       iconProps.style.color = '#5cb85c';
 
     const buttonState = {
-      [pin ? 'success' : 'danger']: true,
+      [pin ? 'success' : (forceValidation ? 'danger' : 'primary')]: true,
     };
 
-    const buttonPress = () => pin ? this.setState({pinFormExpanded: false}) :
-      this.setState({forceValidation: true});
+    const nextPress = () => {
+      if(pin)
+        this.setState({forceValidation: false, pinFormExpanded: false, emailFormExpanded: true});
+      else
+        this.setState({forceValidation: true});
+    };
 
     const inputProps = {
       autoCapitalize: 'none',
@@ -156,7 +189,7 @@ export default class Enrollment extends Component {
           <TouchableWithoutFeedback onPress={toggle}>
             <CardItem>
               <Body style={{justifyContent: 'center', flex: 3}}>
-                <Text>Step 2: Choose IRMA pin</Text>
+                <Text>Step 1: Choose an IRMA pin</Text>
               </Body>
               <Right>
                 <Button small transparent>
@@ -168,7 +201,10 @@ export default class Enrollment extends Component {
           { !pinFormExpanded ? null :
               <View>
                 <CardItem>
-                  <Text>Enter a PIN of at least 5 digits. You will need to enter the PIN every time you use IRMA. If you forget it, you will lose access to your attributes and you will have to register again.</Text>
+                  <Text>
+                    Enter a PIN of at least 5 digits. You will need to enter the PIN every time you use IRMA.
+                    If you forget it, you will lose access to your attributes and you will have to open a new account.
+                  </Text>
                 </CardItem>
                 <RepeatedValueForm
                     firstLabel={t('.stepTwo.label')}
@@ -182,7 +218,7 @@ export default class Enrollment extends Component {
                 />
                 <Button
                   {...buttonState}
-                  onPress={buttonPress}
+                  onPress={nextPress}
                   style={{alignSelf: 'center', margin: 10}}
                 >
                   <Text>Next</Text>
@@ -193,14 +229,44 @@ export default class Enrollment extends Component {
     );
   }
 
+  renderForm() {
+    return (
+      <PaddedContent>
+        { this.renderIntro() }
+        { this.renderPinForm() }
+        { this.renderEmailForm() }
+      </PaddedContent>
+    );
+  }
+
+  renderSuccess() {
+    const { navigateToDashboard } = this.props;
+
+    return [
+      <PaddedContent key="success">
+        <Card key="success">
+          <CardItem>
+            <Text>
+              You have now succesfully opened your IRMA account.
+              You can proceed to load personal attributes.
+            </Text>
+          </CardItem>
+        </Card>
+      </PaddedContent>,
+      <Footer key="successFooter" style={{height: 60, paddingTop: 7}}>
+        <Button primary onPress={navigateToDashboard}>
+          <Text>Finish</Text>
+        </Button>
+      </Footer>
+    ];
+  }
+
   render() {
+    const { showSuccessScreen } = this.state;
+
     return (
       <Container style={{backgroundColor: '#E9E9EF'}}>
-        <PaddedContent>
-          { this.renderIntro() }
-          { this.renderEmailForm() }
-          { this.renderPinForm() }
-        </PaddedContent>
+        { showSuccessScreen ? this.renderSuccess() : this.renderForm() }
       </Container>
     );
   }

@@ -79,6 +79,7 @@ export default class SessionContainer extends Component {
   }
 
   navigateToEnrollment() {
+    // TODO: Fix me
     const {
       dispatch,
       navigation,
@@ -89,7 +90,6 @@ export default class SessionContainer extends Component {
 
     dispatch({
       type: 'Enrollment.Start',
-      schemeManagerId
     });
 
     navigation.goBack();
