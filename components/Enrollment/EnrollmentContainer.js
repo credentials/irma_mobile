@@ -44,7 +44,7 @@ export default class EnrollmentContainer extends Component {
   state = {
     currentStep: 0,
     email: null,
-    forceValidation: false,
+    validationForced: false,
     pin: null,
   }
 
@@ -55,7 +55,7 @@ export default class EnrollmentContainer extends Component {
       case 1:
       case 2:
       case 3:
-        this.setState({currentStep: currentStep - 1, forceValidation: false});
+        this.setState({currentStep: currentStep - 1, validationForced: false});
     }
   }
 
@@ -69,9 +69,9 @@ export default class EnrollmentContainer extends Component {
 
       case 1:
         if(email)
-          this.setState({currentStep: 2, forceValidation: false});
+          this.setState({currentStep: 2, validationForced: false});
         else
-          this.setState({forceValidation: true});
+          this.setState({validationForced: true});
         break;
 
       case 2:
@@ -79,7 +79,7 @@ export default class EnrollmentContainer extends Component {
           this.enroll(email, pin);
           this.setState({currentStep: 3});
         } else
-          this.setState({forceValidation: true});
+          this.setState({validationForced: true});
         break;
 
       case 3:
@@ -124,7 +124,7 @@ export default class EnrollmentContainer extends Component {
 
   render() {
     const { enrollmentStatus, enrollmentError } = this.props;
-    const { currentStep, email, pin, forceValidation } = this.state;
+    const { currentStep, email, pin, validationForced } = this.state;
 
     return (
       <Enrollment
@@ -133,7 +133,7 @@ export default class EnrollmentContainer extends Component {
         currentStep={currentStep}
         dismiss={::this.dismiss}
         email={email}
-        forceValidation={forceValidation}
+        validationForced={validationForced}
         nextStep={::this.nextStep}
         pin={pin}
         prevStep={::this.prevStep}

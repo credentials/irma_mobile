@@ -44,7 +44,7 @@ export default class EnrollmentContainer extends Component {
 
   state = {
     email: null,
-    forceValidation: false,
+    validationForced: false,
     pin: null,
   }
 
@@ -89,7 +89,7 @@ export default class EnrollmentContainer extends Component {
   }
 
   render() {
-    const { email, pin, forceValidation } = this.state;
+    const { email, pin, validationForced } = this.state;
 
     return (
       <Enrollment
@@ -97,7 +97,7 @@ export default class EnrollmentContainer extends Component {
         changePin={::this.changePin}
         email={email}
         fakeEnroll={::this.fakeEnroll}
-        forceValidation={forceValidation}
+        validationForced={validationForced}
         navigateBack={::this.navigateBack}
         navigateToDashboard={::this.navigateToDashboard}
         pin={pin}

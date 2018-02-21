@@ -42,7 +42,7 @@ export default class Enrollment extends Component {
     email: PropTypes.string,
     enrollmentError: PropTypes.string,
     enrollmentStatus: PropTypes.string.isRequired,
-    forceValidation: PropTypes.bool.isRequired,
+    validationForced: PropTypes.bool.isRequired,
     nextStep: PropTypes.func.isRequired,
     pin: PropTypes.string,
     prevStep: PropTypes.func.isRequired,
@@ -134,7 +134,7 @@ export default class Enrollment extends Component {
     const {
       changeEmail,
       email,
-      forceValidation,
+      validationForced,
     } = this.props;
 
     const validate = value => {
@@ -159,7 +159,7 @@ export default class Enrollment extends Component {
         </Card>
         <RepeatedValueForm
           firstLabel={t('.stepOne.label')}
-          forceValidation={forceValidation}
+          validationForced={validationForced}
           initialValue={email}
           inputProps={inputProps}
           invalidMessage={t('.stepOne.invalid')}
@@ -174,7 +174,7 @@ export default class Enrollment extends Component {
   renderStepTwo() {
     const {
       changePin,
-      forceValidation,
+      validationForced,
       pin,
     } = this.props;
 
@@ -203,7 +203,7 @@ export default class Enrollment extends Component {
         </Card>
         <RepeatedValueForm
           firstLabel={t('.stepTwo.label')}
-          forceValidation={forceValidation}
+          validationForced={validationForced}
           initialValue={pin}
           inputProps={inputProps}
           invalidMessage={t('.stepTwo.invalid')}

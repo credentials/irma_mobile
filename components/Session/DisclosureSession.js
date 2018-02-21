@@ -25,7 +25,7 @@ export default class DisclosureSession extends Component {
 
   static propTypes = {
     disclosuresCandidates: PropTypes.array,
-    forceValidation: PropTypes.bool.isRequired,
+    validationForced: PropTypes.bool.isRequired,
     irmaConfiguration: PropTypes.object.isRequired,
     makeDisclosureChoice: PropTypes.func.isRequired,
     navigateBack: PropTypes.func.isRequired,
@@ -116,7 +116,7 @@ export default class DisclosureSession extends Component {
 
   render() {
     const {
-      forceValidation,
+      validationForced,
       navigateBack,
       nextStep,
       pinChange,
@@ -131,7 +131,7 @@ export default class DisclosureSession extends Component {
           <Error session={session} />
           <PinEntry
             session={session}
-            forceValidation={forceValidation}
+            validationForced={validationForced}
             pinChange={pinChange}
           />
           <MissingDisclosures session={session} />
