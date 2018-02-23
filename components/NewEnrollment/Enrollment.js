@@ -12,7 +12,7 @@ import {
 } from 'native-base';
 
 import { namespacedTranslation } from 'lib/i18n';
-import CollapsableForm from 'lib/CollapsableForm';
+import CollapsableForm from 'lib/form/CollapsableForm';
 import PaddedContent from 'lib/PaddedContent';
 
 const t = namespacedTranslation('Enrollment');
@@ -52,6 +52,7 @@ export default class Enrollment extends Component {
     const { validationForced, pinFormCollapsed, showSuccess } = this.state;
 
     const next = () => {
+      console.log("next tap")
       if(pin)
         this.setState({validationForced: false, pinFormCollapsed: true, emailFormCollapsed: false});
       else
@@ -79,6 +80,7 @@ export default class Enrollment extends Component {
         <Text>
           Enter a PIN of at least 5 digits. You will need to enter your PIN every time you use IRMA.
           If you forget it, your attributes become unusable and you will have to open a new account.
+          { validationForced }
         </Text>
       </CollapsableForm>
     );
