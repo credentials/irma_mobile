@@ -153,3 +153,26 @@ func (sh *SessionHandler) KeyshareEnrollmentMissing(manager irma.SchemeManagerId
 
 	sendAction(action)
 }
+
+func (sh *SessionHandler) KeyshareBlocked(manager irma.SchemeManagerIdentifier, duration int) {
+	logDebug("Handling KeyshareBlocked")
+	action := &OutgoingAction{
+		"type":            "IrmaSession.KeyshareBlocked",
+		"sessionId":       sh.sessionID,
+		"schemeManagerId": manager,
+		"duration":        duration,
+	}
+
+	sendAction(action)
+}
+
+func (sh *SessionHandler) KeyshareEnrollmentIncomplete(manager irma.SchemeManagerIdentifier) {
+	logDebug("Handling KeyshareEnrollmentIncomplete")
+	action := &OutgoingAction{
+		"type":            "IrmaSession.KeyshareEnrollmentIncomplete",
+		"sessionId":       sh.sessionID,
+		"schemeManagerId": manager,
+	}
+
+	sendAction(action)
+}

@@ -93,7 +93,7 @@ export default class Footer extends Component {
     const { session: { status }, navigateBack } = this.props;
     const { hidden } = this.state;
 
-    if(!_.includes(['success', 'failure' , 'cancelled', 'unsatisfiableRequest', 'keyshareEnrollmentMissing'], status))
+    if(!_.includes(['success', 'failure', 'cancelled', 'unsatisfiableRequest', 'keyshareEnrollmentMissing', 'keyshareBlocked', 'keyshareEnrollmentIncomplete'], status))
       return null;
 
     if(hidden)
