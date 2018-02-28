@@ -34,13 +34,13 @@ export default class Disclosures extends Component {
   render() {
     const {
       session: {
-        toDisclose, disclosureCandidates, disclosureChoices
+        disclosures, disclosuresCandidates, disclosureChoices
       }
     } = this.props;
 
     return (
       <View>
-        { _.zip(toDisclose, disclosureCandidates, disclosureChoices)
+        { _.zip(disclosures, disclosuresCandidates, disclosureChoices)
            .map(::this.renderChoice)
         }
       </View>

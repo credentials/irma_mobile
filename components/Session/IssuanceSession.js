@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import { namespacedTranslation } from 'lib/i18n';
 import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
 
 import DisclosureChoices from './children/DisclosureChoices';
 import Error from './children/Error';
+import Footer from './children/Footer';
 import Header from './children/Header';
 import IssuedCredentials from './children/IssuedCredentials';
-import Footer from './children/Footer';
+import MissingDisclosures from './children/MissingDisclosures';
 import PinEntry from './children/PinEntry';
 import StatusCard from './children/StatusCard';
 
@@ -39,12 +39,10 @@ export default class IssuanceSession extends Component {
       navigateToEnrollment,
       session,
       session: {
-        disclosureCandidates,
         issuedCredentials,
-        issuerName,
+        serverName,
         status,
-        toDisclose,
-      }
+      },
     } = this.props;
 
     let heading;
@@ -57,6 +55,17 @@ export default class IssuanceSession extends Component {
 
     let explanation;
     switch(status) {
+      case 'unsatisfiableRequest':
+        explanation = (
+          <Text>
+            { t('.unsatisfiableRequestExplanation.before') }
+            &nbsp;<Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
+            { t('.unsatisfiableRequestExplanation.after') }
+          </Text>
+        );
+
+        break;
+
       case 'requestPermission': {
         const credentialCount = issuedCredentials.length;
         const attributeCount = issuedCredentials.reduce(
@@ -68,7 +77,7 @@ export default class IssuanceSession extends Component {
 
         explanation = (
           <Text>
-            <Text style={{fontWeight: 'bold'}}>{ issuerName }</Text>&nbsp;
+            <Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
             { t('.requestPermissionExplanation', {credentialAmount, attributeAmount}) }
           </Text>
         );
@@ -77,17 +86,11 @@ export default class IssuanceSession extends Component {
       }
 
       case 'requestDisclosurePermission': {
-        const attributeAmount = t('common.attributes', { count: toDisclose.length });
-        const maxCandidates = _.max(disclosureCandidates, cs => cs.length);
-
         explanation = (
           <View>
             <Text>
-              { t('.requestDisclosurePermission', {issuerName, attributeAmount}) }
+              { t('.requestDisclosurePermission', {serverName}) }
             </Text>
-            { maxCandidates === 1 ? null :
-                <Text>{'\n'}{ t('Session.DisclosureSession.disclosureChoice') }</Text>
-            }
           </View>
         );
 
@@ -141,6 +144,7 @@ export default class IssuanceSession extends Component {
             forceValidation={forceValidation}
             pinChange={pinChange}
           />
+          <MissingDisclosures session={session} />
           <IssuedCredentials session={session} />
           { this.renderDisclosures() }
         </PaddedContent>

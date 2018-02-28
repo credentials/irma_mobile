@@ -8,8 +8,9 @@ import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
 
 import DisclosureChoices from './children/DisclosureChoices';
 import Error from './children/Error';
-import Header from './children/Header';
 import Footer from './children/Footer';
+import Header from './children/Header';
+import MissingDisclosures from './children/MissingDisclosures';
 import PinEntry from './children/PinEntry';
 import StatusCard from './children/StatusCard';
 
@@ -23,7 +24,7 @@ const t = namespacedTranslation('Session.DisclosureSession');
 export default class DisclosureSession extends Component {
 
   static propTypes = {
-    disclosureCandidates: PropTypes.array,
+    disclosuresCandidates: PropTypes.array,
     forceValidation: PropTypes.bool.isRequired,
     irmaConfiguration: PropTypes.object.isRequired,
     makeDisclosureChoice: PropTypes.func.isRequired,
@@ -32,7 +33,7 @@ export default class DisclosureSession extends Component {
     nextStep: PropTypes.func.isRequired,
     pinChange: PropTypes.func.isRequired,
     session: PropTypes.object.isRequired,
-    toDisclose: PropTypes.array,
+    disclosures: PropTypes.array,
   }
 
   renderStatusCard() {
@@ -40,10 +41,8 @@ export default class DisclosureSession extends Component {
       navigateToEnrollment,
       session,
       session: {
-        disclosureCandidates,
         status,
-        toDisclose,
-        verifierName,
+        serverName,
       }
     } = this.props;
 
@@ -57,19 +56,24 @@ export default class DisclosureSession extends Component {
 
     let explanation;
     switch(status) {
-      case 'requestPermission': {
-        const attributeAmount = t('common.attributes', { count: toDisclose.length });
-        const maxCandidates = _.max(disclosureCandidates, cs => cs.length);
+      case 'unsatisfiableRequest':
+        explanation = (
+          <Text>
+            { t('.unsatisfiableRequestExplanation.before') }
+            &nbsp;<Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
+            { t('.unsatisfiableRequestExplanation.after') }
+          </Text>
+        );
 
+        break;
+
+      case 'requestPermission': {
         explanation = (
           <View>
             <Text>
-              <Text style={{fontWeight: 'bold'}}>{ verifierName }</Text>&nbsp;
-              { t('.requestPermissionExplanation', {attributeAmount}) }
+              <Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
+              { t('.requestPermissionExplanation') }
             </Text>
-            { maxCandidates === 1 ? null :
-                <Text>{'\n'}{ t('.disclosureChoice') }</Text>
-            }
           </View>
         );
 
@@ -130,6 +134,7 @@ export default class DisclosureSession extends Component {
             forceValidation={forceValidation}
             pinChange={pinChange}
           />
+          <MissingDisclosures session={session} />
           { this.renderDisclosures() }
         </PaddedContent>
         <Footer

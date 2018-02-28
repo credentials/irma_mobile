@@ -17,7 +17,7 @@ The IRMA app manages the user's IRMA attributes: receiving new attributes, selec
 - Follow the steps for "Installing dependencies" for "Building Projects with Native Code" (not the "Quick Start"):
     - https://facebook.github.io/react-native/docs/0.51/getting-started.html
     - You may skip the step to install `react-native-cli`
-    - The Android NDK should also be installed through the SDK Manager (as is done by default)
+    - The Android NDK should also be installed through the SDK Manager. This can be done by checking the 'LLDB', 'CMake', and 'NDK' options in the [SDK Tools tab](https://developer.android.com/ndk/guides/index.html#download-ndk).
     - Verify that `$ANDROID_HOME` is properly set for your current and future shells
 - Connect your phone in USB debug mode or use an Android Virtual Device
     - If using a physical phone, verify that the device is visible with the command `adb devices`
@@ -34,11 +34,6 @@ The IRMA app manages the user's IRMA attributes: receiving new attributes, selec
     ```
 - Clone this project so it is located inside your `$GOPATH`, and fetch Go dependencies:
     - `go get github.com/privacybydesign/irma_mobile/irmagobridge/...` should do the trick
-- Init and build Go package (in the future this will be handled by Gradle):
-    ```
-    cd $GOPATH/github.com/privacybydesign/irma_mobile/android/irmagobridge
-    gomobile bind -target android github.com/privacybydesign/irma_mobile/irmagobridge
-    ```
 - Install javascript dependencies using Yarn or NPM:
     ```
     cd $GOPATH/github.com/privacybydesign/irma_mobile

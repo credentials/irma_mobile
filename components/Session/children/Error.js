@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { namespacedTranslation } from 'lib/i18n';
 import Card from 'lib/UnwrappedCard';
-import { Sentry, SentrySeverity, } from 'react-native-sentry';
+import { Sentry } from 'react-native-sentry';
 
 import {
   Body,
@@ -19,9 +20,23 @@ import {
 
 const t = namespacedTranslation('Session.Error');
 
+const mapStateToProps = (state) => {
+  const {
+    preferences: {
+      enableCrashReporting,
+    },
+  } = state;
+
+  return {
+    enableCrashReporting,
+  };
+};
+
+@connect(mapStateToProps)
 export default class Error extends Component {
 
   static propTypes = {
+    enableCrashReporting: PropTypes.bool.isRequired,
     session: PropTypes.object.isRequired,
   }
 
@@ -38,7 +53,6 @@ export default class Error extends Component {
   report() {
     const extra = this.reportObject();
     Sentry.captureMessage('User reported: ' + extra.errorType, {
-      level: SentrySeverity.Error,
       extra,
     });
 
@@ -51,12 +65,20 @@ export default class Error extends Component {
   }
 
   renderErrorText() {
-    const { session: {errorType, errorInfo} } = this.props;
-    let msg = t(`.codes.${errorType}`, {
+    const {
+      enableCrashReporting,
+      session: {errorType, errorInfo},
+    } = this.props;
+
+    const errorTypeMessage = t(`.codes.${errorType}`, {
       defaultValue: t('.unknown'),
       errorInfo
     });
-    return msg + '\n\n' + t('.persists');
+
+    const ifPersistsMessage = enableCrashReporting ?
+      t('.ifPersistsReport') : t('.ifPersistsEnableReporting');
+
+    return `${errorTypeMessage}\n\n${ifPersistsMessage}`;
   }
 
   renderReportItem(name, value) {
@@ -94,7 +116,7 @@ export default class Error extends Component {
     const { moreInfo } = this.state;
     return (
         <Button small
-          style={{width: 125, justifyContent: 'center', alignSelf: 'center'}}
+          style={{width: 130, justifyContent: 'center', alignSelf: 'center'}}
           onPress={() => this.setState({moreInfo: !moreInfo})}
         >
           <Text style={{alignSelf: 'center'}} >{ moreInfo ? t('.hideinfo') : t('.showinfo') }</Text>
@@ -103,7 +125,12 @@ export default class Error extends Component {
   }
 
   renderReportButton() {
+    const { enableCrashReporting } = this.props;
     const { reported } = this.state;
+
+    if(!enableCrashReporting)
+      return null;
+
     return (
       <Button small disabled={reported}
         style={{alignSelf: 'center'}}

@@ -27,7 +27,9 @@ const isValidSessionAction = (state, action) => {
     case 'IrmaSession.RequestVerificationPermission':
     case 'IrmaSession.RequestSignaturePermission':
     case 'IrmaSession.RequestPin':
-    case 'IrmaSession.MissingKeyshareEnrollment':
+    case 'IrmaSession.KeyshareEnrollmentMissing':
+    case 'IrmaSession.KeyshareBlocked':
+    case 'IrmaSession.KeyshareEnrollmentIncomplete':
     case 'IrmaBridge.RespondPermission':
     case 'Session.MakeDisclosureChoice':{
       if(!state.hasOwnProperty(action.sessionId)) {
@@ -44,8 +46,8 @@ const isValidSessionAction = (state, action) => {
   }
 };
 
-const initialDisclosureChoices = (disclosureCandidates) =>
-  disclosureCandidates.map(dc => dc[0]);
+const initialDisclosureChoices = (disclosuresCandidates) =>
+  disclosuresCandidates.map(dc => dc[0]);
 
 const initialState = {};
 export default function credentials(state = initialState, action) {
@@ -133,7 +135,8 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           ...state[sessionId],
           status: 'unsatisfiableRequest',
-          missingAttributes: action.missingAttributes,
+          serverName: action.serverName,
+          missingDisclosures: action.missingDisclosures,
         }
       };
     }
@@ -144,12 +147,12 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           ...state[sessionId],
           status: 'requestPermission',
-          issuerName: action.issuerName,
+          serverName: action.serverName,
           issuedCredentials: action.issuedCredentials,
-          toDisclose: action.toDisclose || [], // TODO: Fix defensive
-          disclosureCandidates: action.disclosureCandidates,
+          disclosures: action.disclosures,
+          disclosuresCandidates: action.disclosuresCandidates,
 
-          disclosureChoices: initialDisclosureChoices(action.disclosureCandidates),
+          disclosureChoices: initialDisclosureChoices(action.disclosuresCandidates),
         }
       };
     }
@@ -160,11 +163,11 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           ...state[sessionId],
           status: 'requestPermission',
-          verifierName: action.verifierName,
-          toDisclose: action.toDisclose || [], // TODO: Fix defensive
-          disclosureCandidates: action.disclosureCandidates,
+          serverName: action.serverName,
+          disclosures: action.disclosures,
+          disclosuresCandidates: action.disclosuresCandidates,
 
-          disclosureChoices: initialDisclosureChoices(action.disclosureCandidates),
+          disclosureChoices: initialDisclosureChoices(action.disclosuresCandidates),
         }
       };
     }
@@ -175,13 +178,13 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           ...state[sessionId],
           status: 'requestPermission',
-          requesterName: action.requesterName,
-          toDisclose: action.toDisclose || [], // TODO: Fix defensive
-          disclosureCandidates: action.disclosureCandidates,
+          serverName: action.serverName,
+          disclosures: action.disclosures,
+          disclosuresCandidates: action.disclosuresCandidates,
           message: action.message,
           messageType: action.messageType,
 
-          disclosureChoices: initialDisclosureChoices(action.disclosureCandidates),
+          disclosureChoices: initialDisclosureChoices(action.disclosuresCandidates),
         }
       };
     }
@@ -197,12 +200,35 @@ export default function credentials(state = initialState, action) {
       };
     }
 
-    case 'IrmaSession.MissingKeyshareEnrollment': {
+    case 'IrmaSession.KeyshareEnrollmentMissing': {
       return {
         ...state,
         [sessionId]: {
           ...state[sessionId],
-          status: 'missingKeyshareEnrollment',
+          status: 'keyshareEnrollmentMissing',
+          missingSchemeManagerId: action.schemeManagerId,
+        }
+      };
+    }
+
+    case 'IrmaSession.KeyshareBlocked': {
+      return {
+        ...state,
+        [sessionId]: {
+          ...state[sessionId],
+          status: 'keyshareBlocked',
+          missingSchemeManagerId: action.schemeManagerId,
+          duration: action.duration,
+        }
+      };
+    }
+
+    case 'IrmaSession.KeyshareEnrollmentIncomplete': {
+      return {
+        ...state,
+        [sessionId]: {
+          ...state[sessionId],
+          status: 'keyshareEnrollmentIncomplete',
           missingSchemeManagerId: action.schemeManagerId,
         }
       };

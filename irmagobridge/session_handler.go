@@ -70,56 +70,57 @@ func (sh *SessionHandler) Cancelled(irmaAction irma.Action) {
 	sendAction(action)
 }
 
-func (sh *SessionHandler) UnsatisfiableRequest(irmaAction irma.Action, missingAttributes irma.AttributeDisjunctionList) {
+func (sh *SessionHandler) UnsatisfiableRequest(irmaAction irma.Action, serverName string, missingDisclosures irma.AttributeDisjunctionList) {
 	logDebug("Handling UnsatisfiableRequest")
 	action := &OutgoingAction{
-		"type":              "IrmaSession.UnsatisfiableRequest",
-		"sessionId":         sh.sessionID,
-		"missingAttributes": missingAttributes,
+		"type":               "IrmaSession.UnsatisfiableRequest",
+		"sessionId":          sh.sessionID,
+		"serverName":         serverName,
+		"missingDisclosures": missingDisclosures,
 	}
 
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestIssuancePermission(request irma.IssuanceRequest, issuerName string, ph irmaclient.PermissionHandler) {
+func (sh *SessionHandler) RequestIssuancePermission(request irma.IssuanceRequest, serverName string, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestIssuancePermission")
 	action := &OutgoingAction{
-		"type":                 "IrmaSession.RequestIssuancePermission",
-		"sessionId":            sh.sessionID,
-		"issuerName":           issuerName,
-		"issuedCredentials":    request.CredentialInfoList,
-		"toDisclose":           request.ToDisclose(),
-		"disclosureCandidates": request.Candidates,
+		"type":                  "IrmaSession.RequestIssuancePermission",
+		"sessionId":             sh.sessionID,
+		"serverName":            serverName,
+		"issuedCredentials":     request.CredentialInfoList,
+		"disclosures":           request.ToDisclose(),
+		"disclosuresCandidates": request.Candidates,
 	}
 
 	sh.permissionHandler = ph
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestVerificationPermission(request irma.DisclosureRequest, verifierName string, ph irmaclient.PermissionHandler) {
+func (sh *SessionHandler) RequestVerificationPermission(request irma.DisclosureRequest, serverName string, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestVerificationPermission")
 	action := &OutgoingAction{
-		"type":                 "IrmaSession.RequestVerificationPermission",
-		"sessionId":            sh.sessionID,
-		"verifierName":         verifierName,
-		"toDisclose":           request.ToDisclose(),
-		"disclosureCandidates": request.Candidates,
+		"type":                  "IrmaSession.RequestVerificationPermission",
+		"sessionId":             sh.sessionID,
+		"serverName":            serverName,
+		"disclosures":           request.ToDisclose(),
+		"disclosuresCandidates": request.Candidates,
 	}
 
 	sh.permissionHandler = ph
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestSignaturePermission(request irma.SignatureRequest, requesterName string, ph irmaclient.PermissionHandler) {
+func (sh *SessionHandler) RequestSignaturePermission(request irma.SignatureRequest, serverName string, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestSignaturePermission")
 	action := &OutgoingAction{
-		"type":                 "IrmaSession.RequestSignaturePermission",
-		"sessionId":            sh.sessionID,
-		"requesterName":        requesterName,
-		"toDisclose":           request.ToDisclose(),
-		"disclosureCandidates": request.Candidates,
-		"message":              request.Message,
-		"messageType":          request.MessageType,
+		"type":                  "IrmaSession.RequestSignaturePermission",
+		"sessionId":             sh.sessionID,
+		"serverName":            serverName,
+		"disclosures":           request.ToDisclose(),
+		"disclosuresCandidates": request.Candidates,
+		"message":               request.Message,
+		"messageType":           request.MessageType,
 	}
 
 	sh.permissionHandler = ph
@@ -143,10 +144,33 @@ func (sh *SessionHandler) RequestSchemeManagerPermission(manager *irma.SchemeMan
 	callback(false)
 }
 
-func (sh *SessionHandler) MissingKeyshareEnrollment(manager irma.SchemeManagerIdentifier) {
-	logDebug("Handling MissingKeyshareEnrollment")
+func (sh *SessionHandler) KeyshareEnrollmentMissing(manager irma.SchemeManagerIdentifier) {
+	logDebug("Handling KeyshareEnrollmentMissing")
 	action := &OutgoingAction{
-		"type":            "IrmaSession.MissingKeyshareEnrollment",
+		"type":            "IrmaSession.KeyshareEnrollmentMissing",
+		"sessionId":       sh.sessionID,
+		"schemeManagerId": manager,
+	}
+
+	sendAction(action)
+}
+
+func (sh *SessionHandler) KeyshareBlocked(manager irma.SchemeManagerIdentifier, duration int) {
+	logDebug("Handling KeyshareBlocked")
+	action := &OutgoingAction{
+		"type":            "IrmaSession.KeyshareBlocked",
+		"sessionId":       sh.sessionID,
+		"schemeManagerId": manager,
+		"duration":        duration,
+	}
+
+	sendAction(action)
+}
+
+func (sh *SessionHandler) KeyshareEnrollmentIncomplete(manager irma.SchemeManagerIdentifier) {
+	logDebug("Handling KeyshareEnrollmentIncomplete")
+	action := &OutgoingAction{
+		"type":            "IrmaSession.KeyshareEnrollmentIncomplete",
 		"sessionId":       sh.sessionID,
 		"schemeManagerId": manager,
 	}

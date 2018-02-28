@@ -24,7 +24,9 @@ export default class StatusIcon extends Component {
 
       case 'failure':
       case 'unsatisfiableRequest':
-      case 'missingKeyshareEnrollment':
+      case 'keyshareEnrollmentMissing':
+      case 'keyshareBlocked':
+      case 'keyshareEnrollmentIncomplete':
         return {name: 'alert'};
 
       case 'cancelled':

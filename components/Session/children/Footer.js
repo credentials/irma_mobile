@@ -29,8 +29,13 @@ export default class Footer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // When rendering the footer for a new status, reset the hidden status
-    if(this.props.session.status !== nextProps.session.status)
+    const { session } = this.props;
+    const { session: nextSession } = nextProps;
+
+    // Reset the hidden state when rendering the footer for a new status,
+    // or for another amount of PIN attempts.
+    if(session.status !== nextSession.status ||
+       session.remainingAttempts !== nextSession.remainingAttempts)
       this.setState({hidden: false});
   }
 
@@ -47,7 +52,7 @@ export default class Footer extends Component {
       session: {
         irmaAction,
         status,
-        toDisclose,
+        disclosures,
       }
     } = this.props;
     const { hidden } = this.state;
@@ -58,7 +63,7 @@ export default class Footer extends Component {
     let yesLabel = t('.accept');
     let noLabel = t('.decline');
 
-    if(status === 'requestPermission' && irmaAction === 'issuing' && toDisclose.length > 0)
+    if(status === 'requestPermission' && irmaAction === 'issuing' && disclosures.length > 0)
       yesLabel = t('.next');
 
     if(status === 'requestPin') {
@@ -74,13 +79,13 @@ export default class Footer extends Component {
     }
 
     return [
-      <Button key="yes" success iconLeft onPress={() => this.press(true)}>
-        <Icon name="checkmark-circle" />
-        <Text>{ yesLabel }</Text>
-      </Button>,
-      <Button key="no" danger iconLeft onPress={() => this.press(false)} style={{marginLeft: 20}}>
+      <Button key="no" danger iconLeft onPress={() => this.press(false)}>
         <Icon name="close-circle" />
         <Text>{ noLabel }</Text>
+      </Button>,
+      <Button key="yes" success iconLeft onPress={() => this.press(true)} style={{marginLeft: 20}}>
+        <Icon name="checkmark-circle" />
+        <Text>{ yesLabel }</Text>
       </Button>
     ];
   }
@@ -89,7 +94,7 @@ export default class Footer extends Component {
     const { session: { status, result, id }, navigateBack } = this.props;
     const { hidden } = this.state;
 
-    if(!_.includes(['success', 'failure' , 'cancelled', 'unsatisfiableRequest', 'missingKeyshareEnrollment'], status))
+    if(!_.includes(['success', 'failure', 'cancelled', 'unsatisfiableRequest', 'keyshareEnrollmentMissing', 'keyshareBlocked', 'keyshareEnrollmentIncomplete'], status))
       return null;
 
     if(hidden)

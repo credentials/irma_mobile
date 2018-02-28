@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 import Card from 'lib/UnwrappedCard';
 import {
   CardItem,
+  Left,
   ListItem,
   Text,
   Body,
   Right,
   Radio,
+  Thumbnail,
 } from 'native-base';
+
+import CredentialLogo from 'components/CredentialLogo';
 
 // TODO: Integrate into I18n
 const lang = 'en';
@@ -32,25 +36,28 @@ export default class DisclosureChoice extends Component {
       makeDisclosureChoice,
     } = this.props;
 
-    const press = () => makeDisclosureChoice(disclosureIndex, candidate.Type, candidate.Hash);
-    const isSelected = choice.Type === candidate.Type && choice.Hash === candidate.Hash;
+    const press = () => makeDisclosureChoice(disclosureIndex, candidate.Type, candidate.CredentialHash);
+    const isSelected = choice.Type === candidate.Type && choice.CredentialHash === candidate.CredentialHash;
 
     if(hideUnchosen && !isSelected)
       return null;
 
     return (
       <ListItem
-        key={`${candidate.Type}-${candidate.Hash}`}
+        key={`${candidate.Type}-${candidate.CredentialHash}`}
         onPress={press}
       >
-        <Body>
-          <Text>
-            { candidate.Issuer.ShortName[lang] } - { candidate.Name[lang] }
-          </Text>
-          <Text note>
-            { candidate.Value[lang] }
-          </Text>
-        </Body>
+        <Left>
+          <CredentialLogo credentialType={candidate.CredentialType} />
+          <Body>
+            <Text style={{fontWeight: 'normal'}}>
+              { candidate.Value[lang] }
+            </Text>
+            <Text note>
+              { candidate.Name[lang] }
+            </Text>
+          </Body>
+        </Left>
         <Right>
           <Radio selected={isSelected} />
         </Right>

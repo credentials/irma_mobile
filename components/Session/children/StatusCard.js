@@ -46,22 +46,27 @@ export default class StatusCard extends Component {
   }
 
   renderExplanation() {
-    const { navigateToEnrollment, session: { status } } = this.props;
+    const { navigateToEnrollment, session: { status, duration } } = this.props;
     let { explanation } = this.props;
 
     if(!explanation) {
       switch(status) {
-        case 'missingKeyshareEnrollment': {
+        case 'keyshareEnrollmentMissing': {
           explanation = [
-            <Text key="text">{ t('.explanation.missingKeyshareEnrollment') }</Text>,
+            <Text key="text">{ t('.explanation.keyshareEnrollmentMissing') }</Text>,
             <Body key="button" style={{paddingTop: 30, paddingBottom: 20}}>
-              <Button light iconLeft onPress={navigateToEnrollment}>
-                <Icon name="key" />
-                <Text>{ t('.explanation.registerMyIrma') }</Text>
+              <Button light iconLeft onPress={navigateToEnrollment} style={{borderRadius: 0, paddingHorizontal: 10}}>
+                <Icon name="key" style={{color: 'white'}} />
+                <Text style={{color: 'white'}}>{ t('.explanation.registerMyIrma') }</Text>
               </Button>
             </Body>
           ];
 
+          break;
+        }
+
+        case 'keyshareBlocked': {
+          explanation = <Text>{ t('.explanation.keyshareBlocked', {duration}) }</Text>;
           break;
         }
 

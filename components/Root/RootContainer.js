@@ -35,7 +35,8 @@ const mapStateToProps = (state) => {
   return {
     loaded,
     unenrolledSchemeManagerIds,
-    sentryDSN: enableCrashReporting ? sentryDSN : '',
+    enableCrashReporting,
+    sentryDSN,
   };
 };
 
@@ -44,25 +45,26 @@ export default class RootContainer extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    enableCrashReporting: PropTypes.bool,
     loaded: PropTypes.bool.isRequired,
     unenrolledSchemeManagerIds: PropTypes.array.isRequired,
     sentryDSN: PropTypes.string.isRequired,
   }
 
-  nativeSentryInitialized = false
+  sentryInitialized = false
   configureErrorReporting(sentryDSN) {
     // Unfortunately we cannot set the DSN for the Sentry client
     // after it has been configured. See react-native-sentry#320
-    if(!this.nativeSentryInitialized && sentryDSN !== '') {
+    if(!this.sentryInitialized && sentryDSN !== '') {
       Sentry.config(sentryDSN).install();
-      this.nativeSentryInitialized = true;
+      this.sentryInitialized = true;
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { sentryDSN } = nextProps;
+    const { loaded, enableCrashReporting, sentryDSN } = nextProps;
 
-    if(this.props.sentryDSN !== sentryDSN) {
+    if(loaded && enableCrashReporting) {
       this.configureErrorReporting(sentryDSN);
     }
   }
@@ -175,9 +177,12 @@ export default class RootContainer extends Component {
     });
 
     navigator.dispatch(
-      NavigationActions.navigate({
-        routeName: 'Session',
-        params: { sessionId },
+      NavigationActions.reset({
+        index: 1,
+        actions: [
+          NavigationActions.navigate({routeName: 'CredentialDashboard'}),
+          NavigationActions.navigate({routeName: 'Session', params: { sessionId }}),
+        ]
       })
     );
   }

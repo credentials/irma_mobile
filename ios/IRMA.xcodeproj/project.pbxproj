@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -36,6 +37,7 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* IRMATests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* IRMATests.m */; };
+		3D14D8CE471B444CAA3A1AB3 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EE357CCDB5947D89E10E635 /* libRNMail.a */; };
 		42CD95B6D4CD495B9D2FED17 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6BD20BFFBA47F29565E52E /* libRNI18n.a */; };
 		4777D4960A96464F8BB4F986 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97C21D9F48F34B9383EBF5BE /* MaterialIcons.ttf */; };
 		523AF7262C4B4BE09EC576A9 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EB8629A5E214DE89D6541CB /* Octicons.ttf */; };
@@ -48,14 +50,13 @@
 		A877564B0096488B9038521F /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9856C580CEF74B0BA5A60D78 /* Ionicons.ttf */; };
 		BA3E60484AFF4D7796248359 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68E2549BCD204073BB248FE8 /* libRCTCamera.a */; };
 		BD339C6411234FAB855FE101 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E56491127C57498D92A42358 /* Roboto.ttf */; };
+		BEBBB3F2A0704295A891B022 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AF6E7961D02422CB0268A5D /* libRNFetchBlob.a */; };
 		C579535E6EEC4E7D957DCF13 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A53264C9938442BA9925B38 /* Zocial.ttf */; };
 		CCAC4059BFE84FCB94BA2B90 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8792D7592C2947D2B9B75962 /* Roboto_medium.ttf */; };
 		D06376EA1F68662600F6EFAB /* IrmaBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = D06376E91F68662600F6EFAB /* IrmaBridge.m */; };
 		D0BC598A1F6FF9330045A60B /* Irmagobridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BC59891F6FF9330045A60B /* Irmagobridge.framework */; };
 		DE9A5D99D0734CC49CDB2B0C /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 304BC6D2A884474CBF1B85E0 /* Foundation.ttf */; };
 		E124605B4BE343128797FB23 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0B85047BF0547E7ADF49DC9 /* FontAwesome.ttf */; };
-		3D14D8CE471B444CAA3A1AB3 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EE357CCDB5947D89E10E635 /* libRNMail.a */; };
-		BEBBB3F2A0704295A891B022 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AF6E7961D02422CB0268A5D /* libRNFetchBlob.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -220,6 +221,27 @@
 			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
 			remoteInfo = "jschelpers-tvOS";
 		};
+		52E124782046D4810072388D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 599FD4FA93454CEEB607F595 /* RNFetchBlob.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A15C300E1CD25C330074CB35;
+			remoteInfo = RNFetchBlob;
+		};
+		52E1247C2046D4810072388D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9E821FE5A8C446F5AC6FC4FE /* RNMail.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 46FEDE7F1AFF192F00D3261C;
+			remoteInfo = RNMail;
+		};
+		52E1247E2046D4810072388D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9E821FE5A8C446F5AC6FC4FE /* RNMail.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 46FEDE8A1AFF192F00D3261C;
+			remoteInfo = RNMailTests;
+		};
 		5E9157321DD0AC6500FF2AA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
@@ -354,6 +376,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = IRMA/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		147628C1CBFC438F8AE853A3 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
+		1AF6E7961D02422CB0268A5D /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* IRMA-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IRMA-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* IRMA-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IRMA-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		304BC6D2A884474CBF1B85E0 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/native-base/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
@@ -361,16 +384,19 @@
 		3EB8629A5E214DE89D6541CB /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/native-base/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		3FA38C1894E6411495CE7728 /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 		525C3D7A1F893D4F00291A0D /* irma_configuration */ = {isa = PBXFileReference; lastKnownFileType = folder; path = irma_configuration; sourceTree = "<group>"; };
+		599FD4FA93454CEEB607F595 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		68E2549BCD204073BB248FE8 /* libRCTCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTCamera.a; sourceTree = "<group>"; };
 		6A53264C9938442BA9925B38 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
+		7EE357CCDB5947D89E10E635 /* libRNMail.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNMail.a; sourceTree = "<group>"; };
 		8157B76C4EAD401EAECFFF81 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8792D7592C2947D2B9B75962 /* Roboto_medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_medium.ttf; path = "../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
 		95B4D221C15B4B60A7402929 /* RNSentry.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
 		97C21D9F48F34B9383EBF5BE /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		9856C580CEF74B0BA5A60D78 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		9E821FE5A8C446F5AC6FC4FE /* RNMail.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNMail.xcodeproj; path = "../node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; };
 		B1C51F85F1CF4A19BCBB0ACE /* libRNSentry.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSentry.a; sourceTree = "<group>"; };
 		CB9CC13A6A594955B18AB061 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		CE6BD20BFFBA47F29565E52E /* libRNI18n.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNI18n.a; sourceTree = "<group>"; };
@@ -381,10 +407,6 @@
 		E56491127C57498D92A42358 /* Roboto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto.ttf; path = "../node_modules/native-base/Fonts/Roboto.ttf"; sourceTree = "<group>"; };
 		FEDD4A9C18D743FD971BF439 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		FF86D80E25B44F6DB5564F0B /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		9E821FE5A8C446F5AC6FC4FE /* RNMail.xcodeproj */ = {isa = PBXFileReference; name = "RNMail.xcodeproj"; path = "../node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		7EE357CCDB5947D89E10E635 /* libRNMail.a */ = {isa = PBXFileReference; name = "libRNMail.a"; path = "libRNMail.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		599FD4FA93454CEEB607F595 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; name = "RNFetchBlob.xcodeproj"; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		1AF6E7961D02422CB0268A5D /* libRNFetchBlob.a */ = {isa = PBXFileReference; name = "libRNFetchBlob.a"; path = "libRNFetchBlob.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -569,8 +591,27 @@
 				CE6BD20BFFBA47F29565E52E /* libRNI18n.a */,
 				B1C51F85F1CF4A19BCBB0ACE /* libRNSentry.a */,
 				3550796646C64205AC4195B0 /* libz.tbd */,
+				7EE357CCDB5947D89E10E635 /* libRNMail.a */,
+				1AF6E7961D02422CB0268A5D /* libRNFetchBlob.a */,
 			);
 			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		52E124732046D4800072388D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				52E1247D2046D4810072388D /* libRNMail.a */,
+				52E1247F2046D4810072388D /* RNMailTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		52E124752046D4810072388D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				52E124792046D4810072388D /* libRNFetchBlob.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
@@ -691,14 +732,6 @@
 				6A53264C9938442BA9925B38 /* Zocial.ttf */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		E50595FD427640FF92E9D7BB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -868,8 +901,16 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = 52E124752046D4810072388D /* Products */;
+					ProjectRef = 599FD4FA93454CEEB607F595 /* RNFetchBlob.xcodeproj */;
+				},
+				{
 					ProductGroup = D0A93AD91F85229B0040D06A /* Products */;
 					ProjectRef = 3FA38C1894E6411495CE7728 /* RNI18n.xcodeproj */;
+				},
+				{
+					ProductGroup = 52E124732046D4800072388D /* Products */;
+					ProjectRef = 9E821FE5A8C446F5AC6FC4FE /* RNMail.xcodeproj */;
 				},
 				{
 					ProductGroup = D000AC421F8985EA0098BBA8 /* Products */;
@@ -1032,6 +1073,27 @@
 			fileType = archive.ar;
 			path = libjschelpers.a;
 			remoteRef = 3DAD3EAE1DF850E9000B6D8A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		52E124792046D4810072388D /* libRNFetchBlob.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFetchBlob.a;
+			remoteRef = 52E124782046D4810072388D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		52E1247D2046D4810072388D /* libRNMail.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNMail.a;
+			remoteRef = 52E1247C2046D4810072388D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		52E1247F2046D4810072388D /* RNMailTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RNMailTests.xctest;
+			remoteRef = 52E1247E2046D4810072388D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */ = {
@@ -1235,7 +1297,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export GOPATH=`echo ~/go`\n$GOPATH/bin/gomobile bind -target ios github.com/privacybydesign/irma_mobile/irmagobridge";
+			shellScript = "go_version=$(go version)\nif [[ $go_version = *'go1.9.4'* ]]; then\n  export CGO_CFLAGS_ALLOW='-fmodules|-fblocks'\nfi\n\nexport GOPATH=`echo ~/go`\n$GOPATH/bin/gomobile bind -target ios github.com/privacybydesign/irma_mobile/irmagobridge\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Linking } from 'react-native';
+import { Sentry } from 'react-native-sentry';
 
 import RootNavigator from './RootNavigator';
 
@@ -19,13 +20,11 @@ export default class RootNavigatorContainer extends Component {
     currentRoute: null,
   }
 
-  componentWillUnmount() {
-    Linking.removeEventListener('url', this.boundHandleOpenURL);
-  }
+  constructor(props) {
+    super(props);
 
-  boundHandleOpenURL = null
-  handleOpenURL(event) {
-    this.openURL(event.url);
+    this.urlListener = ::this.urlListener;
+    this.setNavigatorRef = ::this.setNavigatorRef;
   }
 
   componentDidMount() {
@@ -39,16 +38,24 @@ export default class RootNavigatorContainer extends Component {
     // scheme managers for which we need to start a keyshare enrollment
     ensureEnrollment(this.navigator);
 
-    // Also on mount, handle any initial IRMA URL with which the app was starter
+    // Also on mount, handle any initial IRMA URL with which the app was started
     Linking.getInitialURL().then( irmaUrl => {
-      if (irmaUrl)
-        handleUrl(irmaUrl, this.navigator);
+      if (this.navigator && irmaUrl)
+        handleIrmaUrl(irmaUrl, this.navigator);
     }).catch();
 
     // Setup a handler for any IRMA URLs which are opened later
-    Linking.addEventListener('url', event =>
-      handleUrl(event.url, this.navigator)
-    );
+    // We do not unsubscribe because the Root hierachy is not expected to unmount
+    Linking.addEventListener('url', this.urlListener);
+  }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.urlListener);
+  }
+
+  urlListener(event) {
+    const { handleIrmaUrl } = this.props;
+    handleIrmaUrl(event.url, this.navigator);
   }
 
   navigationStateChange(prevState, newState) {
@@ -57,14 +64,22 @@ export default class RootNavigatorContainer extends Component {
     this.setState({currentRoute});
   }
 
+  // This ref setting function in bound only once in the constructor instead of with an arrow function in render
+  // due to the ref prop behaving as described here: https://github.com/facebook/react/issues/9328#issuecomment-298438237
+  // We originally crashed because Linking.getInitialURL's promise resolved while this.navigator was null
+  setNavigatorRef(nav) {
+    this.navigator = nav;
+  }
+
   render() {
+    // Lock the drawer on screens other than the Dashboard or the Drawer itself
     const { currentRoute } = this.state;
     const drawerLockMode = currentRoute === 'CredentialDashboard' || currentRoute === 'DrawerOpen' ?
       'unlocked' : 'locked-closed';
 
     return (
       <RootNavigator
-        ref={nav => { this.navigator = nav; }}
+        ref={this.setNavigatorRef}
         onNavigationStateChange={::this.navigationStateChange}
         screenProps={{drawerLockMode}}
       />

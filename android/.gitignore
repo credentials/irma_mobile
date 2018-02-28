@@ -4,3 +4,4 @@ irmagobridge.aar
 local.properties
 keystores/*
 keys.gradle
+sentry.properties

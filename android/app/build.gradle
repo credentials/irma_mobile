@@ -83,7 +83,7 @@ apply from: "../../node_modules/react-native-sentry/sentry.gradle"
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.
  */
-def enableSeparateBuildPerCPUArchitecture = false
+def enableSeparateBuildPerCPUArchitecture = true
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
@@ -92,14 +92,14 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "org.irmacard.cardemu"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 21
-        versionName "5.0.1"
+        versionCode 29
+        versionName "5.0.8"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -118,19 +118,15 @@ android {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
+            universalApk true
             include "armeabi-v7a", "x86"
         }
     }
     buildTypes {
         release {
-            manifestPlaceholders = [excludeSystemAlertWindowPermission: "true"]
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
-        }
-        debug {
-            manifestPlaceholders = [excludeSystemAlertWindowPermission: "false"]
         }
     }
     // applicationVariants are e.g. debug, release

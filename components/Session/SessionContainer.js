@@ -7,7 +7,8 @@ import DisclosureSession from './DisclosureSession';
 import SigningSession from './SigningSession';
 
 import fullCredentials from 'store/mappers/fullCredentials';
-import fullCandidates from 'store/mappers/fullCandidates';
+import fullDisclosuresCandidates from 'store/mappers/fullDisclosuresCandidates';
+import fullMissingDisclosures from 'store/mappers/fullMissingDisclosures';
 
 import { sendMail } from 'lib/mail';
 
@@ -38,7 +39,8 @@ const mapStateToProps = (state, props) => {
   const session = {
     ...bareSession,
     issuedCredentials: fullCredentials(bareSession.issuedCredentials, irmaConfiguration),
-    disclosureCandidates: fullCandidates(bareSession.disclosureCandidates, irmaConfiguration, credentials)
+    disclosuresCandidates: fullDisclosuresCandidates(bareSession.disclosuresCandidates, irmaConfiguration, credentials),
+    missingDisclosures: fullMissingDisclosures(bareSession.missingDisclosures, irmaConfiguration),
   };
 
   return {
@@ -106,14 +108,14 @@ export default class SessionContainer extends Component {
     );
   }
 
-  makeDisclosureChoice(disclosureIndex, Type, Hash) {
+  makeDisclosureChoice(disclosureIndex, Type, CredentialHash) {
     const { dispatch, session } = this.props;
 
     dispatch({
       type: 'Session.MakeDisclosureChoice',
       sessionId: session.id,
       disclosureIndex,
-      choice: {Type, Hash},
+      choice: {Type, CredentialHash},
     });
   }
 
@@ -137,13 +139,13 @@ export default class SessionContainer extends Component {
     const { pin, showDisclosureStep } = this.state;
     const {
       dispatch,
-      session: { id: sessionId, irmaAction, status, toDisclose, disclosureChoices },
+      session: { id: sessionId, irmaAction, status, disclosures, disclosureChoices },
     } = this.props;
 
     // In case we proceed on issuance and there are attributes
     // to disclose, continue to the disclosure step
     if(proceed && irmaAction === 'issuing' &&
-        !showDisclosureStep && toDisclose.length > 0) {
+        !showDisclosureStep && disclosures.length > 0) {
 
       this.setState({showDisclosureStep: true});
       return true;
@@ -180,12 +182,11 @@ export default class SessionContainer extends Component {
   render() {
     const { irmaConfiguration, session } = this.props;
     const { forceValidation, showDisclosureStep } = this.state;
-    
+
     // Introduce a pseudo-status for when we're disclosing in issuance or signing
     let status = this.props.session.status;
-    if(status === 'requestPermission' && showDisclosureStep) {
+    if(status === 'requestPermission' && showDisclosureStep)
       status = 'requestDisclosurePermission';
-    }
 
     const sessionProps = {
       forceValidation,
