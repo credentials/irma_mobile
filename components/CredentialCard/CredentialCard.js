@@ -66,6 +66,10 @@ export default class CredentialCard extends Component {
   }
 
   renderAttribute(attribute) {
+    if (attribute[lang] === undefined) {
+        // Do not show empty attributes.
+        return null;
+    }
     return (
       <CardItem key={attribute.Type.ID}>
         <Text>{ attribute.Type.Name[lang] }</Text>
