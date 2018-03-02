@@ -147,7 +147,6 @@ android {
 dependencies {
     compile project(':react-native-fs')
     compile project(':react-native-mail')
-    compile project(':react-native-fetch-blob')
     compile project(':react-native-sentry')
     compile project(':react-native-i18n')
     compile project(':react-native-camera')

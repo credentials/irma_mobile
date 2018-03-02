@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.chirag.RNMail.RNMail;
-import com.RNFetchBlob.RNFetchBlobPackage;
 import io.sentry.RNSentryPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import org.irmacard.cardemu.BuildConfig;
@@ -32,7 +31,6 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
           new RNMail(),
           new RNFSPackage(),
-          new RNFetchBlobPackage(),
           new RNSentryPackage(MainApplication.this),
           new RNI18nPackage(),
           new RCTCameraPackage(),
