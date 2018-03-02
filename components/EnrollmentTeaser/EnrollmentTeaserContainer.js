@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { resetNavigation } from 'lib/navigation';
+
 import EnrollmentTeaser from './EnrollmentTeaser';
 
 @connect()
@@ -26,15 +28,15 @@ export default class EnrollmentTeaserContainer extends Component {
     navigation.navigate('Enrollment');
   }
 
-  navigateBack() {
+  navigateToCredentialDashboard() {
     const { navigation } = this.props;
-    navigation.goBack();
+    resetNavigation(navigation.dispatch, 'CredentialDashboard');
   }
 
   render() {
     return (
       <EnrollmentTeaser
-        navigateBack={::this.navigateBack}
+        navigateToCredentialDashboard={::this.navigateToCredentialDashboard}
         navigateToEnrollment={::this.navigateToEnrollment}
       />
     );

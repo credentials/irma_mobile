@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Enrollment from './Enrollment';
+import Enrollment, { t } from './Enrollment';
 
 const mapStateToProps = (state) => {
   const {
@@ -39,7 +39,7 @@ export default class EnrollmentContainer extends Component {
   }
 
   static navigationOptions = {
-    title: 'Open IRMA account'
+    title: t('.title')
   }
 
   state = {
@@ -103,15 +103,5 @@ export default class EnrollmentContainer extends Component {
         pin={pin}
       />
     );
-
-      //   currentStep={currentStep}
-      //   dismiss={::this.dismiss}
-
-      //   nextStep={::this.nextStep}
-
-      //   prevStep={::this.prevStep}
-      //   enrollmentError={enrollmentError}
-      //   enrollmentStatus={enrollmentStatus}
-      // />
   }
 }

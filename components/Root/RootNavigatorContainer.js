@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Linking } from 'react-native';
-import { Sentry } from 'react-native-sentry';
 
 import RootNavigator from './RootNavigator';
 

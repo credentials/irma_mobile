@@ -9,17 +9,9 @@ import QRScanner from 'components/QRScanner';
 import Session from 'components/Session';
 import Sidebar from './children/Sidebar';
 
-const EnrollmentNavigator = StackNavigator({
-  Enrollment: { screen: Enrollment },
-  EnrollmentTeaser: { screen: EnrollmentTeaser },
-}, {
-  initialRouteName: 'EnrollmentTeaser',
-});
-
 const CredentialDashboardNavigator = StackNavigator({
   About: { screen: About },
   CredentialDashboard: { screen: CredentialDashboard },
-  // Enrollment: { screen: EnrollmentNavigator },
   Enrollment: { screen: Enrollment },
   EnrollmentTeaser: { screen: EnrollmentTeaser },
   PreferencesDashboard: {screen: PreferencesDashboard },
@@ -29,9 +21,19 @@ const CredentialDashboardNavigator = StackNavigator({
   initialRouteName: 'CredentialDashboard'
 });
 
+const PreferencesDashboardNavigator = StackNavigator({
+  PreferencesDashboard: { screen: PreferencesDashboard },
+}, {
+  initialRouteName: 'PreferencesDashboard',
+  headerMode: 'none',
+});
+
 const RootNavigator = DrawerNavigator(
   {
     CredentialDashboardNavigator: { screen: CredentialDashboardNavigator },
+    Enrollment: { screen: Enrollment },
+    EnrollmentTeaser: { screen: EnrollmentTeaser },
+    PreferencesDashboardNavigator: {screen: PreferencesDashboardNavigator },
   },
   {
     initialRouteName: 'CredentialDashboardNavigator',

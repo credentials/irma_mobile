@@ -1,1 +1,1 @@
-export default from './PreferencesNavigator';
+export default from './PreferencesDashboard';

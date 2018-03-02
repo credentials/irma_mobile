@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
 import { Sentry } from 'react-native-sentry';
 
+import { resetNavigation } from 'lib/navigation';
 import RootNavigatorContainer from './RootNavigatorContainer';
 
 const mapStateToProps = (state) => {
@@ -70,15 +70,7 @@ export default class RootContainer extends Component {
     if(unenrolledSchemeManagerIds.length === 0)
       return;
 
-    navigator.dispatch(
-      NavigationActions.reset({
-        index: 1,
-        actions: [
-          NavigationActions.navigate({ routeName: 'CredentialDashboard' }),
-          NavigationActions.navigate({ routeName: 'EnrollmentTeaser' }),
-        ],
-      })
-    );
+    resetNavigation(navigator.dispatch, 'EnrollmentTeaser');
   }
 
   // Handle an URL of the form irma://qr/json/$json
@@ -114,14 +106,10 @@ export default class RootContainer extends Component {
       qr,
     });
 
-    navigator.dispatch(
-      NavigationActions.reset({
-        index: 1,
-        actions: [
-          NavigationActions.navigate({routeName: 'CredentialDashboard'}),
-          NavigationActions.navigate({routeName: 'Session', params: { sessionId }}),
-        ]
-      })
+    resetNavigation(
+      navigator.dispatch,
+      'CredentialDashboard',
+      {routeName: 'Session', params: { sessionId }}
     );
   }
 

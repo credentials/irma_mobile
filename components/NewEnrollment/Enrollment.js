@@ -15,7 +15,7 @@ import { namespacedTranslation } from 'lib/i18n';
 import CollapsableForm from 'lib/form/CollapsableForm';
 import PaddedContent from 'lib/PaddedContent';
 
-const t = namespacedTranslation('Enrollment');
+export const t = namespacedTranslation('Enrollment');
 
 export default class Enrollment extends Component {
 
@@ -40,7 +40,7 @@ export default class Enrollment extends Component {
       <Card>
         <CardItem>
           <Text>
-            Welcome to IRMA! Please open your IRMA account by completing the two steps below.
+            { t('.intro') }
           </Text>
         </CardItem>
       </Card>
@@ -52,7 +52,6 @@ export default class Enrollment extends Component {
     const { validationForced, pinFormCollapsed, showSuccess } = this.state;
 
     const next = () => {
-      console.log("next tap")
       if(pin)
         this.setState({validationForced: false, pinFormCollapsed: true, emailFormCollapsed: false});
       else
@@ -61,7 +60,7 @@ export default class Enrollment extends Component {
 
     return (
       <CollapsableForm
-        headerText="Step 1: Choose an IRMA PIN"
+        headerText={ t('.step1.header') }
 
         onToggleCollapse={() => this.setState({pinFormCollapsed: !pinFormCollapsed})}
         collapsed={pinFormCollapsed}
@@ -73,14 +72,13 @@ export default class Enrollment extends Component {
         value={pin}
         locked={showSuccess}
 
-        firstLabel={t('.stepTwo.label')}
-        repeatLabel={t('.stepTwo.repeatLabel')}
+        firstLabel={ t('.step1.label') }
+        repeatLabel={ t('.step1.repeatLabel') }
+        invalidMessage={ t('.step1.invalidMessage') }
         inputType="pin"
       >
         <Text>
-          Enter a PIN of at least 5 digits. You will need to enter your PIN every time you use IRMA.
-          If you forget it, your attributes become unusable and you will have to open a new account.
-          { validationForced }
+          { t('.step1.text') }
         </Text>
       </CollapsableForm>
     );
@@ -116,7 +114,7 @@ export default class Enrollment extends Component {
 
     return (
       <CollapsableForm
-        headerText="Step 2: Add your email address"
+        headerText={ t('.step2.header') }
 
         onToggleCollapse={() => this.setState({emailFormCollapsed: !emailFormCollapsed})}
         collapsed={emailFormCollapsed}
@@ -129,13 +127,13 @@ export default class Enrollment extends Component {
         value={email}
         locked={showSuccess}
 
-        firstLabel={t('.stepOne.label')}
-        repeatLabel={t('.stepOne.repeatLabel')}
+        firstLabel={t('.step2.label')}
+        repeatLabel={t('.step2.repeatLabel')}
+        invalidMessage={ t('.step2.invalidMessage') }
         inputType="email"
       >
         <Text>
-          We strongly recommend to associate at least one email address with your account.
-          It allows you to login to your MyIRMA environment in case your phone is lost or stolen, so you can close your account.
+          { t('.step2.text') }
         </Text>
       </CollapsableForm>
     );
@@ -156,8 +154,7 @@ export default class Enrollment extends Component {
       <Card>
         <CardItem>
           <Text>
-            You have now succesfully opened your IRMA account.
-            You can proceed to load personal attributes.
+            { t('.success') }
           </Text>
         </CardItem>
       </Card>
@@ -170,7 +167,7 @@ export default class Enrollment extends Component {
     return (
       <Footer style={{height: 60, paddingTop: 7}}>
         <Button primary onPress={navigateToDashboard}>
-          <Text>Finish</Text>
+          <Text>{ t('.finish') }</Text>
         </Button>
       </Footer>
     );

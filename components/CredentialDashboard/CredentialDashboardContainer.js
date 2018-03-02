@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
+
+import { resetNavigation } from 'lib/navigation';
 
 import CredentialDashboard from './CredentialDashboard';
 import fullCredentials from 'store/mappers/fullCredentials';
@@ -18,9 +19,11 @@ const mapStateToProps = (state) => {
     }
   } = state;
 
+  const enrolled = unenrolledSchemeManagerIds.length == 0;
+
   return {
     credentials: fullCredentials(credentials, irmaConfiguration),
-    unenrolledSchemeManagerIds,
+    enrolled,
   };
 };
 
@@ -30,8 +33,8 @@ export default class CredentialDashboardContainer extends React.Component {
   static propTypes = {
     credentials: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
+    enrolled: PropTypes.bool.isRequired,
     navigation: PropTypes.object.isRequired,
-    unenrolledSchemeManagerIds: PropTypes.array.isRequired,
   }
 
   static navigationOptions = {
@@ -39,33 +42,11 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   navigateToQRScanner() {
-    this.props.navigation.dispatch(
-      NavigationActions.reset({
-        index: 1,
-        actions: [
-          NavigationActions.navigate({ routeName: 'CredentialDashboard' }),
-          NavigationActions.navigate({ routeName: 'QRScanner' }),
-        ],
-      }),
-    );
-  }
-
-  navigateToDetail(credential) {
-    this.props.navigation.navigate('CredentialDetail', {credential});
+    resetNavigation(this.props.navigation.dispatch, 'CredentialDashboard', 'QRScanner');
   }
 
   navigateToEnrollment() {
-    const schemeManagerId = this.props.unenrolledSchemeManagerIds[0];
-
-    this.props.dispatch({
-      type: 'Enrollment.Start',
-      schemeManagerId,
-    });
-
-    this.props.navigation.navigate(
-      'Enrollment',
-      {schemeManagerId}
-    );
+    resetNavigation(this.props.navigation.dispatch, 'CredentialDashboard', 'EnrollmentTeaser');
   }
 
   deleteCredential(credential) {
@@ -76,15 +57,13 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   render() {
-    const { credentials, unenrolledSchemeManagerIds  } = this.props;
-    const enrolled = unenrolledSchemeManagerIds.length == 0;
+    const { credentials, enrolled } = this.props;
 
     return (
       <CredentialDashboard
         credentials={credentials}
         deleteCredential={::this.deleteCredential}
         enrolled={enrolled}
-        navigateToDetail={::this.navigateToDetail}
         navigateToEnrollment={::this.navigateToEnrollment}
         navigateToQRScanner={::this.navigateToQRScanner}
       />

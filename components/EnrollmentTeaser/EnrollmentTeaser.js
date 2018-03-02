@@ -7,38 +7,53 @@ import {
   Text,
   Content,
   View,
+  Footer,
 } from 'native-base';
+
+import Swiper from 'react-native-swiper';
+
+import { namespacedTranslation } from 'lib/i18n';
 
 import passportImage from './children/passport.jpg';
 import shopImage from './children/shop.jpg';
 import authImage from './children/auth.jpg';
 
-import Swiper from 'react-native-swiper';
+const t = namespacedTranslation('EnrollmentTeaser');
 
 export default class EnrollmentTeaser extends Component {
 
   static propTypes = {
     navigateToEnrollment: PropTypes.func.isRequired,
-    navigateBack: PropTypes.func.isRequired,
+    navigateToCredentialDashboard: PropTypes.func.isRequired,
   }
 
-  renderFooter() {
-    const { navigateToEnrollment, navigateBack } = this.props;
+  renderFooter(index, total, swiperLib) {
+    const { navigateToEnrollment, navigateToCredentialDashboard } = this.props;
 
     const footerStyle = {
-      height: 100,
-      flexDirection: 'row',
-      justifyContent: 'center',
+      height: 110,
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      backgroundColor: 'transparent',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
     };
 
     return (
-      <View {...footerStyle} style={{}}>
-        <Button onPress={navigateBack} style={{marginTop: 5, marginRight: 20}}>
-          <Text>Demo</Text>
-        </Button>
-        <Button onPress={navigateToEnrollment} style={{marginTop: 5}}>
-          <Text>Open IRMA account</Text>
-        </Button>
+      <View {...footerStyle}>
+        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <Button onPress={navigateToEnrollment} style={{marginTop: 5}}>
+            <Text>{ t('.openAccount') }</Text>
+          </Button>
+        </View>
+        <Footer style={{height: 30, backgroundColor: 'rgba(255, 255, 255, 0.6)'}}>
+          <Button transparent small onPress={navigateToCredentialDashboard} style={{}}>
+            <Text>{ t('.notNow') }</Text>
+          </Button>
+        </Footer>
+        { swiperLib.renderPagination() }
       </View>
     );
   }
@@ -72,29 +87,34 @@ export default class EnrollmentTeaser extends Component {
   }
 
   render() {
+    // TODO: Can the second image be edited to show the wine bottle more prominently, for the >18 use case?
+
     return (
-      <Swiper loop={false} showsButtons={true}>
+      <Swiper
+        loop={false}
+        paginationStyle={{bottom: 40}}
+        renderPagination={::this.renderFooter}
+        showsButtons={true}
+      >
         <ImageBackground
           imageStyle={{marginTop: 300}}
           source={passportImage}
           style={{flex: 1, backgroundColor: '#2dbfce'}}
         >
           { this.renderTexts(
-              'IRMA is like a personalized passport stored only on your phone. It puts you in control and keeps your personal data private and secure.',
-              '"I Reveal My Attributes"'
+              t('.slide1.statement'),
+              t('.slide1.quote'),
           )}
-          { this.renderFooter() }
         </ImageBackground>
         <ImageBackground
           imageStyle={{marginTop: 100}}
-          source={shopImage} // Can this image be edited to show the wine bottle more prominently, for the >18 use case?
+          source={shopImage}
           style={{flex: 1, backgroundColor: '#abe3f4'}}
         >
           { this.renderTexts(
-              'IRMA allows you to reveal relevant attributes – and nothing more.',
-              '"I\'m older than 18"'
+              t('.slide2.statement'),
+              t('.slide2.quote'),
           )}
-          { this.renderFooter() }
         </ImageBackground>
         <ImageBackground
           imageStyle={{marginTop: 100}}
@@ -102,10 +122,9 @@ export default class EnrollmentTeaser extends Component {
           style={{flex: 1, backgroundColor: '#65b7cc'}}
         >
           { this.renderTexts(
-              'IRMA allows you to gain access without passwords.',
-              '"It\'s me, log me in!"'
+              t('.slide3.statement'),
+              t('.slide3.quote'),
           )}
-          { this.renderFooter() }
         </ImageBackground>
       </Swiper>
     );

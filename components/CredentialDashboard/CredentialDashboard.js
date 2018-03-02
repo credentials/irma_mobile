@@ -23,7 +23,6 @@ export default class CredentialDashboard extends Component {
     credentials: PropTypes.array.isRequired,
     deleteCredential: PropTypes.func.isRequired,
     enrolled: PropTypes.bool.isRequired,
-    navigateToDetail: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,
     navigateToQRScanner: PropTypes.func.isRequired,
   }
