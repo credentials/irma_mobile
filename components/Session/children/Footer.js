@@ -121,13 +121,13 @@ export default class Footer extends Component {
 
     if (id === 0 && status === 'success' && result !== undefined) {
       return [
-        <Button key="sendMail" success onPress={() => {sendMail(); navigateBack();}} >
-          <Icon name="send" />
-          <Text>E-mail result</Text>
-        </Button>,
-        <Button key="dismiss" danger onPress={navigateBack} style={{marginLeft: 20}}>
+        <Button iconLeft key="dismiss" danger onPress={navigateBack}>
           <Icon name="close-circle" />
           <Text>{ t('.dismiss') }</Text>
+        </Button>,
+        <Button iconLeft key="sendMail" success onPress={() => {sendMail(); navigateBack();}} style={{marginLeft: 20}}>
+          <Icon name="send" />
+          <Text>Send</Text>
         </Button>
       ];
     }
