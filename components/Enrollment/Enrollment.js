@@ -123,7 +123,7 @@ export default class Enrollment extends Component {
         </Card>
       </PaddedContent>,
       <Footer key="footer" style={{height: 40}}>
-        <Button transparent small onPress={dismiss} style={{paddingTop: 14}}>
+        <Button transparent small onPress={dismiss} style={{paddingTop: 14}} testID="dismiss">
           <Text>{ t('.notnow') }</Text>
         </Button>
       </Footer>
@@ -261,7 +261,7 @@ export default class Enrollment extends Component {
     ];
 
     return (
-      <Container>
+      <Container testID="Enrollment">
         { this.renderHeader() }
         { stepRenderers[currentStep]() }
       </Container>

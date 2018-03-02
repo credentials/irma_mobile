@@ -78,11 +78,11 @@ export default class Footer extends Component {
     }
 
     return [
-      <Button key="no" danger iconLeft onPress={() => this.press(false)}>
+      <Button key="no" danger iconLeft onPress={() => this.press(false)} testID="noButton">
         <Icon name="close-circle" />
         <Text>{ noLabel }</Text>
       </Button>,
-      <Button key="yes" success iconLeft onPress={() => this.press(true)} style={{marginLeft: 20}}>
+      <Button key="yes" success iconLeft onPress={() => this.press(true)} style={{marginLeft: 20}} testID="yesButton">
         <Icon name="checkmark-circle" />
         <Text>{ yesLabel }</Text>
       </Button>
@@ -100,7 +100,7 @@ export default class Footer extends Component {
       return null;
 
     return (
-      <Button onPress={navigateBack} >
+      <Button onPress={navigateBack} testID="dismissButton">
         <Text>{ t('.dismiss') }</Text>
       </Button>
     );

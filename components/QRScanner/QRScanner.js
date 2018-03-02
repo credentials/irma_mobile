@@ -58,14 +58,14 @@ export default class QRScanner extends Component {
       return null;
 
     return (
-      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-        <Button primary onPress={() => this.samplePress('issuance')}>
+      <View style={{flexDirection: 'row', justifyContent: 'center'}} testID="QRScanner">
+        <Button primary onPress={() => this.samplePress('issuance')} testID="testIssuance">
           <Text>Issuance</Text>
         </Button>
-        <Button primary onPress={() => this.samplePress('disclosure')}>
+        <Button primary onPress={() => this.samplePress('disclosure')} testID="testDisclosure">
           <Text>Disclosure</Text>
         </Button>
-        <Button primary onPress={() => this.samplePress('signing')}>
+        <Button primary onPress={() => this.samplePress('signing')} testID="testSigning">
           <Text>Signing</Text>
         </Button>
       </View>

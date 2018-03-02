@@ -77,7 +77,7 @@ export default class IssuanceSession extends Component {
 
         explanation = (
           <Text>
-            <Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
+            <Text style={{fontWeight: 'bold'}}>{ serverName }</Text>
             { t('.requestPermissionExplanation', {credentialAmount, attributeAmount}) }
           </Text>
         );
@@ -136,7 +136,7 @@ export default class IssuanceSession extends Component {
     return (
       <KeyboardAwareContainer>
         <Header title={t('.headerTitle')} navigateBack={navigateBack} />
-        <PaddedContent>
+        <PaddedContent testID="IssuanceSession">
           { this.renderStatusCard() }
           <Error session={session} />
           <PinEntry

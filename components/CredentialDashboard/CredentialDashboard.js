@@ -47,7 +47,7 @@ export default class CredentialDashboard extends Component {
 
     return (
       <View style={{paddingTop: 60}}>
-        <Button iconLeft primary onPress={navigateToEnrollment} style={buttonStyle}>
+        <Button iconLeft primary onPress={navigateToEnrollment} style={buttonStyle} testID="scanQR">
           <Icon name="key" style={{color: 'white'}} />
           <Text style={{color: 'white'}}>{ t('.unenrolled.button') }</Text>
         </Button>
@@ -90,7 +90,7 @@ export default class CredentialDashboard extends Component {
 
   render() {
     return (
-      <Container>
+      <Container testID="CredentialDashboard">
         <PaddedContent>
           { this.renderNoCredentialsHint() }
           { this.renderCredentials() }
