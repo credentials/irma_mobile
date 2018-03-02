@@ -13,6 +13,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.rnfs.RNFSPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,12 +30,13 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNMail(),
-            new RNFetchBlobPackage(),
-            new RNSentryPackage(MainApplication.this),
-            new RNI18nPackage(),
-            new RCTCameraPackage(),
-            new IrmaBridgePackage()
+          new RNMail(),
+          new RNFSPackage(),
+          new RNFetchBlobPackage(),
+          new RNSentryPackage(MainApplication.this),
+          new RNI18nPackage(),
+          new RCTCameraPackage(),
+          new IrmaBridgePackage()
       );
     }
   };

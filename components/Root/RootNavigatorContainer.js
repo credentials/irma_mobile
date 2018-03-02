@@ -41,7 +41,7 @@ export default class RootNavigatorContainer extends Component {
     // Also on mount, handle any initial IRMA URL with which the app was started
     Linking.getInitialURL().then( irmaUrl => {
       if (this.navigator && irmaUrl)
-        handleIrmaUrl(irmaUrl, this.navigator);
+        handleUrl(irmaUrl, this.navigator);
     }).catch();
 
     // Setup a handler for any IRMA URLs which are opened later
@@ -54,8 +54,8 @@ export default class RootNavigatorContainer extends Component {
   }
 
   urlListener(event) {
-    const { handleIrmaUrl } = this.props;
-    handleIrmaUrl(event.url, this.navigator);
+    const { handleUrl } = this.props;
+    handleUrl(event.url, this.navigator);
   }
 
   navigationStateChange(prevState, newState) {

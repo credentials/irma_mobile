@@ -28,6 +28,7 @@
     "react-native": "^0.51.0",
     "react-native-camera": "^0.12.0",
     "react-native-fetch-blob": "https://github.com/koen92/react-native-fetch-blob#c6b6c54",
+    "react-native-fs": "^2.9.11",
     "react-native-hyperlink": "^0.0.11",
     "react-native-i18n": "^2.0.10",
     "react-native-mail": "https://github.com/martijndeh/react-native-mail#eb05983",

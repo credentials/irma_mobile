@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import { PermissionsAndroid } from 'react-native';
+import { Alert } from 'react-native';
 import { Sentry } from 'react-native-sentry';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFS from 'react-native-fs';
 
 import RootNavigatorContainer from './RootNavigatorContainer';
 
@@ -94,31 +94,31 @@ export default class RootContainer extends Component {
 
   // Handle URL
   handleUrl(url, navigator) {
-    // TODO: Fix this for iOS as well!
-    // if url startswith content:// then we'll start a manual session
+    // Doing a manual session on Android
     if (url.startsWith('content://')) {
-      // Check if we can write to SD card
-      // This is needed to mail attachment
-      // TODO: check if we can also do this via Android intent to avoid requesting this permission
-      return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
-        .then(permissionResult => {
-          if (permissionResult === 'granted') {
-            return canSendMail()
-              .then(() => this.handleContentUrl(url, navigator))
-              .catch(() => {}); // TODO: show error that no mail client is installed
-          }
-          // TODO: show error that permission to write to SD card has been rejected
-        });
+      this.startFromFileUrl(url, navigator);
+    }
+
+    // Doing a manual session on iOS
+    if (url.startsWith('file://')) {
+      const path = url.slice(7); // Strip file://
+      this.startFromFileUrl(path, navigator);
     }
 
     // Handle errors in handleIrmaUrl
     return this.handleIrmaUrl(url, navigator);
   }
 
-  // Handle an URL of the form content://path/to/content for signature requests
+  startFromFileUrl(url, navigator) {
+    return canSendMail()
+      .then(() => this.handleContentUrl(url, navigator))
+      .catch(() => {}); // TODO: show error that no mail client is installed
+  }
+
+  // Handle an URL of the form file://path (iOS) or content://path (Android) for signature requests
   // TODO: handle disclosure requests as well
   handleContentUrl(url, navigator) {
-    RNFetchBlob.fs.readFile(url, 'utf-8')
+    RNFS.readFile(url, 'utf8')
       .then(result => {
         const sigRequest = JSON.parse(result);
 
@@ -139,8 +139,15 @@ export default class RootContainer extends Component {
             routeName: 'Session',
             params: { sessionId: 0 },
           })
-        ); })
-      .catch(() => {}); // TODO: show error that reading content failed?
+        );
+      })
+      .catch(() => { // TODO handle properly
+        Alert.alert(
+          'Error starting IRMA session: could not read file',
+          [{text: 'Dismiss', style: 'cancel'}],
+          { cancelable: true }
+        );
+      });
   }
 
   // Handle an URL of the form irma://qr/json/$json
