@@ -23,7 +23,7 @@ export default class Enrollment extends Component {
     changeEmail: PropTypes.func.isRequired,
     changePin: PropTypes.func.isRequired,
     email: PropTypes.string,
-    fakeEnroll: PropTypes.func.isRequired,
+    enroll: PropTypes.func.isRequired,
     navigateToDashboard: PropTypes.func.isRequired,
     pin: PropTypes.string,
   }
@@ -85,7 +85,7 @@ export default class Enrollment extends Component {
   }
 
   renderEmailForm() {
-    const { pin, email, changeEmail, fakeEnroll } = this.props;
+    const { pin, email, changeEmail, enroll } = this.props;
     const { validationForced, emailFormCollapsed, showSuccess } = this.state;
 
     const next = () => {
@@ -96,19 +96,18 @@ export default class Enrollment extends Component {
 
       this.setState({emailFormCollapsed: true, validationForced: false});
 
-      if(pin)
-        this.setState({showSuccess: true});
-      else
+      if(pin) {
+        enroll(pin, email);
+      } else
         this.setState({pinFormCollapsed: false});
     };
 
     const skip = () => {
       this.setState({emailFormCollapsed: true, validationForced: false});
 
-      if(pin) {
-        fakeEnroll();
-        this.setState({showSuccess: true});
-      } else
+      if(pin)
+        enroll(pin, null);
+      else
         this.setState({pinFormCollapsed: false});
     };
 
@@ -120,8 +119,8 @@ export default class Enrollment extends Component {
         collapsed={emailFormCollapsed}
         validationForced={validationForced}
 
-        onNext={next}
         onSkip={skip}
+        onNext={next}
 
         onChange={changeEmail}
         value={email}

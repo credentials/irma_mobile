@@ -11,13 +11,18 @@ type ActionHandler struct {
 
 // Enrollment to a keyshare server
 type EnrollAction struct {
-	SchemeManagerId irma.SchemeManagerIdentifier
-	Email           string
-	Pin             string
+	Email string
+	Pin   string
 }
 
 func (ah *ActionHandler) Enroll(action *EnrollAction) (err error) {
-	client.KeyshareEnroll(action.SchemeManagerId, action.Email, action.Pin)
+	if len(client.UnenrolledSchemeManagers) == 0 {
+		return errors.Errorf("No unenrolled scheme manager available to enroll with")
+	}
+
+	// Irmago doesn't actually support multiple scheme managers with keyshare enrollment,
+	// so we just pick the first unenrolled, which should be PBDF production
+	client.KeyshareEnroll(client.UnenrolledSchemeManagers[0], action.Email, action.Pin)
 	return nil
 }
 

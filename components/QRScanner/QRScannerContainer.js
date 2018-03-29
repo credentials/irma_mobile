@@ -28,7 +28,11 @@ export default class QRScannerContainer extends Component {
     });
 
     // Place the Session screen directly under the CredentialDashboard, so goBack works properly
-    resetNavigation(navigation.dispatch, 'CredentialDashboard', 'Session');
+    resetNavigation(
+      navigation.dispatch,
+      'CredentialDashboard',
+      {routeName: 'Session', params: {sessionId}},
+    );
   }
 
   render() {

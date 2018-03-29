@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 const initialState = {
   unenrolledSchemeManagerIds: [],
+  status: null,
   loaded: false,
 };
 
@@ -22,6 +23,13 @@ export default function enrollment(state = initialState, action) {
       };
     }
 
+    case 'IrmaBridge.Enroll': {
+      return {
+        ...state,
+        status: 'enrolling',
+      };
+    }
+
     case 'IrmaClient.EnrollmentSuccess': {
       return {
         ...state,
@@ -38,14 +46,7 @@ export default function enrollment(state = initialState, action) {
     }
 
     case 'Enrollment.Dismiss': {
-      return _.omit(state, 'status', 'error');
-    }
-
-    case 'Enrollment.FakeEnrollment': {
-      return {
-        ...state,
-        unenrolledSchemeManagerIds: [],
-      };
+      return _.pick(state, 'unenrolledSchemeManagerIds');
     }
 
     default:

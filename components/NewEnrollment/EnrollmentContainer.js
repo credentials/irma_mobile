@@ -6,22 +6,13 @@ import Enrollment, { t } from './Enrollment';
 
 const mapStateToProps = (state) => {
   const {
-    irmaConfiguration: {
-      schemeManagers,
-    },
     enrollment: {
       error,
       status,
-      unenrolledSchemeManagerIds,
     }
   } = state;
 
-  // Irmago doesn't actually support multiple scheme managers with keyshare enrollment,
-  // so we just pick the first unenrolled, which should be PBDF
-  const schemeManagerId = unenrolledSchemeManagerIds[0];
-
   return {
-    schemeManager: schemeManagers[schemeManagerId],
     enrollmentStatus: status,
     enrollmentError: error,
   };
@@ -35,7 +26,6 @@ export default class EnrollmentContainer extends Component {
     enrollmentError: PropTypes.string,
     enrollmentStatus: PropTypes.string.isRequired,
     navigation: PropTypes.object.isRequired,
-    schemeManager: PropTypes.object,
   }
 
   static navigationOptions = {
@@ -56,18 +46,11 @@ export default class EnrollmentContainer extends Component {
     this.setState({pin});
   }
 
-  fakeEnroll() {
+  enroll(email, pin) {
     const { dispatch } = this.props;
-    dispatch({type: 'Enrollment.FakeEnrollment'});
-  }
-
-  enroll() {
-    const { dispatch, schemeManager } = this.props;
-    const { email, pin } = this.state;
 
     dispatch({
       type: 'IrmaBridge.Enroll',
-      schemeManagerId: schemeManager.ID,
       email,
       pin,
     });
@@ -96,11 +79,11 @@ export default class EnrollmentContainer extends Component {
         changeEmail={::this.changeEmail}
         changePin={::this.changePin}
         email={email}
-        fakeEnroll={::this.fakeEnroll}
-        validationForced={validationForced}
+        enroll={::this.enroll}
         navigateBack={::this.navigateBack}
         navigateToDashboard={::this.navigateToDashboard}
         pin={pin}
+        validationForced={validationForced}
       />
     );
   }
