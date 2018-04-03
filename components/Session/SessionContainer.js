@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { resetNavigation } from 'lib/navigation';
+
 import IssuanceSession from './IssuanceSession';
 import DisclosureSession from './DisclosureSession';
 import SigningSession from './SigningSession';
@@ -79,25 +81,11 @@ export default class SessionContainer extends Component {
   }
 
   navigateToEnrollment() {
-    // TODO: Fix me
-    const {
-      dispatch,
-      navigation,
-      session: {
-        missingSchemeManagerId: schemeManagerId
-      }
-    } = this.props;
+    const { navigation } = this.props;
 
-    dispatch({
-      type: 'Enrollment.Start',
-    });
-
-    navigation.goBack();
-
-    // Fuck you React Navigation #1127
-    setTimeout(
-      () => navigation.navigate('Enrollment', { schemeManagerId }),
-      250
+    resetNavigation(
+      navigation.dispatch,
+      'EnrollmentTeaser',
     );
   }
 

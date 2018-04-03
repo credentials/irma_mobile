@@ -47,7 +47,7 @@ export default class CredentialDashboard extends Component {
 
     return (
       <View style={{paddingTop: 60}}>
-        <Button iconLeft primary onPress={navigateToEnrollment} style={buttonStyle} testID="scanQR">
+        <Button iconLeft primary onPress={navigateToEnrollment} style={buttonStyle}>
           <Icon name="key" style={{color: 'white'}} />
           <Text style={{color: 'white'}}>{ t('.unenrolled.button') }</Text>
         </Button>
@@ -81,7 +81,7 @@ export default class CredentialDashboard extends Component {
     const { enrolled, navigateToQRScanner } = this.props;
 
     return (
-      <Button primary={enrolled} light={!enrolled} onPress={navigateToQRScanner}>
+      <Button testID="scanQRButton" primary={enrolled} light={!enrolled} onPress={navigateToQRScanner}>
         <Icon ios="ios-qr-scanner" android="md-qr-scanner" />
         <Text style={{paddingLeft: 10}}>{ t('.scanQRCode') }</Text>
       </Button>

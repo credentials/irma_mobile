@@ -44,12 +44,12 @@ export default class EnrollmentTeaser extends Component {
     return (
       <View {...footerStyle}>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Button onPress={navigateToEnrollment} style={{marginTop: 5}}>
+          <Button testID="enrollButton" onPress={navigateToEnrollment} style={{marginTop: 5}}>
             <Text>{ t('.openAccount') }</Text>
           </Button>
         </View>
         <Footer style={{height: 30, backgroundColor: 'rgba(255, 255, 255, 0.6)'}}>
-          <Button transparent small onPress={navigateToCredentialDashboard} style={{}}>
+          <Button testID="dismissButton" transparent small onPress={navigateToCredentialDashboard}>
             <Text>{ t('.notNow') }</Text>
           </Button>
         </Footer>
@@ -91,6 +91,7 @@ export default class EnrollmentTeaser extends Component {
 
     return (
       <Swiper
+        testID="EnrollmentTeaser"
         loop={false}
         paginationStyle={{bottom: 40}}
         renderPagination={::this.renderFooter}

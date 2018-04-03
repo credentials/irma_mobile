@@ -60,6 +60,7 @@ export default class Enrollment extends Component {
 
     return (
       <CollapsableForm
+        testID="pinForm"
         headerText={ t('.step1.header') }
 
         onToggleCollapse={() => this.setState({pinFormCollapsed: !pinFormCollapsed})}
@@ -97,7 +98,7 @@ export default class Enrollment extends Component {
       this.setState({emailFormCollapsed: true, validationForced: false});
 
       if(pin) {
-        enroll(pin, email);
+        enroll({ pin, email });
       } else
         this.setState({pinFormCollapsed: false});
     };
@@ -106,7 +107,7 @@ export default class Enrollment extends Component {
       this.setState({emailFormCollapsed: true, validationForced: false});
 
       if(pin)
-        enroll(pin, null);
+        enroll({ pin, email: null });
       else
         this.setState({pinFormCollapsed: false});
     };
@@ -176,7 +177,7 @@ export default class Enrollment extends Component {
     const { showSuccess } = this.state;
 
     return (
-      <Container style={{backgroundColor: '#E9E9EF'}}>
+      <Container testID="Enrollment" style={{backgroundColor: '#E9E9EF'}}>
         <PaddedContent>
           { this.renderForm() }
           { !showSuccess ? null :

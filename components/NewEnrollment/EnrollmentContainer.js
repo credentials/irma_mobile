@@ -46,7 +46,7 @@ export default class EnrollmentContainer extends Component {
     this.setState({pin});
   }
 
-  enroll(email, pin) {
+  enroll({ pin, email }) {
     const { dispatch } = this.props;
 
     dispatch({
