@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 
 import {
@@ -33,6 +34,10 @@ export default class Enrollment extends Component {
     navigateToDashboard: PropTypes.func.isRequired,
     pin: PropTypes.string,
     status: PropTypes.string.isRequired,
+  }
+
+  static navigationOptions = {
+    title: Dimensions.get('window').width > 350 ? t('.title') : t('.shortTitle'),
   }
 
   state = {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ImageBackground } from 'react-native';
+import { Dimensions, ImageBackground } from 'react-native';
 
 import {
   Button,
@@ -59,9 +59,12 @@ export default class EnrollmentTeaser extends Component {
   }
 
   renderTexts(statement, quote) {
+    const {width: screenWidth} = Dimensions.get('window');
+    const small = screenWidth < 350;
+
     const statementStyle = {
       color: '#305f91',
-      fontSize: 26,
+      fontSize: small ? 22 : 26,
       fontWeight: '300',
       marginTop: 40,
       paddingHorizontal: 20,
@@ -70,10 +73,10 @@ export default class EnrollmentTeaser extends Component {
     const quoteStyle = {
       color: '#ffffff',
       fontFamily: 'Times New Roman',
-      fontSize: 30,
+      fontSize: small ? 26 : 30,
       fontStyle: 'italic',
       fontWeight: '800',
-      marginTop: 30,
+      marginTop: small ? 24 : 30,
       paddingHorizontal: 20,
       textAlign: 'right',
     };

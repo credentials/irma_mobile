@@ -29,9 +29,7 @@ export default class EnrollmentContainer extends Component {
     status: PropTypes.string.isRequired,
   }
 
-  static navigationOptions = {
-    title: t('.title')
-  }
+  static navigationOptions = Enrollment.navigationOptions;
 
   state = {
     email: null,
