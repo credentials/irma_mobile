@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { getLanguage } from 'lib/i18n';
 
 import CredentialLogo from 'components/CredentialLogo';
 
@@ -12,7 +13,7 @@ import {
   View,
 } from 'native-base';
 
-const lang = 'en';
+const lang = getLanguage();
 
 export default class MissingDisclosures extends Component {
 

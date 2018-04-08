@@ -16,9 +16,9 @@ import {
 
 import Card from 'lib/UnwrappedCard';
 import CredentialLogo from 'components/CredentialLogo';
-import { namespacedTranslation } from 'lib/i18n';
+import { namespacedTranslation, getLanguage } from 'lib/i18n';
 
-const lang = 'en'; // TODO: Move to I18n
+const lang = getLanguage();
 const t = namespacedTranslation('CredentialCard');
 
 export default class CredentialCard extends Component {
