@@ -75,7 +75,7 @@ export default class QRScanner extends Component {
   render() {
     return (
       <QRCodeScanner
-        title="Scan"
+        title={t('.scan')}
         ref={(node) => this.scanner = node}
         bottomContent={this.renderBottomContent()}
         onRead={::this.read}
