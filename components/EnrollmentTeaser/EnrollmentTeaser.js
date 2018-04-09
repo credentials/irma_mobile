@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dimensions, ImageBackground } from 'react-native';
+import { Dimensions, ImageBackground, Platform } from 'react-native';
 
 import {
   Button,
@@ -26,6 +26,9 @@ export default class EnrollmentTeaser extends Component {
     navigateToEnrollment: PropTypes.func.isRequired,
     navigateToCredentialDashboard: PropTypes.func.isRequired,
   }
+
+  small = Dimensions.get('window').width < 350;
+  ios = Platform.OS === 'ios';
 
   renderFooter(index, total, swiperLib) {
     const { navigateToEnrollment, navigateToCredentialDashboard } = this.props;
@@ -59,24 +62,33 @@ export default class EnrollmentTeaser extends Component {
   }
 
   renderTexts(statement, quote) {
-    const {width: screenWidth} = Dimensions.get('window');
-    const small = screenWidth < 350;
+    let statementFontsize = 26;
+    let quoteFontsize = 30;
+    if (this.small) {
+      statementFontsize -= 4;
+      quoteFontsize -= 4;
+    }
+    if (!this.ios) {
+      statementFontsize -= 2;
+      quoteFontsize -= 4;
+    }
 
     const statementStyle = {
       color: '#305f91',
-      fontSize: small ? 22 : 26,
+      fontFamily: this.ios ? undefined : 'sans-serif',
+      fontSize: statementFontsize,
       fontWeight: '300',
-      marginTop: 40,
+      marginTop: this.ios ? 40 : 20,
       paddingHorizontal: 20,
     };
 
     const quoteStyle = {
       color: '#ffffff',
-      fontFamily: 'Times New Roman',
-      fontSize: small ? 26 : 30,
+      fontFamily: this.ios ? 'Times New Roman' : 'serif',
+      fontSize: quoteFontsize,
       fontStyle: 'italic',
       fontWeight: '800',
-      marginTop: small ? 24 : 30,
+      marginTop: this.small ? 24 : 30,
       paddingHorizontal: 20,
       textAlign: 'right',
     };
@@ -101,7 +113,7 @@ export default class EnrollmentTeaser extends Component {
         showsButtons={true}
       >
         <ImageBackground
-          imageStyle={{marginTop: 300}}
+          imageStyle={{marginTop: this.small && !this.ios ? 225 : 300}}
           source={passportImage}
           style={{flex: 1, backgroundColor: '#2dbfce'}}
         >
