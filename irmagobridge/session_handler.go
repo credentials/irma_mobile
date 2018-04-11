@@ -120,7 +120,6 @@ func (sh *SessionHandler) RequestSignaturePermission(request irma.SignatureReque
 		"disclosures":           request.ToDisclose(),
 		"disclosuresCandidates": request.Candidates,
 		"message":               request.Message,
-		"messageType":           request.MessageType,
 	}
 
 	sh.permissionHandler = ph

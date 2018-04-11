@@ -46,7 +46,7 @@ The IRMA app manages the user's IRMA attributes: receiving new attributes, selec
 
 ## Developing for iOS
 
-Full instruction are coming soon. Following the "Building Projects with Native Code" guide for iOS and the gomobile steps for Android (see above) should go a long way. You can then fire up Xcode and press ⌘R; the compilation of the `irmagobridge` is handled by Xcode.
+Full instructions are coming soon. Following the "Building Projects with Native Code" guide for iOS and the gomobile steps for Android (see above) should go a long way. You can then fire up Xcode and press ⌘R; the compilation of the `irmagobridge` is handled by Xcode.
 
 ### Troubleshooting
 - If Javascript compilation fails with an error that some source cannot be resolved or located (i.e. cannot resolve 'lib/...', 'store/...'), it often helps to clear the Babel build cache with `yarn start --reset-cache`. You may need to kill old Node server (`killall node`) if you get a port binding error.

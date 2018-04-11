@@ -123,7 +123,7 @@ export default class RootContainer extends Component {
         const sigRequest = JSON.parse(result);
 
         if (!validateSigrequest(sigRequest)) {
-          // TODO: Show error
+          // TODO: handle properly
           return;
         }
 

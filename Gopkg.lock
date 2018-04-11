@@ -23,19 +23,19 @@
   branch = "master"
   name = "github.com/getsentry/raven-go"
   packages = ["."]
-  revision = "563b81fc02b75d664e54da31f787c2cc2186780b"
+  revision = "d1470f50d3a3a38533355a9fab7393e25a3b4226"
 
 [[projects]]
   name = "github.com/go-errors/errors"
   packages = ["."]
-  revision = "3afebba5a48dbc89b574d890b6b34d9ee10b4785"
-  version = "v1.0.0"
+  revision = "a6af135bd4e28680facf08a3d206b454abc877a4"
+  version = "v1.0.1"
 
 [[projects]]
   branch = "master"
   name = "github.com/mhe/gabi"
   packages = ["."]
-  revision = "6123a11fd5206d74c0f01cd1d60a70d96bab366b"
+  revision = "bf5016a5f3005bef1d2416989588cefcf9a73cb7"
 
 [[projects]]
   name = "github.com/pkg/errors"
@@ -47,10 +47,11 @@
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
+    "internal/disable_sigpipe",
     "internal/fs",
     "irmaclient"
   ]
-  revision = "255230e1924e7349b74790ae106a875ed5030f74"
+  revision = "master"
 
 [[projects]]
   branch = "master"
