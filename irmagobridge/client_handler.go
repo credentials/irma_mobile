@@ -15,13 +15,25 @@ func (ch *ClientHandler) UpdateAttributes() {
 	sendCredentials()
 }
 
-func (ch *ClientHandler) EnrollmentError(managerIdentifier irma.SchemeManagerIdentifier, err error) {
-	logDebug("Handling EnrollmentError")
+func (ch *ClientHandler) EnrollmentFailure(managerIdentifier irma.SchemeManagerIdentifier, plainErr error) {
+	logDebug("Handling EnrollmentFailure")
+
+	err, ok := plainErr.(*irma.SessionError)
+	if !ok {
+		err = &irma.SessionError{ErrorType: irma.ErrorType("unknown"), Err: plainErr}
+	}
 
 	action := &OutgoingAction{
-		"type":            "IrmaClient.EnrollmentError",
+		"type":            "IrmaClient.EnrollmentFailure",
 		"schemeManagerId": managerIdentifier,
-		"error":           err.Error(),
+		"error": &OutgoingAction{
+			"type":         err.ErrorType,
+			"message":      err.Error(),
+			"info":         err.Info,
+			"stack":        err.Stack(),
+			"remoteStatus": err.RemoteStatus,
+			"remoteError":  err.RemoteError,
+		},
 	}
 
 	sendAction(action)

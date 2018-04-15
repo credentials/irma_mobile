@@ -93,12 +93,7 @@ export default function credentials(state = initialState, action) {
           ...state[sessionId],
           status: 'failure',
           irmaAction: action.irmaAction,
-          errorType: action.errorType,
-          errorMessage: action.errorMessage,
-          errorInfo: action.errorInfo,
-          errorStatus: action.errorStatus,
-          errorStack: action.errorStack,
-          apiError: action.apiError,
+          error: action.error,
         }
       };
     }

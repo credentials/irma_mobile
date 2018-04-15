@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Enrollment, { t } from './Enrollment';
+import { resetNavigation } from 'lib/navigation';
 
 const mapStateToProps = (state) => {
   const {
@@ -13,8 +14,8 @@ const mapStateToProps = (state) => {
   } = state;
 
   return {
-    enrollmentStatus: status,
-    enrollmentError: error,
+    error,
+    status,
   };
 };
 
@@ -23,9 +24,9 @@ export default class EnrollmentContainer extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    enrollmentError: PropTypes.string,
-    enrollmentStatus: PropTypes.string.isRequired,
+    error: PropTypes.object,
     navigation: PropTypes.object.isRequired,
+    status: PropTypes.string.isRequired,
   }
 
   static navigationOptions = {
@@ -36,6 +37,18 @@ export default class EnrollmentContainer extends Component {
     email: null,
     validationForced: false,
     pin: null,
+  }
+
+  componentDidUpdate(prevProps) {
+    const { status, navigation } = this.props;
+
+    // When successful, reset the EnrollmentTeaser off the routes, so we can't go back
+    // TODO: This creates an unwanted animation, but react-navigation doesn't seem to support
+    // not displaying it. Only workaround seems to be react-navigation#1490
+    // Consider first upgrading react-navigation before attempting this.
+    if(prevProps.status !== status && status === 'success') {
+      resetNavigation(navigation.dispatch, 'Enrollment');
+    }
   }
 
   changeEmail(email) {
@@ -72,6 +85,7 @@ export default class EnrollmentContainer extends Component {
   }
 
   render() {
+    const { error, status } = this.props;
     const { email, pin, validationForced } = this.state;
 
     return (
@@ -80,9 +94,11 @@ export default class EnrollmentContainer extends Component {
         changePin={::this.changePin}
         email={email}
         enroll={::this.enroll}
+        error={error}
         navigateBack={::this.navigateBack}
         navigateToDashboard={::this.navigateToDashboard}
         pin={pin}
+        status={status}
         validationForced={validationForced}
       />
     );

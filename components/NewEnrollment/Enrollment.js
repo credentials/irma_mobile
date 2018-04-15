@@ -2,18 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  Body,
   Button,
-  Text,
-  Container,
   Card,
   CardItem,
-  View,
+  Container,
   Footer,
+  Icon,
+  Left,
+  Text,
+  View,
 } from 'native-base';
 
 import { namespacedTranslation } from 'lib/i18n';
 import CollapsableForm from 'lib/form/CollapsableForm';
 import PaddedContent from 'lib/PaddedContent';
+import ErrorCard from 'components/ErrorCard';
+import IconCard from 'components/IconCard';
 
 export const t = namespacedTranslation('Enrollment');
 
@@ -24,8 +29,10 @@ export default class Enrollment extends Component {
     changePin: PropTypes.func.isRequired,
     email: PropTypes.string,
     enroll: PropTypes.func.isRequired,
+    error: PropTypes.object,
     navigateToDashboard: PropTypes.func.isRequired,
     pin: PropTypes.string,
+    status: PropTypes.string.isRequired,
   }
 
   state = {
@@ -149,16 +156,31 @@ export default class Enrollment extends Component {
     );
   }
 
-  renderSuccessCard() {
+  renderEnrolling() {
     return (
-      <Card>
-        <CardItem>
-          <Text>
-            { t('.success') }
-          </Text>
-        </CardItem>
-      </Card>
+      <IconCard iconName="chatboxes">
+        <Text>{ t('.enrolling') }</Text>
+      </IconCard>
     );
+  }
+
+  renderSuccess() {
+    return (
+      <IconCard iconName="checkmark-circle">
+        <Text>{ t('.success') }</Text>
+      </IconCard>
+    );
+  }
+
+  renderFailure() {
+    const { error } = this.props;
+
+    return [
+      <IconCard key="header" iconName="alert">
+        <Text>{ t('.failure') }</Text>
+      </IconCard>,
+      <ErrorCard key="error" error={error} />
+    ];
   }
 
   renderSuccessFooter() {
@@ -173,18 +195,31 @@ export default class Enrollment extends Component {
     );
   }
 
+  renderContent() {
+    switch(this.props.status) {
+      case 'started':
+        return this.renderForm();
+
+      case 'enrolling':
+        return this.renderEnrolling();
+
+      case 'success':
+        return this.renderSuccess();
+
+      case 'failure':
+        return this.renderFailure();
+    }
+  }
+
   render() {
-    const { showSuccess } = this.state;
+    const { status } = this.props;
 
     return (
       <Container testID="Enrollment" style={{backgroundColor: '#E9E9EF'}}>
         <PaddedContent>
-          { this.renderForm() }
-          { !showSuccess ? null :
-              this.renderSuccessCard()
-          }
+          { this.renderContent() }
         </PaddedContent>
-        { !showSuccess ? null :
+        { status === 'success' ? null :
             this.renderSuccessFooter()
         }
       </Container>

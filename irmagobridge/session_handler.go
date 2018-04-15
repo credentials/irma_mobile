@@ -1,7 +1,6 @@
 package irmagobridge
 
 import (
-	"github.com/go-errors/errors"
 	"github.com/privacybydesign/irmago"
 	"github.com/privacybydesign/irmago/irmaclient"
 )
@@ -39,21 +38,18 @@ func (sh *SessionHandler) Success(irmaAction irma.Action, result string) {
 func (sh *SessionHandler) Failure(irmaAction irma.Action, err *irma.SessionError) {
 	logDebug("Handling Failure")
 
-	var stack string
-	if terr, ok := err.Err.(*errors.Error); ok {
-		stack = string(terr.Stack())
-	}
-
 	action := &OutgoingAction{
-		"type":         "IrmaSession.Failure",
-		"sessionId":    sh.sessionID,
-		"irmaAction":   irmaAction,
-		"errorType":    err.ErrorType,
-		"errorMessage": err.Error(),
-		"errorInfo":    err.Info,
-		"errorStatus":  err.Status,
-		"errorStack":   stack,
-		"apiError":     err.ApiError,
+		"type":       "IrmaSession.Failure",
+		"sessionId":  sh.sessionID,
+		"irmaAction": irmaAction,
+		"error": &OutgoingAction{
+			"type":         err.ErrorType,
+			"message":      err.Error(),
+			"info":         err.Info,
+			"stack":        err.Stack(),
+			"remoteStatus": err.RemoteStatus,
+			"remoteError":  err.RemoteError,
+		},
 	}
 
 	sendAction(action)

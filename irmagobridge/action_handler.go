@@ -11,7 +11,7 @@ type ActionHandler struct {
 
 // Enrollment to a keyshare server
 type EnrollAction struct {
-	Email string
+	Email *string
 	Pin   string
 }
 
