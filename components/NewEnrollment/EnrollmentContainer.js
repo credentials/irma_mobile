@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Enrollment, { t } from './Enrollment';
+import Enrollment from './Enrollment';
 import { resetNavigation } from 'lib/navigation';
+import { getLanguage } from 'lib/i18n';
 
 const mapStateToProps = (state) => {
   const {
@@ -59,11 +60,12 @@ export default class EnrollmentContainer extends Component {
 
   enroll({ pin, email }) {
     const { dispatch } = this.props;
-
+    const language = getLanguage();
     dispatch({
       type: 'IrmaBridge.Enroll',
       email,
       pin,
+      language
     });
   }
 
