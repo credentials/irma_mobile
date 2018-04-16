@@ -18,6 +18,7 @@ func (ch *ClientHandler) UpdateAttributes() {
 func (ch *ClientHandler) EnrollmentFailure(managerIdentifier irma.SchemeManagerIdentifier, plainErr error) {
 	logDebug("Handling EnrollmentFailure")
 
+	// Make sure the error is wrapped in a SessionError, so we only have one type to handle in irma_mobile
 	err, ok := plainErr.(*irma.SessionError)
 	if !ok {
 		err = &irma.SessionError{ErrorType: irma.ErrorType("unknown"), Err: plainErr}
@@ -28,7 +29,7 @@ func (ch *ClientHandler) EnrollmentFailure(managerIdentifier irma.SchemeManagerI
 		"schemeManagerId": managerIdentifier,
 		"error": &OutgoingAction{
 			"type":         err.ErrorType,
-			"message":      err.Error(),
+			"wrappedError": err.WrappedError(),
 			"info":         err.Info,
 			"stack":        err.Stack(),
 			"remoteStatus": err.RemoteStatus,

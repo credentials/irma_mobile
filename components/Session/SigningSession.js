@@ -135,7 +135,7 @@ export default class SigningSession extends Component {
     return (
       <KeyboardAwareContainer>
         <Header title={t('.headerTitle')} navigateBack={navigateBack} />
-        <PaddedContent>
+        <PaddedContent testID="SigningSession" enableAutomaticScroll={session.status !== 'requestPin'}>
           { this.renderStatusCard() }
           <Error session={session} />
           <PinEntry

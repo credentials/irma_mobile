@@ -5262,6 +5262,14 @@ react-test-renderer@^16.2.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
+react-timeout@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-timeout/-/react-timeout-1.1.1.tgz#50e49d8c861e4b5745ce230182bdd279b82400ba"
+  dependencies:
+    create-react-class "^15.5.2"
+    hoist-non-react-statics "^2.3.1"
+    object-assign "^4.0.1"
+
 react-timer-mixin@^0.13.2, react-timer-mixin@^0.13.3:
   version "0.13.3"
   resolved "https://registry.yarnpkg.com/react-timer-mixin/-/react-timer-mixin-0.13.3.tgz#0da8b9f807ec07dc3e854d082c737c65605b3d22"

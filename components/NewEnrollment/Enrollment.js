@@ -3,14 +3,11 @@ import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 
 import {
-  Body,
   Button,
   Card,
   CardItem,
   Container,
   Footer,
-  Icon,
-  Left,
   Text,
   View,
 } from 'native-base';
@@ -28,11 +25,13 @@ export default class Enrollment extends Component {
   static propTypes = {
     changeEmail: PropTypes.func.isRequired,
     changePin: PropTypes.func.isRequired,
+    disableRetry: PropTypes.bool.isRequired,
     email: PropTypes.string,
     enroll: PropTypes.func.isRequired,
     error: PropTypes.object,
     navigateToDashboard: PropTypes.func.isRequired,
     pin: PropTypes.string,
+    retryEnroll: PropTypes.func.isRequired,
     status: PropTypes.string.isRequired,
   }
 
@@ -47,7 +46,7 @@ export default class Enrollment extends Component {
     validationForced: false,
   }
 
-  renderIntro() {
+  renderFormIntro() {
     return (
       <Card>
         <CardItem>
@@ -151,82 +150,78 @@ export default class Enrollment extends Component {
     );
   }
 
-  renderForm() {
-    return (
-      <View>
-        { this.renderIntro() }
-        { this.renderPinForm() }
-        { this.renderEmailForm() }
-      </View>
-    );
-  }
-
-  renderEnrolling() {
-    return (
-      <IconCard iconName="chatboxes">
-        <Text>{ t('.enrolling') }</Text>
-      </IconCard>
-    );
-  }
-
-  renderSuccess() {
-    return (
-      <IconCard iconName="checkmark-circle">
-        <Text>{ t('.success') }</Text>
-      </IconCard>
-    );
-  }
-
-  renderFailure() {
-    const { error } = this.props;
-
-    return [
-      <IconCard key="header" iconName="alert">
-        <Text>{ t('.failure') }</Text>
-      </IconCard>,
-      <ErrorCard key="error" error={error} />
-    ];
-  }
-
-  renderSuccessFooter() {
-    const { navigateToDashboard } = this.props;
-
-    return (
-      <Footer style={{height: 60, paddingTop: 7}}>
-        <Button primary onPress={navigateToDashboard}>
-          <Text>{ t('.finish') }</Text>
-        </Button>
-      </Footer>
-    );
-  }
-
   renderContent() {
-    switch(this.props.status) {
+    const { status, error } = this.props;
+
+    switch(status) {
       case 'started':
-        return this.renderForm();
+        return (
+          <View>
+            { this.renderFormIntro() }
+            { this.renderPinForm() }
+            { this.renderEmailForm() }
+          </View>
+        );
 
       case 'enrolling':
-        return this.renderEnrolling();
+        return (
+          <IconCard iconName="chatboxes">
+            <Text>{ t('.enrolling') }</Text>
+          </IconCard>
+        );
 
       case 'success':
-        return this.renderSuccess();
+        return (
+          <IconCard iconName="checkmark-circle">
+            <Text>{ t('.success') }</Text>
+          </IconCard>
+        );
 
       case 'failure':
-        return this.renderFailure();
+        return [
+          <IconCard key="header" iconName="alert">
+            <Text>{ t('.failure') }</Text>
+          </IconCard>,
+          <ErrorCard key="error" error={error} />
+        ];
+    }
+  }
+
+  renderFooter() {
+    const { status, navigateToDashboard, retryEnroll, disableRetry } = this.props;
+
+    const wrapFooter = children =>
+      <Footer style={{height: 60, paddingTop: 7}}>
+        { children }
+      </Footer>;
+
+    switch(status) {
+      case 'success':
+        return wrapFooter(
+          <Button primary onPress={navigateToDashboard}>
+            <Text>{ t('.finish') }</Text>
+          </Button>
+        );
+
+      case 'failure':
+        return wrapFooter(
+          <Button primary disabled={disableRetry} onPress={retryEnroll}>
+            <Text>{ t('.retry') }</Text>
+          </Button>
+        );
+
+      default:
+        return null;
     }
   }
 
   render() {
-    const { status } = this.props;
-
     return (
       <Container testID="Enrollment" style={{backgroundColor: '#E9E9EF'}}>
         <PaddedContent>
           { this.renderContent() }
         </PaddedContent>
-        { status !== 'success' ? null :
-            this.renderSuccessFooter()
-        }
+        { this.renderFooter() }
       </Container>
     );
   }

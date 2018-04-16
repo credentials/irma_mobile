@@ -56,7 +56,7 @@ export default class Footer extends Component {
     } = this.props;
     const { hidden } = this.state;
 
-    if(!_.includes(['requestPermission', 'requestDisclosurePermission', 'requestPin'], status))
+    if(hidden || !_.includes(['requestPermission', 'requestDisclosurePermission', 'requestPin'], status))
       return null;
 
     let yesLabel = t('.accept');
@@ -93,10 +93,7 @@ export default class Footer extends Component {
     const { session: { status }, navigateBack } = this.props;
     const { hidden } = this.state;
 
-    if(!_.includes(['success', 'failure', 'cancelled', 'unsatisfiableRequest', 'keyshareEnrollmentMissing', 'keyshareBlocked', 'keyshareEnrollmentIncomplete'], status))
-      return null;
-
-    if(hidden)
+    if(hidden || !_.includes(['success', 'failure', 'cancelled', 'unsatisfiableRequest', 'keyshareEnrollmentMissing', 'keyshareBlocked', 'keyshareEnrollmentIncomplete'], status))
       return null;
 
     return (

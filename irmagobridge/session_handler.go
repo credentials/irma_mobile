@@ -44,7 +44,7 @@ func (sh *SessionHandler) Failure(irmaAction irma.Action, err *irma.SessionError
 		"irmaAction": irmaAction,
 		"error": &OutgoingAction{
 			"type":         err.ErrorType,
-			"message":      err.Error(),
+			"wrappedError": err.WrappedError(),
 			"info":         err.Info,
 			"stack":        err.Stack(),
 			"remoteStatus": err.RemoteStatus,

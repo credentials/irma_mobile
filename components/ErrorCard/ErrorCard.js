@@ -14,7 +14,6 @@ import {
   List,
   Right,
   Text,
-  Toast,
   View,
 } from 'native-base';
 
@@ -40,7 +39,7 @@ export default class ErrorCard extends Component {
     extraReportInfo: PropTypes.object,
     error: PropTypes.shape({
       type: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired,
+      wrappedError: PropTypes.string,
       info: PropTypes.string,
       remoteStatus: PropTypes.number,
       remoteError: PropTypes.object, // TODO: Might want to provide a shape
@@ -76,11 +75,6 @@ export default class ErrorCard extends Component {
     });
 
     this.setState({reported: true});
-    Toast.show({
-      text: t('.reportedThanks'),
-      position: 'bottom',
-      duration: 2000,
-    });
   }
 
   renderErrorText() {
