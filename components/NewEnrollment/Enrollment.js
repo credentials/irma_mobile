@@ -224,7 +224,7 @@ export default class Enrollment extends Component {
         <PaddedContent>
           { this.renderContent() }
         </PaddedContent>
-        { status === 'success' ? null :
+        { status !== 'success' ? null :
             this.renderSuccessFooter()
         }
       </Container>
