@@ -218,7 +218,7 @@ export default class Enrollment extends Component {
   render() {
     return (
       <Container testID="Enrollment" style={{backgroundColor: '#E9E9EF'}}>
-        <PaddedContent>
+        <PaddedContent enableAutomaticScroll={true}>
           { this.renderContent() }
         </PaddedContent>
         { this.renderFooter() }
