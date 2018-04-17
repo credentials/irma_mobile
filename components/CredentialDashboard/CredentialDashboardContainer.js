@@ -46,7 +46,7 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   navigateToEnrollment() {
-    resetNavigation(this.props.navigation.dispatch, 'CredentialDashboard', 'EnrollmentTeaser');
+    resetNavigation(this.props.navigation.dispatch, 'EnrollmentTeaser');
   }
 
   deleteCredential(credential) {

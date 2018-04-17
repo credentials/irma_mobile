@@ -19,6 +19,8 @@ import shopImage from './children/shop.jpg';
 import authImage from './children/auth.jpg';
 
 const t = namespacedTranslation('EnrollmentTeaser');
+const isSmallDevice = Dimensions.get('window').width < 350;
+const isIos = Platform.OS === 'ios';
 
 export default class EnrollmentTeaser extends Component {
 
@@ -26,9 +28,6 @@ export default class EnrollmentTeaser extends Component {
     navigateToEnrollment: PropTypes.func.isRequired,
     navigateToCredentialDashboard: PropTypes.func.isRequired,
   }
-
-  small = Dimensions.get('window').width < 350;
-  ios = Platform.OS === 'ios';
 
   renderFooter(index, total, swiperLib) {
     const { navigateToEnrollment, navigateToCredentialDashboard } = this.props;
@@ -64,31 +63,31 @@ export default class EnrollmentTeaser extends Component {
   renderTexts(statement, quote) {
     let statementFontsize = 26;
     let quoteFontsize = 30;
-    if (this.small) {
+    if (isSmallDevice) {
       statementFontsize -= 4;
       quoteFontsize -= 4;
     }
-    if (!this.ios) {
+    if (!isIos) {
       statementFontsize -= 2;
       quoteFontsize -= 4;
     }
 
     const statementStyle = {
       color: '#305f91',
-      fontFamily: this.ios ? undefined : 'sans-serif',
+      fontFamily: isIos ? undefined : 'sans-serif',
       fontSize: statementFontsize,
       fontWeight: '300',
-      marginTop: this.ios ? 40 : 20,
+      marginTop: isIos ? 40 : 20,
       paddingHorizontal: 20,
     };
 
     const quoteStyle = {
       color: '#ffffff',
-      fontFamily: this.ios ? 'Times New Roman' : 'serif',
+      fontFamily: isIos ? 'Times New Roman' : 'serif',
       fontSize: quoteFontsize,
       fontStyle: 'italic',
       fontWeight: '800',
-      marginTop: this.small ? 24 : 30,
+      marginTop: isSmallDevice ? 24 : 30,
       paddingHorizontal: 20,
       textAlign: 'right',
     };
@@ -113,7 +112,7 @@ export default class EnrollmentTeaser extends Component {
         showsButtons={true}
       >
         <ImageBackground
-          imageStyle={{marginTop: this.small && !this.ios ? 225 : 300}}
+          imageStyle={{marginTop: isSmallDevice && !isIos ? 225 : 300}}
           source={passportImage}
           style={{flex: 1, backgroundColor: '#2dbfce'}}
         >

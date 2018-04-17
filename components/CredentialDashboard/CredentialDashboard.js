@@ -68,7 +68,7 @@ export default class CredentialDashboard extends Component {
           { t(`.${status}.header`) }
         </H3>
         <View style={{paddingHorizontal: 20, alignItems: 'center'}}>
-          <Text style={{paddingTop: 30, textAlign: 'justify', color: '#888888'}}>
+          <Text style={{paddingTop: 30, color: '#888888'}}>
             { t(`.${status}.text`) }
           </Text>
           { enrolled ? null : this.renderEnrollButton() }
