@@ -36,7 +36,7 @@ The IRMA app manages the user's IRMA attributes: receiving new attributes, selec
     - `go get github.com/privacybydesign/irma_mobile/irmagobridge/...` should do the trick
 - Install javascript dependencies using Yarn or NPM:
     ```
-    cd $GOPATH/github.com/privacybydesign/irma_mobile
+    cd $GOPATH/src/github.com/privacybydesign/irma_mobile
     yarn
     ```
 - Start the app in debug mode:
