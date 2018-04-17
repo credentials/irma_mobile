@@ -97,7 +97,7 @@ export default class Footer extends Component {
       return null;
 
     return (
-      <Button onPress={navigateBack} testID="dismissButton">
+      <Button style={{minWidth: 75, justifyContent: 'center'}} onPress={navigateBack} testID="dismissButton">
         <Text>{ t('.dismiss') }</Text>
       </Button>
     );
