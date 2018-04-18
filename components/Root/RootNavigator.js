@@ -2,7 +2,7 @@ import { DrawerNavigator, StackNavigator } from 'react-navigation';
 
 import About from 'components/About';
 import CredentialDashboard from 'components/CredentialDashboard';
-import Enrollment from 'components/NewEnrollment';
+import Enrollment from 'components/Enrollment';
 import EnrollmentTeaser from 'components/EnrollmentTeaser';
 import PreferencesDashboard from 'components/PreferencesDashboard';
 import QRScanner from 'components/QRScanner';

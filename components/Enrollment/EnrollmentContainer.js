@@ -1,93 +1,56 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ReactTimeout from 'react-timeout';
 
 import Enrollment from './Enrollment';
+import { resetNavigation } from 'lib/navigation';
+import { getLanguage } from 'lib/i18n';
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state) => {
   const {
-    navigation,
-  } = props;
-
-  const { schemeManagerId } = navigation.state.params;
-
-  const {
-    irmaConfiguration: {
-      schemeManagers,
-    },
     enrollment: {
-      [schemeManagerId]: {
-        status,
-        error,
-      }
+      error,
+      status,
     }
   } = state;
 
   return {
-    schemeManager: schemeManagers[schemeManagerId],
-    enrollmentStatus: status,
-    enrollmentError: error,
+    error,
+    status,
   };
 };
 
+@ReactTimeout
 @connect(mapStateToProps)
 export default class EnrollmentContainer extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    enrollmentError: PropTypes.string,
-    enrollmentStatus: PropTypes.string.isRequired,
+    error: PropTypes.object,
     navigation: PropTypes.object.isRequired,
-    schemeManager: PropTypes.object.isRequired,
+    status: PropTypes.string.isRequired,
+    setTimeout: PropTypes.func.isRequired,
   }
 
+  static navigationOptions = Enrollment.navigationOptions;
+
   state = {
-    currentStep: 0,
     email: null,
     validationForced: false,
     pin: null,
+    disableRetry: false,
   }
 
-  prevStep() {
-    const { currentStep } = this.state;
+  componentDidUpdate(prevProps) {
+    const { status, navigation } = this.props;
 
-    switch(currentStep) {
-      case 1:
-      case 2:
-      case 3:
-        this.setState({currentStep: currentStep - 1, validationForced: false});
-    }
-  }
-
-  nextStep() {
-    const { currentStep, email, pin } = this.state;
-
-    switch(currentStep) {
-      case 0:
-        this.setState({currentStep: 1});
-      break;
-
-      case 1:
-        if(email)
-          this.setState({currentStep: 2, validationForced: false});
-        else
-          this.setState({validationForced: true});
-        break;
-
-      case 2:
-        if(pin) {
-          this.enroll(email, pin);
-          this.setState({currentStep: 3});
-        } else
-          this.setState({validationForced: true});
-        break;
-
-      case 3:
-        this.dismiss();
-        break;
-
-      default:
-        return;
+    // When successfully enrolled, reset the route so we can't go back to EnrollmentTeaser
+    // TODO: This creates an unwanted animation, but react-navigation doesn't seem to support
+    // not displaying it, despite years of tickets. Only workaround seems to be react-navigation#1490
+    // Consider first upgrading react-navigation before attempting this.
+    if(prevProps.status !== status && status === 'success') {
+      resetNavigation(navigation.dispatch, 'Enrollment');
     }
   }
 
@@ -99,46 +62,75 @@ export default class EnrollmentContainer extends Component {
     this.setState({pin});
   }
 
-  enroll() {
-    const { dispatch, schemeManager } = this.props;
-    const { email, pin } = this.state;
+  enroll({ pin, email }) {
+    const { dispatch } = this.props;
+    const language = getLanguage();
+
+    // We take the passed (pin and) email value, because the user could've skipped while having
+    // validly filled the email fields. So we record the final value here for retries
+    this.setState({email, pin});
 
     dispatch({
       type: 'IrmaBridge.Enroll',
-      schemeManagerId: schemeManager.ID,
       email,
       pin,
+      language,
     });
   }
 
-  dismiss() {
-    const { dispatch, navigation, schemeManager } = this.props;
+  retryEnroll() {
+    const { dispatch } = this.props;
+    const { email, pin } = this.state;
+    const language = getLanguage();
+
+    // Disallow retry for three seconds
+    this.setState({disableRetry: true});
+    this.props.setTimeout(
+      () => this.setState({disableRetry: false}),
+      3000
+    );
 
     dispatch({
-      type: 'Enrollment.Dismiss',
-      schemeManagerId: schemeManager.ID,
+      type: 'IrmaBridge.Enroll',
+      email,
+      pin,
+      language
+    });
+  }
+
+  navigateBack() {
+    const { dispatch, navigation } = this.props;
+
+    dispatch({
+      type: 'Enrollment.Dismiss'
     });
 
-    navigation.navigate('CredentialDashboard');
+    navigation.goBack();
+  }
+
+  navigateToDashboard() {
+    const { navigation } = this.props;
+    resetNavigation(navigation.dispatch, 'CredentialDashboard');
   }
 
   render() {
-    const { enrollmentStatus, enrollmentError } = this.props;
-    const { currentStep, email, pin, validationForced } = this.state;
+    const { error, status } = this.props;
+    const { disableRetry, email, pin, validationForced } = this.state;
 
     return (
       <Enrollment
+        disableRetry={disableRetry}
         changeEmail={::this.changeEmail}
         changePin={::this.changePin}
-        currentStep={currentStep}
-        dismiss={::this.dismiss}
         email={email}
-        validationForced={validationForced}
-        nextStep={::this.nextStep}
+        enroll={::this.enroll}
+        error={error}
+        navigateBack={::this.navigateBack}
+        navigateToDashboard={::this.navigateToDashboard}
         pin={pin}
-        prevStep={::this.prevStep}
-        enrollmentError={enrollmentError}
-        enrollmentStatus={enrollmentStatus}
+        retryEnroll={::this.retryEnroll}
+        status={status}
+        validationForced={validationForced}
       />
     );
   }
