@@ -34,7 +34,7 @@
   version = "1.0.0"
 
 [[constraint]]
-  branch = "keyshare-registration"
+  branch = "master"
   name = "github.com/privacybydesign/irmago"
 
 [prune]

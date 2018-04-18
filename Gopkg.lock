@@ -44,7 +44,7 @@
   version = "v0.8.0"
 
 [[projects]]
-  branch = "keyshare-registration"
+  branch = "master"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
@@ -52,7 +52,7 @@
     "internal/fs",
     "irmaclient"
   ]
-  revision = "6ae56f8933cda1aebdba85fef55e6552ceb6c335"
+  revision = "b05ec5cdb5219828206f270868acf58ad0dd96f3"
 
 [[projects]]
   branch = "master"
@@ -63,6 +63,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "1b927e86e6c5a96ba0e46362927bb460d380f3e4c7bfb0fe7c0343a034fc1f96"
+  inputs-digest = "a1b5ac232f1c63977d2e6a398ad8558f9d4c2210fde8538e048db0d7e11d4596"
   solver-name = "gps-cdcl"
   solver-version = 1
