@@ -10,19 +10,19 @@ import Session from 'components/Session';
 import Sidebar from './children/Sidebar';
 
 const CredentialDashboardNavigator = StackNavigator({
-  About: { screen: About },
-  CredentialDashboard: { screen: CredentialDashboard },
-  Enrollment: { screen: Enrollment },
-  EnrollmentTeaser: { screen: EnrollmentTeaser },
-  PreferencesDashboard: {screen: PreferencesDashboard },
-  QRScanner: { screen: QRScanner },
-  Session: { screen: Session },
+  About: About,
+  CredentialDashboard: CredentialDashboard,
+  Enrollment: Enrollment,
+  EnrollmentTeaser: EnrollmentTeaser,
+  PreferencesDashboard: PreferencesDashboard,
+  QRScanner: QRScanner,
+  Session: Session,
 }, {
-  initialRouteName: 'CredentialDashboard'
+  initialRouteName: 'CredentialDashboard',
 });
 
 const PreferencesDashboardNavigator = StackNavigator({
-  PreferencesDashboard: { screen: PreferencesDashboard },
+  PreferencesDashboard: PreferencesDashboard,
 }, {
   initialRouteName: 'PreferencesDashboard',
   headerMode: 'none',
@@ -30,14 +30,13 @@ const PreferencesDashboardNavigator = StackNavigator({
 
 const RootNavigator = DrawerNavigator(
   {
-    CredentialDashboardNavigator: { screen: CredentialDashboardNavigator },
-    Enrollment: { screen: Enrollment },
-    EnrollmentTeaser: { screen: EnrollmentTeaser },
-    PreferencesDashboardNavigator: {screen: PreferencesDashboardNavigator },
-  },
-  {
+    CredentialDashboardNavigator: CredentialDashboardNavigator,
+    Enrollment: Enrollment,
+    EnrollmentTeaser: EnrollmentTeaser,
+    PreferencesDashboardNavigator: PreferencesDashboardNavigator,
+  }, {
     initialRouteName: 'CredentialDashboardNavigator',
-    contentComponent: Sidebar
+    contentComponent: Sidebar,
   }
 );
 
