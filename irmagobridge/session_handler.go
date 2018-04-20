@@ -150,6 +150,17 @@ func (sh *SessionHandler) KeyshareEnrollmentMissing(manager irma.SchemeManagerId
 	sendAction(action)
 }
 
+func (sh *SessionHandler) KeyshareEnrollmentDeleted(manager irma.SchemeManagerIdentifier) {
+	logDebug("Handling KeyshareEnrollmentDeleted")
+	action := &OutgoingAction{
+		"type":            "IrmaSession.KeyshareEnrollmentDeleted",
+		"sessionId":       sh.sessionID,
+		"schemeManagerId": manager,
+	}
+
+	sendAction(action)
+}
+
 func (sh *SessionHandler) KeyshareBlocked(manager irma.SchemeManagerIdentifier, duration int) {
 	logDebug("Handling KeyshareBlocked")
 	action := &OutgoingAction{
