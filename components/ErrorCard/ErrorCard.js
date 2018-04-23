@@ -132,10 +132,10 @@ export default class ErrorCard extends Component {
     const { moreInfo } = this.state;
     return (
         <Button small
-          style={{width: 130, justifyContent: 'center', alignSelf: 'center'}}
+          style={{alignSelf: 'center'}}
           onPress={() => this.setState({moreInfo: !moreInfo})}
         >
-          <Text style={{alignSelf: 'center'}} >
+          <Text>
             { moreInfo ? t('.hideinfo') : t('.showinfo') }
           </Text>
         </Button>
