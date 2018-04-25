@@ -332,6 +332,20 @@
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
 		};
+		D0CD36CB2090A888002CA54F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BDC1FC498900052F4D5;
+			remoteInfo = jsinspector;
+		};
+		D0CD36CD2090A888002CA54F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BFA1FC4989A0052F4D5;
+			remoteInfo = "jsinspector-tvOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -549,6 +563,8 @@
 				3DAD3EAB1DF850E9000B6D8A /* libcxxreact.a */,
 				3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */,
 				3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */,
+				D0CD36CC2090A888002CA54F /* libjsinspector.a */,
+				D0CD36CE2090A888002CA54F /* libjsinspector-tvOS.a */,
 				D099FD2D1F54DA2900E15452 /* libthird-party.a */,
 				D0C9F8181FF3084100D4B885 /* libthird-party.a */,
 				D099FD2F1F54DA2900E15452 /* libdouble-conversion.a */,
@@ -713,7 +729,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "IRMA" */;
 			buildPhases = (
-				D036DBB01F794A2900736347 /* ShellScript */,
+				D036DBB01F794A2900736347 /* Compile Go code with gomobile */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
@@ -1134,6 +1150,20 @@
 			remoteRef = D0C9F81D1FF3084100D4B885 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		D0CD36CC2090A888002CA54F /* libjsinspector.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjsinspector.a;
+			remoteRef = D0CD36CB2090A888002CA54F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D0CD36CE2090A888002CA54F /* libjsinspector-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsinspector-tvOS.a";
+			remoteRef = D0CD36CD2090A888002CA54F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1197,7 +1227,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/sentry-cli react-native xcode \\\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n\nif [ \"$CONFIGURATION\" = \"Debug\" ]; then\n    ../node_modules/react-native/scripts/react-native-xcode.sh\nelse\n    ../node_modules/@sentry/cli/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\nfi";
 		};
 		6A31B1F1E55640B1A6C7F655 /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1211,20 +1241,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#export SENTRY_PROPERTIES=sentry.properties\n#../node_modules/@sentry/cli/sentry-cli upload-dsym";
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n\nif [ \"$CONFIGURATION\" != \"Debug\" ]; then\n  ../node_modules/@sentry/cli/sentry-cli upload-dsym\nfi";
 		};
-		D036DBB01F794A2900736347 /* ShellScript */ = {
+		D036DBB01F794A2900736347 /* Compile Go code with gomobile */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Compile Go code with gomobile";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "go_version=$(go version)\nif [[ $go_version = *'go1.9.4'* ]]; then\n  export CGO_CFLAGS_ALLOW='-fmodules|-fblocks'\nfi\n\nexport GOPATH=`echo ~/go`\n$GOPATH/bin/gomobile bind -target ios github.com/privacybydesign/irma_mobile/irmagobridge\n";
+			shellScript = "go_version=$(go version)\nif [[ $go_version = *'go1.9.4'* ]]; then\n  export CGO_CFLAGS_ALLOW='-fmodules|-fblocks'\nfi\n\nexport GOPATH=`echo ~/go`\nexport PATH=\"$GOPATH/bin:$PATH\"\n$GOPATH/bin/gomobile bind -target ios github.com/privacybydesign/irma_mobile/irmagobridge\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

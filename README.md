@@ -17,6 +17,8 @@ The IRMA app manages the user's IRMA attributes: receiving new attributes, selec
 - Follow the steps for "Installing dependencies" for "Building Projects with Native Code" (not the "Quick Start"):
     - https://facebook.github.io/react-native/docs/0.51/getting-started.html (you may skip the step to install `react-native-cli`)
     - Yarn is used for Javascript dependency management in this guide, but npm should work as well (except for compatibility with `yarn.lock`): https://yarnpkg.com/en/docs/install
+    - **iOS**:
+      - While React Native states a minimum requirement of Xcode 8, you should use Xcode 9 due to facebook/react-native#18944.
     - **Android**:
       - The Android NDK should also be installed through the SDK Manager. This can be done by checking the 'LLDB', 'CMake', and 'NDK' options in the [SDK Tools tab](https://developer.android.com/ndk/guides/index.html#download-ndk).
       - Verify that `$ANDROID_HOME` is properly set for your current and future shells
