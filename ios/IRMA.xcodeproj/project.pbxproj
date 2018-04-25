@@ -1227,7 +1227,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n\nif [ \"$CONFIGURATION\" = \"Debug\" ]; then\n    ../node_modules/react-native/scripts/react-native-xcode.sh\nelse\n    ../node_modules/@sentry/cli/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\nfi";
+			shellScript = $SRCROOT/scripts/bundle_rn.sh;
 		};
 		6A31B1F1E55640B1A6C7F655 /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1241,7 +1241,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n\nif [ \"$CONFIGURATION\" != \"Debug\" ]; then\n  ../node_modules/@sentry/cli/sentry-cli upload-dsym\nfi";
+			shellScript = $SRCROOT/scripts/upload_sentry_symbols.sh;
 		};
 		D036DBB01F794A2900736347 /* Compile Go code with gomobile */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1255,7 +1255,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "go_version=$(go version)\nif [[ $go_version = *'go1.9.4'* ]]; then\n  export CGO_CFLAGS_ALLOW='-fmodules|-fblocks'\nfi\n\nexport GOPATH=`echo ~/go`\nexport PATH=\"$GOPATH/bin:$PATH\"\n$GOPATH/bin/gomobile bind -target ios github.com/privacybydesign/irma_mobile/irmagobridge\n";
+			shellScript = $SRCROOT/scripts/gomobile_bind.sh;
 		};
 /* End PBXShellScriptBuildPhase section */
 
