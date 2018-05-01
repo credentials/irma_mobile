@@ -58,6 +58,7 @@ export default class PinEntry extends Component {
           label={ t('.label') }
           onChange={pinChange}
           validationForced={validationForced}
+          autoFocus={true}
         />
       </Form>
     );
