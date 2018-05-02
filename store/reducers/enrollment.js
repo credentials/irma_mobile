@@ -1,13 +1,14 @@
 import _ from 'lodash';
 
 const initialState = {
-  unenrolledSchemeManagerIds: [],
   loaded: false,
+  unenrolledSchemeManagerIds: [],
+
+  status: null,
+  error: null,
 };
 
 export default function enrollment(state = initialState, action) {
-  const schemeManagerId = action.schemeManagerId;
-
   switch(action.type) {
     case 'IrmaClient.UnenrolledSchemeManagers': {
       return {
@@ -20,36 +21,34 @@ export default function enrollment(state = initialState, action) {
     case 'Enrollment.Start': {
       return {
         ...state,
-        [schemeManagerId]: {
-          schemeManagerId: schemeManagerId,
-          status: 'started',
-        }
+        status: 'started',
+      };
+    }
+
+    case 'IrmaBridge.Enroll': {
+      return {
+        ...state,
+        status: 'enrolling',
       };
     }
 
     case 'IrmaClient.EnrollmentSuccess': {
       return {
         ...state,
-        [schemeManagerId]: {
-          ...state[schemeManagerId],
-          status: 'success',
-        }
+        status: 'success',
       };
     }
 
-    case 'IrmaClient.EnrollmentError': {
+    case 'IrmaClient.EnrollmentFailure': {
       return {
         ...state,
-        [schemeManagerId]: {
-          ...state[schemeManagerId],
-          status: 'failure',
-          error: action.error,
-        }
+        status: 'failure',
+        error: action.error,
       };
     }
 
     case 'Enrollment.Dismiss': {
-      return _.omit(state, schemeManagerId);
+      return _.pick(state, 'unenrolledSchemeManagerIds');
     }
 
     default:

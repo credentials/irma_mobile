@@ -40,6 +40,7 @@
 		3D14D8CE471B444CAA3A1AB3 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EE357CCDB5947D89E10E635 /* libRNMail.a */; };
 		42CD95B6D4CD495B9D2FED17 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6BD20BFFBA47F29565E52E /* libRNI18n.a */; };
 		4777D4960A96464F8BB4F986 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97C21D9F48F34B9383EBF5BE /* MaterialIcons.ttf */; };
+		5232352320887C0300A2FD88 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5232352120887C0300A2FD88 /* InfoPlist.strings */; };
 		523AF7262C4B4BE09EC576A9 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EB8629A5E214DE89D6541CB /* Octicons.ttf */; };
 		525C3D7B1F893D4F00291A0D /* irma_configuration in Resources */ = {isa = PBXBuildFile; fileRef = 525C3D7A1F893D4F00291A0D /* irma_configuration */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -360,6 +361,20 @@
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
 		};
+		D0CD36CB2090A888002CA54F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BDC1FC498900052F4D5;
+			remoteInfo = jsinspector;
+		};
+		D0CD36CD2090A888002CA54F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BFA1FC4989A0052F4D5;
+			remoteInfo = "jsinspector-tvOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -389,6 +404,8 @@
 		3550796646C64205AC4195B0 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		3EB8629A5E214DE89D6541CB /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/native-base/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		3FA38C1894E6411495CE7728 /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; };
+		523234AE208685AC00A2FD88 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		5232352220887C0300A2FD88 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = IRMA/nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		525C3D7A1F893D4F00291A0D /* irma_configuration */ = {isa = PBXFileReference; lastKnownFileType = folder; path = irma_configuration; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		68E2549BCD204073BB248FE8 /* libRCTCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTCamera.a; sourceTree = "<group>"; };
@@ -563,6 +580,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				5232352120887C0300A2FD88 /* InfoPlist.strings */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -580,6 +598,8 @@
 				3DAD3EAB1DF850E9000B6D8A /* libcxxreact.a */,
 				3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */,
 				3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */,
+				D0CD36CC2090A888002CA54F /* libjsinspector.a */,
+				D0CD36CE2090A888002CA54F /* libjsinspector-tvOS.a */,
 				D099FD2D1F54DA2900E15452 /* libthird-party.a */,
 				D0C9F8181FF3084100D4B885 /* libthird-party.a */,
 				D099FD2F1F54DA2900E15452 /* libdouble-conversion.a */,
@@ -767,7 +787,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "IRMA" */;
 			buildPhases = (
-				D036DBB01F794A2900736347 /* ShellScript */,
+				D036DBB01F794A2900736347 /* Compile Go code with gomobile */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
@@ -855,6 +875,7 @@
 			knownRegions = (
 				en,
 				Base,
+				nl,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -1223,6 +1244,20 @@
 			remoteRef = D0C9F81D1FF3084100D4B885 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		D0CD36CC2090A888002CA54F /* libjsinspector.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjsinspector.a;
+			remoteRef = D0CD36CB2090A888002CA54F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D0CD36CE2090A888002CA54F /* libjsinspector-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsinspector-tvOS.a";
+			remoteRef = D0CD36CD2090A888002CA54F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1238,6 +1273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				5232352320887C0300A2FD88 /* InfoPlist.strings in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				980B359F875D4767ABB99D4D /* Entypo.ttf in Resources */,
 				292AE08F2C9C4F51922CC787 /* EvilIcons.ttf in Resources */,
@@ -1285,7 +1321,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/sentry-cli react-native xcode \\\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = $SRCROOT/scripts/bundle_rn.sh;
 		};
 		6A31B1F1E55640B1A6C7F655 /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1299,20 +1335,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/sentry-cli upload-dsym";
+			shellScript = $SRCROOT/scripts/upload_sentry_symbols.sh;
 		};
-		D036DBB01F794A2900736347 /* ShellScript */ = {
+		D036DBB01F794A2900736347 /* Compile Go code with gomobile */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Compile Go code with gomobile";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "go_version=$(go version)\nif [[ $go_version = *'go1.9.4'* ]]; then\n  export CGO_CFLAGS_ALLOW='-fmodules|-fblocks'\nfi\n\nexport GOPATH=`echo ~/go`\n$GOPATH/bin/gomobile bind -target ios github.com/privacybydesign/irma_mobile/irmagobridge\n";
+			shellScript = $SRCROOT/scripts/gomobile_bind.sh;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1372,9 +1409,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				13B07FB21A68108700A75B9A /* Base */,
+				523234AE208685AC00A2FD88 /* nl */,
 			);
 			name = LaunchScreen.xib;
 			path = IRMA;
+			sourceTree = "<group>";
+		};
+		5232352120887C0300A2FD88 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5232352220887C0300A2FD88 /* nl */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1636,6 +1682,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1678,6 +1725,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;

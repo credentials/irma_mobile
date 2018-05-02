@@ -6,6 +6,7 @@ import { Alert } from 'react-native';
 import { Sentry } from 'react-native-sentry';
 import RNFS from 'react-native-fs';
 
+import { resetNavigation } from 'lib/navigation';
 import RootNavigatorContainer from './RootNavigatorContainer';
 
 import { validateSigrequest } from 'lib/requestValidators.js';
@@ -70,26 +71,12 @@ export default class RootContainer extends Component {
   }
 
   ensureEnrollment(navigator) {
-    const { dispatch, unenrolledSchemeManagerIds } = this.props;
+    const { unenrolledSchemeManagerIds } = this.props;
 
     if(unenrolledSchemeManagerIds.length === 0)
       return;
 
-    // Irmago doesn't actually support multiple scheme managers with keyshare enrollment,
-    // so we just pick the first unenrolled, which should be PBDF
-    const schemeManagerId = unenrolledSchemeManagerIds[0];
-
-    dispatch({
-      type: 'Enrollment.Start',
-      schemeManagerId
-    });
-
-    navigator.dispatch(
-      NavigationActions.navigate({
-        routeName: 'Enrollment',
-        params: { schemeManagerId },
-      })
-    );
+    resetNavigation(navigator.dispatch, 'EnrollmentTeaser');
   }
 
   // Handle URL
@@ -183,14 +170,10 @@ export default class RootContainer extends Component {
       qr,
     });
 
-    navigator.dispatch(
-      NavigationActions.reset({
-        index: 1,
-        actions: [
-          NavigationActions.navigate({routeName: 'CredentialDashboard'}),
-          NavigationActions.navigate({routeName: 'Session', params: { sessionId }}),
-        ]
-      })
+    resetNavigation(
+      navigator.dispatch,
+      'CredentialDashboard',
+      {routeName: 'Session', params: { sessionId }}
     );
   }
 

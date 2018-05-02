@@ -1,269 +1,227 @@
 import React, { Component } from 'react';
+import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
-import { Dimensions, Platform } from 'react-native';
-
-import { namespacedTranslation } from 'lib/i18n';
-import PaddedContent from 'lib/PaddedContent';
-import Card from 'lib/UnwrappedCard';
-
-// TODO: Themize these colors and transfer them over to other screens
-// const blue1 = '#014289'; <-- used this one for title and next/prev buttons
-// const blue2 = '#0284BE';
-// const blue3 = '#02B1E6';
 
 import {
-  Body,
+  Button,
+  Card,
   CardItem,
   Container,
-  Header,
-  Icon,
-  Text,
-  Title,
-  Left,
-  Thumbnail,
-  Right,
-  Button,
   Footer,
+  Text,
+  View,
 } from 'native-base';
 
-import irmaLogo from 'assets/irmaLogo.png';
-import RepeatedValueForm from 'lib/form/RepeatedValueForm';
+import { namespacedTranslation } from 'lib/i18n';
+import CollapsableForm from 'lib/form/CollapsableForm';
+import PaddedContent from 'lib/PaddedContent';
+import ErrorCard from 'components/ErrorCard';
+import IconCard from 'components/IconCard';
 
-const t = namespacedTranslation('Enrollment');
+export const t = namespacedTranslation('Enrollment');
 
-// TODO: Make this work using react-navigation
 export default class Enrollment extends Component {
 
   static propTypes = {
     changeEmail: PropTypes.func.isRequired,
     changePin: PropTypes.func.isRequired,
-    currentStep: PropTypes.number.isRequired,
-    dismiss: PropTypes.func.isRequired,
+    disableRetry: PropTypes.bool.isRequired,
     email: PropTypes.string,
-    enrollmentError: PropTypes.string,
-    enrollmentStatus: PropTypes.string.isRequired,
-    forceValidation: PropTypes.bool.isRequired,
-    nextStep: PropTypes.func.isRequired,
+    enroll: PropTypes.func.isRequired,
+    error: PropTypes.object,
+    navigateToDashboard: PropTypes.func.isRequired,
     pin: PropTypes.string,
-    prevStep: PropTypes.func.isRequired,
+    retryEnroll: PropTypes.func.isRequired,
+    status: PropTypes.string.isRequired,
   }
 
-  renderHeader() {
-    const {
-      currentStep,
-      prevStep,
-      nextStep
-    } = this.props;
+  static navigationOptions = {
+    title: Dimensions.get('window').width > 350 ? t('.title') : t('.shortTitle'),
+  }
 
-    const {width: screenWidth} = Dimensions.get('window');
+  state = {
+    emailFormCollapsed: true,
+    pinFormCollapsed: false,
+    showSuccess: false,
+    validationForced: false,
+  }
 
-    let headerstyle;
-    let small = false;
-    if (Platform.OS === 'ios')
-      headerstyle = {height: 80, paddingTop: 20};
-    else
-      small = true;
+  renderFormIntro() {
+    return (
+      <Card>
+        <CardItem>
+          <Text>
+            { t('.intro') }
+          </Text>
+        </CardItem>
+      </Card>
+    );
+  }
+
+  renderPinForm() {
+    const { pin, changePin } = this.props;
+    const { validationForced, pinFormCollapsed, showSuccess } = this.state;
+
+    const next = () => {
+      if(pin)
+        this.setState({validationForced: false, pinFormCollapsed: true, emailFormCollapsed: false});
+      else
+        this.setState({validationForced: true});
+    };
 
     return (
-      <Header style={headerstyle}>
-        <Left>
-          { currentStep === 0 ?
-              <Thumbnail small={small} source={irmaLogo} /> :
-              <Button transparent onPress={prevStep}>
-                <Icon name='arrow-back' />
-              </Button>
-          }
-        </Left>
-        <Body style={{flex: 2}}>
-          <Title>
-            { screenWidth < 375 ?
-                t('.shortTitle') :
-                t('.title')
-            }
-          </Title>
-          { currentStep === 0 ? null :
-              <Text note>{ t('.subtitle', { step: currentStep }) }</Text>
-          }
-        </Body>
-        <Right>
-          <Button transparent onPress={nextStep} style={{paddingRight: 0}}>
-            <Text>
-              { currentStep === 3 ?
-                  t('.finish') :
-                  t('.next')
-              }
-            </Text>
+      <CollapsableForm
+        testID="pinForm"
+        headerText={ t('.step1.header') }
+
+        onToggleCollapse={() => this.setState({pinFormCollapsed: !pinFormCollapsed})}
+        collapsed={pinFormCollapsed}
+        validationForced={validationForced}
+
+        onNext={next}
+
+        onChange={changePin}
+        value={pin}
+        locked={showSuccess}
+
+        firstLabel={ t('.step1.label') }
+        repeatLabel={ t('.step1.repeatLabel') }
+        invalidMessage={ t('.step1.invalidMessage') }
+        inputType="pin"
+      >
+        <Text>
+          { t('.step1.text') }
+        </Text>
+      </CollapsableForm>
+    );
+  }
+
+  renderEmailForm() {
+    const { pin, email, changeEmail, enroll } = this.props;
+    const { validationForced, emailFormCollapsed, showSuccess } = this.state;
+
+    const next = () => {
+      if(!email) {
+        this.setState({validationForced: true});
+        return;
+      }
+
+      this.setState({emailFormCollapsed: true, validationForced: false});
+
+      if(pin) {
+        enroll({ pin, email });
+      } else
+        this.setState({pinFormCollapsed: false});
+    };
+
+    const skip = () => {
+      this.setState({emailFormCollapsed: true, validationForced: false});
+
+      if(pin)
+        enroll({ pin, email: null });
+      else
+        this.setState({pinFormCollapsed: false});
+    };
+
+    return (
+      <CollapsableForm
+        headerText={ t('.step2.header') }
+
+        onToggleCollapse={() => this.setState({emailFormCollapsed: !emailFormCollapsed})}
+        collapsed={emailFormCollapsed}
+        validationForced={validationForced}
+
+        onSkip={skip}
+        onNext={next}
+
+        onChange={changeEmail}
+        value={email}
+        locked={showSuccess}
+
+        firstLabel={t('.step2.label')}
+        repeatLabel={t('.step2.repeatLabel')}
+        invalidMessage={ t('.step2.invalidMessage') }
+        inputType="email"
+      >
+        <Text>
+          { t('.step2.text') }
+        </Text>
+      </CollapsableForm>
+    );
+  }
+
+  renderContent() {
+    const { status, error } = this.props;
+
+    switch(status) {
+      case 'started':
+        return (
+          <View>
+            { this.renderFormIntro() }
+            { this.renderPinForm() }
+            { this.renderEmailForm() }
+          </View>
+        );
+
+      case 'enrolling':
+        return (
+          <IconCard iconName="chatboxes">
+            <Text>{ t('.enrolling') }</Text>
+          </IconCard>
+        );
+
+      case 'success':
+        return (
+          <IconCard iconName="checkmark-circle">
+            <Text>{ t('.success') }</Text>
+          </IconCard>
+        );
+
+      case 'failure':
+        return [
+          <IconCard key="header" iconName="alert">
+            <Text>{ t('.failure') }</Text>
+          </IconCard>,
+          <ErrorCard key="error" error={error} />
+        ];
+    }
+  }
+
+  renderFooter() {
+    const { status, navigateToDashboard, retryEnroll, disableRetry } = this.props;
+
+    const wrapFooter = children =>
+      <Footer style={{height: 60, paddingTop: 7}}>
+        { children }
+      </Footer>;
+
+    switch(status) {
+      case 'success':
+        return wrapFooter(
+          <Button primary onPress={navigateToDashboard}>
+            <Text>{ t('.finish') }</Text>
           </Button>
-        </Right>
-      </Header>
-    );
-  }
+        );
 
-  renderStepZero() {
-    const {
-      dismiss,
-    } = this.props;
+      case 'failure':
+        return wrapFooter(
+          <Button primary disabled={disableRetry} onPress={retryEnroll}>
+            <Text>{ t('.retry') }</Text>
+          </Button>
+        );
 
-    return [
-      <PaddedContent key="stepZero">
-        <Card>
-          <CardItem>
-            <Body>
-              <Text>{ t('.stepZero.text') }</Text>
-            </Body>
-          </CardItem>
-          <CardItem>
-            <Body>
-              <Text>
-                <Text style={{fontWeight: 'bold'}}>{ t('.stepZero.note') }:</Text>&nbsp;
-                { t('.stepZero.warning') }
-              </Text>
-            </Body>
-          </CardItem>
-        </Card>
-      </PaddedContent>,
-      <Footer key="footer" style={{height: 40}}>
-        <Button transparent small onPress={dismiss} style={{paddingTop: 14}}>
-          <Text>{ t('.notnow') }</Text>
-        </Button>
-      </Footer>
-    ];
-  }
-
-  renderStepOne() {
-    const {
-      changeEmail,
-      email,
-      forceValidation,
-    } = this.props;
-
-    const validate = value => {
-      const regex = /^\s*([^@\s]{1,64})@((?:[-a-z0-9]+\.)+[a-z]{2,})\s*$/i;
-      return regex.test(value);
-    };
-
-    const inputProps = {
-      autoCapitalize: 'none',
-      autoCorrect: false,
-      keyboardType: 'email-address',
-    };
-
-    return (
-      <PaddedContent key="stepOne">
-        <Card>
-          <CardItem>
-            <Body>
-              <Text>{ t('.stepOne.text') }</Text>
-            </Body>
-          </CardItem>
-        </Card>
-        <RepeatedValueForm
-          firstLabel={t('.stepOne.label')}
-          forceValidation={forceValidation}
-          initialValue={email}
-          inputProps={inputProps}
-          invalidMessage={t('.stepOne.invalid')}
-          onChange={changeEmail}
-          repeatLabel={t('.stepOne.repeatLabel')}
-          validate={validate}
-        />
-      </PaddedContent>
-    );
-  }
-
-  renderStepTwo() {
-    const {
-      changePin,
-      forceValidation,
-      pin,
-    } = this.props;
-
-    const validate = value => /\d{5,}/.test(value);
-
-    const inputProps = {
-      autoCapitalize: 'none',
-      autoCorrect: false,
-      keyboardType: 'numeric',
-      maxLength: 16,
-      secureTextEntry: true,
-    };
-
-    return (
-      <PaddedContent key="stepTwo">
-        <Card>
-          <CardItem>
-            <Body>
-              <Text>
-                { t('.stepTwo.pleaseEnterPin') }
-                { '\n\n' }<Text style={{fontWeight: 'bold'}}>{ t('.stepTwo.important') }</Text>:&nbsp;
-                { t('.stepTwo.rememberPin') }
-              </Text>
-            </Body>
-          </CardItem>
-        </Card>
-        <RepeatedValueForm
-          firstLabel={t('.stepTwo.label')}
-          forceValidation={forceValidation}
-          initialValue={pin}
-          inputProps={inputProps}
-          invalidMessage={t('.stepTwo.invalid')}
-          onChange={changePin}
-          repeatLabel={t('.stepTwo.repeatLabel')}
-          validate={validate}
-        />
-      </PaddedContent>
-    );
-  }
-
-  renderSuccess() {
-    const { email } = this.props;
-
-    return (
-      <CardItem>
-        <Body>
-          <Text>{ t('.stepThree.success', { email }) }</Text>
-        </Body>
-      </CardItem>
-    );
-  }
-
-  renderFailure() {
-    return (
-      <CardItem>
-        <Body>
-          <Text>{ t('.stepThree.failure') }</Text>
-        </Body>
-      </CardItem>
-    );
-  }
-
-  renderStepThree() {
-    const { enrollmentStatus } = this.props;
-
-    if(enrollmentStatus === 'started')
-      return null;
-
-    return (
-      <PaddedContent>
-        <Card>
-          { enrollmentStatus === 'success' ?
-              this.renderSuccess() : this.renderFailure()
-          }
-        </Card>
-      </PaddedContent>
-    );
+      default:
+        return null;
+    }
   }
 
   render() {
-    const { currentStep } = this.props;
-    const stepRenderers = [
-      ::this.renderStepZero, ::this.renderStepOne, ::this.renderStepTwo, ::this.renderStepThree
-    ];
-
     return (
-      <Container>
-        { this.renderHeader() }
-        { stepRenderers[currentStep]() }
+      <Container testID="Enrollment" style={{backgroundColor: '#E9E9EF'}}>
+        <PaddedContent>
+          { this.renderContent() }
+        </PaddedContent>
+        { this.renderFooter() }
       </Container>
     );
   }

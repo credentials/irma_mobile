@@ -28,6 +28,7 @@ const isValidSessionAction = (state, action) => {
     case 'IrmaSession.RequestSignaturePermission':
     case 'IrmaSession.RequestPin':
     case 'IrmaSession.KeyshareEnrollmentMissing':
+    case 'IrmaSession.KeyshareEnrollmentDeleted':
     case 'IrmaSession.KeyshareBlocked':
     case 'IrmaSession.KeyshareEnrollmentIncomplete':
     case 'IrmaBridge.RespondPermission':
@@ -109,12 +110,7 @@ export default function credentials(state = initialState, action) {
           ...state[sessionId],
           status: 'failure',
           irmaAction: action.irmaAction,
-          errorType: action.errorType,
-          errorMessage: action.errorMessage,
-          errorInfo: action.errorInfo,
-          errorStatus: action.errorStatus,
-          errorStack: action.errorStack,
-          apiError: action.apiError,
+          error: action.error,
         }
       };
     }
@@ -207,6 +203,17 @@ export default function credentials(state = initialState, action) {
           ...state[sessionId],
           status: 'keyshareEnrollmentMissing',
           missingSchemeManagerId: action.schemeManagerId,
+        }
+      };
+    }
+
+    case 'IrmaSession.KeyshareEnrollmentDeleted': {
+      return {
+        ...state,
+        [sessionId]: {
+          ...state[sessionId],
+          status: 'keyshareEnrollmentDeleted',
+          schemeManagerId: action.schemeManagerId,
         }
       };
     }

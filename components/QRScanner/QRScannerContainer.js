@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { NavigationActions } from 'react-navigation';
 
+import { resetNavigation } from 'lib/navigation';
 import QRScanner, { t } from './QRScanner';
 
 @connect()
@@ -27,16 +27,11 @@ export default class QRScannerContainer extends Component {
       qr
     });
 
-    // Navigate to session screen while removing ourselves from the screen stack,
-    // so that nagivation.goBack() will return directly to the CredentialDashboard.
-    navigation.dispatch(
-      NavigationActions.reset({
-        index: 1,
-        actions: [
-          NavigationActions.navigate({ routeName: 'CredentialDashboard' }),
-          NavigationActions.navigate({ routeName: 'Session', params: {sessionId} }),
-        ],
-      }),
+    // Place the Session screen directly under the CredentialDashboard, so goBack works properly
+    resetNavigation(
+      navigation.dispatch,
+      'CredentialDashboard',
+      {routeName: 'Session', params: {sessionId}},
     );
   }
 

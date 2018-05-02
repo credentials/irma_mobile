@@ -3,6 +3,7 @@
 *.swp
 .idea/
 .vscode/
+jsconfig.json
 
 # Node / NPM / go dep
 node_modules/

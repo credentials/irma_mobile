@@ -12,41 +12,54 @@ The IRMA app manages the user's IRMA attributes: receiving new attributes, selec
 <img src="https://credentials.github.io/images/irma_mobile/4-android.png" width="200" alt="Screenshot of the IRMA app on Android, showing the 'disclose these attributes?' screen." />
 <img src="https://credentials.github.io/images/irma_mobile/3-ios.png" width="200" alt="Screenshot of the IRMA app on iOS, showing the PIN entry screen during a disclosure session." /> &nbsp;
 
-## Developing for Android
+## Building the app for development
 
 - Follow the steps for "Installing dependencies" for "Building Projects with Native Code" (not the "Quick Start"):
-    - https://facebook.github.io/react-native/docs/0.51/getting-started.html
-    - You may skip the step to install `react-native-cli`
-    - The Android NDK should also be installed through the SDK Manager. This can be done by checking the 'LLDB', 'CMake', and 'NDK' options in the [SDK Tools tab](https://developer.android.com/ndk/guides/index.html#download-ndk).
-    - Verify that `$ANDROID_HOME` is properly set for your current and future shells
-- Connect your phone in USB debug mode or use an Android Virtual Device
-    - If using a physical phone, verify that the device is visible with the command `adb devices`
-    - To create an Android Virtual Device, follow the steps under "Preparing the Android device" for "Building Projects with Native Code":
-        - https://facebook.github.io/react-native/docs/0.51/getting-started.html
-- Install the Go toolchain:
+    - https://facebook.github.io/react-native/docs/0.51/getting-started.html (you may skip the step to install `react-native-cli`)
+    - Yarn is used for Javascript dependency management in this guide, but npm should work as well (except for compatibility with `yarn.lock`): https://yarnpkg.com/en/docs/install
+    - **iOS**:
+      - While React Native states a minimum requirement of Xcode 8, you should use Xcode 9 due to facebook/react-native#18944.
+    - **Android**:
+      - The Android NDK should also be installed through the SDK Manager. This can be done by checking the 'LLDB', 'CMake', and 'NDK' options in the [SDK Tools tab](https://developer.android.com/ndk/guides/index.html#download-ndk).
+      - Verify that `$ANDROID_HOME` is properly set for your current and future shells
+- Install the Go toolchain and Dep package manager:
     - https://golang.org/doc/install
     - Setup your [GOPATH environmental variable](https://github.com/golang/go/wiki/SettingGOPATH)
+    - We use Dep to install specific git revisions of Go packages: https://golang.github.io/dep/docs/installation.html
 - Install and init gomobile:
-    - `gomobile init` should automatically pickup the Android NDK if it is installed through the SDK Manager and `$ANDROID_HOME` is set. Otherwise you need to use the `-ndk` option.
+    - This will take a (quiet) while:
     ```
     go get golang.org/x/mobile/cmd/gomobile
     gomobile init
     ```
-- Clone this project so it is located inside your `$GOPATH`, and fetch Go dependencies:
-    - `go get github.com/privacybydesign/irma_mobile/irmagobridge/...` should do the trick
-- Install javascript dependencies using Yarn or NPM:
+    - **Android**:
+      - `gomobile init` should automatically pickup the Android NDK if it is installed through the SDK Manager and `$ANDROID_HOME` is set. Otherwise you need to use the `-ndk` option.
+- Clone this project so it is located inside your `$GOPATH`:
+    - `go get github.com/privacybydesign/irma_mobile` should do the trick
+    - You can ignore the `no Go code` warning; we fetch the dependencies of the `irmagobridge` subpackage via Dep.
+- Install Javascript dependencies using Yarn or NPM, and vendor Go dependencies:
     ```
-    cd $GOPATH/github.com/privacybydesign/irma_mobile
-    yarn
+    cd $GOPATH/src/github.com/privacybydesign/irma_mobile
+    yarn install
+    dep ensure
     ```
-- Start the app in debug mode:
-    ```
-    yarn android
-    ```
+- Connect your phone with a cable, or use a simulator
+    - **iOS**:
+      - By default, a new simulator is automatically created when building the app in the next step. See `yarn run react-native run-ios --help` for more options.
+    - **Android**:
+      - If using a physical phone, verify that the device is visible with the command `adb devices`
+      - To create an Android Virtual Device, follow the steps under "Preparing the Android device" for "Building Projects with Native Code": https://facebook.github.io/react-native/docs/0.51/getting-started.html
+      - By default, the only available device or simulator will be used when running the app in the next step. See `yarn run react-native run-android --help` for more options.
 
-## Developing for iOS
-
-Full instructions are coming soon. Following the "Building Projects with Native Code" guide for iOS and the gomobile steps for Android (see above) should go a long way. You can then fire up Xcode and press ⌘R; the compilation of the `irmagobridge` is handled by Xcode.
+- Build and run the app for development:
+    ```
+    yarn run ios
+    ```
+    or
+    ```
+    yarn run android
+    ```
+    - Alternatively, Xcode or Android Studio can be used to launch the app and use the IDE tools.
 
 ### Troubleshooting
 - If Javascript compilation fails with an error that some source cannot be resolved or located (i.e. cannot resolve 'lib/...', 'store/...'), it often helps to clear the Babel build cache with `yarn start --reset-cache`. You may need to kill old Node server (`killall node`) if you get a port binding error.
@@ -67,3 +80,5 @@ Full instructions are coming soon. Following the "Building Projects with Native 
   ```
 
   Then try `adb reconnect`
+
+- If your iOS build seems to fail with `error: An organization slug is required (provide with --org)`, this actually isn't a fatal error and IRMA.app will be successfully installed to your device. The error is due to a `sentry.properties` file which isn't necessary in development. This should be fixed to not be a failure in development.

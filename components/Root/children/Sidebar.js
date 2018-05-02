@@ -30,16 +30,7 @@ const sidebarListItems = [
     text: t('.register'),
     visible: props => props.unenrolledSchemeManagerIds.length > 0,
     onPress: props => {
-      const schemeManagerId = props.unenrolledSchemeManagerIds[0];
-
-      props.dispatch({
-        type: 'Enrollment.Start',
-        schemeManagerId,
-      });
-
-      props.navigation.navigate(
-        'Enrollment', {schemeManagerId}
-      );
+      props.navigation.navigate('EnrollmentTeaser');
     }
   },
   {

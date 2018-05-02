@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Card from 'lib/UnwrappedCard';
+import { getLanguage } from 'lib/i18n';
 import {
   CardItem,
   Left,
@@ -9,13 +10,11 @@ import {
   Body,
   Right,
   Radio,
-  Thumbnail,
 } from 'native-base';
 
 import CredentialLogo from 'components/CredentialLogo';
 
-// TODO: Integrate into I18n
-const lang = 'en';
+const lang = getLanguage();
 
 export default class DisclosureChoice extends Component {
 

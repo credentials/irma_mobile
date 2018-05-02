@@ -57,7 +57,7 @@ export default class Footer extends Component {
     } = this.props;
     const { hidden } = this.state;
 
-    if(!_.includes(['requestPermission', 'requestDisclosurePermission', 'requestPin'], status))
+    if(hidden || !_.includes(['requestPermission', 'requestDisclosurePermission', 'requestPin'], status))
       return null;
 
     let yesLabel = t('.accept');
@@ -79,11 +79,11 @@ export default class Footer extends Component {
     }
 
     return [
-      <Button key="no" danger iconLeft onPress={() => this.press(false)}>
+      <Button key="no" danger iconLeft onPress={() => this.press(false)} testID="noButton">
         <Icon name="close-circle" />
         <Text>{ noLabel }</Text>
       </Button>,
-      <Button key="yes" success iconLeft onPress={() => this.press(true)} style={{marginLeft: 20}}>
+      <Button key="yes" success iconLeft onPress={() => this.press(true)} style={{marginLeft: 20}} testID="yesButton">
         <Icon name="checkmark-circle" />
         <Text>{ yesLabel }</Text>
       </Button>
@@ -94,10 +94,7 @@ export default class Footer extends Component {
     const { session: { status, result, id }, navigateBack } = this.props;
     const { hidden } = this.state;
 
-    if(!_.includes(['success', 'failure', 'cancelled', 'unsatisfiableRequest', 'keyshareEnrollmentMissing', 'keyshareBlocked', 'keyshareEnrollmentIncomplete'], status))
-      return null;
-
-    if(hidden)
+    if(hidden || !_.includes(['success', 'failure', 'cancelled', 'unsatisfiableRequest', 'keyshareEnrollmentMissing', 'keyshareEnrollmentDeleted', 'keyshareBlocked', 'keyshareEnrollmentIncomplete'], status))
       return null;
 
     // Don't render anything for manual session result
@@ -106,7 +103,7 @@ export default class Footer extends Component {
     }
 
     return (
-      <Button onPress={navigateBack} >
+      <Button style={{minWidth: 75, justifyContent: 'center'}} onPress={navigateBack} testID="dismissButton">
         <Text>{ t('.dismiss') }</Text>
       </Button>
     );

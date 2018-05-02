@@ -24,7 +24,7 @@ const t = namespacedTranslation('Session.SigningSession');
 export default class SigningSession extends Component {
 
   static propTypes = {
-    forceValidation: PropTypes.bool.isRequired,
+    validationForced: PropTypes.bool.isRequired,
     irmaConfiguration: PropTypes.object.isRequired,
     makeDisclosureChoice: PropTypes.func.isRequired,
     message: PropTypes.string,
@@ -129,7 +129,7 @@ export default class SigningSession extends Component {
 
   render() {
     const {
-      forceValidation,
+      validationForced,
       navigateBack,
       sendMail,
       nextStep,
@@ -140,12 +140,12 @@ export default class SigningSession extends Component {
     return (
       <KeyboardAwareContainer>
         <Header title={t('.headerTitle')} navigateBack={navigateBack} />
-        <PaddedContent>
+        <PaddedContent testID="SigningSession" enableAutomaticScroll={session.status !== 'requestPin'}>
           { this.renderStatusCard() }
           <Error session={session} />
           <PinEntry
             session={session}
-            forceValidation={forceValidation}
+            validationForced={validationForced}
             pinChange={pinChange}
           />
           <MissingDisclosures session={session} />

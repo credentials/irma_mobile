@@ -15,13 +15,26 @@ func (ch *ClientHandler) UpdateAttributes() {
 	sendCredentials()
 }
 
-func (ch *ClientHandler) EnrollmentError(managerIdentifier irma.SchemeManagerIdentifier, err error) {
-	logDebug("Handling EnrollmentError")
+func (ch *ClientHandler) EnrollmentFailure(managerIdentifier irma.SchemeManagerIdentifier, plainErr error) {
+	logDebug("Handling EnrollmentFailure")
+
+	// Make sure the error is wrapped in a SessionError, so we only have one type to handle in irma_mobile
+	err, ok := plainErr.(*irma.SessionError)
+	if !ok {
+		err = &irma.SessionError{ErrorType: irma.ErrorType("unknown"), Err: plainErr}
+	}
 
 	action := &OutgoingAction{
-		"type":            "IrmaClient.EnrollmentError",
+		"type":            "IrmaClient.EnrollmentFailure",
 		"schemeManagerId": managerIdentifier,
-		"error":           err.Error(),
+		"error": &OutgoingAction{
+			"type":         err.ErrorType,
+			"wrappedError": err.WrappedError(),
+			"info":         err.Info,
+			"stack":        err.Stack(),
+			"remoteStatus": err.RemoteStatus,
+			"remoteError":  err.RemoteError,
+		},
 	}
 
 	sendAction(action)

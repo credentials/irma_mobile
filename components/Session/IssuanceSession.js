@@ -24,7 +24,7 @@ const t = namespacedTranslation('Session.IssuanceSession');
 export default class IssuanceSession extends Component {
 
   static propTypes = {
-    forceValidation: PropTypes.bool.isRequired,
+    validationForced: PropTypes.bool.isRequired,
     irmaConfiguration: PropTypes.object.isRequired,
     makeDisclosureChoice: PropTypes.func.isRequired,
     navigateBack: PropTypes.func.isRequired,
@@ -77,7 +77,7 @@ export default class IssuanceSession extends Component {
 
         explanation = (
           <Text>
-            <Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
+            <Text style={{fontWeight: 'bold'}}>{ serverName }</Text>
             { t('.requestPermissionExplanation', {credentialAmount, attributeAmount}) }
           </Text>
         );
@@ -126,7 +126,7 @@ export default class IssuanceSession extends Component {
 
   render() {
     const {
-      forceValidation,
+      validationForced,
       navigateBack,
       nextStep,
       pinChange,
@@ -136,12 +136,12 @@ export default class IssuanceSession extends Component {
     return (
       <KeyboardAwareContainer>
         <Header title={t('.headerTitle')} navigateBack={navigateBack} />
-        <PaddedContent>
+        <PaddedContent testID="IssuanceSession" enableAutomaticScroll={session.status !== 'requestPin'}>
           { this.renderStatusCard() }
           <Error session={session} />
           <PinEntry
             session={session}
-            forceValidation={forceValidation}
+            validationForced={validationForced}
             pinChange={pinChange}
           />
           <MissingDisclosures session={session} />
