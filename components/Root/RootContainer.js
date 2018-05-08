@@ -99,7 +99,14 @@ export default class RootContainer extends Component {
   startFromFileUrl(url, navigator) {
     return canSendMail()
       .then(() => this.handleContentUrl(url, navigator))
-      .catch(() => {}); // TODO: show error that no mail client is installed
+      .catch(() => {
+        Alert.alert(
+          'Error starting IRMA session:',
+          'There is no mail client configured. Please configure a mailclient and try again.',
+          [{text: 'Dismiss', style: 'cancel'}],
+          { cancelable: true }
+        );
+      });
   }
 
   // Handle an URL of the form file://path (iOS) or content://path (Android) for signature requests
@@ -110,7 +117,12 @@ export default class RootContainer extends Component {
         const sigRequest = JSON.parse(result);
 
         if (!validateSigrequest(sigRequest)) {
-          // TODO: handle properly
+           Alert.alert(
+             'Error starting IRMA session:',
+             'This is not a valid IRMA signature request',
+             [{text: 'Dismiss', style: 'cancel'}],
+             { cancelable: true }
+           );
           return;
         }
 
@@ -128,9 +140,10 @@ export default class RootContainer extends Component {
           })
         );
       })
-      .catch(() => { // TODO handle properly
+      .catch(() => {
         Alert.alert(
-          'Error starting IRMA session: could not read file',
+          'Error starting IRMA session:',
+          'could not read file',
           [{text: 'Dismiss', style: 'cancel'}],
           { cancelable: true }
         );
