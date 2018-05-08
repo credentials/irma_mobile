@@ -124,7 +124,7 @@ export default class Footer extends Component {
         </Button>,
         <Button iconLeft key="sendMail" success onPress={() => {sendMail(); navigateBack();}} style={{marginLeft: 20}}>
           <Icon name="send" />
-          <Text>Send</Text>
+          <Text>{ t('.send') }</Text>
         </Button>
       ];
     }
