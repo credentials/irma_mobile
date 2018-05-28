@@ -12,8 +12,7 @@ import RootNavigatorContainer from './RootNavigatorContainer';
 import { validateSigrequest } from 'lib/requestValidators.js';
 import { canSendMail } from 'lib/mail.js';
 
-import { namespacedTranslation, getLanguage } from 'lib/i18n';
-const lang = getLanguage();
+import { namespacedTranslation } from 'lib/i18n';
 const t = namespacedTranslation('RootContainer');
 
 const mapStateToProps = (state) => {

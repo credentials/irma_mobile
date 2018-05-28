@@ -112,9 +112,8 @@ export default class Footer extends Component {
   renderSendEmail() {
     const { session: { status, result, id }, navigateBack, sendMail } = this.props;
 
-    if (!sendMail) { // sendMail func prop doesn't exist in Issuance / Disclosure sessions
+    if (!sendMail) // sendMail func prop doesn't exist in Issuance / Disclosure sessions
       return null;
-    }
 
     if (id === 0 && status === 'success' && result !== undefined) {
       return [
