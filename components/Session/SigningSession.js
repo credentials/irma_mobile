@@ -97,7 +97,7 @@ export default class SigningSession extends Component {
           <View>
             <Text>{ t(`.${status}.beforeExplanation`) }</Text>
             { messageText }
-            <Text>{ t(`.${status}.afterExplanation`) }</Text>
+            <Text>{'\n'}{ t(`.${status}.afterExplanation`) }</Text>
           </View>
         );
       }
