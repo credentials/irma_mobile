@@ -67,21 +67,16 @@ export default class SigningSession extends Component {
       case 'unsatisfiableRequest':
         explanation = (
           <Text>
-            { t('.unsatisfiableRequestExplanation.before') }
-            &nbsp;<Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
-            { t('.unsatisfiableRequestExplanation.after') }
+            { t('.unsatisfiableRequestExplanation') }
           </Text>
         );
 
         break;
 
       case 'requestPermission': {
-        const requestName = request !== undefined ? JSON.parse(request).name : undefined;
-        const name = requestName !== undefined ? requestName : serverName;
         explanation = (
           <View>
             <Text>
-              <Text style={{fontWeight: 'bold'}}>{ name }</Text>&nbsp;
               { t('.requestPermission.beforeExplanation') }
             </Text>
             { messageText }
