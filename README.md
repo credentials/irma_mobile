@@ -62,7 +62,7 @@ The IRMA app manages the user's IRMA attributes: receiving new attributes, selec
     - Alternatively, Xcode or Android Studio can be used to launch the app and use the IDE tools.
 
 ### Troubleshooting
-- If Javascript compilation fails with an error that some source cannot be resolved or located, it often helps to clear the Babel build cache with `yarn start --reset-cache`.
+- If Javascript compilation fails with an error that some source cannot be resolved or located (i.e. cannot resolve 'lib/...', 'store/...'), it often helps to clear the Babel build cache with `yarn start --reset-cache`. You may need to kill old Node server (`killall node`) if you get a port binding error.
 - If you get this error during compilation of the go bridge for Android:
 
   ```

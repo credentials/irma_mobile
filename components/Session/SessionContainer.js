@@ -12,6 +12,8 @@ import fullCredentials from 'store/mappers/fullCredentials';
 import fullDisclosuresCandidates from 'store/mappers/fullDisclosuresCandidates';
 import fullMissingDisclosures from 'store/mappers/fullMissingDisclosures';
 
+import { sendMail } from 'lib/mail';
+
 import {
   Container,
   Text,
@@ -78,6 +80,11 @@ export default class SessionContainer extends Component {
   navigateBack() {
     const { navigation } = this.props;
     navigation.goBack();
+  }
+
+  sendMail() {
+    const { session: { result, request }} = this.props;
+    sendMail(result, JSON.parse(request));
   }
 
   navigateToEnrollment() {
@@ -177,6 +184,7 @@ export default class SessionContainer extends Component {
       navigateToEnrollment: ::this.navigateToEnrollment,
       nextStep: ::this.nextStep,
       pinChange: ::this.pinChange,
+      sendMail: ::this.sendMail,
 
       session: {
         ...session,

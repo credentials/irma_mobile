@@ -21,6 +21,7 @@ export default class Footer extends Component {
     session: PropTypes.object.isRequired,
     nextStep: PropTypes.func.isRequired,
     navigateBack: PropTypes.func.isRequired,
+    sendMail: PropTypes.func,
   }
 
   state = {
@@ -90,11 +91,16 @@ export default class Footer extends Component {
   }
 
   renderDismiss() {
-    const { session: { status }, navigateBack } = this.props;
+    const { session: { status, result, id }, navigateBack } = this.props;
     const { hidden } = this.state;
 
     if(hidden || !_.includes(['success', 'failure', 'cancelled', 'unsatisfiableRequest', 'keyshareEnrollmentMissing', 'keyshareEnrollmentDeleted', 'keyshareBlocked', 'keyshareEnrollmentIncomplete'], status))
       return null;
+
+    // Don't render anything for manual session result
+    if (id === 0 && status === 'success' && result !== undefined) {
+      return null;
+    }
 
     return (
       <Button style={{minWidth: 75, justifyContent: 'center'}} onPress={navigateBack} testID="dismissButton">
@@ -103,11 +109,33 @@ export default class Footer extends Component {
     );
   }
 
+  renderSendEmail() {
+    const { session: { status, result, id }, navigateBack, sendMail } = this.props;
+
+    if (!sendMail) // sendMail func prop doesn't exist in Issuance / Disclosure sessions
+      return null;
+
+    if (id === 0 && status === 'success' && result !== undefined) {
+      return [
+        <Button iconLeft key="dismiss" danger onPress={navigateBack}>
+          <Icon name="close-circle" />
+          <Text>{ t('.dismiss') }</Text>
+        </Button>,
+        <Button iconLeft key="sendMail" success onPress={() => {sendMail(); navigateBack();}} style={{marginLeft: 20}}>
+          <Icon name="send" />
+          <Text>{ t('.send') }</Text>
+        </Button>
+      ];
+    }
+    return null;
+  }
+
   render() {
     return (
       <NBFooter style={{height: 60, paddingTop: 7}}>
         { this.renderYesNo() }
         { this.renderDismiss() }
+        { this.renderSendEmail() }
       </NBFooter>
     );
   }

@@ -1,4 +1,8 @@
 const isValidSessionAction = (state, action) => {
+  if (action.sessionId == 0 && action.type !== 'IrmaBridge.NewSession') {
+    return true;
+  }
+
   switch(action.type) {
     case 'IrmaBridge.NewSession': {
       if(typeof action.sessionId !== 'number' || action.sessionId < 1) {
@@ -52,6 +56,7 @@ export default function credentials(state = initialState, action) {
   if(!isValidSessionAction(state, action))
     return state;
 
+  // sessionId is '0' if started a manual session from a signature request
   const { sessionId } = action;
 
   switch(action.type) {
@@ -61,7 +66,17 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           id: sessionId,
           qr: action.qr,
-          didRespondPermission: false,
+        }
+      };
+    }
+
+    case 'IrmaBridge.NewManualSession': {
+      return {
+        ...state,
+        [sessionId]: {
+          status: 'started',
+          id: sessionId, // should be 0
+          request: action.request,
         }
       };
     }
@@ -83,6 +98,7 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           ...state[sessionId],
           status: 'success',
+          result: action.result,
         }
       };
     }
@@ -230,7 +246,6 @@ export default function credentials(state = initialState, action) {
         ...state,
         [sessionId]: {
           ...state[sessionId],
-          didRespondPermission: true,
         }
       };
     }
