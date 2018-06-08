@@ -4,6 +4,7 @@ import About from 'components/About';
 import CredentialDashboard from 'components/CredentialDashboard';
 import Enrollment from 'components/Enrollment';
 import EnrollmentTeaser from 'components/EnrollmentTeaser';
+import Changepin from 'components/Changepin';
 import PreferencesDashboard from 'components/PreferencesDashboard';
 import QRScanner from 'components/QRScanner';
 import Session from 'components/Session';
@@ -14,6 +15,7 @@ const CredentialDashboardNavigator = StackNavigator({
   CredentialDashboard: CredentialDashboard,
   Enrollment: Enrollment,
   EnrollmentTeaser: EnrollmentTeaser,
+  Changepin: Changepin,
   PreferencesDashboard: PreferencesDashboard,
   QRScanner: QRScanner,
   Session: Session,

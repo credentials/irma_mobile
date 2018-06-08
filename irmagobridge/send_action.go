@@ -36,6 +36,10 @@ func sendEnrollmentStatus() {
 		"type":     "IrmaClient.UnenrolledSchemeManagers",
 		"managers": client.UnenrolledSchemeManagers,
 	})
+	sendAction(&OutgoingAction{
+		"type":        "IrmaClient.HasKeyshare",
+		"hasKeyshare": (len(client.EnrolledSchemeManagers()) != 0),
+	})
 }
 
 func sendAction(action *OutgoingAction) {
