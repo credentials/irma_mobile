@@ -21,6 +21,7 @@ export default class Footer extends Component {
     session: PropTypes.object.isRequired,
     nextStep: PropTypes.func.isRequired,
     navigateBack: PropTypes.func.isRequired,
+    sendMail: PropTypes.func,
   }
 
   state = {
@@ -56,7 +57,7 @@ export default class Footer extends Component {
     } = this.props;
     const { hidden } = this.state;
 
-    if(!_.includes(['requestPermission', 'requestDisclosurePermission', 'requestPin'], status))
+    if(hidden || !_.includes(['requestPermission', 'requestDisclosurePermission', 'requestPin'], status))
       return null;
 
     let yesLabel = t('.accept');
@@ -78,11 +79,11 @@ export default class Footer extends Component {
     }
 
     return [
-      <Button key="no" danger iconLeft onPress={() => this.press(false)}>
+      <Button key="no" danger iconLeft onPress={() => this.press(false)} testID="noButton">
         <Icon name="close-circle" />
         <Text>{ noLabel }</Text>
       </Button>,
-      <Button key="yes" success iconLeft onPress={() => this.press(true)} style={{marginLeft: 20}}>
+      <Button key="yes" success iconLeft onPress={() => this.press(true)} style={{marginLeft: 20}} testID="yesButton">
         <Icon name="checkmark-circle" />
         <Text>{ yesLabel }</Text>
       </Button>
@@ -90,20 +91,43 @@ export default class Footer extends Component {
   }
 
   renderDismiss() {
-    const { session: { status }, navigateBack } = this.props;
+    const { session: { status, result, id }, navigateBack } = this.props;
     const { hidden } = this.state;
 
-    if(!_.includes(['success', 'failure', 'cancelled', 'unsatisfiableRequest', 'keyshareEnrollmentMissing', 'keyshareBlocked', 'keyshareEnrollmentIncomplete'], status))
+    if(hidden || !_.includes(['success', 'failure', 'cancelled', 'unsatisfiableRequest', 'keyshareEnrollmentMissing', 'keyshareEnrollmentDeleted', 'keyshareBlocked', 'keyshareEnrollmentIncomplete'], status))
       return null;
 
-    if(hidden)
+    // Don't render anything for manual session result
+    if (id === 0 && status === 'success' && result !== undefined) {
       return null;
+    }
 
     return (
-      <Button onPress={navigateBack} >
+      <Button style={{minWidth: 75, justifyContent: 'center'}} onPress={navigateBack} testID="dismissButton">
         <Text>{ t('.dismiss') }</Text>
       </Button>
     );
+  }
+
+  renderSendEmail() {
+    const { session: { status, result, id }, navigateBack, sendMail } = this.props;
+
+    if (!sendMail) // sendMail func prop doesn't exist in Issuance / Disclosure sessions
+      return null;
+
+    if (id === 0 && status === 'success' && result !== undefined) {
+      return [
+        <Button iconLeft key="dismiss" danger onPress={navigateBack}>
+          <Icon name="close-circle" />
+          <Text>{ t('.dismiss') }</Text>
+        </Button>,
+        <Button iconLeft key="sendMail" success onPress={() => {sendMail(); navigateBack();}} style={{marginLeft: 20}}>
+          <Icon name="send" />
+          <Text>{ t('.send') }</Text>
+        </Button>
+      ];
+    }
+    return null;
   }
 
   render() {
@@ -111,6 +135,7 @@ export default class Footer extends Component {
       <NBFooter style={{height: 60, paddingTop: 7}}>
         { this.renderYesNo() }
         { this.renderDismiss() }
+        { this.renderSendEmail() }
       </NBFooter>
     );
   }

@@ -41,6 +41,13 @@
             <data android:scheme="irma"/>
             <data android:scheme="cardemu"/>
         </intent-filter>
+        <intent-filter>
+          <category android:name="android.intent.category.DEFAULT" />
+          <action android:name="android.intent.action.VIEW" />
+          <data android:scheme="file" />
+          <data android:scheme="content" />
+          <data android:mimeType="text/plain"/>
+        </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>

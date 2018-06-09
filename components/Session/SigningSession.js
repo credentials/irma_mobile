@@ -24,11 +24,12 @@ const t = namespacedTranslation('Session.SigningSession');
 export default class SigningSession extends Component {
 
   static propTypes = {
-    forceValidation: PropTypes.bool.isRequired,
+    validationForced: PropTypes.bool.isRequired,
     irmaConfiguration: PropTypes.object.isRequired,
     makeDisclosureChoice: PropTypes.func.isRequired,
     message: PropTypes.string,
     navigateBack: PropTypes.func.isRequired,
+    sendMail: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,
     nextStep: PropTypes.func.isRequired,
     pinChange: PropTypes.func.isRequired,
@@ -43,7 +44,8 @@ export default class SigningSession extends Component {
         message,
         serverName,
         status,
-      },
+        request,
+      }
     } = this.props;
 
     let heading;
@@ -65,9 +67,7 @@ export default class SigningSession extends Component {
       case 'unsatisfiableRequest':
         explanation = (
           <Text>
-            { t('.unsatisfiableRequestExplanation.before') }
-            &nbsp;<Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
-            { t('.unsatisfiableRequestExplanation.after') }
+            { t('.unsatisfiableRequestExplanation') }
           </Text>
         );
 
@@ -77,7 +77,6 @@ export default class SigningSession extends Component {
         explanation = (
           <View>
             <Text>
-              <Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
               { t('.requestPermission.beforeExplanation') }
             </Text>
             { messageText }
@@ -93,7 +92,7 @@ export default class SigningSession extends Component {
           <View>
             <Text>{ t(`.${status}.beforeExplanation`) }</Text>
             { messageText }
-            <Text>{ t(`.${status}.afterExplanation`) }</Text>
+            <Text>{'\n'}{ t(`.${status}.afterExplanation`) }</Text>
           </View>
         );
       }
@@ -125,8 +124,9 @@ export default class SigningSession extends Component {
 
   render() {
     const {
-      forceValidation,
+      validationForced,
       navigateBack,
+      sendMail,
       nextStep,
       pinChange,
       session,
@@ -135,12 +135,12 @@ export default class SigningSession extends Component {
     return (
       <KeyboardAwareContainer>
         <Header title={t('.headerTitle')} navigateBack={navigateBack} />
-        <PaddedContent>
+        <PaddedContent testID="SigningSession" enableAutomaticScroll={session.status !== 'requestPin'}>
           { this.renderStatusCard() }
           <Error session={session} />
           <PinEntry
             session={session}
-            forceValidation={forceValidation}
+            validationForced={validationForced}
             pinChange={pinChange}
           />
           <MissingDisclosures session={session} />
@@ -148,6 +148,7 @@ export default class SigningSession extends Component {
         </PaddedContent>
         <Footer
           navigateBack={navigateBack}
+          sendMail={sendMail}
           nextStep={nextStep}
           session={session}
         />

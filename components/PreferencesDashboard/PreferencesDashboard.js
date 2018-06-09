@@ -54,18 +54,18 @@ export default class PreferencesDashboard extends React.Component {
 
     const reportingExplanation = (
       <Text>
-        { t('.crashes.explanation') }
+        { t('.errors.explanation') }
         <Text style={{color: 'blue'}} onPress={() => Linking.openURL(privacyPolicyUrl)}>
-          { t('.crashes.privacypolicy') }&nbsp;
+          { t('.errors.privacypolicy') }&nbsp;
         </Text>
-        { t('.crashes.moreinfo') }
+        { t('.errors.moreinfo') }
       </Text>
     );
 
     return (
       <Container>
         <Content style={{marginTop: 10}}>
-          <PreferenceItem name={t('.crashes.title')} explanation={reportingExplanation}>
+          <PreferenceItem name={t('.errors.title')} explanation={reportingExplanation}>
             <Right>
               <Switch value={enableCrashReporting} onValueChange={::this.setCrashReportingPreference}/>
             </Right>

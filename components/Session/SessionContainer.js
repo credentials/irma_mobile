@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { resetNavigation } from 'lib/navigation';
+
 import IssuanceSession from './IssuanceSession';
 import DisclosureSession from './DisclosureSession';
 import SigningSession from './SigningSession';
@@ -9,6 +11,8 @@ import SigningSession from './SigningSession';
 import fullCredentials from 'store/mappers/fullCredentials';
 import fullDisclosuresCandidates from 'store/mappers/fullDisclosuresCandidates';
 import fullMissingDisclosures from 'store/mappers/fullMissingDisclosures';
+
+import { sendMail } from 'lib/mail';
 
 import {
   Container,
@@ -62,7 +66,7 @@ export default class SessionContainer extends Component {
   }
 
   state = {
-    forceValidation: false,
+    validationForced: false,
     pin: null,
 
     // Meant for disclosure in issuance and signing
@@ -78,26 +82,17 @@ export default class SessionContainer extends Component {
     navigation.goBack();
   }
 
+  sendMail() {
+    const { session: { result, request }} = this.props;
+    sendMail(result, JSON.parse(request));
+  }
+
   navigateToEnrollment() {
-    const {
-      dispatch,
-      navigation,
-      session: {
-        missingSchemeManagerId: schemeManagerId
-      }
-    } = this.props;
+    const { navigation } = this.props;
 
-    dispatch({
-      type: 'Enrollment.Start',
-      schemeManagerId
-    });
-
-    navigation.goBack();
-
-    // Fuck you React Navigation #1127
-    setTimeout(
-      () => navigation.navigate('Enrollment', { schemeManagerId }),
-      250
+    resetNavigation(
+      navigation.dispatch,
+      'EnrollmentTeaser',
     );
   }
 
@@ -147,7 +142,7 @@ export default class SessionContainer extends Component {
     // In case we're on pin entry, give a pin response
     if(status === 'requestPin') {
       if(proceed && !pin) {
-        this.setState({forceValidation: true});
+        this.setState({validationForced: true});
         return false;
       }
 
@@ -174,7 +169,7 @@ export default class SessionContainer extends Component {
 
   render() {
     const { irmaConfiguration, session } = this.props;
-    const { forceValidation, showDisclosureStep } = this.state;
+    const { validationForced, showDisclosureStep } = this.state;
 
     // Introduce a pseudo-status for when we're disclosing in issuance or signing
     let status = this.props.session.status;
@@ -182,13 +177,14 @@ export default class SessionContainer extends Component {
       status = 'requestDisclosurePermission';
 
     const sessionProps = {
-      forceValidation,
+      validationForced,
       irmaConfiguration,
       makeDisclosureChoice: ::this.makeDisclosureChoice,
       navigateBack: ::this.navigateBack,
       navigateToEnrollment: ::this.navigateToEnrollment,
       nextStep: ::this.nextStep,
       pinChange: ::this.pinChange,
+      sendMail: ::this.sendMail,
 
       session: {
         ...session,

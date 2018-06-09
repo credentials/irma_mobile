@@ -1,4 +1,8 @@
 const isValidSessionAction = (state, action) => {
+  if (action.sessionId == 0 && action.type !== 'IrmaBridge.NewSession') {
+    return true;
+  }
+
   switch(action.type) {
     case 'IrmaBridge.NewSession': {
       if(typeof action.sessionId !== 'number' || action.sessionId < 1) {
@@ -24,6 +28,7 @@ const isValidSessionAction = (state, action) => {
     case 'IrmaSession.RequestSignaturePermission':
     case 'IrmaSession.RequestPin':
     case 'IrmaSession.KeyshareEnrollmentMissing':
+    case 'IrmaSession.KeyshareEnrollmentDeleted':
     case 'IrmaSession.KeyshareBlocked':
     case 'IrmaSession.KeyshareEnrollmentIncomplete':
     case 'IrmaBridge.RespondPermission':
@@ -51,6 +56,7 @@ export default function credentials(state = initialState, action) {
   if(!isValidSessionAction(state, action))
     return state;
 
+  // sessionId is '0' if started a manual session from a signature request
   const { sessionId } = action;
 
   switch(action.type) {
@@ -60,7 +66,17 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           id: sessionId,
           qr: action.qr,
-          didRespondPermission: false,
+        }
+      };
+    }
+
+    case 'IrmaBridge.NewManualSession': {
+      return {
+        ...state,
+        [sessionId]: {
+          status: 'started',
+          id: sessionId, // should be 0
+          request: action.request,
         }
       };
     }
@@ -82,6 +98,7 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           ...state[sessionId],
           status: 'success',
+          result: action.result,
         }
       };
     }
@@ -93,12 +110,7 @@ export default function credentials(state = initialState, action) {
           ...state[sessionId],
           status: 'failure',
           irmaAction: action.irmaAction,
-          errorType: action.errorType,
-          errorMessage: action.errorMessage,
-          errorInfo: action.errorInfo,
-          errorStatus: action.errorStatus,
-          errorStack: action.errorStack,
-          apiError: action.apiError,
+          error: action.error,
         }
       };
     }
@@ -195,6 +207,17 @@ export default function credentials(state = initialState, action) {
       };
     }
 
+    case 'IrmaSession.KeyshareEnrollmentDeleted': {
+      return {
+        ...state,
+        [sessionId]: {
+          ...state[sessionId],
+          status: 'keyshareEnrollmentDeleted',
+          schemeManagerId: action.schemeManagerId,
+        }
+      };
+    }
+
     case 'IrmaSession.KeyshareBlocked': {
       return {
         ...state,
@@ -223,7 +246,6 @@ export default function credentials(state = initialState, action) {
         ...state,
         [sessionId]: {
           ...state[sessionId],
-          didRespondPermission: true,
         }
       };
     }

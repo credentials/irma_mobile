@@ -6,18 +6,25 @@ import (
 )
 
 type ActionHandler struct {
-	sessionLookup map[int]*SessionHandler
+	sessionLookup        map[int]*SessionHandler
+	manualSessionHandler *SessionHandler
 }
 
 // Enrollment to a keyshare server
 type EnrollAction struct {
-	SchemeManagerId irma.SchemeManagerIdentifier
-	Email           string
-	Pin             string
+	Email    *string
+	Pin      string
+	Language string
 }
 
 func (ah *ActionHandler) Enroll(action *EnrollAction) (err error) {
-	client.KeyshareEnroll(action.SchemeManagerId, action.Email, action.Pin)
+	if len(client.UnenrolledSchemeManagers) == 0 {
+		return errors.Errorf("No unenrolled scheme manager available to enroll with")
+	}
+
+	// Irmago doesn't actually support multiple scheme managers with keyshare enrollment,
+	// so we just pick the first unenrolled, which should be PBDF production
+	client.KeyshareEnroll(client.UnenrolledSchemeManagers[0], action.Email, action.Pin, action.Language)
 	return nil
 }
 
@@ -39,7 +46,21 @@ func (ah *ActionHandler) NewSession(action *NewSessionAction) (err error) {
 	return nil
 }
 
-// Respond to a permission prompt when disclosing, issuing or signing
+// Initiating a new manual session
+type NewManualSessionAction struct {
+	Request string
+}
+
+func (ah *ActionHandler) NewManualSession(action *NewManualSessionAction) (err error) {
+	ah.manualSessionHandler = &SessionHandler{
+		sessionID: 0,
+	}
+
+	client.NewManualSession(action.Request, ah.manualSessionHandler)
+	return nil
+}
+
+// Responding to a permission prompt when disclosing, issuing or signing
 type RespondPermissionAction struct {
 	SessionID         int
 	Proceed           bool
@@ -113,6 +134,10 @@ type DismissSessionAction struct {
 }
 
 func (ah *ActionHandler) DismissSession(action *DismissSessionAction) error {
+	if action.SessionID == 0 {
+		// Manual sessions don't need to be dismissed
+		return nil
+	}
 	sh, err := ah.findSessionHandler(action.SessionID)
 	if err != nil {
 		return err
@@ -137,6 +162,9 @@ func (ah *ActionHandler) SetCrashReportingPreference(action *SetCrashReportingPr
 
 // findSessionHandler is a helper function to find a session in the sessionLookup
 func (ah *ActionHandler) findSessionHandler(sessionID int) (*SessionHandler, error) {
+	if sessionID == 0 {
+		return ah.manualSessionHandler, nil
+	}
 	sh := ah.sessionLookup[sessionID]
 	if sh == nil {
 		return nil, errors.Errorf("Invalid session ID in RespondPermission: %d", sessionID)

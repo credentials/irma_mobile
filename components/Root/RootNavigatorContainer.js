@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Linking } from 'react-native';
-import { Sentry } from 'react-native-sentry';
 
 import RootNavigator from './RootNavigator';
 
@@ -13,7 +12,7 @@ const getCurrentRoute = (state) => (
 export default class RootNavigatorContainer extends Component {
   static propTypes = {
     ensureEnrollment: PropTypes.func.isRequired,
-    handleIrmaUrl: PropTypes.func.isRequired,
+    handleUrl: PropTypes.func.isRequired,
   }
 
   state = {
@@ -28,7 +27,7 @@ export default class RootNavigatorContainer extends Component {
   }
 
   componentDidMount() {
-    const { ensureEnrollment, handleIrmaUrl } = this.props;
+    const { ensureEnrollment, handleUrl } = this.props;
 
     // Set the initial current route
     const currentRoute = getCurrentRoute(this.navigator.state.nav);
@@ -41,7 +40,7 @@ export default class RootNavigatorContainer extends Component {
     // Also on mount, handle any initial IRMA URL with which the app was started
     Linking.getInitialURL().then( irmaUrl => {
       if (this.navigator && irmaUrl)
-        handleIrmaUrl(irmaUrl, this.navigator);
+        handleUrl(irmaUrl, this.navigator);
     }).catch();
 
     // Setup a handler for any IRMA URLs which are opened later
@@ -54,8 +53,8 @@ export default class RootNavigatorContainer extends Component {
   }
 
   urlListener(event) {
-    const { handleIrmaUrl } = this.props;
-    handleIrmaUrl(event.url, this.navigator);
+    const { handleUrl } = this.props;
+    handleUrl(event.url, this.navigator);
   }
 
   navigationStateChange(prevState, newState) {

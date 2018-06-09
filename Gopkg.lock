@@ -2,10 +2,40 @@
 
 
 [[projects]]
+  branch = "master"
+  name = "github.com/bwesterb/byteswriter"
+  packages = ["."]
+  revision = "c31a76b641f8b94ffccad99eeeabf795e53b1e4a"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/bwesterb/go-atum"
+  packages = ["."]
+  revision = "f48b4b5eb04060a3f982a89795d3d6e36b44d127"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/bwesterb/go-pow"
+  packages = ["."]
+  revision = "b53ca488a9ca0a21ee44c6a6b0ad792693214e1a"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/bwesterb/go-xmssmt"
+  packages = ["."]
+  revision = "58241c99638a738580f8258ac438f0b7f91d346d"
+
+[[projects]]
   name = "github.com/certifi/gocertifi"
   packages = ["."]
   revision = "deb3ae2ef2610fde3330947281941c562861188b"
   version = "2018.01.18"
+
+[[projects]]
+  name = "github.com/cespare/xxhash"
+  packages = ["."]
+  revision = "5c37fe3735342a2e0d01c87a907579987c8936cc"
+  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
@@ -21,21 +51,66 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/edsrzf/mmap-go"
+  packages = ["."]
+  revision = "0bce6a6887123b67a60366d2c9fe2dfb74289d2e"
+
+[[projects]]
+  branch = "master"
   name = "github.com/getsentry/raven-go"
   packages = ["."]
-  revision = "563b81fc02b75d664e54da31f787c2cc2186780b"
+  revision = "d1470f50d3a3a38533355a9fab7393e25a3b4226"
 
 [[projects]]
   name = "github.com/go-errors/errors"
   packages = ["."]
-  revision = "3afebba5a48dbc89b574d890b6b34d9ee10b4785"
-  version = "v1.0.0"
+  revision = "a6af135bd4e28680facf08a3d206b454abc877a4"
+  version = "v1.0.1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/hashicorp/errwrap"
+  packages = ["."]
+  revision = "7554cd9344cec97297fa6649b055a8c98c2a1e55"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/hashicorp/go-multierror"
+  packages = ["."]
+  revision = "b7773ae218740a7be65057fc60b366a49b538a44"
+
+[[projects]]
+  name = "github.com/jinzhu/gorm"
+  packages = [
+    ".",
+    "dialects/sqlite"
+  ]
+  revision = "6ed508ec6a4ecb3531899a69cbc746ccf65a4166"
+  version = "v1.9.1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/jinzhu/inflection"
+  packages = ["."]
+  revision = "04140366298a54a039076d798123ffa108fff46c"
+
+[[projects]]
+  name = "github.com/mattn/go-sqlite3"
+  packages = ["."]
+  revision = "323a32be5a2421b8c7087225079c6c900ec397cd"
+  version = "v1.7.0"
 
 [[projects]]
   branch = "master"
   name = "github.com/mhe/gabi"
   packages = ["."]
-  revision = "6123a11fd5206d74c0f01cd1d60a70d96bab366b"
+  revision = "4f733a839b2b9234ef7c2610fbc8270bafe250c7"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/nightlyone/lockfile"
+  packages = ["."]
+  revision = "6a197d5ea61168f2ac821de2b7f011b250904900"
 
 [[projects]]
   name = "github.com/pkg/errors"
@@ -44,13 +119,15 @@
   version = "v0.8.0"
 
 [[projects]]
+  branch = "master"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
+    "internal/disable_sigpipe",
     "internal/fs",
     "irmaclient"
   ]
-  revision = "255230e1924e7349b74790ae106a875ed5030f74"
+  revision = "80a39715b36248c7bb0936fab50b5819d4a56279"
 
 [[projects]]
   branch = "master"
@@ -58,9 +135,31 @@
   packages = ["."]
   revision = "1b01514224a1a60a6bcbb0b6b9d3a00ec14ae17f"
 
+[[projects]]
+  branch = "master"
+  name = "github.com/templexxx/cpufeat"
+  packages = ["."]
+  revision = "3794dfbfb04749f896b521032f69383f24c3687e"
+
+[[projects]]
+  name = "github.com/templexxx/xor"
+  packages = ["."]
+  revision = "0af8e873c554da75f37f2049cdffda804533d44c"
+  version = "0.1.2"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/crypto"
+  packages = [
+    "ed25519",
+    "ed25519/internal/edwards25519",
+    "sha3"
+  ]
+  revision = "ab813273cd59e1333f7ae7bff5d027d4aadf528c"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "cb5aa91546d97abc1d9b56b63604d841d06b65c4f11867fd2ed36a31db5ec496"
+  inputs-digest = "a1b5ac232f1c63977d2e6a398ad8558f9d4c2210fde8538e048db0d7e11d4596"
   solver-name = "gps-cdcl"
   solver-version = 1

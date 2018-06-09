@@ -20,7 +20,7 @@ export default class PinEntry extends Component {
   static propTypes = {
     pinChange: PropTypes.func.isRequired,
     session: PropTypes.object.isRequired,
-    forceValidation: PropTypes.bool.isRequired,
+    validationForced: PropTypes.bool.isRequired,
   }
 
   renderIncorrectMessage() {
@@ -47,29 +47,18 @@ export default class PinEntry extends Component {
       session: {
         remainingAttempts,
       },
-      forceValidation
+      validationForced
     } = this.props;
-
-    const inputProps = {
-      autoCapitalize: 'none',
-      autoCorrect: false,
-      keyboardType: 'numeric',
-      maxLength: 16,
-      secureTextEntry: true,
-      autoFocus: true,
-    };
-
-    const validate = value => /\d{5,}/.test(value);
 
     return (
       <Form style={{paddingRight: 20}}>
         <FormInput
-          forceValidation={forceValidation}
-          inputProps={inputProps}
+          inputType="pin"
           key={`attempt-${remainingAttempts}`}
           label={ t('.label') }
           onChange={pinChange}
-          validate={validate}
+          validationForced={validationForced}
+          autoFocus={true}
         />
       </Form>
     );

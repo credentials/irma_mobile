@@ -1,1 +1,1 @@
-export default from './CredentialNavigator';
+export default from './CredentialDashboardContainer';

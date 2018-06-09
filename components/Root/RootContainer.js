@@ -2,9 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
+import { Alert } from 'react-native';
 import { Sentry } from 'react-native-sentry';
+import RNFS from 'react-native-fs';
 
+import { resetNavigation } from 'lib/navigation';
 import RootNavigatorContainer from './RootNavigatorContainer';
+
+import { validateSigrequest } from 'lib/requestValidators.js';
+import { canSendMail } from 'lib/mail.js';
+
+import { namespacedTranslation } from 'lib/i18n';
+const t = namespacedTranslation('RootContainer');
 
 const mapStateToProps = (state) => {
   const {
@@ -65,26 +74,83 @@ export default class RootContainer extends Component {
   }
 
   ensureEnrollment(navigator) {
-    const { dispatch, unenrolledSchemeManagerIds } = this.props;
+    const { unenrolledSchemeManagerIds } = this.props;
 
     if(unenrolledSchemeManagerIds.length === 0)
       return;
 
-    // Irmago doesn't actually support multiple scheme managers with keyshare enrollment,
-    // so we just pick the first unenrolled, which should be PBDF
-    const schemeManagerId = unenrolledSchemeManagerIds[0];
+    resetNavigation(navigator.dispatch, 'EnrollmentTeaser');
+  }
 
-    dispatch({
-      type: 'Enrollment.Start',
-      schemeManagerId
-    });
+  // Handle URL
+  handleUrl(url, navigator) {
+    // Doing a manual session on Android
+    if (url.startsWith('content://')) {
+      this.startFromFileUrl(url, navigator);
+    }
 
-    navigator.dispatch(
-      NavigationActions.navigate({
-        routeName: 'Enrollment',
-        params: { schemeManagerId },
+    // Doing a manual session on iOS
+    if (url.startsWith('file://')) {
+      const path = url.slice(7); // Strip file://
+      this.startFromFileUrl(path, navigator);
+    }
+
+    // Handle errors in handleIrmaUrl
+    return this.handleIrmaUrl(url, navigator);
+  }
+
+  startFromFileUrl(url, navigator) {
+    return canSendMail()
+      .then(() => this.handleContentUrl(url, navigator))
+      .catch(() => {
+        Alert.alert(
+          t('.sessionErrorTitle'),
+          t('.errorNoMailClient'),
+          [{text: t('.dismiss'), style: 'cancel'}],
+          { cancelable: true }
+        );
+      });
+  }
+
+  // Handle an URL of the form file://path (iOS) or content://path (Android) for signature requests
+  // TODO: handle disclosure requests as well
+  handleContentUrl(url, navigator) {
+    RNFS.readFile(url, 'utf8')
+      .then(result => {
+        const sigRequest = JSON.parse(result);
+
+        if (!validateSigrequest(sigRequest)) {
+           Alert.alert(
+             t('.sessionErrorTitle'),
+             t('.invalidSignatureRequest'),
+             [{text: t('.dismiss'), style: 'cancel'}],
+             { cancelable: true }
+           );
+          return;
+        }
+
+        const { dispatch } = this.props;
+        dispatch({
+          type: 'IrmaBridge.NewManualSession',
+          sessionId: 0,
+          request: JSON.stringify(sigRequest),
+        });
+
+        navigator.dispatch(
+          NavigationActions.navigate({
+            routeName: 'Session',
+            params: { sessionId: 0 },
+          })
+        );
       })
-    );
+      .catch(() => {
+        Alert.alert(
+          t('.sessionErrorTitle'),
+          t('.errorReadFile'),
+          [{text: t('.dismiss'), style: 'cancel'}],
+          { cancelable: true }
+        );
+      });
   }
 
   // Handle an URL of the form irma://qr/json/$json
@@ -120,14 +186,10 @@ export default class RootContainer extends Component {
       qr,
     });
 
-    navigator.dispatch(
-      NavigationActions.reset({
-        index: 1,
-        actions: [
-          NavigationActions.navigate({routeName: 'CredentialDashboard'}),
-          NavigationActions.navigate({routeName: 'Session', params: { sessionId }}),
-        ]
-      })
+    resetNavigation(
+      navigator.dispatch,
+      'CredentialDashboard',
+      {routeName: 'Session', params: { sessionId }}
     );
   }
 
@@ -139,7 +201,7 @@ export default class RootContainer extends Component {
     return (
       <RootNavigatorContainer
         ensureEnrollment={::this.ensureEnrollment}
-        handleIrmaUrl={::this.handleIrmaUrl}
+        handleUrl={::this.handleUrl}
       />
     );
   }

@@ -65,6 +65,11 @@ export default class About extends React.Component {
                   <Text>{sourceURL}</Text>
                 </View>
               </CardItem>
+              <CardItem>
+                <Text>
+                  { t('.attributions') }
+                </Text>
+              </CardItem>
             </Card>
           </Hyperlink>
         </PaddedContent>

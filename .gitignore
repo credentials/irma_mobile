@@ -1,8 +1,9 @@
 # General
 .DS_Store
-.swp
+*.swp
 .idea/
 .vscode/
+jsconfig.json
 
 # Node / NPM / go dep
 node_modules/
