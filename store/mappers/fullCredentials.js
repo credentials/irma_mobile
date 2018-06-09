@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const fullAttributes = (attributes, attributeTypes) => {
   return _.zip(attributes, attributeTypes).map( ([attribute, attributeType]) => ({
-    ...attribute,
+    Value: attribute,
     Type: attributeType,
   }));
 };
