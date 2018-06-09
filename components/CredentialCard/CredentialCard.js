@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Alert } from 'react-native';
 
+import _ from 'lodash';
+
 import {
   Body,
   CardItem,
@@ -66,7 +68,7 @@ export default class CredentialCard extends Component {
   }
 
   renderAttribute(attribute) {
-    if (attribute.Value === undefined) {
+    if (_.isEmpty(attribute.Value)) {
         // Do not show empty attributes.
         return null;
     }

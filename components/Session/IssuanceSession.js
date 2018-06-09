@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import _ from 'lodash';
+
 import { namespacedTranslation } from 'lib/i18n';
 import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
 
@@ -68,9 +70,9 @@ export default class IssuanceSession extends Component {
 
       case 'requestPermission': {
         // When counting the total amount of attributes we must skip the non-present attributes;
-        // in these cases the Value of the attribute is undefined (see fullCredentials.js).
+        // in these cases the Value of the attribute is an empty map (see fullCredentials.js).
         const attributeCount = issuedCredentials.reduce(
-          (acc, cr) => acc + cr.Attributes.filter(a => a.Value !== undefined).length, 0
+          (acc, cr) => acc + cr.Attributes.filter(a => !_.isEmpty(a.Value)).length, 0
         );
         const credentialCount = issuedCredentials.length;
 
