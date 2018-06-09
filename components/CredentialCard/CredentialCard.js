@@ -70,7 +70,7 @@ export default class CredentialCard extends Component {
       <CardItem key={attribute.Type.ID}>
         <Text>{ attribute.Type.Name[lang] }</Text>
         <Right style={{flex: 1}}>
-          <Text note>{ attribute[lang] }</Text>
+          <Text note>{ attribute.Value[lang] }</Text>
         </Right>
       </CardItem>
     );

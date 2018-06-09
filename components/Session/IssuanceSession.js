@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import _ from 'lodash';
+
 import { namespacedTranslation } from 'lib/i18n';
 import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
 
