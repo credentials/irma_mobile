@@ -21,8 +21,6 @@ import {
 
 const t = namespacedTranslation('Session.IssuanceSession');
 
-const lang = 'en'; // TODO
-
 export default class IssuanceSession extends Component {
 
   static propTypes = {
@@ -69,10 +67,12 @@ export default class IssuanceSession extends Component {
         break;
 
       case 'requestPermission': {
-        const credentialCount = issuedCredentials.length;
+        // When counting the total amount of attributes we must skip the non-present attributes;
+        // in these cases the Value of the attribute is undefined (see fullCredentials.js).
         const attributeCount = issuedCredentials.reduce(
-          (acc, cr) => acc + cr.Attributes.filter(a => a[lang] !== undefined).length, 0
+          (acc, cr) => acc + cr.Attributes.filter(a => a.Value !== undefined).length, 0
         );
+        const credentialCount = issuedCredentials.length;
 
         const credentialAmount = t('common.credentials', { count: credentialCount });
         const attributeAmount = t('common.attributes', { count: attributeCount });

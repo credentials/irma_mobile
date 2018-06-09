@@ -66,7 +66,7 @@ export default class CredentialCard extends Component {
   }
 
   renderAttribute(attribute) {
-    if (attribute[lang] === undefined) {
+    if (attribute.Value === undefined) {
         // Do not show empty attributes.
         return null;
     }
