@@ -69,12 +69,10 @@ export default class IssuanceSession extends Component {
         break;
 
       case 'requestPermission': {
-        // When counting the total amount of attributes we must skip the non-present attributes;
-        // in these cases the Value of the attribute is an empty map (see fullCredentials.js).
-        const attributeCount = issuedCredentials.reduce(
-          (acc, cr) => acc + cr.Attributes.filter(a => !_.isEmpty(a.Value)).length, 0
-        );
         const credentialCount = issuedCredentials.length;
+        const attributeCount = issuedCredentials.reduce(
+          (acc, cr) => acc + cr.Attributes.length, 0
+        );
 
         const credentialAmount = t('common.credentials', { count: credentialCount });
         const attributeAmount = t('common.attributes', { count: attributeCount });

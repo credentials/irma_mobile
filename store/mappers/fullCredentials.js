@@ -1,10 +1,14 @@
 import _ from 'lodash';
 
 const fullAttributes = (attributes, attributeTypes) => {
-  return _.zip(attributes, attributeTypes).map( ([attribute, attributeType]) => ({
-    Value: attribute,
-    Type: attributeType,
-  }));
+  return _.zip(attributes, attributeTypes)
+    .map( ([attribute, attributeType]) => ({
+      Value: attribute,
+      Type: attributeType,
+    }))
+    // In case of absent optional attributes, irmago returns not null but an empty map
+    // that is placed in .Values by the map above. We filter these out.
+    .filter( attribute => !_.isEmpty(attribute.Value) );
 };
 
 const fullCredential = (credential, { schemeManagers, credentialTypes, issuers }) => {
