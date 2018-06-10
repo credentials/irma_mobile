@@ -63,6 +63,9 @@ The IRMA app manages the user's IRMA attributes: receiving new attributes, selec
 
 ### Troubleshooting
 - If Javascript compilation fails with an error that some source cannot be resolved or located (i.e. cannot resolve 'lib/...', 'store/...'), it often helps to clear the Babel build cache with `yarn start --reset-cache`. You may need to kill old Node server (`killall node`) if you get a port binding error.
+
+- If you get the following error during compilation of the go bridge on Go 1.10, `package gobind: cannot find package "gobind" in any of" by upgrade go and gomobile`, try to upgrade gomobile to the latest version and run `gomobile init` again (see gomobile issue 108336).
+
 - If you get this error during compilation of the go bridge for Android:
 
   ```
