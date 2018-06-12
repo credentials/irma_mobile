@@ -6,7 +6,7 @@ const initialState = {
   error: null,
 };
 
-export default function changepin(state = initialState, action) {
+export default function changePin(state = initialState, action) {
   switch(action.type) {
     case 'IrmaClient.HasKeyshare':
       return {
@@ -14,27 +14,27 @@ export default function changepin(state = initialState, action) {
         loaded: true,
         hasKeyshare: action.hasKeyshare,
       };
-    case 'Changepin.Start':
+    case 'ChangePin.Start':
       return {
         ...state,
         status: 'started',
       }
-    case 'IrmaBridge.Changepin':
+    case 'IrmaBridge.ChangePin':
       return {
         ...state,
         status: 'changing',
       }
-    case 'IrmaClient.ChangepinSuccess':
+    case 'IrmaClient.ChangePinSuccess':
       return {
         ...state,
         status: 'success',
       }
-    case 'IrmaClient.ChangepinIncorrect':
+    case 'IrmaClient.ChangePinIncorrect':
       return {
         ...state,
-        status: 'pinerror',
+        status: 'pinError',
       }
-    case 'IrmaClient.ChangepinFailure':
+    case 'IrmaClient.ChangePinFailure':
       return {
         ...state,
         status: 'error',

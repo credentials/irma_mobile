@@ -31,10 +31,10 @@ func recoveredReceiveAction(actionJSONString string) {
 			err = actionHandler.Enroll(action)
 		}
 
-	case "Changepin":
-		action := &ChangepinAction{}
+	case "ChangePin":
+		action := &ChangePinAction{}
 		if err = json.Unmarshal(actionJSON, action); err == nil {
-			err = actionHandler.Changepin(action)
+			err = actionHandler.ChangePin(action)
 		}
 
 	case "NewSession":

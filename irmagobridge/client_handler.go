@@ -52,8 +52,8 @@ func (ch *ClientHandler) EnrollmentSuccess(managerIdentifier irma.SchemeManagerI
 	sendAction(action)
 }
 
-func (ch *ClientHandler) ChangepinFailure(managerIdentifier irma.SchemeManagerIdentifier, plainErr error) {
-	logDebug("Handling ChangepinFailure")
+func (ch *ClientHandler) ChangePinFailure(managerIdentifier irma.SchemeManagerIdentifier, plainErr error) {
+	logDebug("Handling ChangePinFailure")
 
 	// Make sure the error is wrapped in a SessionError, so we only have one type to handle in irma_mobile
 	err, ok := plainErr.(*irma.SessionError)
@@ -62,7 +62,7 @@ func (ch *ClientHandler) ChangepinFailure(managerIdentifier irma.SchemeManagerId
 	}
 
 	action := &OutgoingAction{
-		"type":            "IrmaClient.ChangepinFailure",
+		"type":            "IrmaClient.ChangePinFailure",
 		"schemeManagerId": managerIdentifier,
 		"error": &OutgoingAction{
 			"type":         err.ErrorType,
@@ -77,21 +77,21 @@ func (ch *ClientHandler) ChangepinFailure(managerIdentifier irma.SchemeManagerId
 	sendAction(action)
 }
 
-func (ch *ClientHandler) ChangepinSuccess(managerIdentifier irma.SchemeManagerIdentifier) {
-	logDebug("Handling ChangepinSuccess")
+func (ch *ClientHandler) ChangePinSuccess(managerIdentifier irma.SchemeManagerIdentifier) {
+	logDebug("Handling ChangePinSuccess")
 
 	action := &OutgoingAction{
-		"type": "IrmaClient.ChangepinSuccess",
+		"type": "IrmaClient.ChangePinSuccess",
 	}
 
 	sendAction(action)
 }
 
-func (ch *ClientHandler) ChangepinIncorrect(managerIdentifier irma.SchemeManagerIdentifier) {
-	logDebug("Handling ChangepinIncorrect")
+func (ch *ClientHandler) ChangePinIncorrect(managerIdentifier irma.SchemeManagerIdentifier) {
+	logDebug("Handling ChangePinIncorrect")
 
 	action := &OutgoingAction{
-		"type": "IrmaClient.ChangepinIncorrect",
+		"type": "IrmaClient.ChangePinIncorrect",
 	}
 
 	sendAction(action)

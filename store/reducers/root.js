@@ -5,7 +5,7 @@ import irmaConfiguration from './irmaConfiguration';
 import preferences from './preferences';
 import enrollment from './enrollment';
 import sessions from './sessions';
-import changepin from './changepin';
+import changePin from './changePin';
 
 export default combineReducers({
   credentials,
@@ -13,5 +13,5 @@ export default combineReducers({
   preferences,
   enrollment,
   sessions,
-  changepin,
+  changePin,
 });

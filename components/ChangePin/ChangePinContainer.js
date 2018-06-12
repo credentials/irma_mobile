@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Changepin from './Changepin';
+import ChangePin from './ChangePin';
 
 const mapStateToProps = (state) => {
   const {
-    changepin: {
+    changePin: {
       error,
       status,
     }
@@ -18,7 +18,7 @@ const mapStateToProps = (state) => {
 };
 
 @connect(mapStateToProps)
-export default class ChangepinContainer extends Component {
+export default class ChangePinContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     status: PropTypes.string.isRequired,
@@ -26,52 +26,52 @@ export default class ChangepinContainer extends Component {
     navigation: PropTypes.object.isRequired,
   }
 
-  static navigationOptions = Changepin.navigationOptions;
+  static navigationOptions = ChangePin.navigationOptions;
 
   state = {
-    oldpin: null,
-    newpin: null,
+    oldPin: null,
+    newPin: null,
     validationForced: false
   }
   
-  changeOldpin(oldpin) {
-    this.setState({oldpin});
+  changeOldPin(oldPin) {
+    this.setState({oldPin});
   }
   
-  changeNewpin(newpin) {
-    this.setState({newpin});
+  changeNewPin(newPin) {
+    this.setState({newPin});
   }
   
-  changepin() {
-    const { oldpin, newpin } = this.state;
+  changePin() {
+    const { oldPin, newPin } = this.state;
     const { dispatch } = this.props;
     
-    if (!oldpin || !newpin) {
+    if (!oldPin || !newPin) {
       this.setState({validationForced: true});
       return;
     }
     
     dispatch({
-      type: 'IrmaBridge.Changepin',
-      oldpin,
-      newpin,
+      type: 'IrmaBridge.ChangePin',
+      oldPin,
+      newPin,
     });
   }
 
   render() {
-    const { oldpin, newpin, validationForced } = this.state;
+    const { oldPin, newPin, validationForced } = this.state;
     const { status, error } = this.props;
   
     return (
-      <Changepin 
-        changeOldpin = { ::this.changeOldpin }
-        changeNewpin = { ::this.changeNewpin }
-        oldpin = { oldpin }
-        newpin = { newpin }
+      <ChangePin 
+        changeOldPin = { ::this.changeOldPin }
+        changeNewPin = { ::this.changeNewPin }
+        oldPin = { oldPin }
+        newPin = { newPin }
         status = { status }
         error = { error }
         validationForced = { validationForced }
-        changepin = { ::this.changepin }
+        changePin = { ::this.changePin }
       />
     );
   }

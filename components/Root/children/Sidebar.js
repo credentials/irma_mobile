@@ -35,11 +35,11 @@ const sidebarListItems = [
   },
   {
     icon: {name: 'key'},
-    text: t('.changepin'),
+    text: t('.changePin'),
     visible: props => props.hasKeyshare,
     onPress: props => {
-      props.dispatch({type: 'Changepin.Start'});
-      props.navigation.navigate('Changepin');
+      props.dispatch({type: 'ChangePin.Start'});
+      props.navigation.navigate('ChangePin');
     }
   },
   {
@@ -85,7 +85,7 @@ const mapStateToProps = (state) => {
     enrollment: {
       unenrolledSchemeManagerIds
     },
-    changepin: {
+    changePin: {
       hasKeyshare
     }
   } = state;

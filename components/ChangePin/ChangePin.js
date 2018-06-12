@@ -18,41 +18,41 @@ import PaddedContent from 'lib/PaddedContent';
 import ErrorCard from 'components/ErrorCard';
 import IconCard from 'components/IconCard';
 
-export const t = namespacedTranslation('Changepin');
+export const t = namespacedTranslation('ChangePin');
 
-export default class Changepin extends Component {
+export default class ChangePin extends Component {
   static propTypes = {
-    changeOldpin: PropTypes.func.isRequired,
-    changeNewpin: PropTypes.func.isRequired,
-    oldpin: PropTypes.string,
-    newpin: PropTypes.string,
+    changeOldPin: PropTypes.func.isRequired,
+    changeNewPin: PropTypes.func.isRequired,
+    oldPin: PropTypes.string,
+    newPin: PropTypes.string,
     status: PropTypes.string.isRequired,
     error: PropTypes.object,
     validationForced: PropTypes.bool.isRequired,
-    changepin: PropTypes.func.isRequired,
+    changePin: PropTypes.func.isRequired,
   }
   
   static navigationOptions = {
     title: Dimensions.get('window').width > 350 ? t('.title') : t('.shortTitle'),
   }
   
-  renderPinerror() {
+  renderPinError() {
     const { status } = this.props;
     
-    if (status != 'pinerror')
+    if (status != 'pinError')
       return null;
     
     return (
       <CardItem>
         <Text testID="errorText" style={{color: '#ed2f2f'}}>
-          { t('.pinerror') }
+          { t('.pinError') }
         </Text>
       </CardItem>
     )
   }
   
   renderForm() {
-    const { oldpin, newpin, changeOldpin, changeNewpin, changepin, validationForced } = this.props;
+    const { oldPin, newPin, changeOldPin, changeNewPin, changePin, validationForced } = this.props;
     
     return (
       <View>
@@ -62,27 +62,27 @@ export default class Changepin extends Component {
               { t('.intro') }
             </Text>
           </CardItem>
-          { this.renderPinerror() }
+          { this.renderPinError() }
           <Form style={{paddingRight: 20}}>
             <FormInput
               inputType="pin"
-              label={ t('.oldpinLabel') }
-              initialValue = { oldpin }
-              onChange={ changeOldpin }
+              label={ t('.oldPinLabel') }
+              initialValue = { oldPin }
+              onChange={ changeOldPin }
               validationForced = { validationForced }
             />
           </Form>
           <RepeatedValueForm
             inputType="pin"
-            firstLabel={ t('.newpinLabel') } 
-            repeatLabel={ t('.newpinRepeatLabel') }
-            initialValue = { newpin }
-            onChange={ changeNewpin }
+            firstLabel={ t('.newPinLabel') } 
+            repeatLabel={ t('.newPinRepeatLabel') }
+            initialValue = { newPin }
+            onChange={ changeNewPin }
             validationForced = { validationForced }
           />
           <View style={{marginVertical: 10, justifyContent: 'center', flexDirection: 'row'}}>
-            <Button testID="changeButton" onPress = { changepin }>
-              <Text>{ t('.dochange') }</Text>
+            <Button testID="changeButton" onPress = { changePin }>
+              <Text>{ t('.doChange') }</Text>
             </Button>
           </View>
         </Card>
@@ -95,7 +95,7 @@ export default class Changepin extends Component {
     
     switch(status) {
       case 'started':
-      case 'pinerror':
+      case 'pinError':
         return this.renderForm()
       
       case 'changing':
@@ -123,10 +123,8 @@ export default class Changepin extends Component {
   }
   
   render() {
-    const { oldpin, newpin, changeOldpin, changeNewpin} = this.props;
-
     return (
-      <Container testID="Changepin" style={{backgroundColor: '#E9E9EF'}}>
+      <Container testID="ChangePin" style={{backgroundColor: '#E9E9EF'}}>
         <PaddedContent>
           { this.renderContent() }
         </PaddedContent>
