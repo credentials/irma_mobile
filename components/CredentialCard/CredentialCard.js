@@ -3,6 +3,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Alert } from 'react-native';
+import { connect } from 'react-redux';
 
 import {
   Body,
@@ -21,6 +22,19 @@ import { namespacedTranslation, getLanguage } from 'lib/i18n';
 const lang = getLanguage();
 const t = namespacedTranslation('CredentialCard');
 
+const mapStateToProps = (state) => {
+  const {
+    currentTime: {
+      reftime,
+    }
+  } = state;
+
+  return {
+    reftime,
+  };
+};
+
+@connect(mapStateToProps)
 export default class CredentialCard extends Component {
 
   static propTypes = {
@@ -28,6 +42,7 @@ export default class CredentialCard extends Component {
     collapsedInitially: PropTypes.bool,
     collapsable: PropTypes.bool,
     deleteCredential: PropTypes.func,
+    reftime: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -66,9 +81,14 @@ export default class CredentialCard extends Component {
   }
 
   renderAttribute(attribute) {
+    const { credential, reftime } = this.props;
+
+    const hasExpired = moment.unix(credential.Expires).isBefore(reftime);
+    const expiredNameStyle = hasExpired ? {color: '#a7a7a7'} : {};
+
     return (
       <CardItem key={attribute.Type.ID}>
-        <Text>{ attribute.Type.Name[lang] }</Text>
+        <Text style={expiredNameStyle}>{ attribute.Type.Name[lang] }</Text>
         <Right style={{flex: 1}}>
           <Text note>{ attribute.Value[lang] }</Text>
         </Right>
@@ -77,8 +97,12 @@ export default class CredentialCard extends Component {
   }
 
   render() {
-    const { credential, collapsable } = this.props;
+    const { credential, collapsable, reftime } = this.props;
     const { collapsed } = this.state;
+
+    const hasExpired = moment.unix(credential.Expires).isBefore(reftime);
+    const expiredNameStyle = hasExpired ? {color: '#a7a7a7'} : {};
+    const expiredDateStyle = hasExpired ? {color: '#d72020'} : {};
 
     return (
       <Card>
@@ -91,8 +115,8 @@ export default class CredentialCard extends Component {
               <Left>
                 <CredentialLogo credentialType={credential.Type} />
                 <Body>
-                  <Text>{ credential.Type.Name[lang] }</Text>
-                  <Text note>{ t('.expires') } { moment.unix(credential.Expires).format('D MMM YYYY') }</Text>
+                  <Text style={expiredNameStyle}>{ credential.Type.Name[lang] }</Text>
+                  <Text note style={expiredDateStyle}>{ hasExpired ? t('.expired') : t('.expires') } { moment.unix(credential.Expires).format('D MMM YYYY') }</Text>
                 </Body>
                 { !collapsable ? null :
                     <Icon name={collapsed ? 'ios-arrow-forward' : 'ios-arrow-down'} />
