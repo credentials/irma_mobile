@@ -30,6 +30,7 @@ func (sh *SessionHandler) Success(irmaAction irma.Action, result string) {
 		"type":       "IrmaSession.Success",
 		"sessionId":  sh.sessionID,
 		"irmaAction": irmaAction,
+		"result":     result,
 	}
 
 	sendAction(action)
@@ -115,7 +116,6 @@ func (sh *SessionHandler) RequestSignaturePermission(request irma.SignatureReque
 		"disclosures":           request.ToDisclose(),
 		"disclosuresCandidates": request.Candidates,
 		"message":               request.Message,
-		"messageType":           request.MessageType,
 	}
 
 	sh.permissionHandler = ph

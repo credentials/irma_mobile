@@ -36,7 +36,5 @@ export default () => {
 
   NativeModules.IrmaBridge.start();
 
-  return {
-    store
-  };
+  return store;
 };

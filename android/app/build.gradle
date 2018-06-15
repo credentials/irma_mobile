@@ -98,8 +98,8 @@ android {
         applicationId "org.irmacard.cardemu"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 31
-        versionName "5.1.0"
+        versionCode 32
+        versionName "5.2.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -145,6 +145,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fs')
+    compile project(':react-native-mail')
     compile project(':react-native-sentry')
     compile project(':react-native-i18n')
     compile project(':react-native-camera')
