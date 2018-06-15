@@ -134,6 +134,7 @@ export default class RootContainer extends Component {
           type: 'IrmaBridge.NewManualSession',
           sessionId: 0,
           request: JSON.stringify(sigRequest),
+          fromExtern: false,
         });
 
         navigator.dispatch(
@@ -184,6 +185,7 @@ export default class RootContainer extends Component {
       type: 'IrmaBridge.NewSession',
       sessionId,
       qr,
+      fromExtern: true,
     });
 
     resetNavigation(
