@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 const initialState = {
-  reftime: moment()
+  currentTime: moment()
 };
 
 export default function currentTime(state = initialState, action) {
@@ -9,7 +9,7 @@ export default function currentTime(state = initialState, action) {
     case 'CurrentTime.Update':
       return {
         ...state,
-        reftime: action.reftime,
+        currentTime: action.currentTime,
       };
     default:
       return state;

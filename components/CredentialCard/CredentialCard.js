@@ -25,12 +25,12 @@ const t = namespacedTranslation('CredentialCard');
 const mapStateToProps = (state) => {
   const {
     currentTime: {
-      reftime,
+      currentTime,
     }
   } = state;
 
   return {
-    reftime,
+    currentTime,
   };
 };
 
@@ -42,7 +42,7 @@ export default class CredentialCard extends Component {
     collapsedInitially: PropTypes.bool,
     collapsable: PropTypes.bool,
     deleteCredential: PropTypes.func,
-    reftime: PropTypes.object.isRequired,
+    currentTime: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -81,9 +81,9 @@ export default class CredentialCard extends Component {
   }
 
   renderAttribute(attribute) {
-    const { credential, reftime } = this.props;
+    const { credential, currentTime } = this.props;
 
-    const hasExpired = moment.unix(credential.Expires).isBefore(reftime);
+    const hasExpired = moment.unix(credential.Expires).isBefore(currentTime);
     const expiredNameStyle = hasExpired ? {color: '#a7a7a7'} : {};
 
     return (
@@ -97,10 +97,10 @@ export default class CredentialCard extends Component {
   }
 
   render() {
-    const { credential, collapsable, reftime } = this.props;
+    const { credential, collapsable, currentTime } = this.props;
     const { collapsed } = this.state;
 
-    const hasExpired = moment.unix(credential.Expires).isBefore(reftime);
+    const hasExpired = moment.unix(credential.Expires).isBefore(currentTime);
     const expiredNameStyle = hasExpired ? {color: '#a7a7a7'} : {};
     const expiredDateStyle = hasExpired ? {color: '#d72020'} : {};
 
