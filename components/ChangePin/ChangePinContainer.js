@@ -39,31 +39,31 @@ export default class ChangePinContainer extends Component {
     newPin: null,
     validationForced: false
   }
-  
+
   changeOldPin(oldPin) {
     this.setState({oldPin});
   }
-  
+
   changeNewPin(newPin) {
     this.setState({newPin});
   }
-  
+
   changePin() {
     const { oldPin, newPin } = this.state;
     const { dispatch } = this.props;
-    
+
     if (!oldPin || !newPin) {
       this.setState({validationForced: true});
       return;
     }
-    
+
     dispatch({
       type: 'IrmaBridge.ChangePin',
       oldPin,
       newPin,
     });
   }
-  
+
   navigateBack() {
     const { navigation } = this.props;
     navigation.goBack();
@@ -72,9 +72,9 @@ export default class ChangePinContainer extends Component {
   render() {
     const { newPin, validationForced } = this.state;
     const { status, error, remainingAttempts, timeout } = this.props;
-  
+
     return (
-      <ChangePin 
+      <ChangePin
         changeOldPin = { ::this.changeOldPin }
         changeNewPin = { ::this.changeNewPin }
         newPin = { newPin }

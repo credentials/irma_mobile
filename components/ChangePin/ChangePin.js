@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
-import { 
+import {
   Container,
   Card,
   CardItem,
@@ -34,14 +34,14 @@ export default class ChangePin extends Component {
     timeout: PropTypes.number,
     navigateBack: PropTypes.func.isRequired,
   }
-  
+
   static navigationOptions = {
     title: Dimensions.get('window').width > 350 ? t('.title') : t('.shortTitle'),
   }
-  
+
   renderPinError() {
     const { status, remainingAttempts } = this.props;
-    
+
     if (status != 'pinError')
       return null;
 
@@ -58,7 +58,7 @@ export default class ChangePin extends Component {
   
   renderForm() {
     const { newPin, changeOldPin, changeNewPin, changePin, validationForced, remainingAttempts } = this.props;
-    
+
     return (
       <View>
         <Card>
@@ -79,7 +79,7 @@ export default class ChangePin extends Component {
           </Form>
           <RepeatedValueForm
             inputType="pin"
-            firstLabel={ t('.newPinLabel') } 
+            firstLabel={ t('.newPinLabel') }
             repeatLabel={ t('.newPinRepeatLabel') }
             onChange={ changeNewPin }
             validationForced = { validationForced }
@@ -94,36 +94,36 @@ export default class ChangePin extends Component {
       </View>
     );
   }
-  
+
   renderContent() {
     const { status, error, timeout } = this.props;
-    
+
     switch(status) {
       case 'started':
       case 'pinError':
         return this.renderForm();
-      
+
       case 'changing':
         return (
           <IconCard iconName="chatboxes">
             <Text>{ t('.changing') }</Text>
           </IconCard>
         );
-      
+
       case 'success':
         return (
           <IconCard iconName="checkmark-circle">
             <Text>{ t('.success') }</Text>
           </IconCard>
         );
-      
+
       case 'keyshareBlocked':
         return (
           <IconCard iconName="alert">
             <Text>{ t('.pinBlocked', {duration: timeout}) }</Text>
           </IconCard>
         );
-      
+
       case 'error':
         return [
           <IconCard key="header" iconName="alert">
@@ -133,10 +133,10 @@ export default class ChangePin extends Component {
         ];
     }
   }
-  
+
   renderFooter() {
     const { status, navigateBack } = this.props;
-    
+
     if (status === 'success' || status === 'keyshareBlocked' || status === 'error') {
       return (
         <Footer style={{height: 60, paddingTop: 7}}>
@@ -146,10 +146,10 @@ export default class ChangePin extends Component {
         </Footer>
       );
     }
-    
+
     return null;
   }
-  
+
   render() {
     return (
       <Container testID="ChangePin" style={{backgroundColor: '#E9E9EF'}}>
