@@ -20,36 +20,36 @@ export default function changePin(state = initialState, action) {
         ...state,
         status: 'started',
         remainingAttempts: -1,
-      }
+      };
     case 'IrmaBridge.ChangePin':
       return {
         ...state,
         status: 'changing',
-      }
+      };
     case 'IrmaClient.ChangePinSuccess':
       return {
         ...state,
         status: 'success',
-      }
+      };
     case 'IrmaClient.ChangePinIncorrect':
       return {
         ...state,
         status: 'pinError',
         remainingAttempts: action.remainingAttempts,
-      }
+      };
     case 'IrmaClient.ChangePinBlocked':
       return {
         ...state,
         status: 'keyshareBlocked',
         timeout: action.timeout,
-      }
+      };
     case 'IrmaClient.ChangePinFailure':
       return {
         ...state,
         status: 'error',
         error: action.error,
-      }
+      };
     default:
-      return state
+      return state;
   }
 }

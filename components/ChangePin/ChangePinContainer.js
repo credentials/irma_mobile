@@ -65,7 +65,7 @@ export default class ChangePinContainer extends Component {
   }
   
   navigateBack() {
-    const { navigation } = this.props
+    const { navigation } = this.props;
     navigation.goBack();
   }
 

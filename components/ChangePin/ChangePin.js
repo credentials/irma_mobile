@@ -53,7 +53,7 @@ export default class ChangePin extends Component {
           { t('.pinError', {attempts}) }
         </Text>
       </CardItem>
-    )
+    );
   }
   
   renderForm() {
@@ -101,7 +101,7 @@ export default class ChangePin extends Component {
     switch(status) {
       case 'started':
       case 'pinError':
-        return this.renderForm()
+        return this.renderForm();
       
       case 'changing':
         return (
@@ -126,7 +126,7 @@ export default class ChangePin extends Component {
       
       case 'error':
         return [
-          <IconCard iconName="alert">
+          <IconCard key="header" iconName="alert">
             <Text>{ t('.failure') }</Text>
           </IconCard>,
           <ErrorCard key="error" error={error} />
