@@ -24,12 +24,13 @@ export default class ChangePin extends Component {
   static propTypes = {
     changeOldPin: PropTypes.func.isRequired,
     changeNewPin: PropTypes.func.isRequired,
-    oldPin: PropTypes.string,
     newPin: PropTypes.string,
     status: PropTypes.string.isRequired,
     error: PropTypes.object,
     validationForced: PropTypes.bool.isRequired,
     changePin: PropTypes.func.isRequired,
+    remainingAttempts: PropTypes.number.isRequired,
+    timeout: PropTypes.number,
   }
   
   static navigationOptions = {
@@ -37,22 +38,24 @@ export default class ChangePin extends Component {
   }
   
   renderPinError() {
-    const { status } = this.props;
+    const { status, remainingAttempts } = this.props;
     
     if (status != 'pinError')
       return null;
-    
+
+    const attempts = t('.attempts', {count: remainingAttempts});
+
     return (
       <CardItem>
         <Text testID="errorText" style={{color: '#ed2f2f'}}>
-          { t('.pinError') }
+          { t('.pinError', {attempts}) }
         </Text>
       </CardItem>
     )
   }
   
   renderForm() {
-    const { oldPin, newPin, changeOldPin, changeNewPin, changePin, validationForced } = this.props;
+    const { newPin, changeOldPin, changeNewPin, changePin, validationForced, remainingAttempts } = this.props;
     
     return (
       <View>
@@ -67,18 +70,18 @@ export default class ChangePin extends Component {
             <FormInput
               inputType="pin"
               label={ t('.oldPinLabel') }
-              initialValue = { oldPin }
               onChange={ changeOldPin }
               validationForced = { validationForced }
+              key={`attempt-${remainingAttempts}`}
             />
           </Form>
           <RepeatedValueForm
             inputType="pin"
             firstLabel={ t('.newPinLabel') } 
             repeatLabel={ t('.newPinRepeatLabel') }
-            initialValue = { newPin }
             onChange={ changeNewPin }
             validationForced = { validationForced }
+            initialValue = { newPin }
           />
           <View style={{marginVertical: 10, justifyContent: 'center', flexDirection: 'row'}}>
             <Button testID="changeButton" onPress = { changePin }>
@@ -91,7 +94,7 @@ export default class ChangePin extends Component {
   }
   
   renderContent() {
-    const { status, error } = this.props;
+    const { status, error, timeout } = this.props;
     
     switch(status) {
       case 'started':
@@ -109,6 +112,13 @@ export default class ChangePin extends Component {
         return (
           <IconCard iconName="checkmark-circle">
             <Text>{ t('.success') }</Text>
+          </IconCard>
+        );
+      
+      case 'keyshareBlocked':
+        return (
+          <IconCard iconName="alert">
+            <Text>{ t('.pinBlocked', {duration: timeout}) }</Text>
           </IconCard>
         );
       

@@ -8,12 +8,16 @@ const mapStateToProps = (state) => {
     changePin: {
       error,
       status,
+      remainingAttempts,
+      timeout,
     }
   } = state;
 
   return {
     error,
     status,
+    remainingAttempts,
+    timeout,
   };
 };
 
@@ -24,6 +28,8 @@ export default class ChangePinContainer extends Component {
     status: PropTypes.string.isRequired,
     error: PropTypes.object,
     navigation: PropTypes.object.isRequired,
+    remainingAttempts: PropTypes.number.isRequired,
+    timeout: PropTypes.number,
   }
 
   static navigationOptions = ChangePin.navigationOptions;
@@ -59,19 +65,20 @@ export default class ChangePinContainer extends Component {
   }
 
   render() {
-    const { oldPin, newPin, validationForced } = this.state;
-    const { status, error } = this.props;
+    const { newPin, validationForced } = this.state;
+    const { status, error, remainingAttempts, timeout } = this.props;
   
     return (
       <ChangePin 
         changeOldPin = { ::this.changeOldPin }
         changeNewPin = { ::this.changeNewPin }
-        oldPin = { oldPin }
         newPin = { newPin }
         status = { status }
         error = { error }
         validationForced = { validationForced }
         changePin = { ::this.changePin }
+        remainingAttempts = { remainingAttempts }
+        timeout = { timeout }
       />
     );
   }

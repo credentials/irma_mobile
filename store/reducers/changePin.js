@@ -4,6 +4,7 @@ const initialState = {
 
   status: null,
   error: null,
+  remainingAttempts: -1,
 };
 
 export default function changePin(state = initialState, action) {
@@ -18,6 +19,7 @@ export default function changePin(state = initialState, action) {
       return {
         ...state,
         status: 'started',
+        remainingAttempts: -1,
       }
     case 'IrmaBridge.ChangePin':
       return {
@@ -33,6 +35,13 @@ export default function changePin(state = initialState, action) {
       return {
         ...state,
         status: 'pinError',
+        remainingAttempts: action.remainingAttempts,
+      }
+    case 'IrmaClient.ChangePinBlocked':
+      return {
+        ...state,
+        status: 'keyshareBlocked',
+        timeout: action.timeout,
       }
     case 'IrmaClient.ChangePinFailure':
       return {

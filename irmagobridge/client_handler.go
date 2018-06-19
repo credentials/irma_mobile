@@ -87,11 +87,23 @@ func (ch *ClientHandler) ChangePinSuccess(managerIdentifier irma.SchemeManagerId
 	sendAction(action)
 }
 
-func (ch *ClientHandler) ChangePinIncorrect(managerIdentifier irma.SchemeManagerIdentifier) {
+func (ch *ClientHandler) ChangePinIncorrect(managerIdentifier irma.SchemeManagerIdentifier, attempts int) {
 	logDebug("Handling ChangePinIncorrect")
 
 	action := &OutgoingAction{
 		"type": "IrmaClient.ChangePinIncorrect",
+		"remainingAttempts": attempts,
+	}
+
+	sendAction(action)
+}
+
+func (ch *ClientHandler) ChangePinBlocked(managerIdentifier irma.SchemeManagerIdentifier, timeout int) {
+	logDebug("Handling ChangePinBlocked")
+
+	action := &OutgoingAction{
+		"type": "IrmaClient.ChangePinBlocked",
+		"timeout": timeout,
 	}
 
 	sendAction(action)
