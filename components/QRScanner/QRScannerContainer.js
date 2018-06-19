@@ -25,7 +25,7 @@ export default class QRScannerContainer extends Component {
       type: 'IrmaBridge.NewSession',
       sessionId,
       qr,
-      fromExtern: false,
+      exitAfter: false,
     });
 
     // Place the Session screen directly under the CredentialDashboard, so goBack works properly

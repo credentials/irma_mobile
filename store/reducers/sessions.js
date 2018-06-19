@@ -66,7 +66,7 @@ export default function credentials(state = initialState, action) {
         [sessionId]: {
           id: sessionId,
           qr: action.qr,
-          fromExtern: action.fromExtern,
+          exitAfter: action.exitAfter,
         }
       };
     }
@@ -78,7 +78,7 @@ export default function credentials(state = initialState, action) {
           status: 'started',
           id: sessionId, // should be 0
           request: action.request,
-          fromExtern: action.fromExtern,
+          exitAfter: action.exitAfter,
         }
       };
     }

@@ -79,9 +79,9 @@ export default class SessionContainer extends Component {
   }
 
   navigateBack() {
-    const { navigation, session: { fromExtern } } = this.props;
+    const { navigation, session: { exitAfter } } = this.props;
     navigation.goBack();
-    if (fromExtern && Platform.OS === 'android') {
+    if (exitAfter && Platform.OS === 'android') {
       BackHandler.exitApp();
     }
   }
