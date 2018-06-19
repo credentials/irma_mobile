@@ -36,7 +36,7 @@ export default class ChangePin extends Component {
   }
 
   static navigationOptions = {
-    title: Dimensions.get('window').width > 350 ? t('.title') : t('.shortTitle'),
+    title: t('.title')
   }
 
   renderPinError() {
