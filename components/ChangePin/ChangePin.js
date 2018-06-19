@@ -8,7 +8,8 @@ import {
   Text,
   Form,
   View,
-  Button
+  Button,
+  Footer,
 } from 'native-base';
 
 import { namespacedTranslation } from 'lib/i18n';
@@ -31,6 +32,7 @@ export default class ChangePin extends Component {
     changePin: PropTypes.func.isRequired,
     remainingAttempts: PropTypes.number.isRequired,
     timeout: PropTypes.number,
+    navigateBack: PropTypes.func.isRequired,
   }
   
   static navigationOptions = {
@@ -132,12 +134,29 @@ export default class ChangePin extends Component {
     }
   }
   
+  renderFooter() {
+    const { status, navigateBack } = this.props;
+    
+    if (status === 'success' || status === 'keyshareBlocked' || status === 'error') {
+      return (
+        <Footer style={{height: 60, paddingTop: 7}}>
+          <Button primary onPress={ navigateBack }>
+            <Text>{ t('.dismiss') }</Text>
+          </Button>
+        </Footer>
+      );
+    }
+    
+    return null;
+  }
+  
   render() {
     return (
       <Container testID="ChangePin" style={{backgroundColor: '#E9E9EF'}}>
         <PaddedContent>
           { this.renderContent() }
         </PaddedContent>
+        { this.renderFooter() }
       </Container>
     );
   }

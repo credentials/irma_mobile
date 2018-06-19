@@ -63,6 +63,11 @@ export default class ChangePinContainer extends Component {
       newPin,
     });
   }
+  
+  navigateBack() {
+    const { navigation } = this.props
+    navigation.goBack();
+  }
 
   render() {
     const { newPin, validationForced } = this.state;
@@ -79,6 +84,7 @@ export default class ChangePinContainer extends Component {
         changePin = { ::this.changePin }
         remainingAttempts = { remainingAttempts }
         timeout = { timeout }
+        navigateBack = { ::this.navigateBack }
       />
     );
   }
