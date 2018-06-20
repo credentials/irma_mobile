@@ -18,13 +18,15 @@ type EnrollAction struct {
 }
 
 func (ah *ActionHandler) Enroll(action *EnrollAction) (err error) {
-	if len(client.UnenrolledSchemeManagers) == 0 {
+	unenrolled := client.UnenrolledSchemeManagers()
+
+	if len(unenrolled) == 0 {
 		return errors.Errorf("No unenrolled scheme manager available to enroll with")
 	}
 
 	// Irmago doesn't actually support multiple scheme managers with keyshare enrollment,
 	// so we just pick the first unenrolled, which should be PBDF production
-	client.KeyshareEnroll(client.UnenrolledSchemeManagers[0], action.Email, action.Pin, action.Language)
+	client.KeyshareEnroll(unenrolled[0], action.Email, action.Pin, action.Language)
 	return nil
 }
 

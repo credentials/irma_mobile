@@ -51,3 +51,15 @@ func (ch *ClientHandler) EnrollmentSuccess(managerIdentifier irma.SchemeManagerI
 	sendEnrollmentStatus()
 	sendAction(action)
 }
+
+func (ch *ClientHandler) ChangePinFailure(manager irma.SchemeManagerIdentifier, err error) {
+
+}
+
+func (ch *ClientHandler) ChangePinSuccess(manager irma.SchemeManagerIdentifier) {
+
+}
+
+func (ch *ClientHandler) ChangePinIncorrect(manager irma.SchemeManagerIdentifier) {
+
+}
