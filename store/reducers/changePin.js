@@ -9,7 +9,7 @@ const initialState = {
 
 export default function changePin(state = initialState, action) {
   switch(action.type) {
-    case 'IrmaClient.HasKeyshare':
+    case 'IrmaClient.EnrollmentStatus':
       return {
         ...state,
         loaded: true,
