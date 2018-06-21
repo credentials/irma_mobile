@@ -85,6 +85,7 @@ func (sh *SessionHandler) RequestIssuancePermission(request irma.IssuanceRequest
 		"sessionId":             sh.sessionID,
 		"serverName":            serverName,
 		"issuedCredentials":     request.CredentialInfoList,
+		"removalCredentials":    request.RemovalCredentialInfoList,
 		"disclosures":           request.ToDisclose(),
 		"disclosuresCandidates": request.Candidates,
 	}

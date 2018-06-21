@@ -34,6 +34,7 @@ export default class StatusIcon extends Component {
         return {name: 'close-circle'};
 
       case 'requestPermission':
+      case 'requestRemovalPermission':
       case 'requestDisclosurePermission':
         return {name: 'help-circle'};
 

@@ -43,6 +43,7 @@ const mapStateToProps = (state, props) => {
   const session = {
     ...bareSession,
     issuedCredentials: fullCredentials(bareSession.issuedCredentials, irmaConfiguration),
+    removalCredentials: fullCredentials(bareSession.removalCredentials, irmaConfiguration),
     disclosuresCandidates: fullDisclosuresCandidates(bareSession.disclosuresCandidates, irmaConfiguration, credentials),
     missingDisclosures: fullMissingDisclosures(bareSession.missingDisclosures, irmaConfiguration),
   };
@@ -80,6 +81,7 @@ export default class SessionContainer extends Component {
 
     // Meant for disclosure in issuance and signing
     showDisclosureStep: false,
+    showRemovalStep: false
   }
 
   componentDidMount() {
@@ -164,18 +166,27 @@ export default class SessionContainer extends Component {
   // It should be refactored along with the different session screens.
   // It returns false only when proceeding on an invalid pin
   nextStep = (proceed) => {
-    const { pin, showDisclosureStep } = this.state;
+    const { pin, showDisclosureStep, showRemovalStep } = this.state;
+
     const {
       dispatch,
-      session: { id: sessionId, irmaAction, status, disclosures, disclosureChoices },
+      session: { id: sessionId, irmaAction, status, disclosures, disclosureChoices, removalCredentials },
     } = this.props;
 
     // In case we proceed on issuance and there are attributes
     // to disclose, continue to the disclosure step
-    if (proceed && irmaAction === 'issuing' &&
+    if(proceed && irmaAction === 'issuing' && !showRemovalStep &&
         !showDisclosureStep && disclosures.length > 0) {
 
       this.setState({showDisclosureStep: true});
+      return true;
+    }
+    if(proceed && irmaAction === 'issuing' && (showDisclosureStep || disclosures.length == 0) &&
+        !showRemovalStep && removalCredentials.length > 0) {
+      this.setState({
+        showDisclosureStep: false,
+        showRemovalStep: true
+      });
       return true;
     }
 
@@ -209,7 +220,7 @@ export default class SessionContainer extends Component {
 
   render() {
     const { irmaConfiguration, session, shouldAuthenticate } = this.props;
-    const { validationForced, showDisclosureStep } = this.state;
+    const { validationForced, showDisclosureStep, showRemovalStep } = this.state;
 
     if (shouldAuthenticate)
       return null;
@@ -218,6 +229,9 @@ export default class SessionContainer extends Component {
     let status = this.props.session.status;
     if (status === 'requestPermission' && showDisclosureStep)
       status = 'requestDisclosurePermission';
+    // And for removals during issuance
+    if(status === 'requestPermission' && showRemovalStep)
+      status = 'requestRemovalPermission';
 
     const sessionProps = {
       irmaConfiguration,

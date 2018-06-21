@@ -57,7 +57,7 @@ export default class Footer extends Component {
     } = this.props;
     const { hidden } = this.state;
 
-    if(hidden || !_.includes(['requestPermission', 'requestDisclosurePermission', 'requestPin'], status))
+    if(hidden || !_.includes(['requestPermission', 'requestDisclosurePermission', 'requestPin', 'requestRemovalPermission'], status))
       return null;
 
     let yesLabel = t('.accept');
