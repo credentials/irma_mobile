@@ -42,7 +42,7 @@ export default () => {
   setInterval(() => {
     store.dispatch({
       type: 'CurrentTime.Update',
-      currnetTime: moment(),
+      currentTime: moment(),
     });
   }, 60*1000);
 
