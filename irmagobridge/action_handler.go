@@ -18,9 +18,9 @@ type EnrollAction struct {
 }
 
 func (ah *ActionHandler) Enroll(action *EnrollAction) (err error) {
-	sm := client.UnenrolledSchemeManagers();
+	unenrolled := client.UnenrolledSchemeManagers()
 
-	if len(sm) == 0 {
+	if len(unenrolled) == 0 {
 		return errors.Errorf("No unenrolled scheme manager available to enroll with")
 	}
 
