@@ -41,8 +41,8 @@ export default class MissingDisclosures extends Component {
           <Body>
             <Text>{ attribute.Name[lang] }{ requiredValue }</Text>
             <Text note>From credential: { attribute.CredentialType.Name[lang] }</Text>
-            { getButton }
           </Body>
+          { getButton }
         </Left>
       </CardItem>
     );
