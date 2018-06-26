@@ -59,6 +59,7 @@ export default class PinEntry extends Component {
           onChange={pinChange}
           validationForced={validationForced}
           autoFocus={true}
+          showInvalidMessage={true}
         />
       </Form>
     );
