@@ -31,6 +31,7 @@ const isValidSessionAction = (state, action) => {
     case 'IrmaSession.KeyshareEnrollmentDeleted':
     case 'IrmaSession.KeyshareBlocked':
     case 'IrmaSession.KeyshareEnrollmentIncomplete':
+    case 'IrmaBridge.DismissSession':
     case 'IrmaBridge.RespondPermission':
     case 'Session.MakeDisclosureChoice':{
       if(!state.hasOwnProperty(action.sessionId)) {
@@ -38,6 +39,10 @@ const isValidSessionAction = (state, action) => {
         return false;
       }
 
+      return true;
+    }
+
+    case 'Session.GetNewCredentials':{
       return true;
     }
 
@@ -50,7 +55,7 @@ const isValidSessionAction = (state, action) => {
 const initialDisclosureChoices = (disclosuresCandidates) =>
   disclosuresCandidates.map(dc => dc[0]);
 
-const initialState = {};
+const initialState = { inhibitExitAfter: false };
 export default function credentials(state = initialState, action) {
 
   if(!isValidSessionAction(state, action))
@@ -63,10 +68,11 @@ export default function credentials(state = initialState, action) {
     case 'IrmaBridge.NewSession': {
       return {
         ...state,
+        inhibitExitAfter: false,
         [sessionId]: {
           id: sessionId,
           qr: action.qr,
-          exitAfter: action.exitAfter,
+          exitAfter: action.exitAfter && !state.inhibitExitAfter,
         }
       };
     }
@@ -74,11 +80,12 @@ export default function credentials(state = initialState, action) {
     case 'IrmaBridge.NewManualSession': {
       return {
         ...state,
+        inhibitExitAfter: false,
         [sessionId]: {
           status: 'started',
           id: sessionId, // should be 0
           request: action.request,
-          exitAfter: action.exitAfter,
+          exitAfter: action.exitAfter && !state.inhibitExitAfter,
         }
       };
     }
@@ -252,6 +259,13 @@ export default function credentials(state = initialState, action) {
       };
     }
 
+    case 'IrmaBridge.DismissSession': {
+      return {
+        ...state,
+        inhibitExitAfter: false,
+      };
+    }
+
     case 'Session.MakeDisclosureChoice': {
       return {
         ...state,
@@ -263,6 +277,13 @@ export default function credentials(state = initialState, action) {
             }
           )
         }
+      };
+    }
+
+    case 'Session.GetNewCredentials': {
+      return {
+        ...state,
+        inhibitExitAfter: true,
       };
     }
 

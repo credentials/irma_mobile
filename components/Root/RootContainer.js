@@ -188,10 +188,11 @@ export default class RootContainer extends Component {
       exitAfter: true,
     });
 
-    resetNavigation(
-      navigator.dispatch,
-      'CredentialDashboard',
-      {routeName: 'Session', params: { sessionId }}
+    navigator.dispatch(
+      NavigationActions.navigate({
+        routeName: 'Session',
+        params: { sessionId }
+      })
     );
   }
 

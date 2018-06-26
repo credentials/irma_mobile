@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Platform, BackHandler } from 'react-native';
+import { Platform, BackHandler, Linking } from 'react-native';
 
 import { resetNavigation } from 'lib/navigation';
 
@@ -89,6 +89,15 @@ export default class SessionContainer extends Component {
   sendMail() {
     const { session: { result, request }} = this.props;
     sendMail(result, JSON.parse(request));
+  }
+
+  goGetCredential(url) {
+    const { dispatch } = this.props;
+    Linking.openURL(url).catch();
+
+    dispatch({
+      type: 'Session.GetNewCredentials',
+    });
   }
 
   navigateToEnrollment() {
@@ -189,6 +198,7 @@ export default class SessionContainer extends Component {
       nextStep: ::this.nextStep,
       pinChange: ::this.pinChange,
       sendMail: ::this.sendMail,
+      goGetCredential: ::this.goGetCredential,
 
       session: {
         ...session,

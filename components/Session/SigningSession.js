@@ -34,6 +34,7 @@ export default class SigningSession extends Component {
     nextStep: PropTypes.func.isRequired,
     pinChange: PropTypes.func.isRequired,
     session: PropTypes.object.isRequired,
+    goGetCredential: PropTypes.func.isRequired,
   }
 
   renderStatusCard() {
@@ -130,6 +131,7 @@ export default class SigningSession extends Component {
       nextStep,
       pinChange,
       session,
+      goGetCredential,
     } = this.props;
 
     return (
@@ -143,7 +145,7 @@ export default class SigningSession extends Component {
             validationForced={validationForced}
             pinChange={pinChange}
           />
-          <MissingDisclosures session={session} />
+          <MissingDisclosures session={session} goGetCredential={goGetCredential} />
           { this.renderDisclosures() }
         </PaddedContent>
         <Footer

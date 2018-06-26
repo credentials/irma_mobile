@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getLanguage } from 'lib/i18n';
+import { getLanguage, namespacedTranslation } from 'lib/i18n';
 
 import CredentialLogo from 'components/CredentialLogo';
 
@@ -11,19 +11,28 @@ import {
   Left,
   Text,
   View,
+  Button,
 } from 'native-base';
 
 const lang = getLanguage();
+const t = namespacedTranslation('Session.MissingDisclosures');
 
 export default class MissingDisclosures extends Component {
 
   static propTypes = {
     session: PropTypes.object.isRequired,
+    goGetCredential: PropTypes.func.isRequired,
   }
 
   renderAttribute(attribute) {
     const requiredValue = attribute.Value ?
       `: "${attribute.Value}"` : null;
+
+    const { goGetCredential } = this.props;
+
+    var getButton = null;
+    if (attribute.CredentialType.IssueURL)
+      getButton = <Button onPress={ () => { goGetCredential(attribute.CredentialType.IssueURL); } }><Text>{ t('.get') }</Text></Button>;
 
     return (
       <CardItem key={attribute.Type}>
@@ -32,6 +41,7 @@ export default class MissingDisclosures extends Component {
           <Body>
             <Text>{ attribute.Name[lang] }{ requiredValue }</Text>
             <Text note>From credential: { attribute.CredentialType.Name[lang] }</Text>
+            { getButton }
           </Body>
         </Left>
       </CardItem>

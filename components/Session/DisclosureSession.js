@@ -34,6 +34,7 @@ export default class DisclosureSession extends Component {
     pinChange: PropTypes.func.isRequired,
     session: PropTypes.object.isRequired,
     disclosures: PropTypes.array,
+    goGetCredential: PropTypes.func.isRequired,
   }
 
   renderStatusCard() {
@@ -121,6 +122,7 @@ export default class DisclosureSession extends Component {
       nextStep,
       pinChange,
       session,
+      goGetCredential,
     } = this.props;
 
     return (
@@ -134,7 +136,7 @@ export default class DisclosureSession extends Component {
             validationForced={validationForced}
             pinChange={pinChange}
           />
-          <MissingDisclosures session={session} />
+          <MissingDisclosures session={session} goGetCredential={goGetCredential} />
           { this.renderDisclosures() }
         </PaddedContent>
         <Footer
