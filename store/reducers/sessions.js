@@ -263,6 +263,10 @@ export default function credentials(state = initialState, action) {
       return {
         ...state,
         inhibitExitAfter: false,
+        [sessionId]: {
+          ...state[sessionId],
+          status: 'cancelled',
+        },
       };
     }
 
