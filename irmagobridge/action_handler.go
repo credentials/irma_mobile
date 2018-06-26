@@ -62,6 +62,25 @@ func (ah *ActionHandler) NewManualSession(action *NewManualSessionAction) (err e
 	return nil
 }
 
+// Retry after unsatisfiabel
+type RetryUnsatisfiableAction struct {
+	SessionID int
+}
+
+func (ah *ActionHandler) RetryUnsatisfiable(action *RetryUnsatisfiableAction) (err error) {
+	sh, err := ah.findSessionHandler(action.SessionID)
+	if (err != nil) {
+		return err
+	}
+	if sh.retryHandler == nil {
+		return errors.Errorf("Unset retryHandler in RetryUnsatisfiable")
+	}
+
+	sh.retryHandler()
+
+	return nil
+}
+
 // Responding to a permission prompt when disclosing, issuing or signing
 type RespondPermissionAction struct {
 	SessionID         int

@@ -3,6 +3,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
 import irmaBridgeMiddleware from './middlewares/irmaBridge';
+import unsatisfiableRetryMiddleware from './middlewares/unsatisfiableRetry';
 import rootReducer from './reducers/root';
 
 // Create a global counter per app instantiation for Session identifiers
@@ -14,7 +15,7 @@ global.getAutoIncrementId = () => {
 
 export default () => {
   // Create Redux store
-  const middleware = [thunk, irmaBridgeMiddleware];
+  const middleware = [thunk, irmaBridgeMiddleware, unsatisfiableRetryMiddleware];
   const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore);
   const store = createStoreWithMiddleware(rootReducer);
 

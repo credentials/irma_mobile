@@ -43,6 +43,12 @@ func recoveredReceiveAction(actionJSONString string) {
 			err = actionHandler.NewManualSession(action)
 		}
 
+	case "RetryUnsatisfiable":
+		action := &RetryUnsatisfiableAction{}
+		if err = json.Unmarshal(actionJSON, action); err == nil {
+			err = actionHandler.RetryUnsatisfiable(action)
+		}
+
 	case "RespondPermission":
 		action := &RespondPermissionAction{}
 		if err = json.Unmarshal(actionJSON, action); err == nil {

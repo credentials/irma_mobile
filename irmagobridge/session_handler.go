@@ -10,6 +10,7 @@ type SessionHandler struct {
 	dismisser         irmaclient.SessionDismisser
 	permissionHandler irmaclient.PermissionHandler
 	pinHandler        irmaclient.PinHandler
+	retryHandler      func()
 }
 
 func (sh *SessionHandler) StatusUpdate(irmaAction irma.Action, status irma.Status) {
@@ -66,7 +67,7 @@ func (sh *SessionHandler) Cancelled(irmaAction irma.Action) {
 	sendAction(action)
 }
 
-func (sh *SessionHandler) UnsatisfiableRequest(irmaAction irma.Action, serverName string, missingDisclosures irma.AttributeDisjunctionList) {
+func (sh *SessionHandler) UnsatisfiableRequest(irmaAction irma.Action, serverName string, missingDisclosures irma.AttributeDisjunctionList, retry func()) {
 	logDebug("Handling UnsatisfiableRequest")
 	action := &OutgoingAction{
 		"type":               "IrmaSession.UnsatisfiableRequest",
@@ -75,6 +76,7 @@ func (sh *SessionHandler) UnsatisfiableRequest(irmaAction irma.Action, serverNam
 		"missingDisclosures": missingDisclosures,
 	}
 
+    sh.retryHandler = retry
 	sendAction(action)
 }
 
