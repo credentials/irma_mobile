@@ -75,6 +75,7 @@ export default class ChangePin extends Component {
               onChange={ changeOldPin }
               validationForced = { validationForced }
               key={`attempt-${remainingAttempts}`}
+              showInvalidMessage={true}
             />
           </Form>
           <RepeatedValueForm
