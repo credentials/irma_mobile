@@ -10,7 +10,7 @@ const initialState = {
 
 export default function enrollment(state = initialState, action) {
   switch(action.type) {
-    case 'IrmaClient.UnenrolledSchemeManagers': {
+    case 'IrmaClient.EnrollmentStatus': {
       return {
         ...state,
         loaded: true,
