@@ -86,7 +86,6 @@ export default class Enrollment extends Component {
 
         firstLabel={ t('.step1.label') }
         repeatLabel={ t('.step1.repeatLabel') }
-        invalidMessage={ t('.step1.invalidMessage') }
         inputType="pin"
       >
         <Text>
@@ -140,7 +139,6 @@ export default class Enrollment extends Component {
 
         firstLabel={t('.step2.label')}
         repeatLabel={t('.step2.repeatLabel')}
-        invalidMessage={ t('.step2.invalidMessage') }
         inputType="email"
       >
         <Text>
