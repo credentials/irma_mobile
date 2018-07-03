@@ -18,13 +18,34 @@ type EnrollAction struct {
 }
 
 func (ah *ActionHandler) Enroll(action *EnrollAction) (err error) {
-	if len(client.UnenrolledSchemeManagers) == 0 {
+	unenrolled := client.UnenrolledSchemeManagers()
+
+	if len(unenrolled) == 0 {
 		return errors.Errorf("No unenrolled scheme manager available to enroll with")
 	}
 
 	// Irmago doesn't actually support multiple scheme managers with keyshare enrollment,
 	// so we just pick the first unenrolled, which should be PBDF production
-	client.KeyshareEnroll(client.UnenrolledSchemeManagers[0], action.Email, action.Pin, action.Language)
+	client.KeyshareEnroll(unenrolled[0], action.Email, action.Pin, action.Language)
+	return nil
+}
+
+// Changing keyshare pin
+type ChangePinAction struct {
+	OldPin string
+	NewPin string
+}
+
+func (ah *ActionHandler) ChangePin(action *ChangePinAction) (err error) {
+	enrolled := client.EnrolledSchemeManagers()
+
+	if len(enrolled) == 0 {
+		return errors.Errorf("No enrolled scheme managers to change pin for")
+	}
+
+	// Irmago doesn't actually support multiple scheme managers with keyshare enrollment,
+	// so we just pick the first enrolled, which should be PBDF production
+	client.KeyshareChangePin(enrolled[0], action.OldPin, action.NewPin)
 	return nil
 }
 
