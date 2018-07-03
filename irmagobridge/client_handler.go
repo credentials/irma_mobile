@@ -52,14 +52,59 @@ func (ch *ClientHandler) EnrollmentSuccess(managerIdentifier irma.SchemeManagerI
 	sendAction(action)
 }
 
-func (ch *ClientHandler) ChangePinFailure(manager irma.SchemeManagerIdentifier, err error) {
+func (ch *ClientHandler) ChangePinFailure(managerIdentifier irma.SchemeManagerIdentifier, plainErr error) {
+	logDebug("Handling ChangePinFailure")
 
+	// Make sure the error is wrapped in a SessionError, so we only have one type to handle in irma_mobile
+	err, ok := plainErr.(*irma.SessionError)
+	if !ok {
+		err = &irma.SessionError{ErrorType: irma.ErrorType("unknown"), Err: plainErr}
+	}
+
+	action := &OutgoingAction{
+		"type":            "IrmaClient.ChangePinFailure",
+		"schemeManagerId": managerIdentifier,
+		"error": &OutgoingAction{
+			"type":         err.ErrorType,
+			"wrappedError": err.WrappedError(),
+			"info":         err.Info,
+			"stack":        err.Stack(),
+			"remoteStatus": err.RemoteStatus,
+			"remoteError":  err.RemoteError,
+		},
+	}
+
+	sendAction(action)
 }
 
-func (ch *ClientHandler) ChangePinSuccess(manager irma.SchemeManagerIdentifier) {
+func (ch *ClientHandler) ChangePinSuccess(managerIdentifier irma.SchemeManagerIdentifier) {
+	logDebug("Handling ChangePinSuccess")
 
+	action := &OutgoingAction{
+		"type": "IrmaClient.ChangePinSuccess",
+	}
+
+	sendAction(action)
 }
 
-func (ch *ClientHandler) ChangePinIncorrect(manager irma.SchemeManagerIdentifier) {
+func (ch *ClientHandler) ChangePinIncorrect(managerIdentifier irma.SchemeManagerIdentifier, attempts int) {
+	logDebug("Handling ChangePinIncorrect")
 
+	action := &OutgoingAction{
+		"type": "IrmaClient.ChangePinIncorrect",
+		"remainingAttempts": attempts,
+	}
+
+	sendAction(action)
+}
+
+func (ch *ClientHandler) ChangePinBlocked(managerIdentifier irma.SchemeManagerIdentifier, timeout int) {
+	logDebug("Handling ChangePinBlocked")
+
+	action := &OutgoingAction{
+		"type": "IrmaClient.ChangePinBlocked",
+		"timeout": timeout,
+	}
+
+	sendAction(action)
 }

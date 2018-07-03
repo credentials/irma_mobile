@@ -34,6 +34,15 @@ const sidebarListItems = [
     }
   },
   {
+    icon: {name: 'key'},
+    text: t('.changePin'),
+    visible: props => props.hasKeyshare,
+    onPress: props => {
+      props.dispatch({type: 'ChangePin.Start'});
+      props.navigation.navigate('ChangePin');
+    }
+  },
+  {
     icon: {android: 'md-settings', ios: 'ios-settings'},
     text: t('.preferences'),
     navigateTo: 'PreferencesDashboard',
@@ -75,11 +84,15 @@ const mapStateToProps = (state) => {
   const {
     enrollment: {
       unenrolledSchemeManagerIds
+    },
+    changePin: {
+      hasKeyshare
     }
   } = state;
 
   return {
-    unenrolledSchemeManagerIds
+    unenrolledSchemeManagerIds,
+    hasKeyshare
   };
 };
 
