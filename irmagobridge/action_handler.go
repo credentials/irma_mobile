@@ -30,6 +30,25 @@ func (ah *ActionHandler) Enroll(action *EnrollAction) (err error) {
 	return nil
 }
 
+// Changing keyshare pin
+type ChangePinAction struct {
+	OldPin string
+	NewPin string
+}
+
+func (ah *ActionHandler) ChangePin(action *ChangePinAction) (err error) {
+	enrolled := client.EnrolledSchemeManagers()
+
+	if len(enrolled) == 0 {
+		return errors.Errorf("No enrolled scheme managers to change pin for")
+	}
+
+	// Irmago doesn't actually support multiple scheme managers with keyshare enrollment,
+	// so we just pick the first enrolled, which should be PBDF production
+	client.KeyshareChangePin(enrolled[0], action.OldPin, action.NewPin)
+	return nil
+}
+
 // Initiating a new session
 type NewSessionAction struct {
 	SessionID int
