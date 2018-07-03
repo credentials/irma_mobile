@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Platform, BackHandler } from 'react-native';
 
 import { resetNavigation } from 'lib/navigation';
 
@@ -78,8 +79,11 @@ export default class SessionContainer extends Component {
   }
 
   navigateBack() {
-    const { navigation } = this.props;
+    const { navigation, session: { exitAfter } } = this.props;
     navigation.goBack();
+    if (exitAfter && Platform.OS === 'android') {
+      BackHandler.exitApp();
+    }
   }
 
   sendMail() {
