@@ -5,6 +5,8 @@ import thunk from 'redux-thunk';
 import irmaBridgeMiddleware from './middlewares/irmaBridge';
 import rootReducer from './reducers/root';
 
+import moment from 'moment';
+
 // Create a global counter per app instantiation for Session identifiers
 // Include a random starting point so we can discern errors in subsequent sessions
 let counter = Math.floor(Math.random() * 1000000000);
@@ -35,6 +37,14 @@ export default () => {
   });
 
   NativeModules.IrmaBridge.start();
+
+  //Prepare time events
+  setInterval(() => {
+    store.dispatch({
+      type: 'CurrentTime.Update',
+      currentTime: moment(),
+    });
+  }, 60*1000);
 
   return store;
 };
