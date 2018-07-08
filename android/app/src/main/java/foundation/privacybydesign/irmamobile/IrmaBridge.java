@@ -30,40 +30,46 @@ public class IrmaBridge extends ReactContextBaseJavaModule implements irmagobrid
     @ReactMethod
     public void start() {
         ReactApplicationContext context = getReactApplicationContext();
+        String assetsPath = context.getFilesDir().getPath() + "/assets";
 
-        // Compare the timestamps in the bundle assets and in our assets folder
+        // For each scheme, compare its timestamps in the bundle assets and in our assets folder
         // if the latter does not exist or its value is lower than the one from the bundle assets,
-        // copy the bundle assets out of the bundle to the assets dir
-        String assetsPath = context.getFilesDir().getPath();
-        File assets = new File(assetsPath + "/assets");
-        if (assets.mkdir() || assets.isDirectory()) { // assets folder was successfully created or already exists
-            try {
+        // copy the scheme out of the bundle to the assets dir
+        try {
+            AssetsCopier.ensureDirExists(context, assetsPath);
+            AssetsCopier.ensureDirExists(context, assetsPath + "/irma_configuration");
+
+            String schemes[] = context.getAssets().list("irma_configuration");
+            for (String scheme : schemes) {
+                if (!AssetsCopier.isDir(context, scheme))
+                    continue; // Skip files (eg. READMEs)
+                String schemePath = assetsPath + "/irma_configuration/" + scheme;
+                AssetsCopier.ensureDirExists(context, schemePath);
+
                 boolean shouldCopy;
-                String oldPath = assetsPath + "/assets/irma_configuration/timestamp";
+                String oldPath = schemePath + "/timestamp";
                 if (!new File(oldPath).exists()) {
                     shouldCopy = true;
                 } else {
                     long oldTimestamp = readTimestamp(new FileInputStream(oldPath));
-                    long newTimestamp = readTimestamp(context.getAssets().open("irma_configuration/timestamp"));
+                    long newTimestamp = readTimestamp(context.getAssets().open("irma_configuration/" + scheme + "/timestamp"));
                     shouldCopy = oldTimestamp < newTimestamp;
                 }
                 if (shouldCopy) {
-                    System.out.println("Copying assets");
-                    AssetsCopier.copyRecursively(context, "assets", "irma_configuration");
-                    System.out.println("Done copying assets");
+                    System.out.printf("Copying scheme %s from assets\n", scheme);
+                    AssetsCopier.copyRecursively(context, scheme);
+                    System.out.printf("Done copying scheme %s from assets\n", scheme);
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
-        } else {
-            throw new RuntimeException("Could not create assets dir");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         // Start irmago
         try {
-            System.out.printf(context.getPackageName());
+            System.out.println(context.getPackageName());
             PackageInfo p = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            Irmagobridge.start(this, p.applicationInfo.dataDir, assetsPath + "/assets");
+            Irmagobridge.start(this, p.applicationInfo.dataDir, assetsPath);
         } catch (PackageManager.NameNotFoundException e) {
             throw new RuntimeException(e);
         }
