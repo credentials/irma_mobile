@@ -1,13 +1,23 @@
 import _ from 'lodash';
 
-const fullAttributes = (attributes, attributeTypes) => {
-  return _.zip(attributes, attributeTypes)
-    .map( ([attribute, attributeType]) => ({
-      Value: attribute,
-      Type: attributeType,
-    }))
-    // In case of absent optional attributes, irmago returns not null but an empty map
-    // that is placed in .Values by the map above. We filter these out.
+const fullAttributes = (attributes, type) => {
+  const attributeTypes = type.Attributes;
+
+  // For each attribute, fetch the index at which to render it
+  const attrIndices = attributeTypes.map(
+    (attrType, i) => attrType.Index != undefined ? attrType.Index : i
+  );
+  // Invert to get a list that specifies per index which attribute to render
+  let attrOrder = _.invert(attrIndices);
+  // Quick sanity check: if attrOrder is not of the same size as attrIndices, then for at least
+  // one attribute we don't know where to render it. Fallback to default ordering.
+  const attrCount = _.size(attributeTypes);
+  if (_.size(attrOrder) !== attrCount)
+    attrOrder = Array.from(Array(attrCount).keys());
+
+  // In case of absent optional attributes, irmago returns not null but an empty map
+  // that gets placed in .Values. We filter these out.
+  return _.map(attrOrder, i => ({ Value: attributes[i], Type: attributeTypes[i] }))
     .filter( attribute => !_.isEmpty(attribute.Value) );
 };
 
@@ -17,7 +27,7 @@ const fullCredential = (credential, { schemeManagers, credentialTypes, issuers }
 
   const SchemeManager = schemeManagers[SchemeManagerID];
   const Issuer = issuers[`${SchemeManagerID}.${IssuerID}`];
-  const Attributes = fullAttributes(credential.Attributes, Type.Attributes);
+  const Attributes = fullAttributes(credential.Attributes, Type);
 
   return {
     ...credential,
