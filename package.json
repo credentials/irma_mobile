@@ -54,7 +54,7 @@
     "jest": "^22.4.2",
     "lodash": "^4.17.5",
     "moment": "^2.22.1",
-    "native-base": "^2.4.2",
+    "native-base": "^2.7.2",
     "react": "^16.3.2",
     "react-native": "^0.55.3",
     "react-native-camera": "^0.12.0",
