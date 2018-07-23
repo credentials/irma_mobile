@@ -11,5 +11,6 @@
     "transform-export-extensions",
     "transform-function-bind",
     "transform-decorators-legacy",
+    "transform-class-properties",
   ]
 }
