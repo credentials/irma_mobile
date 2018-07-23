@@ -119,7 +119,7 @@
   version = "v0.8.0"
 
 [[projects]]
-  branch = "master"
+  branch = "scheme-updating"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
@@ -127,7 +127,7 @@
     "internal/fs",
     "irmaclient"
   ]
-  revision = "6ca9a8fa956e0441db6a6d46366da0b782e287d7"
+  revision = "42b9140fc472592d6c3f0a357ab7a5ec14848b20"
 
 [[projects]]
   branch = "master"
@@ -160,6 +160,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a1b5ac232f1c63977d2e6a398ad8558f9d4c2210fde8538e048db0d7e11d4596"
+  inputs-digest = "28b12f24cd5020aa4d2f7aa69fb4ba7297c5a4c3dd2b831cea9432b50f283f97"
   solver-name = "gps-cdcl"
   solver-version = 1
