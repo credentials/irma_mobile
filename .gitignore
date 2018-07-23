@@ -4,6 +4,7 @@
 .idea/
 .vscode/
 jsconfig.json
+/ignore/
 
 # Node / NPM / go dep
 node_modules/
@@ -11,18 +12,18 @@ npm-debug.*
 vendor/
 
 # XCode
-ios/build
+/ios/build
 *.xcuserstate
 *.xcsettings
 xcuserdata/
 project.xcworkspace/
-ios/Irmagobridge.framework
-ios/sentry.properties
+/ios/Irmagobridge.framework
+/ios/sentry.properties
 
 # Android
-android/build
-android/app/build
-android/.gradle
+/android/build
+/android/app/build
+/android/.gradle
 *.jsbundle
 
 # Go libs
