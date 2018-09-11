@@ -122,7 +122,7 @@ export default class RootContainer extends Component {
         if (!validateSigrequest(sigRequest)) {
            Alert.alert(
              t('.sessionErrorTitle'),
-             t('.invalidSignatureRequest'),
+             t('.errorInvalidSignatureRequest'),
              [{text: t('.dismiss'), style: 'cancel'}],
              { cancelable: true }
            );
