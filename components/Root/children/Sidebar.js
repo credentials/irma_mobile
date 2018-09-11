@@ -17,7 +17,7 @@ import irmaLogo from 'assets/irmaLogo.png';
 
 const t = namespacedTranslation('Sidebar');
 
-const moreAttributesURL = 'https://privacybydesign.foundation/uitgifte';
+const moreAttributesURL = t('.moreAttributesURL');
 
 const sidebarListItems = [
   {
