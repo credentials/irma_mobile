@@ -113,8 +113,6 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<string>irmarequest</string>
-				<key>public.mime-type</key>
-				<string>text/plain</string>
 			</dict>
 		</dict>
 	</array>
