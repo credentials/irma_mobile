@@ -46,7 +46,8 @@
           <action android:name="android.intent.action.VIEW" />
           <data android:scheme="file" />
           <data android:scheme="content" />
-          <data android:mimeType="text/plain"/>
+          <data android:pathPattern=".*\\.irmarequest" />
+          <data android:mimeType="*/*" />
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
