@@ -49,7 +49,17 @@ export default class About extends React.Component {
               </CardItem>
               <CardItem>
                 <Text>
-                  { t('.about') }
+                  { t('.about1') }
+                </Text>
+              </CardItem>
+              <CardItem>
+                <Text>
+                  { t('.about2') }
+                </Text>
+              </CardItem>
+              <CardItem>
+                <Text>
+                  { t('.about3') }
                 </Text>
               </CardItem>
               <CardItem>
