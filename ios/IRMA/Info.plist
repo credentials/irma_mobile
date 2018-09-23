@@ -112,9 +112,7 @@
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
-				<string>irma</string>
-				<key>public.mime-type</key>
-				<string>text/plain</string>
+				<string>irmarequest</string>
 			</dict>
 		</dict>
 	</array>
