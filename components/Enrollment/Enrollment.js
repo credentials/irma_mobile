@@ -42,7 +42,6 @@ export default class Enrollment extends Component {
   state = {
     emailFormCollapsed: true,
     pinFormCollapsed: false,
-    showSuccess: false,
     validationForced: false,
   }
 
@@ -60,7 +59,7 @@ export default class Enrollment extends Component {
 
   renderPinForm() {
     const { pin, changePin } = this.props;
-    const { validationForced, pinFormCollapsed, showSuccess } = this.state;
+    const { validationForced, pinFormCollapsed } = this.state;
 
     const next = () => {
       if(pin)
@@ -82,7 +81,6 @@ export default class Enrollment extends Component {
 
         onChange={changePin}
         value={pin}
-        locked={showSuccess}
 
         firstLabel={ t('.step1.label') }
         repeatLabel={ t('.step1.repeatLabel') }
@@ -97,7 +95,7 @@ export default class Enrollment extends Component {
 
   renderEmailForm() {
     const { pin, email, changeEmail, enroll } = this.props;
-    const { validationForced, emailFormCollapsed, showSuccess } = this.state;
+    const { validationForced, emailFormCollapsed } = this.state;
 
     const next = () => {
       if(!email) {
@@ -135,7 +133,6 @@ export default class Enrollment extends Component {
 
         onChange={changeEmail}
         value={email}
-        locked={showSuccess}
 
         firstLabel={t('.step2.label')}
         repeatLabel={t('.step2.repeatLabel')}

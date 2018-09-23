@@ -34,7 +34,6 @@ export default class CredentialDashboard extends Component {
       <CredentialCard
         key={credential.Hash}
         credential={credential}
-        collapsable={true}
         deleteCredential={deleteCredential}
       />
     );
