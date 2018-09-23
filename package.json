@@ -57,7 +57,7 @@
     "native-base": "^2.7.2",
     "react": "^16.3.2",
     "react-native": "^0.55.3",
-    "react-native-camera": "^0.12.0",
+    "react-native-camera": "https://github.com/react-native-community/react-native-camera.git#68011136282ace1a8e6550d687cafeaf02dc8b9c",
     "react-native-fs": "^2.9.12",
     "react-native-hyperlink": "^0.0.12",
     "react-native-i18n": "^2.0.12",

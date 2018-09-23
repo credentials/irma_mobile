@@ -5385,9 +5385,9 @@ react-lifecycles-compat@^1.0.2:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-1.1.4.tgz#fc005c72849b7ed364de20a0f64ff58ebdc2009a"
 
-react-native-camera@^0.12.0:
+"react-native-camera@https://github.com/react-native-community/react-native-camera.git#68011136282ace1a8e6550d687cafeaf02dc8b9c":
   version "0.12.0"
-  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-0.12.0.tgz#51afa8acf1696d9d973074b6454c5ba2cce6ac18"
+  resolved "https://github.com/react-native-community/react-native-camera.git#68011136282ace1a8e6550d687cafeaf02dc8b9c"
   dependencies:
     prop-types "^15.5.10"
 
