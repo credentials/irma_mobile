@@ -1,14 +1,18 @@
 import _ from 'lodash';
 
 const fullAttributes = (attributes, attributeTypes) => {
-  return _.zip(attributes, attributeTypes)
+  // In case of absent optional attributes, irmago returns not null but an empty map
+  // that is placed in .Values by the map above. We filter these out.
+  // Sort first on DisplayIndex, then on regular Index.
+  return _.chain(attributes)
+    .zip(attributeTypes)
     .map( ([attribute, attributeType]) => ({
       Value: attribute,
       Type: attributeType,
     }))
-    // In case of absent optional attributes, irmago returns not null but an empty map
-    // that is placed in .Values by the map above. We filter these out.
-    .filter( attribute => !_.isEmpty(attribute.Value) );
+    .filter( attribute => !_.isEmpty(attribute.Value) )
+    .sortBy(['Type.DisplayIndex', 'Type.Index'])
+    .value();
 };
 
 const fullCredential = (credential, { schemeManagers, credentialTypes, issuers }) => {
