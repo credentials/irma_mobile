@@ -11,7 +11,7 @@
   branch = "master"
   name = "github.com/bwesterb/go-atum"
   packages = ["."]
-  revision = "f48b4b5eb04060a3f982a89795d3d6e36b44d127"
+  revision = "b79a6b33c09b7b8d49d2454bbde06162fdc0cd70"
 
 [[projects]]
   branch = "master"
@@ -23,7 +23,7 @@
   branch = "master"
   name = "github.com/bwesterb/go-xmssmt"
   packages = ["."]
-  revision = "58241c99638a738580f8258ac438f0b7f91d346d"
+  revision = "c7ed6207145b8af6d194cab000796a9c8ffb563a"
 
 [[projects]]
   name = "github.com/certifi/gocertifi"
@@ -38,6 +38,12 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/coreos/bbolt"
+  packages = ["."]
+  revision = "583e8937c61f1af6513608ccc75c97b6abdf4ff9"
+  version = "v1.3.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/credentials/go-go-gadget-paillier"
   packages = ["."]
@@ -47,7 +53,7 @@
   branch = "master"
   name = "github.com/credentials/safeprime"
   packages = ["."]
-  revision = "424faf641b4987fde58280730486e1035e057abc"
+  revision = "b04afffdb6d92bdfb4b8b7305129c3e39fcd000e"
 
 [[projects]]
   branch = "master"
@@ -59,7 +65,7 @@
   branch = "master"
   name = "github.com/getsentry/raven-go"
   packages = ["."]
-  revision = "d1470f50d3a3a38533355a9fab7393e25a3b4226"
+  revision = "ed7bcb39ff10f39ab08e317ce16df282845852fa"
 
 [[projects]]
   name = "github.com/go-errors/errors"
@@ -71,46 +77,37 @@
   branch = "master"
   name = "github.com/hashicorp/errwrap"
   packages = ["."]
-  revision = "7554cd9344cec97297fa6649b055a8c98c2a1e55"
+  revision = "d6c0cd88035724dd42e0f335ae30161c20575ecc"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/hashicorp/go-cleanhttp"
+  packages = ["."]
+  revision = "d5fe4b57a186c716b0e00b8c301cbd9b4182694d"
 
 [[projects]]
   branch = "master"
   name = "github.com/hashicorp/go-multierror"
   packages = ["."]
-  revision = "b7773ae218740a7be65057fc60b366a49b538a44"
-
-[[projects]]
-  name = "github.com/jinzhu/gorm"
-  packages = [
-    ".",
-    "dialects/sqlite"
-  ]
-  revision = "6ed508ec6a4ecb3531899a69cbc746ccf65a4166"
-  version = "v1.9.1"
+  revision = "3d5d8f294aa03d8e98859feac328afbdf1ae0703"
 
 [[projects]]
   branch = "master"
-  name = "github.com/jinzhu/inflection"
+  name = "github.com/hashicorp/go-retryablehttp"
   packages = ["."]
-  revision = "04140366298a54a039076d798123ffa108fff46c"
-
-[[projects]]
-  name = "github.com/mattn/go-sqlite3"
-  packages = ["."]
-  revision = "323a32be5a2421b8c7087225079c6c900ec397cd"
-  version = "v1.7.0"
+  revision = "e651d75abec6fbd4f2c09508f72ae7af8a8b7171"
 
 [[projects]]
   branch = "master"
   name = "github.com/mhe/gabi"
   packages = ["."]
-  revision = "4f733a839b2b9234ef7c2610fbc8270bafe250c7"
+  revision = "78bc0716eb6d1d825c7bb16615986e24c902cee3"
 
 [[projects]]
   branch = "master"
   name = "github.com/nightlyone/lockfile"
   packages = ["."]
-  revision = "6a197d5ea61168f2ac821de2b7f011b250904900"
+  revision = "0ad87eef1443f64d3d8c50da647e2b1552851124"
 
 [[projects]]
   name = "github.com/pkg/errors"
@@ -127,7 +124,7 @@
     "internal/fs",
     "irmaclient"
   ]
-  revision = "6ca9a8fa956e0441db6a6d46366da0b782e287d7"
+  revision = "e73342b51428144b330df09a464e0e0f5d1fc525"
 
 [[projects]]
   branch = "master"
@@ -139,7 +136,7 @@
   branch = "master"
   name = "github.com/templexxx/cpufeat"
   packages = ["."]
-  revision = "3794dfbfb04749f896b521032f69383f24c3687e"
+  revision = "5901679d5808f3583b3a7d86cdea9b7704a763ec"
 
 [[projects]]
   name = "github.com/templexxx/xor"
@@ -149,17 +146,29 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/timshannon/bolthold"
+  packages = ["."]
+  revision = "525de816b1a2c1cfbb67b5e9936a6b76e0c7f3e6"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/crypto"
   packages = [
     "ed25519",
     "ed25519/internal/edwards25519",
     "sha3"
   ]
-  revision = "ab813273cd59e1333f7ae7bff5d027d4aadf528c"
+  revision = "c126467f60eb25f8f27e5a981f32a87e3965053f"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/sys"
+  packages = ["unix"]
+  revision = "ac767d655b305d4e9612f5f6e33120b9176c4ad4"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a1b5ac232f1c63977d2e6a398ad8558f9d4c2210fde8538e048db0d7e11d4596"
+  inputs-digest = "ad82f3334e50de14e042b7ff67ff660a956fb9ec55595c929f0aaf77c0e62f18"
   solver-name = "gps-cdcl"
   solver-version = 1

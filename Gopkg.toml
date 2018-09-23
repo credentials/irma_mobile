@@ -37,6 +37,10 @@
   branch = "master"
   name = "github.com/privacybydesign/irmago"
 
+[[override]]
+  branch = "master"
+  name = "github.com/timshannon/bolthold"
+
 [prune]
   go-tests = true
   unused-packages = true
