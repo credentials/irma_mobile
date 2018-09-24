@@ -35,7 +35,7 @@ export default class Header extends Component {
             <Icon name="menu"  />
           </Button>
         </Left>
-        <Body style={{flex: 3}}>
+        <Body>
           <Title>{ t('.yourAttributes') }</Title>
         </Body>
         <Right>
