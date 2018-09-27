@@ -100,14 +100,14 @@ export default class SessionContainer extends Component {
     );
   }
 
-  makeDisclosureChoice(disclosureIndex, Type, CredentialHash) {
+  makeDisclosureChoice(disclosureIndex, candidate) {
     const { dispatch, session } = this.props;
 
     dispatch({
       type: 'Session.MakeDisclosureChoice',
       sessionId: session.id,
       disclosureIndex,
-      choice: {Type, CredentialHash},
+      choice: candidate,
     });
   }
 
@@ -165,7 +165,7 @@ export default class SessionContainer extends Component {
       type: 'IrmaBridge.RespondPermission',
       sessionId,
       proceed,
-      disclosureChoices,
+      disclosureChoices: disclosureChoices.filter(d=>d),
     });
 
     return true;

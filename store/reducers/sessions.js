@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const isValidSessionAction = (state, action) => {
   if (action.sessionId == 0 && action.type !== 'IrmaBridge.NewSession') {
     return true;
@@ -47,8 +49,8 @@ const isValidSessionAction = (state, action) => {
   }
 };
 
-const initialDisclosureChoices = (disclosuresCandidates) =>
-  disclosuresCandidates.map(dc => dc[0]);
+const initialDisclosureChoices = (disclosures, disclosuresCandidates) =>
+  _.zip(disclosures, disclosuresCandidates).map((disclosure, candidates) => (disclosure.optional ? null : candidates[0]));
 
 const initialState = {};
 export default function credentials(state = initialState, action) {
@@ -150,7 +152,7 @@ export default function credentials(state = initialState, action) {
           disclosures: action.disclosures,
           disclosuresCandidates: action.disclosuresCandidates,
 
-          disclosureChoices: initialDisclosureChoices(action.disclosuresCandidates),
+          disclosureChoices: initialDisclosureChoices(action.disclosures, action.disclosuresCandidates),
         }
       };
     }
@@ -165,7 +167,7 @@ export default function credentials(state = initialState, action) {
           disclosures: action.disclosures,
           disclosuresCandidates: action.disclosuresCandidates,
 
-          disclosureChoices: initialDisclosureChoices(action.disclosuresCandidates),
+          disclosureChoices: initialDisclosureChoices(action.disclosures, action.disclosuresCandidates),
         }
       };
     }
@@ -182,7 +184,7 @@ export default function credentials(state = initialState, action) {
           message: action.message,
           messageType: action.messageType,
 
-          disclosureChoices: initialDisclosureChoices(action.disclosuresCandidates),
+          disclosureChoices: initialDisclosureChoices(action.disclosures, action.disclosuresCandidates),
         }
       };
     }
