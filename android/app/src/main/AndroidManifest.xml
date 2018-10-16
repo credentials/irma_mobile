@@ -44,10 +44,7 @@
         <intent-filter>
           <category android:name="android.intent.category.DEFAULT" />
           <action android:name="android.intent.action.VIEW" />
-          <data android:scheme="file" />
-          <data android:scheme="content" />
-          <data android:pathPattern=".*\\.irmarequest" />
-          <data android:mimeType="*/*" />
+          <data android:host="*" android:pathPattern=".*\\.irmarequest" />
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
