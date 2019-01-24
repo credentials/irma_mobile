@@ -85,3 +85,9 @@ The IRMA app manages the user's IRMA attributes: receiving new attributes, selec
   Then try `adb reconnect`
 
 - If your iOS build seems to fail with `error: An organization slug is required (provide with --org)`, this actually isn't a fatal error and IRMA.app will be successfully installed to your device. The error is due to a `sentry.properties` file which isn't necessary in development. This should be fixed to not be a failure in development.
+
+### Manual testing
+
+We use BrowserStack to test on actual devices:
+
+<a href="https://browserstack.com"><img src="https://www.browserstack.com/images/layout/browserstack-logo-600x315.png" height="80" /></a>
