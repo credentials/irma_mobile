@@ -71,7 +71,7 @@ module.exports = {
     'comma-dangle': ['warn', 'always-multiline'],
     'comma-spacing': ['warn'],
     'func-call-spacing': ['warn', 'never'],
-    
+
     // This breaks too much, especially when including loops in JSX interpolations
     // 'indent': ['warn', 2, {SwitchCase: 1}],
 
@@ -95,7 +95,6 @@ module.exports = {
     'semi-style': 'error',
     'space-before-blocks': ['warn', 'always'],
     'space-before-function-paren': ['warn', 'never'],
-    'spaced-comment': ['warn', 'always'],
     'unicode-bom': 'error',
 
     // ECMAScript 6
@@ -114,7 +113,6 @@ module.exports = {
     'react/no-access-state-in-setstate': 'error',
     'react/no-deprecated': 'off', // TODO: Turn me on after fixing deprecation; produces a class-wide redliner currently
     'react/no-did-mount-set-state': 'error',
-    'react/no-did-update-set-state': 'error',
     'react/no-typos': 'warn',
     'react/no-this-in-sfc': 'warn',
     'react/no-unused-prop-types': 'warn',

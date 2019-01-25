@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableWithoutFeedback, StyleSheet, Linking } from 'react-native';
+import { TouchableOpacity, TouchableWithoutFeedback, StyleSheet, Linking } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Collapsible from 'react-native-collapsible';
@@ -25,24 +25,48 @@ export default class CredentialCard extends Component {
 
   static propTypes = {
     credential: PropTypes.object.isRequired,
-    lockedOpen: PropTypes.bool,
+    isEditable: PropTypes.bool,
+    lockMode: PropTypes.oneOf(['unlocked', 'open', 'closed']),
+    onLongPress: PropTypes.func,
+    onPress: PropTypes.func,
+    onPressOut: PropTypes.func,
   }
 
   static defaultProps = {
-    lockedOpen: false,
+    isEditable: false,
+    lockMode: 'unlocked',
+    onLongPress: () => {},
+    onPress: () => {},
+    onPressOut: () => {},
   }
 
   state = {
     // Unless locked open, the collapsable is default closed on mount
-    collapsed: !this.props.lockedOpen,
+    collapsed: this.props.lockMode !== 'open',
     showAdditionalInfo: false,
   }
 
+  componentDidUpdate(prevProps) {
+    const { lockMode } = this.props;
+
+    // Make the collapsed state reflect the lockMode, ensuring that after
+    // unlocking the card again, the collapsable state is maintained
+    if (lockMode !== prevProps.lockMode) {
+      if (lockMode === 'closed')
+        this.setState({collapsed: true});
+
+      if (lockMode === 'open')
+        this.setState({collapsed: false});
+    }
+  }
+
   cardPress = () => {
-    const { lockedOpen } = this.props;
+    const { lockMode, onPress } = this.props;
     const { collapsed } = this.state;
 
-    if (lockedOpen)
+    onPress();
+
+    if (lockMode !== 'unlocked')
       return;
 
     this.setState({collapsed: !collapsed});
@@ -57,29 +81,43 @@ export default class CredentialCard extends Component {
     setTimeout(() => this.setState({collapsed: collapsed}), 2);
   }
 
-  isCollapsed() {
-    const { lockedOpen } = this.props;
-    const { collapsed } = this.state;
-
-    return !lockedOpen && collapsed;
-  }
-
   renderHeader() {
-    const { credential } = this.props;
+    const { credential, isEditable, onDeletePress, onReorderPress, onReorderPressOut } = this.props;
     const { CredentialType, hasExpired } = credential;
 
     return (
-      <CardItem header style={styles.cardItemBorderBottom}>
-        <Body>
-          <Text style={[styles.credentialName, hasExpired ? styles.expiredName : null]}>
+      <CardItem header style={[styles.headerCardItem, styles.cardItemBorderBottom]}>
+        <Body style={{flex: 2}}>
+          <Text style={[styles.credentialNameText, hasExpired ? styles.expiredName : null]}>
             { CredentialType.Name[lang] }
           </Text>
           <Text note>
             { t('common.attributes', {count: credential.Attributes.length}) }
           </Text>
         </Body>
-        <Right>
-          <CardItemThumb source={{uri: CredentialType.logoUri}} />
+        <Right style={{flex: 1}}>
+          { isEditable || true ?
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <TouchableWithoutFeedback
+                onPress={onDeletePress}
+              >
+                <Icon
+                  name="ios-remove-circle"
+                  style={styles.deleteIcon}
+                />
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback
+                onLongPress={() => {console.log('got reorder longpress'); onReorderPress(); }}
+                onPressOut={() => {console.log('got reorder out'); onReorderPressOut(); }}
+              >
+                <Icon
+                  name="ios-reorder"
+                  style={styles.reorderIcon}
+                />
+              </TouchableWithoutFeedback>
+            </View>
+            : <CardItemThumb source={{uri: CredentialType.logoUri}} />
+          }
         </Right>
       </CardItem>
     );
@@ -87,6 +125,7 @@ export default class CredentialCard extends Component {
 
   renderFooter() {
     const { credential } = this.props;
+    const { collapsed } = this.state;
     const { hasExpired, Expires, Issuer } = credential;
 
     return (
@@ -102,7 +141,7 @@ export default class CredentialCard extends Component {
             </Text>
           </Body>
         </CardItem>
-        <Collapsible collapsed={this.isCollapsed()}>
+        <Collapsible collapsed={collapsed}>
           <View style={styles.actionButtonsView}>
             <Button
               transparent iconLeft dark
@@ -115,12 +154,11 @@ export default class CredentialCard extends Component {
             <Button
               transparent iconLeft dark
               style={styles.actionButton}
-              onPress="https://privacybydesign.foundation" // TODO
+              onPress={() => Linking.openURL('https://privacybydesign.foundation')} // TODO
             >
               <Icon type="MaterialCommunityIcons" name="web" style={styles.actionButtonIcon} />
               <Text>Website</Text>
             </Button>
-
           </View>
         </Collapsible>
 
@@ -143,14 +181,20 @@ export default class CredentialCard extends Component {
   }
 
   render() {
-    const { credential } = this.props;
-    const { showAdditionalInfo } = this.state;
+    const { credential, onLongPress, onPressOut } = this.props;
+    const { collapsed, showAdditionalInfo } = this.state;
 
     return (
-      <TouchableWithoutFeedback onPress={this.cardPress} onLongPress={() => { /* TODO */ }}>
+      <TouchableOpacity
+        onPressIn={() => console.log('got card longpress')}
+        onPress={() => {console.log('got card press'); this.cardPress()}}
+        onLongPress={() => {console.log('got card longpress'); onLongPress()}}
+        onPressOut={() => {console.log('got card pressout'); onPressOut()}}
+        activeOpacity={0.6}
+      >
         <Card rounded>
           { this.renderHeader() }
-          <Collapsible collapsed={this.isCollapsed()}>
+          <Collapsible collapsed={collapsed}>
             <CredentialAttributes
               credential={credential}
               style={styles.cardItemBorderBottom}
@@ -159,7 +203,7 @@ export default class CredentialCard extends Component {
           </Collapsible>
           { this.renderFooter() }
         </Card>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     );
   }
 }
@@ -176,10 +220,26 @@ const styles = StyleSheet.create({
   },
 
   // Header
-  credentialName: {
+  headerCardItem: {
+    paddingBottom: 8,
+  },
+  credentialNameText: {
     color: nbVariables.irmaColors.darkBlue,
     fontFamily: nbVariables.titleFontfamily,
     fontWeight: 'bold',
+  },
+  deleteIcon: {
+    color: '#FF3B30',
+    fontSize: 28,
+    marginTop: 4,
+    marginRight: 16,
+  },
+  reorderIcon: {
+    fontSize: 52,
+    height: 36,
+    lineHeight: 36,
+    marginRight: 6,
+    marginTop: 8,
   },
 
   // Footer

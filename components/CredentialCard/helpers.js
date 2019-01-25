@@ -59,26 +59,21 @@ export const RichCardItem = ({title, subtitle, leftContent, rightContent, header
 };
 
 export const CardItemThumb = ({source, ...props}) => {
+  const style = {
+    width: 50,
+    height: 50,
+    marginTop: -8,
+  };
+
   return (
     <Thumbnail
-      small square
+      square
+      style={style}
       resizeMode="contain"
       source={source}
       {...props}
     />
   );
-};
-
-export const CardItemIcon = (props) => {
-  // Make the icon smaller than the CardItemThumb, but add margin to
-  // make it fill the same amount of space
-  const style = {
-    marginLeft: 12,
-    width: 24,
-    fontSize: 24,
-  };
-
-  return <Icon style={style} {...props} />;
 };
 
 export const CardHeader = (props) => {

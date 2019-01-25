@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 
 import { namespacedTranslation, lang } from 'lib/i18n';
 import PaddedContent from 'lib/PaddedContent';
+import nbVariables from 'lib/native-base-theme/variables/platform';
 
 import CredentialCard from 'components/CredentialCard';
 
 import Footer from './children/Footer';
+import SortableFlatList from './children/SortableFlatList';
+
 
 import {
   Button,
@@ -31,16 +34,21 @@ export default class CredentialDashboard extends Component {
     deleteCredential: PropTypes.func.isRequired,
   }
 
-  renderCredentials() {
-    const { credentials, deleteCredential } = this.props;
-
-    return credentials.map( credential =>
-      <CredentialCard
-        key={credential.Hash}
-        credential={credential}
-      />
-    );
+  state = {
+    credentials: this.props.credentials,
+    isEditable: false,
   }
+
+  // renderCredentials() {
+  //   const { credentials, deleteCredential } = this.props;
+
+  //   return credentials.map( credential =>
+  //     <CredentialCard
+  //       key={credential.Hash}
+  //       credential={credential}
+  //     />
+  //   );
+  // }
 
   renderEnrollButton() {
     const { navigateToEnrollment } = this.props;
@@ -79,6 +87,20 @@ export default class CredentialDashboard extends Component {
     );
   }
 
+  renderCredentialListItem = ({item: credential, move, moveEnd}) => {
+    const { isEditable } = this.state;
+
+    return (
+      <CredentialCard
+        credential={credential}
+        onLongPress={() => this.setState({isEditable: true})}
+        onReorderPress={move}
+        onReorderPressOut={moveEnd}
+        isEditable={isEditable}
+      />
+    );
+  }
+
   render() {
     const {
       enrolled,
@@ -87,12 +109,24 @@ export default class CredentialDashboard extends Component {
       navigateToCredentialDashboard,
     } = this.props;
 
+    const { credentials } = this.state;
+
     return (
       <Container testID="CredentialDashboard">
-        <PaddedContent>
+        <View style={{flex: 1, padding: nbVariables.contentPadding, paddingBottom: 20}}>
+          <SortableFlatList
+            data={credentials}
+            renderItem={this.renderCredentialListItem}
+            keyExtractor={(credential) => credential.Hash}
+            onMoveEnd={({ data }) => this.setState({credentials: data})}
+          />
+        </View>
+
+        {/*<PaddedContent>
           { this.renderNoCredentialsHint() }
           { this.renderCredentials() }
-        </PaddedContent>
+        </PaddedContent>*/}
+
         <Footer
           enrolled={enrolled}
           navigateToQRScanner={navigateToQRScanner}
