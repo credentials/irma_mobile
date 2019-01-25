@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import _ from 'lodash';
-
 import { namespacedTranslation } from 'lib/i18n';
 import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
 
-import DisclosureChoices from './children/DisclosureChoices';
+import DisclosuresChoices from './children/DisclosuresChoices';
 import Error from './children/Error';
 import Footer from './children/Footer';
 import Header from './children/Header';
@@ -119,7 +117,7 @@ export default class IssuanceSession extends Component {
       return null;
 
     return (
-      <DisclosureChoices
+      <DisclosuresChoices
         makeDisclosureChoice={makeDisclosureChoice}
         session={session}
       />

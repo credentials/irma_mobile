@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { namespacedTranslation } from 'lib/i18n';
-import irmaLogo from 'assets/irmaLogo.png';
+import irmaLogoInverted from 'assets/irmaLogoInverted.png';
 
 import {
   Body,
@@ -25,22 +25,32 @@ export default class Header extends Component {
   render() {
     const { navigation } = this.props;
 
+    const headerStyle = {
+      backgroundColor: '#00b1e6',
+    };
+
+    const colorStyle = {
+      color: 'white',
+    };
+
     return (
-      <NBHeader>
+      <NBHeader style={headerStyle}>
         <Left>
           <Button
             onPress={() => navigation.navigate('DrawerOpen')}
             transparent
           >
-            <Icon name="menu"  />
+            <Icon name="menu" style={colorStyle} />
           </Button>
         </Left>
         <Body>
-          <Title>{ t('.yourAttributes') }</Title>
+          <Title style={colorStyle}>
+            { t('.yourAttributes') }
+          </Title>
         </Body>
         <Right>
           <Button transparent onPress={() => navigation.navigate('About')}>
-            <Thumbnail small source={irmaLogo} />
+            <Thumbnail small source={irmaLogoInverted} />
           </Button>
         </Right>
       </NBHeader>

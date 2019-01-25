@@ -6,7 +6,7 @@ import { namespacedTranslation } from 'lib/i18n';
 import PaddedContent from 'lib/PaddedContent';
 import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
 
-import DisclosureChoices from './children/DisclosureChoices';
+import DisclosuresChoices from './children/DisclosuresChoices';
 import Error from './children/Error';
 import Footer from './children/Footer';
 import Header from './children/Header';
@@ -114,7 +114,7 @@ export default class SigningSession extends Component {
       return null;
 
     return (
-      <DisclosureChoices
+      <DisclosuresChoices
         hideUnchosen={status === 'success'}
         makeDisclosureChoice={makeDisclosureChoice}
         session={session}

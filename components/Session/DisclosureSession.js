@@ -6,7 +6,7 @@ import { namespacedTranslation } from 'lib/i18n';
 import PaddedContent from 'lib/PaddedContent';
 import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
 
-import DisclosureChoices from './children/DisclosureChoices';
+import DisclosuresChoices from './children/DisclosuresChoices';
 import Error from './children/Error';
 import Footer from './children/Footer';
 import Header from './children/Header';
@@ -43,11 +43,11 @@ export default class DisclosureSession extends Component {
       session: {
         status,
         serverName,
-      }
+      },
     } = this.props;
 
     let heading;
-    switch(status) {
+    switch (status) {
       case 'success':
       case 'cancelled':
       case 'requestPermission':
@@ -55,7 +55,7 @@ export default class DisclosureSession extends Component {
     }
 
     let explanation;
-    switch(status) {
+    switch (status) {
       case 'unsatisfiableRequest':
         explanation = (
           <Text>
@@ -99,14 +99,14 @@ export default class DisclosureSession extends Component {
     const {
       makeDisclosureChoice,
       session,
-      session: { status }
+      session: { status },
     } = this.props;
 
-    if(!_.includes(['requestPermission', 'success'], status))
+    if (!_.includes(['requestPermission', 'success'], status))
       return null;
 
     return (
-      <DisclosureChoices
+      <DisclosuresChoices
         hideUnchosen={status === 'success'}
         makeDisclosureChoice={makeDisclosureChoice}
         session={session}

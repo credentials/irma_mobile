@@ -7,32 +7,31 @@ const fullCandidateAttribute = (disclosureCandidate, irmaConfiguration, credenti
     Issuer,
     CredentialType,
     AttributeType,
-    attributeIndex
+    attributeIndex // TODO: Remove me when irmago offers index
   } = attributeInfo(disclosureCandidate.Type, irmaConfiguration);
 
   // Find the credential in which the candidate attribute is contained,
   // plus the attribute type and value at the correct index
   const Credential = _.find(credentials, credential =>
-    credential.Hash == disclosureCandidate.CredentialHash
+    credential.Hash === disclosureCandidate.CredentialHash
   );
 
-  const Value = Credential.Attributes[attributeIndex];
+  const Value = Credential.Attributes[attributeIndex]; // TODO: Change me when irmago offers index
 
   return {
     SchemeManager,
     Issuer,
     CredentialType,
+    AttributeType,
 
-    Type: disclosureCandidate.Type,
+    AttributeTypeFullID: disclosureCandidate.Type,
     CredentialHash: disclosureCandidate.CredentialHash,
-    ...AttributeType,
-
     Value,
   };
 };
 
-// The first argument `disclosuresCandidates` is of type [][]irma.AttributeIdentifier.
-// A disclosureCandidate contains a Type and a CredentialHash
+// `disclosuresCandidates` is of type [][]irma.AttributeIdentifier.
+// A disclosureCandidate contains a Type (fullAttributeTypeID) and a CredentialHash
 export default (disclosuresCandidates = [], irmaConfiguration, credentials) =>
   disclosuresCandidates.map(disclosureCandidates =>
     disclosureCandidates.map(disclosureCandidate =>

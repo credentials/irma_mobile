@@ -25,10 +25,12 @@ export default () => {
   const irmaBridge = new NativeEventEmitter(NativeModules.IrmaBridge);
 
   irmaBridge.addListener('irmago', actionJson => {
-    if(__DEV__)
-      console.log('Received action from bridge:', actionJson); // eslint-disable-line no-console
+    const action = JSON.parse(actionJson);
 
-    store.dispatch(JSON.parse(actionJson));
+    if(__DEV__)
+      console.log('Received action from bridge:', action); // eslint-disable-line no-console
+
+    store.dispatch(action);
   });
 
   irmaBridge.addListener('log', logLine => {

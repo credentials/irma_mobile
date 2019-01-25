@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { resetNavigation } from 'lib/navigation';
+import { lang } from 'lib/i18n';
 
 import CredentialDashboard from './CredentialDashboard';
 import fullCredentials from 'store/mappers/fullCredentials';
@@ -19,7 +20,7 @@ const mapStateToProps = (state) => {
     }
   } = state;
 
-  const enrolled = unenrolledSchemeManagerIds.length == 0;
+  const enrolled = unenrolledSchemeManagerIds.length === 0;
 
   return {
     credentials: fullCredentials(credentials, irmaConfiguration),
@@ -38,22 +39,33 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   static navigationOptions = {
-    header: props => <Header {...props } />
+    header: props => <Header {...props} />,
   }
 
-  navigateToQRScanner() {
+  navigateToQRScanner = () => {
     resetNavigation(this.props.navigation.dispatch, 'CredentialDashboard', 'QRScanner');
   }
 
-  navigateToEnrollment() {
+  navigateToEnrollment = () => {
     resetNavigation(this.props.navigation.dispatch, 'EnrollmentTeaser');
   }
 
-  deleteCredential(credential) {
-    this.props.dispatch({
-      type: 'IrmaBridge.DeleteCredential',
-      Hash: credential.Hash
+  navigateToCredentialDetail = (credential) => {
+    const { navigation } = this.props;
+    navigation.navigate('CredentialDetail', {
+      credentialHash: credential.Hash,
+      credentialTypeName: credential.CredentialType.Name[lang],
     });
+  }
+
+  navigateToCredentialTypeDashboard = () => {
+    const { navigation } = this.props;
+    navigation.navigate('CredentialTypeDashboard');
+  }
+
+  navigateToVaultDashboard = () => {
+    const { navigation } = this.props;
+    navigation.navigate('VaultDashboard');
   }
 
   render() {
@@ -62,10 +74,12 @@ export default class CredentialDashboardContainer extends React.Component {
     return (
       <CredentialDashboard
         credentials={credentials}
-        deleteCredential={::this.deleteCredential}
         enrolled={enrolled}
-        navigateToEnrollment={::this.navigateToEnrollment}
-        navigateToQRScanner={::this.navigateToQRScanner}
+        navigateToCredentialDetail={this.navigateToCredentialDetail}
+        navigateToCredentialTypeDashboard={this.navigateToCredentialTypeDashboard}
+        navigateToEnrollment={this.navigateToEnrollment}
+        navigateToQRScanner={this.navigateToQRScanner}
+        navigateToVaultDashboard={this.navigateToVaultDashboard}
       />
     );
   }

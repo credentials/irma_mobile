@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getLanguage } from 'lib/i18n';
 
-import CredentialLogo from 'components/CredentialLogo';
-
 import {
   Body,
   Card,
@@ -13,6 +11,8 @@ import {
   View,
 } from 'native-base';
 
+import { CardItemImage } from 'components/CredentialCard/helpers';
+
 const lang = getLanguage();
 
 export default class MissingDisclosures extends Component {
@@ -21,30 +21,30 @@ export default class MissingDisclosures extends Component {
     session: PropTypes.object.isRequired,
   }
 
-  renderAttribute(attribute) {
+  renderAttribute = (attribute, index) => {
     const requiredValue = attribute.Value ?
       `: "${attribute.Value}"` : null;
 
     return (
-      <CardItem key={attribute.Type}>
+      <CardItem key={index}>
         <Left>
-          <CredentialLogo credentialType={attribute.CredentialType} />
+          <CardItemImage source={{uri: attribute.CredentialType.logoUri}} />
           <Body>
-            <Text>{ attribute.Name[lang] }{ requiredValue }</Text>
-            <Text note>From credential: { attribute.CredentialType.Name[lang] }</Text>
+            <Text>{ attribute.AttributeType.Name[lang] }{ requiredValue }</Text>
+            <Text note>{ attribute.CredentialType.Name[lang] }</Text>
           </Body>
         </Left>
       </CardItem>
     );
   }
 
-  renderMissingDisclosure({label, attributes}, index) {
+  renderMissingDisclosure = ({label, attributes}, index) => {
     return (
-      <Card key={`disclosure-${index}`}>
+      <Card key={index}>
         <CardItem header>
           <Text style={{fontWeight: 'bold'}}>{ label }</Text>
         </CardItem>
-        { attributes.map(::this.renderAttribute) }
+        { attributes.map(this.renderAttribute) }
       </Card>
     );
   }
@@ -52,12 +52,12 @@ export default class MissingDisclosures extends Component {
   render() {
     const { session } = this.props;
 
-    if(session.status !== 'unsatisfiableRequest')
+    if (session.status !== 'unsatisfiableRequest')
       return null;
 
     return (
       <View>
-        { session.missingDisclosures.map(::this.renderMissingDisclosure) }
+        { session.missingDisclosures.map(this.renderMissingDisclosure) }
       </View>
     );
   }

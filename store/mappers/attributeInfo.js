@@ -1,17 +1,17 @@
 import _ from 'lodash';
 
-// Takes a long attributeTypeId, and returns all associated information,
+// Takes a full attributeTypeId, and returns all associated information,
 // including the index at which the attribute is located within the credential
-export default (longAttributeTypeId, irmaConfiguration) => {
+export default (fullAttributeTypeId, irmaConfiguration) => {
   const { schemeManagers, issuers, credentialTypes } = irmaConfiguration;
-  const [schemeManagerId, issuerId, credentialTypeId, attributeTypeId] = longAttributeTypeId.split('.');
+  const [schemeManagerId, issuerId, credentialTypeId, attributeTypeId] = fullAttributeTypeId.split('.');
 
   const SchemeManager = schemeManagers[schemeManagerId];
   const Issuer = issuers[`${schemeManagerId}.${issuerId}`];
   const CredentialType = credentialTypes[`${schemeManagerId}.${issuerId}.${credentialTypeId}`];
 
-  const attributeIndex = _.findIndex(CredentialType.Attributes, attr => attr.ID == attributeTypeId);
-  const AttributeType = CredentialType.Attributes[attributeIndex];
+  const attributeIndex = _.findIndex(CredentialType.Attributes, attr => attr.ID === attributeTypeId); // TODO: Remove me when irmago offers index
+  const AttributeType = CredentialType.Attributes[attributeIndex]; // TODO: Change me when irmago offers index
 
   return {
     SchemeManager,
@@ -19,6 +19,6 @@ export default (longAttributeTypeId, irmaConfiguration) => {
     CredentialType,
     AttributeType,
 
-    attributeIndex,
+    attributeIndex, // TODO: Remove me when irmago offers index
   };
 };

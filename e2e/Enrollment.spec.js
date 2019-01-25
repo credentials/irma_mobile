@@ -1,83 +1,174 @@
 /*global describe expect it waitFor element by beforeAll afterAll afterEach */
 
-import { labeledScreenshotTaker, startVideo, stopVideo } from './helpers';
+// import { labeledScreenshotTaker, startVideo, stopVideo } from './helpers';
 
-const takeScreenshot = labeledScreenshotTaker('Enrollment');
+// const takeScreenshot = labeledScreenshotTaker('Enrollment');
 
-describe('Enrollment', () => {
-  // beforeEach(async () => {
-  //   await device.reloadReactNative();
-  // });
+const getMatcher = selector => {
+  const idMatch = selector.match(/^#(.+)$/);
+  if (idMatch)
+    return by.id(idMatch[1]);
 
-  beforeAll(async () => {
-    takeScreenshot('boot');
-    startVideo('Enrollment');
-  });
+  return by.text(selector);
+};
 
-  afterAll(async () => {
-    stopVideo();
-  });
+const $ = (...selectors) => {
+  const matchers = selectors.map(getMatcher).reduce( (acc, matcher) =>
+    matcher.withAncestor(acc)
+  );
 
-  afterEach(async () => {
-    takeScreenshot();
-  });
+  return element(matchers);
+};
+
+const expect$ = selector =>
+  expect($(selector));
+
+const waitForVisible$ = selector =>
+  waitFor($(selector)).toBeVisible().withTimeout(2000);
+
+describe('Enrollment with email', () => {
+  // EnrollmentTeaser
+  const teaserOneText = 'IRMA is like a personalized';
+  const teaserTwoText = 'IRMA allows you to reveal';
+  const teaserThreeText = 'IRMA allows you to gain';
+
+  const swipeTeaserLeft = () =>
+    $('#EnrollmentTeaser').swipe('left', 'fast', 0.25);
 
   it('should show the EnrollmentTeaser screen on boot', async () => {
-    await waitFor(element(by.id('EnrollmentTeaser'))).toBeVisible();
+    await waitForVisible$('#EnrollmentTeaser');
+    await expect$(teaserOneText).toBeVisible();
+  });
+
+  it('should show the second teaser screen', async () => {
+    await swipeTeaserLeft();
+
+    await waitForVisible$(teaserTwoText);
+    await expect$(teaserTwoText).toBeVisible();
+  });
+
+  it('should show the third teaser screen', async () => {
+    await swipeTeaserLeft();
+
+    await waitForVisible$(teaserThreeText);
+    await expect$(teaserThreeText).toBeVisible();
   });
 
   it('should go to the Enrollment screen when tapping the enroll button', async () => {
-    await element(by.id('enrollButton')).tap();
-    await expect(element(by.id('Enrollment'))).toBeVisible();
+    await $('#enrollButton').tap();
+    await expect$('#Enrollment').toBeVisible();
   });
 
-  it('should display correct error messages', async () => {
-    const expectPinError = () => expect(element(by.text('Please enter a PIN of at least 5 digits'))).toBeVisible();
+  // Enrollment PIN
+  const pinHeaderText = 'If you forget it';
+  const pinInvalidText = 'Please enter a PIN of at least 5 digits';
+  const notMatchingText = 'The two entered values do not match';
 
-    await element(by.id('nextButton')).tap();
-    await expectPinError();
-
-    await element(by.id('nextButton')).tap();
-    await element(by.id('firstInput')).typeText('123');
-    await expectPinError();
-
-    await element(by.id('firstInput')).typeText('45');
-    await expect(element(by.text('The two entered values do not match'))).toBeVisible();
-
-    await element(by.id('pinForm')).tap();
-    await element(by.id('repeatInput')).tap();
-
-    await element(by.id('repeatInput')).typeText('12345');
-    await expect(element(by.id('errorText'))).toBeNotVisible();
+  it('should display the header text for the PIN step', async () => {
+    await expect$('#pinForm').toBeVisible();
+    await expect$(pinHeaderText).toBeVisible();
   });
 
-  // it('should display another error message when entering different pins', async () => {
-  //
-  // });
+  it('should display a pin invalid text on empty PIN', async () => {
+    await $('#pinForm', '#nextButton').tap();
+    await expect$(pinInvalidText).toBeVisible();
+  });
 
-  // it('should display the CredentialDashboard screen after tapping the dismiss button', async () => {
-  //   await element(by.id('dismissButton')).tap();
-  //   await expect(element(by.id('CredentialDashboard'))).toBeVisible();
+  it('should still display a pin invalid text on too short PIN', async () => {
+    await $('#pinForm', '#firstInput').typeText('123');
+    await expect$(pinInvalidText).toBeVisible();
+  });
+
+  it('should display the non-matching error when the PIN is sufficiently long', async () => {
+    await $('#pinForm', '#firstInput').typeText('45');
+    await expect$(notMatchingText).toBeVisible();
+  });
+
+  it('should not display an error message when both pins are filled in correctly', async () => {
+    await $('#pinForm').tap();
+    await $('#pinForm', '#repeatInput').tap();
+    await $('#pinForm', '#repeatInput').typeText('12345');
+
+    await expect$(pinInvalidText).toBeNotVisible();
+    await expect$(notMatchingText).toBeNotVisible();
+  });
+
+  // Enrollment email
+  const emailHeaderText = 'Associate an email address';
+  const emailInvalidText = 'Please enter a valid email address';
+
+  it('should continue to the email step when tapping next', async () => {
+    await $('#pinForm', '#nextButton').tap();
+
+    await waitForVisible$(emailHeaderText); // TODO: Should not be necessary
+
+    await expect$(pinHeaderText).toBeNotVisible();
+    await expect$(emailHeaderText).toBeVisible();
+  });
+
+  it('should display a email invalid text on empty email', async () => {
+    await $('#emailForm', '#nextButton').tap();
+    await expect$(emailInvalidText).toBeVisible();
+  });
+
+  it('should still display a email invalid text', async () => {
+    await $('#firstInput').tap();
+    await $('#firstInput').typeText('alice');
+    await expect$(emailInvalidText).toBeVisible();
+  });
+
+  it('should display the non-matching error for a correct address', async () => {
+    await $('#firstInput').typeText('@example.com');
+    await expect$(notMatchingText).toBeVisible();
+  });
+
+  it('should not display an error message when both emails are filled in correctly', async () => {
+    await $('#emailForm').tap();
+    await $('#repeatInput').tap();
+    await $('#repeatInput').typeText('alice@example.com');
+
+    await expect$(emailInvalidText).toBeNotVisible();
+    await expect$(notMatchingText).toBeNotVisible();
+  });
+
+  it('should display a skip button', async () => {
+    await expect$('#emailForm', '#skipButton').toBeVisible();
+  });
+
+  // Result
+  const enrollingText = 'Opening IRMA account...';
+  const enrolledText = 'You have now successfully';
+
+  const dashboardText = 'Your attributes';
+  const credentialText = 'MyIRMA login';
+
+  it('should enroll when tapping next', async () => {
+    await $('#nextButton').tap();
+
+    await waitForVisible$(enrollingText);
+    await expect$(enrollingText).toBeVisible();
+
+    await waitForVisible$(enrolledText);
+    await expect$(enrolledText).toBeVisible();
+  });
+
+  it('should go to the CredentialDashboard with the login credential when tapping finish', async () => {
+    await waitForVisible$('#finishButton');
+    await element(by.id('finishButton')).tap();
+
+    await expect$('#CredentialDashboard').toBeVisible();
+    await expect$('#CredentialDashboard', dashboardText).toBeVisible();
+    await expect$(credentialText).toBeVisible();
+  });
+});
+
+describe('Enrollment without email', () => {
+  beforeAll(async () => {
+    // await device.uninstallApp();
+    // await device.installApp();
+  });
+
+  // it('should allow enrollment without email', async () => {
+  //   await waitFor$('#EnrollmentTeaser').toBeVisible();
   // });
-  //
-  // it('should display the QRScanner screen after tapping scan button', async () => {
-  //   await element(by.id('scanQRButton')).tap();
-  //   await expect(element(by.id('QRScanner'))).toBeVisible();
-  // });
-  //
-  // it('should display the IssuanceSession screen after tapping issuance session button', async () => {
-  //   await element(by.id('testIssuance')).tap();
-  //   await expect(element(by.text('Receive attributes'))).toBeVisible();
-  //   await waitFor(element(by.text('testip wants to issue attributes to you'))).toBeVisible().withTimeout(5000);
-  // });
-  //
-  // it('should display a success message after accepting attributes to be issued', async () => {
-  //   await element(by.id('yesButton')).tap();
-  //   await waitFor(element(by.text('Successfully received attributes'))).toBeVisible().withTimeout(5000);
-  // });
-  //
-  // it('should display the CredentialDashboard after dismissing the Session', async () => {
-  //   await element(by.id('dismissButton')).tap();
-  //   await expect(element(by.id('CredentialDashboard'))).toBeVisible();
-  // });
-})
+});
