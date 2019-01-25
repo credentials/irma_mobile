@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { BackHandler } from 'react-native';
 
 import { Navigation } from 'lib/navigation';
 import irmaLogoImage from 'assets/irmaLogoAppUnlock.png';
@@ -54,6 +55,22 @@ export default class AppUnlockContainer extends Component {
       },
     },
   }
+
+  constructor(props) {
+    super(props);
+    Navigation.events().bindComponent(this);
+  }
+
+  // Disable backpress on this screen
+  componentDidAppear() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  componentDidDisappear() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  onBackPress = () => true
 
   componentWillUnmount() {
     const { dispatch } = this.props;

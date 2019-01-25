@@ -168,8 +168,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginHorizontal: 4,
     padding: 0,
-    width: 40 * displayFactor,
-    height: 40 * displayFactor,
+    width: digitSize,
+    height: digitSize,
   },
   extraDigitsImage: {
     width: digitSize - 4,
