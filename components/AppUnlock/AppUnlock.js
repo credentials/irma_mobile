@@ -24,12 +24,17 @@ export default class AppUnlock extends Component {
 
   static propTypes = {
     authenticate: PropTypes.func.isRequired,
+    blockedDuration: PropTypes.number.isRequired,
     dismissModal: PropTypes.func.isRequired,
+    error: PropTypes.object,
     hadFailure: PropTypes.bool.isRequired,
     remainingAttempts: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
-    blockedDuration: PropTypes.number,
   }
+
+  static defaultProps = {
+    error: null,
+  };
 
   state = {
     animatedOpacity: new Animated.Value(1),
@@ -79,15 +84,32 @@ export default class AppUnlock extends Component {
     );
   }
 
-  renderError() {
+  renderFailure() {
     const { hadFailure, remainingAttempts, blockedDuration } = this.props;
     if (!hadFailure)
       return null;
 
-    // TODO: handle blockedDuration here
     return (
       <Text style={styles.errorText}>
-        { t('Session.PinEntry.incorrectMessage', {attempts: t('Session.PinEntry.attempts', {count: remainingAttempts})}) }
+        { blockedDuration === 0 ?
+            t('Session.PinEntry.incorrectMessage', {attempts: t('Session.PinEntry.attempts', {count: remainingAttempts})}) :
+            t('Session.PinEntry.blocked', {duration: t('Session.PinEntry.duration', {count: blockedDuration})})
+        }
+      </Text>
+    );
+  }
+
+  renderError() {
+    const { error } = this.props;
+    if (!error)
+      return null;
+
+    return (
+      <Text style={styles.errorText}>
+        { error.ErrorType && error.ErrorType === 'transport' ?
+            t('Session.PinEntry.error.transport') :
+            t('Session.PinEntry.error.unknown')
+        }
       </Text>
     );
   }
@@ -143,6 +165,7 @@ export default class AppUnlock extends Component {
               style={styles.pinEntryStyle}
             />
             { this.renderSpinner() }
+            { this.renderFailure() }
             { this.renderError() }
           </Animated.View>
         </Container>
@@ -170,7 +193,7 @@ const styles = StyleSheet.create({
     marginTop: nbVariables.platform === 'ios' ? 175 : 155,
   },
   errorText: {
-    marginTop: nbVariables.platform === 'ios' ? 20 : 0,
+    marginTop: 20,
     paddingHorizontal: 10,
     textAlign: 'center',
     color: 'red',

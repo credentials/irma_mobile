@@ -5,7 +5,7 @@ export const STATUS_AUTHENTICATING = 'authenticating';
 export const STATUS_AUTHENTICATED = 'authenticated';
 
 // Don't show appUnlock in development, for convenience
-const initialStatus = __DEV__ && true ? STATUS_AUTHENTICATED : STATUS_UNAUTHENTICATED;
+const initialStatus = __DEV__ && false ? STATUS_AUTHENTICATED : STATUS_UNAUTHENTICATED;
 
 // Helper to derive isAuthenticated
 const statusValues = (status) => ({

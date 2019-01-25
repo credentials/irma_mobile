@@ -9,16 +9,20 @@ import AppUnlock from './AppUnlock';
 const mapStateToProps = (state) => {
   const {
     appUnlock: {
-      status,
+      blockedDuration,
+      error,
       hadFailure,
       remainingAttempts,
+      status,
     },
   } = state;
 
   return {
-    status,
+    blockedDuration,
+    error,
     hadFailure,
     remainingAttempts,
+    status,
   };
 };
 
@@ -26,13 +30,17 @@ const mapStateToProps = (state) => {
 export default class AppUnlockContainer extends Component {
 
   static propTypes = {
+    blockedDuration: PropTypes.number.isRequired,
     componentId: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
-    hadFailure: PropTypes.bool.isRequired,
-    status: PropTypes.string.isRequired,
-    remainingAttempts: PropTypes.number.isRequired,
-    blockedDuration: PropTypes.number.isRequired,
     error: PropTypes.object,
+    hadFailure: PropTypes.bool.isRequired,
+    remainingAttempts: PropTypes.number.isRequired,
+    status: PropTypes.string.isRequired,
+  }
+
+  static defaultProps = {
+    error: null,
   }
 
   componentWillUnmount() {
@@ -58,15 +66,16 @@ export default class AppUnlockContainer extends Component {
   }
 
   render() {
-    const { status, hadFailure, remainingAttempts, blockedDuration } = this.props;
+    const { status, error, hadFailure, remainingAttempts, blockedDuration } = this.props;
 
     return (
       <AppUnlock
         authenticate={this.authenticate}
+        blockedDuration={blockedDuration}
         dismissModal={this.dismissModal}
+        error={error}
         hadFailure={hadFailure}
         remainingAttempts={remainingAttempts}
-        blockedDuration={blockedDuration}
         status={status}
        />
     );

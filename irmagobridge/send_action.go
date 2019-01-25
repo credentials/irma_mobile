@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/go-errors/errors"
+	"github.com/privacybydesign/irmago"
 	"github.com/privacybydesign/irmago/irmaclient"
 )
 
@@ -53,10 +54,10 @@ func sendAuthenticateSuccess() {
 	})
 }
 
-func sendAuthenticateError(err error) {
+func sendAuthenticateError(err *irma.SessionError) {
 	sendAction(&OutgoingAction{
 		"type":  "IrmaClient.AuthenticateError",
-		"error": err.Error(),
+		"error": err,
 	})
 }
 

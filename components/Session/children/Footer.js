@@ -21,7 +21,7 @@ export default class Footer extends Component {
     session: PropTypes.object.isRequired,
     nextStep: PropTypes.func.isRequired,
     navigateBack: PropTypes.func.isRequired,
-    sendMail: PropTypes.func,
+    // sendMail: PropTypes.func,
   }
 
   state = {
