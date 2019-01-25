@@ -25,6 +25,12 @@ const mapStateToProps = (state, props) => {
   const { sessionId } = props;
 
   const {
+    appUnlock: {
+      isAuthenticated,
+    },
+    enrollment: {
+      enrolledSchemeManagerIds,
+    },
     credentials: {
       credentials,
     },
@@ -41,9 +47,12 @@ const mapStateToProps = (state, props) => {
     missingDisclosures: fullMissingDisclosures(bareSession.missingDisclosures, irmaConfiguration),
   };
 
+  const shouldAuthenticate = !isAuthenticated && enrolledSchemeManagerIds.length > 0;
+
   return {
     irmaConfiguration,
     session,
+    shouldAuthenticate,
   };
 };
 
@@ -55,6 +64,14 @@ export default class SessionContainer extends Component {
     dispatch: PropTypes.func.isRequired,
     irmaConfiguration: PropTypes.object.isRequired,
     session: PropTypes.object.isRequired,
+    shouldAuthenticate: PropTypes.bool.isRequired,
+  }
+
+  static options = {
+    // Make topbar invisible by default, until we know we don't have to authenticate
+    topBar: {
+      visible: false,
+    }
   }
 
   state = {
@@ -65,8 +82,29 @@ export default class SessionContainer extends Component {
     showDisclosureStep: false,
   }
 
+  componentDidMount() {
+    const { shouldAuthenticate } = this.props;
+    if (!shouldAuthenticate)
+      this.showTopBar();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { shouldAuthenticate } = this.props;
+    if (prevProps.shouldAuthenticate === true && shouldAuthenticate === false)
+      this.showTopBar();
+  }
+
   componentWillUnmount() {
     this.dismiss();
+  }
+
+  showTopBar() {
+    const { componentId } = this.props;
+    Navigation.mergeOptions(componentId, {
+      topBar: {
+        visible: true,
+      },
+    });
   }
 
   setTopbarTitle = (text) => {
@@ -89,11 +127,10 @@ export default class SessionContainer extends Component {
       BackHandler.exitApp();
   }
 
-  sendMail() {
-    // TODO: Temporarily disabled for upgrade
-    // const { session: { result, request }} = this.props;
-    // sendMail(result, JSON.parse(request));
-  }
+  // sendMail() {
+  //   // const { session: { result, request }} = this.props;
+  //   // sendMail(result, JSON.parse(request));
+  // }
 
   navigateToEnrollment = () => {
     setEnrollmentRoot();
@@ -171,8 +208,11 @@ export default class SessionContainer extends Component {
   }
 
   render() {
-    const { irmaConfiguration, session } = this.props;
+    const { irmaConfiguration, session, shouldAuthenticate } = this.props;
     const { validationForced, showDisclosureStep } = this.state;
+
+    if (shouldAuthenticate)
+      return null;
 
     // Introduce a pseudo-status for when we're disclosing in issuance or signing
     let status = this.props.session.status;
@@ -186,7 +226,7 @@ export default class SessionContainer extends Component {
       navigateToEnrollment: this.navigateToEnrollment,
       nextStep: this.nextStep,
       pinChange: this.pinChange,
-      sendMail: this.sendMail,
+      // sendMail: this.sendMail,
       setTopbarTitle: this.setTopbarTitle,
       validationForced,
 

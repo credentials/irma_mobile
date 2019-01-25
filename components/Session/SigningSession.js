@@ -30,7 +30,7 @@ export default class SigningSession extends Component {
     navigateToEnrollment: PropTypes.func.isRequired,
     nextStep: PropTypes.func.isRequired,
     pinChange: PropTypes.func.isRequired,
-    sendMail: PropTypes.func.isRequired,
+    // sendMail: PropTypes.func.isRequired,
     session: PropTypes.object.isRequired,
     setTopbarTitle: PropTypes.func.isRequired,
     validationForced: PropTypes.bool.isRequired,
@@ -131,7 +131,7 @@ export default class SigningSession extends Component {
     const {
       validationForced,
       navigateBack,
-      sendMail,
+      // sendMail,
       nextStep,
       pinChange,
       session,
@@ -152,7 +152,6 @@ export default class SigningSession extends Component {
         </PaddedContent>
         <Footer
           navigateBack={navigateBack}
-          sendMail={sendMail}
           nextStep={nextStep}
           session={session}
         />
