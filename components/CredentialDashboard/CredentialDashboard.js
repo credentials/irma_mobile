@@ -5,6 +5,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 import { namespacedTranslation, lang } from 'lib/i18n';
 import PaddedContent from 'lib/PaddedContent';
 
+import CredentialCard from 'components/CredentialCard';
 import { CredentialHeader } from 'components/CredentialCard/helpers';
 
 import Footer from './children/Footer';
@@ -31,67 +32,24 @@ export default class CredentialDashboard extends Component {
   static propTypes = {
     credentials: PropTypes.array.isRequired,
     enrolled: PropTypes.bool.isRequired,
-    navigateToCredentialDetail: PropTypes.func.isRequired,
     navigateToCredentialTypeDashboard: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,
     navigateToQRScanner: PropTypes.func.isRequired,
-    navigateToVaultDashboard: PropTypes.func.isRequired,
-  }
-
-  renderCredentialsAlt() {
-    const { credentials, navigateToCredentialDetail } = this.props;
-
-    const cardStyle = {
-      borderBottomWidth: 1,
-      marginTop: 0,
-      marginBottom: 0,
-      marginLeft: 0,
-      marginRight: 0,
-      paddingTop: 0,
-      paddingBottom: 0,
-      borderColor: 'rgba(135, 135, 135, 0.3)',
-    };
-
-    const cardItemStyle = {
-      paddingLeft: 0,
-      paddingBottom: 0,
-      paddingRight: 0,
-      paddingTop: 0,
-    };
-
-    return credentials.map( (credential, index) => {
-      const { CredentialType } = credential;
-
-      return (
-        <TouchableWithoutFeedback
-          key={credential.Hash}
-          onPress={() => navigateToCredentialDetail(credential)}
-        >
-          <Card style={cardStyle}>
-            <CardItem style={cardItemStyle}>
-              <View style={{width: 80, height: 65, paddingTop: 12}}>
-                <Thumbnail style={{alignSelf: 'center', width: 45, height: 45}} resizeMode="contain" square source={{uri: CredentialType.logoUri}} />
-              </View>
-              <Body style={{backgroundColor: index % 2 === 0 ? '#DFF4FB' : '#D2F0F8', paddingLeft: 16, flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={{fontFamily: 'RobotoCondensed-Regular', fontSize: 20}}>{ CredentialType.Name[lang] }</Text>
-              </Body>
-            </CardItem>
-          </Card>
-        </TouchableWithoutFeedback>
-      );
-    });
+    navigateToCredentialDashboard: PropTypes.func.isRequired,
+    deleteCredential: PropTypes.func.isRequired,
   }
 
   renderCredentials() {
-    const { credentials, navigateToCredentialDetail } = this.props;
+    const { credentials, deleteCredential } = this.props;
 
     return credentials.map( credential =>
-      <TouchableWithoutFeedback
+      <CredentialCard
         key={credential.Hash}
-        onPress={() => navigateToCredentialDetail(credential)}
+        credential={credential}
+        onLongPress={deleteCredential}
       >
         <Card><CredentialHeader credential={credential} /></Card>
-      </TouchableWithoutFeedback>
+      </CredentialCard>
     );
   }
 
@@ -137,20 +95,20 @@ export default class CredentialDashboard extends Component {
       enrolled,
       navigateToQRScanner,
       navigateToCredentialTypeDashboard,
-      navigateToVaultDashboard,
+      navigateToCredentialDashboard,
     } = this.props;
 
     return (
       <Container testID="CredentialDashboard">
-        <Content>
-          {/* { this.renderNoCredentialsHint() } */}
-          { this.renderCredentialsAlt() }
-        </Content>
+        <PaddedContent>
+          { this.renderNoCredentialsHint() }
+          { this.renderCredentials() }
+        </PaddedContent>
         <Footer
           enrolled={enrolled}
           navigateToQRScanner={navigateToQRScanner}
           navigateToCredentialTypeDashboard={navigateToCredentialTypeDashboard}
-          navigateToVaultDashboard={navigateToVaultDashboard}
+          navigateToCredentialDashboard={navigateToCredentialDashboard}
         />
       </Container>
     );

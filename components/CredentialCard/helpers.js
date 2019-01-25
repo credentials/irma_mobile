@@ -138,7 +138,7 @@ export const CredentialTypeAttributes = ({attributeTypes}) =>
 export const CredentialAttribute = ({attribute, hasExpired = false, showDescription = false}) => {
 
   const nameValueWithDescriptionStyle = {paddingBottom: 0};
-  const nameStyle = {color: '#828282', fontSize: 14, letterSpacing: 0.60};
+  const nameStyle = {color: '#828282', fontSize: 14};
   const valueStyle = {};
   const expiredStyle = {color: '#a7a7a7'};
 

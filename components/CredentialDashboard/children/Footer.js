@@ -16,7 +16,7 @@ export default class Footer extends Component {
     enrolled: PropTypes.func.isRequried,
     navigateToQRScanner: PropTypes.func.isRequried,
     navigateToCredentialTypeDashboard: PropTypes.func.isRequired,
-    navigateToVaultDashboard: PropTypes.func.isRequired,
+    navigateToCredentialDashboard: PropTypes.func.isRequired,
   }
 
   // 'Old' button
@@ -34,14 +34,14 @@ export default class Footer extends Component {
   }
 
   renderButtonTriplet() {
-    const { navigateToQRScanner, navigateToCredentialTypeDashboard, navigateToVaultDashboard } = this.props;
+    const { navigateToQRScanner, navigateToCredentialTypeDashboard, navigateToCredentialDashboard } = this.props;
 
     return (
       <NBFooter style={{height: 60, paddingTop: 7}}>
         <Button
           transparent
           large
-          onPress={navigateToVaultDashboard}
+          onPress={navigateToCredentialDashboard}
         >
           <Icon
             name="ios-speedometer"
@@ -74,7 +74,7 @@ export default class Footer extends Component {
   }
 
   render() {
-    // return this.renderQRScannerButton();
-    return this.renderButtonTriplet();
+    return this.renderQRScannerButton();
+    // return this.renderButtonTriplet();
   }
 }

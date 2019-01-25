@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Platform } from 'react-native';
 
 import { namespacedTranslation } from 'lib/i18n';
-import irmaLogoInverted from 'assets/irmaLogoInverted.png';
+import irmaLogo from 'assets/irmaLogo.png';
 
 import {
   Body,
@@ -25,32 +26,26 @@ export default class Header extends Component {
   render() {
     const { navigation } = this.props;
 
-    const headerStyle = {
-      backgroundColor: '#00b1e6',
-    };
-
-    const colorStyle = {
-      color: 'white',
-    };
+    const iosHeaderStyle = {flex: 3};
 
     return (
-      <NBHeader style={headerStyle}>
+      <NBHeader>
         <Left>
           <Button
             onPress={() => navigation.navigate('DrawerOpen')}
             transparent
           >
-            <Icon name="menu" style={colorStyle} />
+            <Icon name="menu" />
           </Button>
         </Left>
-        <Body>
-          <Title style={colorStyle}>
+        <Body style={Platform.OS === 'ios' ? iosHeaderStyle : null}>
+          <Title>
             { t('.yourAttributes') }
           </Title>
         </Body>
         <Right>
           <Button transparent onPress={() => navigation.navigate('About')}>
-            <Thumbnail small source={irmaLogoInverted} />
+            <Thumbnail small source={irmaLogo} />
           </Button>
         </Right>
       </NBHeader>

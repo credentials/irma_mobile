@@ -20,17 +20,15 @@ export default class CredentialCard extends Component {
     credential: PropTypes.object.isRequired,
     lockedOpen: PropTypes.bool,
     onLongPress: PropTypes.func,
-    onMoreInfoPress: PropTypes.func,
   }
 
   static defaultProps = {
-    onMoreInfoPress: null,
     onLongPress: null,
     lockedOpen: false,
   }
 
   render() {
-    const { credential, lockedOpen, onMoreInfoPress, onLongPress } = this.props;
+    const { credential, lockedOpen, onLongPress } = this.props;
 
     return (
       <SelfCollapsableCard
@@ -39,14 +37,6 @@ export default class CredentialCard extends Component {
         onLongPress={onLongPress}
       >
         <CredentialAttributes credential={credential} />
-        { !onMoreInfoPress ? null : (
-          <CardItem style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <Button transparent small onPress={onMoreInfoPress}>
-              <Icon name="information-circle" />
-              <Text>More information</Text>
-            </Button>
-          </CardItem>
-          )}
       </SelfCollapsableCard>
     );
   }
