@@ -71,6 +71,7 @@
     "react-native": "^0.57.8",
     "react-native-camera-kit": "git://github.com/confiks/react-native-camera-kit.git#f223e18",
     "react-native-hyperlink": "^0.0.14",
+    "react-native-languages": "^3.0.2",
     "react-native-navigation": "2.4.0",
     "react-native-sentry": "^0.40.3",
     "react-native-swiper": "^1.5.13",
