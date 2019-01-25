@@ -113,7 +113,7 @@ export default class CredentialCard extends Component {
               <TouchableWithoutFeedback
                 onPress={onDeletePress}
               >
-                <ButtonImage source={deleteIcon} style={{width: 28, height: 28, marginTop: 6}} />
+                <ButtonImage source={deleteIcon} style={{width: 28, height: 28, marginTop: 8, marginBottom: 10}} />
               </TouchableWithoutFeedback>
 
               {/* <TouchableWithoutFeedback

@@ -19,6 +19,7 @@ export const t = namespacedTranslation('QRScanner');
 export default class QRScanner extends Component {
   static propTypes = {
     hasCameraPermission: PropTypes.bool.isRequired,
+    hasStartedSession: PropTypes.bool.isRequired,
     newTestSession: PropTypes.func.isRequired,
     readQRCode: PropTypes.func.isRequired,
   }
@@ -47,7 +48,7 @@ export default class QRScanner extends Component {
   }
 
   renderCameraScreen() {
-    const { hasCameraPermission, readQRCode } = this.props;
+    const { hasCameraPermission, hasStartedSession, readQRCode } = this.props;
     if (!hasCameraPermission)
       return null;
 
@@ -55,14 +56,13 @@ export default class QRScanner extends Component {
       <CameraKitCameraScreen
         showFrame={true}
         scanBarcode={true}
-        laserColor="white"
+        laserColor={hasStartedSession ? nbVariables.colors.iosGreen : 'white'}
         surfaceColor="black"
-        frameColor={nbVariables.colors.logoBlue}
+        frameColor={hasStartedSession ? nbVariables.colors.iosGreen : nbVariables.colors.logoBlue}
         onReadCode={readQRCode}
         hideControls={true}
         offsetForScannerFrame={10}
         heightForScannerFrame={200}
-        colorForScannerFrame="blue"
       />
     );
   }

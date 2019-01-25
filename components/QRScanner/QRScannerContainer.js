@@ -30,7 +30,7 @@ export default class QRScannerContainer extends Component {
 
   state = {
     hasCameraPermission: false,
-    canStartSession: true,
+    hasStartedSession: false,
   }
 
   componentDidMount() {
@@ -59,8 +59,8 @@ export default class QRScannerContainer extends Component {
   }
 
   readQRCode = (event) => {
-    const { canStartSession } = this.state;
-    if (!canStartSession)
+    const { hasStartedSession } = this.state;
+    if (hasStartedSession)
       return;
 
     Vibration.vibrate();
@@ -82,16 +82,17 @@ export default class QRScannerContainer extends Component {
       return;
     }
 
-    this.setState({canStartSession: false});
+    this.setState({hasStartedSession: true});
     startSessionAndNavigate({sessionPointer});
   }
 
   render() {
-    const { hasCameraPermission } = this.state;
+    const { hasCameraPermission, hasStartedSession } = this.state;
 
     return (
       <QRScanner
         hasCameraPermission={hasCameraPermission}
+        hasStartedSession={hasStartedSession}
         newTestSession={this.newTestSession}
         readQRCode={this.readQRCode}
       />
