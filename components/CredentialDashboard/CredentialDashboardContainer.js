@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import CredentialDashboard, { t } from './CredentialDashboard';
 import fullCredentials from 'store/mappers/fullCredentials';
-import { STATUS_AUTHENTICATED } from 'store/reducers/appUnlock';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 import { Navigation, showAppUnlockModal, setEnrollmentRoot, showCredentialDashboardSidebar, QR_SCANNER_SCREEN } from 'lib/navigation';
 
@@ -14,7 +13,7 @@ import lockIconImage from 'streamline/icons/regular/PNG/01-InterfaceEssential/11
 const mapStateToProps = (state) => {
   const {
     appUnlock: {
-      status: unlockStatus,
+      isAuthenticated,
     },
     credentials: {
       loaded: credentialsLoaded,
@@ -22,6 +21,7 @@ const mapStateToProps = (state) => {
     },
     enrollment: {
       loaded: enrollmentLoaded,
+      enrolledSchemeManagerIds,
       unenrolledSchemeManagerIds,
     },
     irmaConfiguration,
@@ -34,14 +34,14 @@ const mapStateToProps = (state) => {
   } = state;
 
   const shouldEnroll = enrollmentLoaded && unenrolledSchemeManagerIds.length > 0;
+  const shouldAuthenticate = !isAuthenticated && enrolledSchemeManagerIds.length > 0;
   const isLoaded = irmaConfigurationLoaded && preferencesLoaded && enrollmentLoaded && credentialsLoaded;
-  const isAuthenticated = unlockStatus === STATUS_AUTHENTICATED;
 
   return {
     credentials: fullCredentials(credentials, irmaConfiguration),
-    shouldEnroll,
+    shouldAuthenticate,
     isLoaded,
-    isAuthenticated,
+    shouldEnroll,
   };
 };
 
@@ -52,9 +52,9 @@ export default class CredentialDashboardContainer extends React.Component {
     componentId: PropTypes.string.isRequired,
     credentials: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired,
-    shouldEnroll: PropTypes.bool.isRequired,
+    shouldAuthenticate: PropTypes.bool.isRequired,
     isLoaded: PropTypes.bool.isRequired,
+    shouldEnroll: PropTypes.bool.isRequired,
   }
 
   static lockButton = {
@@ -71,7 +71,7 @@ export default class CredentialDashboardContainer extends React.Component {
   static options() {
     return {
       topBar: {
-        // Make topbar invisible by default, until we know no appUnlock modal will show up
+        // Make topbar invisible by default, until we know we don't have to authenticate
         visible: false,
 
         leftButtons: {
@@ -129,7 +129,7 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { componentId, isAuthenticated, shouldEnroll } = this.props;
+    const { componentId, shouldAuthenticate, shouldEnroll } = this.props;
 
     if (shouldEnroll) {
       Navigation.mergeOptions(componentId, {
@@ -139,13 +139,13 @@ export default class CredentialDashboardContainer extends React.Component {
       });
     }
 
-    if (isAuthenticated)
+    if (!shouldAuthenticate)
       this.showTopBar();
   }
 
   componentDidUpdate(prevProps) {
-    const { isAuthenticated } = this.props;
-    if (prevProps.isAuthenticated === false && isAuthenticated === true)
+    const { shouldAuthenticate } = this.props;
+    if (prevProps.shouldAuthenticate === true && shouldAuthenticate === false)
       this.showTopBar();
   }
 
@@ -201,10 +201,10 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   render() {
-    const { credentials, shouldEnroll, isLoaded, isAuthenticated } = this.props;
+    const { credentials, shouldEnroll, isLoaded, shouldAuthenticate } = this.props;
     const { isEditable } = this.state;
 
-    if (!isLoaded || !isAuthenticated)
+    if (!isLoaded || shouldAuthenticate)
       return null;
 
     return (

@@ -13,7 +13,7 @@ export let store;
 // Include a random starting point so we can discern errors in subsequent sessions
 // TODO: Refactor this into an action creator of the session store
 let counter = Math.floor(Math.random() * 1000000000);
-global.getAutoIncrementId = () => {
+export const getAutoIncrementId = () => {
   return counter++;
 };
 

@@ -196,8 +196,6 @@ export default class SessionContainer extends Component {
       },
     };
 
-    console.log('state is now:', this.props.session);
-
     let content;
     switch (session.irmaAction) {
       case 'issuing':

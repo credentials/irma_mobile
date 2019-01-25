@@ -8,7 +8,7 @@ import {
   Toast,
 } from 'native-base';
 
-import { Navigation, SESSION_SCREEN, CREDENTIAL_DASHBOARD_ROOT_ID } from 'lib/navigation';
+import { startSessionAndNavigate } from 'lib/navigation';
 
 import QRScanner, { t } from './QRScanner';
 
@@ -47,34 +47,13 @@ export default class QRScannerContainer extends Component {
     }
   }
 
-  newSession(qr) {
-    const { dispatch } = this.props;
-
-    const sessionId = global.getAutoIncrementId();
-    dispatch({
-      type: 'IrmaBridge.NewSession',
-      sessionId,
-      qr,
-      exitAfter: false,
-    });
-
-    Navigation.push(CREDENTIAL_DASHBOARD_ROOT_ID, {
-      component: {
-        name: SESSION_SCREEN,
-        passProps: {
-          sessionId,
-        },
-      },
-    });
-  }
-
   newTestSession = (type) => {
     const URLParse = require('url-parse');
 
     const { hostname } = new URLParse(NativeModules.SourceCode.scriptURL);
     window.fetch(`http://${hostname}:7000?type=${type}`).then( (res) => {
-      res.json().then( (qr) => {
-        this.newSession(qr);
+      res.json().then( (sessionPointer) => {
+        startSessionAndNavigate({sessionPointer});
       });
     });
   }
@@ -86,14 +65,14 @@ export default class QRScannerContainer extends Component {
 
     Vibration.vibrate();
 
-    let qr;
+    let sessionPointer;
     try {
-      qr = JSON.parse(event.nativeEvent.codeStringValue);
+      sessionPointer = JSON.parse(event.nativeEvent.codeStringValue);
     } catch (err) {
       // pass
     }
 
-    if (typeof qr !== 'object' || typeof qr.irmaqr !== 'string') {
+    if (typeof sessionPointer !== 'object' || typeof sessionPointer.irmaqr !== 'string') {
       Toast.show({
         text: t('.invalidQR'),
         position: 'bottom',
@@ -104,7 +83,7 @@ export default class QRScannerContainer extends Component {
     }
 
     this.setState({canStartSession: false});
-    this.newSession(qr);
+    startSessionAndNavigate({sessionPointer});
   }
 
   render() {

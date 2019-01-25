@@ -8,6 +8,7 @@ import currentTime from './currentTime';
 import enrollment from './enrollment';
 import irmaConfiguration from './irmaConfiguration';
 import logs from './logs';
+import navigation from './navigation';
 import preferences from './preferences';
 import sessions from './sessions';
 
@@ -17,6 +18,7 @@ export default combineReducers({
   enrollment,
   irmaConfiguration,
   logs,
+  navigation,
   preferences,
   sessions,
 

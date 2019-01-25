@@ -109,33 +109,33 @@ export default class Footer extends Component {
     );
   }
 
-  renderSendEmail() {
-    const { session: { status, result, id }, navigateBack, sendMail } = this.props;
+  // renderSendEmail() {
+  //   const { session: { status, result, id }, navigateBack, sendMail } = this.props;
 
-    if (!sendMail) // sendMail func prop doesn't exist in Issuance / Disclosure sessions
-      return null;
+  //   if (!sendMail) // sendMail func prop doesn't exist in Issuance / Disclosure sessions
+  //     return null;
 
-    if (id === 0 && status === 'success' && result !== undefined) {
-      return [
-        <Button iconLeft key="dismiss" danger onPress={navigateBack}>
-          <Icon name="close-circle" />
-          <Text>{ t('.dismiss') }</Text>
-        </Button>,
-        <Button iconLeft key="sendMail" success onPress={() => {sendMail(); navigateBack();}} style={{marginLeft: 20}}>
-          <Icon name="send" />
-          <Text>{ t('.send') }</Text>
-        </Button>
-      ];
-    }
-    return null;
-  }
+  //   if (id === 0 && status === 'success' && result !== undefined) {
+  //     return [
+  //       <Button iconLeft key="dismiss" danger onPress={navigateBack}>
+  //         <Icon name="close-circle" />
+  //         <Text>{ t('.dismiss') }</Text>
+  //       </Button>,
+  //       <Button iconLeft key="sendMail" success onPress={() => {sendMail(); navigateBack();}} style={{marginLeft: 20}}>
+  //         <Icon name="send" />
+  //         <Text>{ t('.send') }</Text>
+  //       </Button>
+  //     ];
+  //   }
+  //   return null;
+  // }
 
   render() {
     return (
       <NBFooter style={{height: 60, paddingTop: 7}}>
         { this.renderYesNo() }
         { this.renderDismiss() }
-        { this.renderSendEmail() }
+        {/* { this.renderSendEmail() } */}
       </NBFooter>
     );
   }

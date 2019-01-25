@@ -1,13 +1,44 @@
+import moment from 'moment';
+
 export const STATUS_UNAUTHENTICATED = 'unauthenticated';
 export const STATUS_AUTHENTICATING = 'authenticating';
 export const STATUS_AUTHENTICATED = 'authenticated';
 
-const initialState = {
+// Don't show appUnlock in development, for convenience
+const initialStatus = __DEV__ && true ? STATUS_AUTHENTICATED : STATUS_UNAUTHENTICATED;
+
+// Helper to derive isAuthenticated
+const statusValues = (status) => ({
+  status,
+  isAuthenticated: status === STATUS_AUTHENTICATED,
+});
+
+// Helper to derive isForegrounded
+const appStateValues = (appState) => {
+  const isForegrounded = appState === 'active';
+  const values = {
+    appState,
+    isForegrounded,
+  };
+
+  if (isForegrounded)
+    values.lastForegroundedTime = new Date().valueOf();
+
+  return values;
+};
+
+// State to clear when unmounting AppUnlock
+const resetState = {
   error: null,
   hadFailure: false,
   remainingAttempts: 0,
   blockedDuration: 0,
-  status: __DEV__ && true ? STATUS_AUTHENTICATED : STATUS_UNAUTHENTICATED,
+};
+
+const initialState = {
+  ...resetState,
+  ...statusValues(initialStatus),
+  ...appStateValues('active'),
 };
 
 export default function appUnlock(state = initialState, action) {
@@ -15,21 +46,28 @@ export default function appUnlock(state = initialState, action) {
     case 'AppUnlock.Reset': {
       return {
         ...state,
-        error: null,
+        ...resetState,
       };
     }
 
     case 'AppUnlock.Lock': {
       return {
         ...state,
-        status: STATUS_UNAUTHENTICATED,
+        ...statusValues(STATUS_UNAUTHENTICATED),
+      };
+    }
+
+    case 'AppUnlock.AppStateChanged': {
+      return {
+        ...state,
+        ...appStateValues(action.appState),
       };
     }
 
     case 'IrmaBridge.Authenticate': {
       return {
         ...state,
-        status: STATUS_AUTHENTICATING,
+        ...statusValues(STATUS_AUTHENTICATING),
         hadFailure: false,
       };
     }
@@ -37,14 +75,14 @@ export default function appUnlock(state = initialState, action) {
     case 'IrmaClient.AuthenticateSuccess': {
       return {
         ...state,
-        status: STATUS_AUTHENTICATED,
+        ...statusValues(STATUS_AUTHENTICATED),
       };
     }
 
     case 'IrmaClient.AuthenticateFailure': {
       return {
         ...state,
-        status: STATUS_UNAUTHENTICATED,
+        ...statusValues(STATUS_UNAUTHENTICATED),
         hadFailure: true,
         remainingAttempts: action.remainingAttempts,
         blockedDuration: action.blockedDuration,
@@ -54,7 +92,7 @@ export default function appUnlock(state = initialState, action) {
     case 'IrmaClient.AuthenticateError': {
       return {
         ...state,
-        status: 'unauthenticated',
+        ...statusValues(STATUS_UNAUTHENTICATED),
         error: action.error,
       };
     }
