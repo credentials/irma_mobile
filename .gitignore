@@ -29,3 +29,8 @@ project.xcworkspace/
 # Go libs
 *.jar
 *.aar
+
+# Temporary
+streamline
+old_android
+old_ios

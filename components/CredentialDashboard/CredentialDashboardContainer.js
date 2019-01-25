@@ -55,13 +55,18 @@ export default class CredentialDashboardContainer extends React.Component {
   static options() {
     return {
       topBar: {
+        color: 'black',
         leftButtons: {
           id: 'menuButton',
           icon: menuIcon,
+          color: 'black',
+          width: 24,
+          height: 24,
         },
         rightButtons: {
           id: 'lockButton',
           icon: lockIcon,
+          color: 'black',
         },
         title: {
           text: t('.yourAttributes'),

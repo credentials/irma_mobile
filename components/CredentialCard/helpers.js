@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
-import Collapsible from 'react-native-collapsible';
+import Collapsible from 'components/Collapsible';
 
 import {
   CardItem,
@@ -119,7 +119,7 @@ export const CredentialAttribute = ({attribute, hasExpired = false, showDescript
     <CardItem style={style}>
       <View>
         <Text style={[nameStyle, hasExpired ? expiredStyle : null]}>
-          { showDescription ? 'as asd dsf sfdsfsdf sdfsd fsdf sdf sdf sdfsd sdf s  dwdsf sdf sdf sdf sd sdf sdf ' + attribute.AttributeType.Description[lang] : attribute.AttributeType.Name[lang] }
+          { showDescription ? attribute.AttributeType.Description[lang] : attribute.AttributeType.Name[lang] }
         </Text>
       </View>
       <View>

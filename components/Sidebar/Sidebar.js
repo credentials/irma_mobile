@@ -72,7 +72,7 @@ export default class Sidebar extends Component {
     {
       icon: {ios: 'ios-trash', android: 'md-trash'},
       text: t('.deleteAll.menu'),
-      isVisible: () => !this.props.isEnrolled,
+      isVisible: () => this.props.isEnrolled,
       onPress: () => {
         const { closeSidebar, deleteAllCredentials } = this.props;
 

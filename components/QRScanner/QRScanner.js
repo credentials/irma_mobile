@@ -4,10 +4,10 @@ import { StyleSheet } from 'react-native';
 import { CameraKitCameraScreen } from 'react-native-camera-kit';
 
 import { namespacedTranslation } from 'lib/i18n';
+import Container from 'components/Container';
 
 import {
   Button,
-  Container,
   Footer,
   Text,
   View,
@@ -93,8 +93,8 @@ export default class QRScanner extends Component {
 const styles = StyleSheet.create({
   testButtonsView: {
     flex: 1,
+    alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingTop: 12,
   },
 });

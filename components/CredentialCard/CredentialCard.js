@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, TouchableWithoutFeedback, StyleSheet, Linking, View, Text } from 'react-native';
+import { TouchableOpacity, TouchableWithoutFeedback, StyleSheet, Linking } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+
 import Collapsible from 'components/Collapsible';
+import Image from 'components/Image';
 
 import {
   Button,
   CardItem,
   Icon,
-  // Text,
+  Text,
   Card,
-
+  View,
   Body,
   Right,
 } from 'native-base';
@@ -18,6 +20,9 @@ import {
 import { CredentialAttributes, CardItemThumb } from './helpers';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 import { namespacedTranslation, lang } from 'lib/i18n';
+
+import infoCircleIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/14-Alerts/48w/information-circle.png';
+import shareIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/28-Share/48w/share-3.png';
 
 const t = namespacedTranslation('CredentialCard');
 
@@ -75,7 +80,7 @@ export default class CredentialCard extends Component {
     if (lockMode !== 'unlocked')
       return;
 
-    this.setState({collapsed: !collapsed});
+    this.setState({collapsed: !collapsed, showAdditionalInfo: false});
   }
 
   additionalInfoPress = () => {
@@ -134,7 +139,7 @@ export default class CredentialCard extends Component {
     const { hasExpired, Expires, Issuer } = credential;
 
     return (
-      <CardItem style={[styles.issuerDiv, styles.borderBottom]}>
+      <CardItem style={styles.issuerDiv}>
         <Body>
           <Text style={hasExpired ? styles.expiredText : null}>
             { t('.issuedBy') }: { Issuer.Name[lang] }
@@ -170,12 +175,14 @@ export default class CredentialCard extends Component {
       <CredentialAttributes
         credential={credential}
         showDescription={showAdditionalInfo}
-        style={styles.borderBottom}
+        style={[styles.borderTop, styles.borderBottom]}
       />
     );
   }
 
   renderActionButtons() {
+    const { showAdditionalInfo } = this.state;
+
     return (
       <View style={styles.actionButtonsView}>
         <Button
@@ -183,15 +190,17 @@ export default class CredentialCard extends Component {
           style={[styles.actionButton, styles.actionButtonBorderRight]}
           onPress={this.additionalInfoPress}
         >
-          <Icon type="MaterialCommunityIcons" name="information-outline" style={styles.actionButtonIcon} />
-          <Text>More info</Text>
+          <Image style={{height: 24, width: 24}} source={infoCircleIcon} />
+          {/* <Icon type="MaterialCommunityIcons" name="information-outline" style={styles.actionButtonIcon} /> */}
+          <Text>{ showAdditionalInfo ? 'Less info' : 'More info' }</Text>
         </Button>
         <Button
           transparent iconLeft dark
           style={styles.actionButton}
           onPress={() => Linking.openURL('https://privacybydesign.foundation')} // TODO
         >
-          <Icon type="MaterialCommunityIcons" name="web" style={styles.actionButtonIcon} />
+          <Image style={{height: 24, width: 24}} source={shareIcon} />
+          {/* <Icon type="MaterialCommunityIcons" name="web" style={styles.actionButtonIcon} /> */}
           <Text>Website</Text>
         </Button>
       </View>
@@ -211,18 +220,11 @@ export default class CredentialCard extends Component {
         activeOpacity={0.6}
       >
         <Card rounded>
-          <TouchableWithoutFeedback onPress={() => this.setState({showAdditionalInfo: true})}>
           { this.renderHeader() }
-          </TouchableWithoutFeedback>
           { this.renderIssuer() }
-          <Collapsible collapsed={collapsed}>
-            {/* <View key={showAdditionalInfo.toString()}> */}
-            <View style={{flex: 1}}>
-              <Text>{ showAdditionalInfo ? 'this and that and such and so and this and that and such and so and this and that and such and so and this and that and such and so' : 'Hello world!' }</Text>
-
-              {/* { this.renderAttributes() }
-              { this.renderActionButtons() } */}
-            </View>
+          <Collapsible collapsed={collapsed} extraData={showAdditionalInfo}>
+            { this.renderAttributes() }
+            { this.renderActionButtons() }
           </Collapsible>
         </Card>
       </TouchableOpacity>
@@ -232,6 +234,11 @@ export default class CredentialCard extends Component {
 
 const styles = StyleSheet.create({
   // General
+  borderTop: {
+    borderTopWidth: nbVariables.borderWidth,
+    borderColor: nbVariables.cardBorderColor,
+    marginTop: 3,
+  },
   borderBottom: {
     borderBottomWidth: nbVariables.borderWidth,
     borderColor: nbVariables.cardBorderColor,
@@ -246,7 +253,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   credentialNameText: {
-    color: nbVariables.irmaColors.darkBlue,
+    color: nbVariables.colors.darkBlue,
     fontFamily: nbVariables.titleFontfamily,
     fontWeight: 'bold',
   },
