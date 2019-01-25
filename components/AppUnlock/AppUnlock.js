@@ -154,7 +154,7 @@ export default class AppUnlock extends Component {
               minLength={5}
               onPinSubmit={authenticate}
               recommendedLength={7}
-              style={{marginTop: Dimensions.get('window').width / 450 * 150}}
+              style={{marginTop: Dimensions.get('window').width / 500 * 250 - 50}}
             />
             { this.renderSpinner() }
             { this.renderFailure() }

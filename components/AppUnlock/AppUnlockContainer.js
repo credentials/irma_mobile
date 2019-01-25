@@ -6,7 +6,7 @@ import { BackHandler } from 'react-native';
 import { Navigation } from 'lib/navigation';
 import irmaLogoImage from 'assets/irmaLogoAppUnlock.png';
 
-import AppUnlock from './AppUnlock';
+import AppUnlock, { t } from './AppUnlock';
 
 const mapStateToProps = (state) => {
   const {
@@ -51,7 +51,7 @@ export default class AppUnlockContainer extends Component {
         icon: irmaLogoImage,
       },
       title: {
-        text: 'Enter your IRMA PIN',
+        text: t('.title'),
       },
     },
   }
