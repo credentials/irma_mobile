@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
-import { Alert } from 'react-native';
-import { Sentry } from 'react-native-sentry';
-import RNFS from 'react-native-fs';
+// import { NavigationActions } from 'react-navigation';
+// import { Alert } from 'react-native';
+// import { Sentry } from 'react-native-sentry';
+// import RNFS from 'react-native-fs';
 
 import { resetNavigation } from 'lib/navigation';
 import RootNavigatorContainer from './RootNavigatorContainer';
 
-import { validateSigrequest } from 'lib/requestValidators.js';
-import { canSendMail } from 'lib/mail.js';
+// import { validateSigrequest } from 'lib/requestValidators.js';
+// import { canSendMail } from 'lib/mail.js';
 
 import { namespacedTranslation } from 'lib/i18n';
 const t = namespacedTranslation('RootContainer');
@@ -60,7 +60,8 @@ export default class RootContainer extends Component {
     // Unfortunately we cannot set the DSN for the Sentry client
     // after it has been configured. See react-native-sentry#320
     if(!this.sentryInitialized && sentryDSN !== '') {
-      Sentry.config(sentryDSN).install();
+      // TODO: Temporarily disabled for upgrade
+      // Sentry.config(sentryDSN).install();
       this.sentryInitialized = true;
     }
   }
@@ -100,58 +101,60 @@ export default class RootContainer extends Component {
   }
 
   startFromFileUrl(url, navigator) {
-    return canSendMail()
-      .then(() => this.handleContentUrl(url, navigator))
-      .catch(() => {
-        Alert.alert(
-          t('.sessionErrorTitle'),
-          t('.errorNoMailClient'),
-          [{text: t('.dismiss'), style: 'cancel'}],
-          { cancelable: true }
-        );
-      });
+    // TODO: Temporarily disabled for upgrade
+    // return canSendMail()
+    //   .then(() => this.handleContentUrl(url, navigator))
+    //   .catch(() => {
+    //     Alert.alert(
+    //       t('.sessionErrorTitle'),
+    //       t('.errorNoMailClient'),
+    //       [{text: t('.dismiss'), style: 'cancel'}],
+    //       { cancelable: true }
+    //     );
+    //   });
   }
 
   // Handle an URL of the form file://path (iOS) or content://path (Android) for signature requests
   // TODO: handle disclosure requests as well
   handleContentUrl(url, navigator) {
-    RNFS.readFile(url, 'utf8')
-      .then(result => {
-        const sigRequest = JSON.parse(result);
+    // TODO: Temporarily disabled for upgrade
+    // RNFS.readFile(url, 'utf8')
+    //   .then(result => {
+    //     const sigRequest = JSON.parse(result);
 
-        if (!validateSigrequest(sigRequest)) {
-           Alert.alert(
-             t('.sessionErrorTitle'),
-             t('.errorInvalidSignatureRequest'),
-             [{text: t('.dismiss'), style: 'cancel'}],
-             { cancelable: true }
-           );
-          return;
-        }
+    //     if (!validateSigrequest(sigRequest)) {
+    //        Alert.alert(
+    //          t('.sessionErrorTitle'),
+    //          t('.errorInvalidSignatureRequest'),
+    //          [{text: t('.dismiss'), style: 'cancel'}],
+    //          { cancelable: true }
+    //        );
+    //       return;
+    //     }
 
-        const { dispatch } = this.props;
-        dispatch({
-          type: 'IrmaBridge.NewManualSession',
-          sessionId: 0,
-          request: JSON.stringify(sigRequest),
-          exitAfter: false,
-        });
+    //     const { dispatch } = this.props;
+    //     dispatch({
+    //       type: 'IrmaBridge.NewManualSession',
+    //       sessionId: 0,
+    //       request: JSON.stringify(sigRequest),
+    //       exitAfter: false,
+    //     });
 
-        navigator.dispatch(
-          NavigationActions.navigate({
-            routeName: 'Session',
-            params: { sessionId: 0 },
-          })
-        );
-      })
-      .catch(() => {
-        Alert.alert(
-          t('.sessionErrorTitle'),
-          t('.errorReadFile'),
-          [{text: t('.dismiss'), style: 'cancel'}],
-          { cancelable: true }
-        );
-      });
+    //     navigator.dispatch(
+    //       NavigationActions.navigate({
+    //         routeName: 'Session',
+    //         params: { sessionId: 0 },
+    //       })
+    //     );
+    //   })
+    //   .catch(() => {
+    //     Alert.alert(
+    //       t('.sessionErrorTitle'),
+    //       t('.errorReadFile'),
+    //       [{text: t('.dismiss'), style: 'cancel'}],
+    //       { cancelable: true }
+    //     );
+    //   });
   }
 
   // Handle an URL of the form irma://qr/json/$json

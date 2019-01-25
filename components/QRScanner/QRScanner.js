@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import QRCodeScanner from 'react-native-qrcode-scanner';
+// import QRCodeScanner from 'react-native-qrcode-scanner';
 import { Platform } from 'react-native';
 
 import { namespacedTranslation } from 'lib/i18n';
@@ -73,16 +73,19 @@ export default class QRScanner extends Component {
   }
 
   render() {
-    return (
-      <QRCodeScanner
-        title={t('.scan')}
-        ref={(node) => this.scanner = node}
-        bottomContent={this.renderBottomContent()}
-        onRead={::this.read}
-        reactivate={true}
-        reactivateTimeout={2000}
-        checkAndroid6Permissions={true}
-      />
-    );
+    return this.renderBottomContent();
+
+    // TODO: Temporarily disabled for upgrade
+    // return (
+    //   <QRCodeScanner
+    //     title={t('.scan')}
+    //     ref={(node) => this.scanner = node}
+    //     bottomContent={this.renderBottomContent()}
+    //     onRead={::this.read}
+    //     reactivate={true}
+    //     reactivateTimeout={2000}
+    //     checkAndroid6Permissions={true}
+    //   />
+    // );
   }
 }

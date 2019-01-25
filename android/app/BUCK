@@ -45,12 +45,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.irma",
+    package = "foundation.privacybydesign.irmamobile",
 )
 
 android_resource(
     name = "res",
-    package = "com.irma",
+    package = "foundation.privacybydesign.irmamobile",
     res = "src/main/res",
 )
 

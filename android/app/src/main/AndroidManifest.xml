@@ -6,16 +6,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" tools:node="remove" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" tools:node="remove"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
       android:name="foundation.privacybydesign.irmamobile.MainApplication"
-      android:allowBackup="false"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
+      android:allowBackup="false"
       android:theme="@style/AppTheme">
       <activity
         android:name="org.irmacard.cardemu.MainActivity"
@@ -23,13 +20,6 @@
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
         android:windowSoftInputMode="adjustResize"
         android:launchMode="singleTask">
-          <!-- The singleTask launchmode means that in the recept app list (i.e., this:
-               https://developer.android.com/guide/components/recents.html), the MainActivity
-               always has its own dedicated entry to which intents are routed - as opposed to
-               the MainActivity appearing "on top of" the browser when the browser sends an
-               intent to us. See also
-               https://developer.android.com/guide/topics/manifest/activity-element.html#lmode
-          -->
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />

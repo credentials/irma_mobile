@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { namespacedTranslation } from 'lib/i18n';
 import Card from 'lib/UnwrappedCard';
-import { Sentry } from 'react-native-sentry';
+// import { Sentry } from 'react-native-sentry';
 
 import {
   Body,
@@ -67,12 +67,13 @@ export default class ErrorCard extends Component {
   report() {
     const reportObject = this.reportObject();
 
-    // TODO: Sentry unfortunately doesn't support seeing if captureMessage succeeded,
-    // so we lie about the outcome and say it always succeeded.
-    // See the mess in raven-js #803 and #524
-    Sentry.captureMessage('User reported: ' + reportObject.type, {
-      extra: this.reportObject(),
-    });
+    // TODO: Temporarily disabled for upgrade
+    // // TODO: Sentry unfortunately doesn't support seeing if captureMessage succeeded,
+    // // so we lie about the outcome and say it always succeeded.
+    // // See the mess in raven-js #803 and #524
+    // Sentry.captureMessage('User reported: ' + reportObject.type, {
+    //   extra: this.reportObject(),
+    // });
 
     this.setState({reported: true});
   }

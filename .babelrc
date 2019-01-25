@@ -1,6 +1,6 @@
 {
   "presets": [
-    "react-native"
+    "module:metro-react-native-babel-preset"
   ],
   "plugins": [
     [
@@ -8,9 +8,19 @@
         "root": ["."]
       }
     ],
-    "transform-export-extensions",
-    "transform-function-bind",
-    "transform-decorators-legacy",
-    "transform-class-properties",
+    "@babel/plugin-transform-flow-strip-types", // Necessary due to babel/babel#8417
+    "@babel/plugin-proposal-export-default-from",
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-function-bind",
+    [
+      "@babel/plugin-proposal-decorators", {
+        "legacy": true
+      }
+    ],
+    [
+      "@babel/plugin-proposal-class-properties", {
+        "loose": true
+      }
+    ]
   ]
 }

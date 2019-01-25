@@ -1,26 +1,9 @@
+// This plugin is deprecated and should be rewritten to a manual build and include
+// For now, manually delete irmagobridge.aar from package.json to force rebuild
 plugins {
     id "org.golang.mobile.bind" version "0.2.13"
 }
 
 gobind {
-    // Package to bind. Separate multiple packages with spaces.
     pkg="github.com/privacybydesign/irma_mobile/irmagobridge"
-
-    // GOPATH
-    // GOPATH="/home/gopher"
-
-    // Optional list of architectures. Defaults to all supported architectures.
-    // GOARCH="arm amd64"
-
-    // Absolute path to the gomobile binary. Optional.
-    // GOMOBILE="/mypath/bin/gomobile"
-
-    // Absolute path to the gobind binary. Optional.
-    // GOBIND="/mypath/bin/gobind"
-
-    // Absolute path to the go binary. Optional.
-    // GO="/usr/local/go/bin/go"
-
-    // Pass extra parameters to command line. Optional.
-    // GOMOBILEFLAGS="-javapkg my.java.package"
 }

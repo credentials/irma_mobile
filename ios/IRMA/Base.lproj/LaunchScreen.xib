@@ -21,7 +21,7 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LogoOriginal" translatesAutoresizingMaskIntoConstraints="NO" id="zLP-bg-2ih">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="zLP-bg-2ih">
                     <rect key="frame" x="118.5" y="37" width="241" height="213"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -38,6 +38,6 @@
         </view>
     </objects>
     <resources>
-        <image name="LogoOriginal" width="150" height="150"/>
+        <image name="logo.png" width="150" height="150"/>
     </resources>
 </document>

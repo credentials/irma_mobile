@@ -1,6 +1,0 @@
-/* 
-  InfoPlist.strings
-  IRMA
-*/
-
-NSCameraUsageDescription = "Om QRs te kunnen scannen is toegang tot uw camera nodig.";
