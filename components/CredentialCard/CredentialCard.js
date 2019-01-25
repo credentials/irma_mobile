@@ -39,6 +39,7 @@ export default class CredentialCard extends Component {
     onPressOut: PropTypes.func,
     onReorderPress: PropTypes.func,
     onReorderPressOut: PropTypes.func,
+    showActionButtons: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -50,6 +51,7 @@ export default class CredentialCard extends Component {
     onPressOut: () => {},
     onReorderPress: () => {},
     onReorderPressOut: () => {},
+    showActionButtons: true,
   }
 
   state = {
@@ -111,17 +113,16 @@ export default class CredentialCard extends Component {
               >
                 <ButtonImage source={deleteIcon} style={{width: 28, height: 28, marginTop: 6}} />
               </TouchableWithoutFeedback>
-              { true ? null : (
-                <TouchableWithoutFeedback
-                  onLongPress={() => {console.log('got reorder longpress'); onReorderPress();}}
-                  onPressOut={() => {console.log('got reorder out'); onReorderPressOut();}}
-                >
-                  <Icon
-                    name="ios-reorder"
-                    style={styles.reorderIcon}
-                  />
-                </TouchableWithoutFeedback>
-              )}
+
+              {/* <TouchableWithoutFeedback
+                onLongPress={() => {console.log('got reorder longpress'); onReorderPress();}}
+                onPressOut={() => {console.log('got reorder out'); onReorderPressOut();}}
+              >
+                <Icon
+                  name="ios-reorder"
+                  style={styles.reorderIcon}
+                />
+              </TouchableWithoutFeedback> */}
             </View>
             : <CardItemThumb source={{uri: CredentialType.logoUri}} />
           }
@@ -157,16 +158,20 @@ export default class CredentialCard extends Component {
       <CredentialAttributes
         credential={credential}
         showDescription={showAdditionalInfo}
-        style={[styles.borderTop, styles.borderBottom]}
+        style={[styles.borderBottom]}
       />
     );
   }
 
   renderActionButtons() {
+    const { showActionButtons } = this.props;
     const { showAdditionalInfo } = this.state;
 
+    if (!showActionButtons)
+      return null;
+
     return (
-      <View style={styles.actionButtonsView}>
+      <View style={[styles.actionButtonsView, styles.borderTop]}>
         <Button
           transparent iconLeft dark
           style={[styles.actionButton, styles.actionButtonBorderRight]}
@@ -181,7 +186,7 @@ export default class CredentialCard extends Component {
           onPress={() => Linking.openURL('https://privacybydesign.foundation')} // TODO
         >
           <ButtonImage source={shareIcon} />
-          <Text>Website</Text>
+          <Text>{ t('.refresh') }</Text>
         </Button>
       </View>
     );
@@ -200,9 +205,11 @@ export default class CredentialCard extends Component {
       >
         <Card rounded>
           { this.renderHeader() }
-          { this.renderIssuer() }
           <Collapsible collapsed={collapsed} extraData={showAdditionalInfo}>
             { this.renderAttributes() }
+          </Collapsible>
+          { this.renderIssuer() }
+          <Collapsible collapsed={collapsed} extraData={showAdditionalInfo}>
             { this.renderActionButtons() }
           </Collapsible>
         </Card>
@@ -253,7 +260,7 @@ const styles = StyleSheet.create({
   // Issuer
   issuerCardItem: {
     borderBottomWidth: nbVariables.borderWidth,
-    borderBottomColor: nbVariables.cardBorderColor,
+    borderColor: nbVariables.cardBorderColor,
   },
   expiredExpiry: {
     color: '#d72020',
@@ -270,7 +277,7 @@ const styles = StyleSheet.create({
   },
   actionButtonBorderRight: {
     borderRightWidth: nbVariables.borderWidth,
-    borderRightColor: nbVariables.cardBorderColor,
+    borderColor: nbVariables.cardBorderColor,
     borderRadius: 0,
   },
   actionButtonIcon: {

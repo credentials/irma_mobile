@@ -39,8 +39,11 @@ export default class EnrollmentContainer extends Component {
   static options = {
     topBar: {
       title: {
-        text: t('.shortTitle'),
+        text: t('.title'),
         alignment: 'center',
+      },
+      backButton: {
+        visible: false,
       },
     },
   }
@@ -50,18 +53,6 @@ export default class EnrollmentContainer extends Component {
     pin: null,
     disableRetry: false,
   }
-
-  // componentDidUpdate(prevProps) {
-  //   const { status } = this.props;
-
-  //   // When successfully enrolled, reset the route so we can't go back to EnrollmentTeaser
-  //   // TODO: This creates an unwanted animation, but react-navigation doesn't seem to support
-  //   // not displaying it, despite years of tickets. Only workaround seems to be react-navigation#1490
-  //   // Consider first upgrading react-navigation before attempting this.
-  //   if (prevProps.status !== status && status === 'success') {
-  //     resetNavigation(navigation.dispatch, 'Enrollment');
-  //   }
-  // }
 
   changeEmail = (email) => {
     this.setState({email});

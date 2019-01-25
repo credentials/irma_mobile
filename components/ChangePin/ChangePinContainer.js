@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import ChangePin from './ChangePin';
+
+import { Navigation } from 'lib/navigation';
+import ChangePin, { t } from './ChangePin';
 
 const mapStateToProps = (state) => {
   const {
@@ -24,9 +26,9 @@ const mapStateToProps = (state) => {
 @connect(mapStateToProps)
 export default class ChangePinContainer extends Component {
   static propTypes = {
+    componentId: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     error: PropTypes.object,
-    navigation: PropTypes.object.isRequired,
     remainingAttempts: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
     timeout: PropTypes.number,
@@ -35,6 +37,14 @@ export default class ChangePinContainer extends Component {
   static defaultProps = {
     error: null,
     timeout: null,
+  }
+
+  static options = {
+    topBar: {
+      title: {
+        text: t('.title'),
+      },
+    },
   }
 
   state = {
@@ -72,13 +82,13 @@ export default class ChangePinContainer extends Component {
     });
   }
 
-  navigateBack() {
-    const { navigation } = this.props;
-    navigation.goBack();
+  navigateBack = () => {
+    const { componentId } = this.props;
+    Navigation.pop(componentId);
   }
 
   render() {
-    const { newPin, validationForced } = this.state;
+    const { validationForced } = this.state;
     const { status, error, remainingAttempts, timeout } = this.props;
 
     return (
@@ -88,7 +98,6 @@ export default class ChangePinContainer extends Component {
         changePin={this.changePin}
         error={error}
         navigateBack={this.navigateBack}
-        newPin={newPin}
         remainingAttempts={remainingAttempts}
         status={status}
         timeout={timeout}

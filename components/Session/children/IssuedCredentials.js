@@ -25,11 +25,12 @@ export default class IssuedCredentials extends Component {
     return (
       <View>
         { issuedCredentials.map( (credential, i) =>
-            <CredentialCard 
-              key={`index-${i}`} 
-              credential={credential}
-              lockedOpen={true}
-            />
+          <CredentialCard
+            key={`index-${i}`}
+            credential={credential}
+            lockMode="open"
+            showActionButtons={false}
+          />
         )}
       </View>
     );

@@ -23,6 +23,7 @@ import {
   List,
   ListItem,
   Text,
+  View,
 } from 'native-base';
 
 import { namespacedTranslation } from 'lib/i18n';
@@ -120,8 +121,8 @@ export default class Sidebar extends Component {
     return (
       <ListItem key={text} button onPress={finalOnPress}>
         <Left>
-          <Image style={{width: 32, height: 32, marginRight: 10}} source={iconImage} />
-          <Text style={{fontSize: 18}}>{ text }</Text>
+          <Image style={{width: 28, height: 28, marginRight: 10}} source={iconImage} />
+          <Text style={{fontSize: 17}}>{ text }</Text>
         </Left>
       </ListItem>
     );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import _ from 'lodash';
 
 import { namespacedTranslation } from 'lib/i18n';
@@ -59,7 +59,17 @@ export default class PinEntry extends Component {
   }
 
   digitInputsPress = () => {
-    this.inputRef.focus();
+    // When TextInput is already focussed on Android, the keyboard can't be summoned
+    // by refocussing it; it first needs to be blurred. See facebook/react-native#19366
+    if (Platform.OS === 'android' && this.inputRef.isFocused()) {
+      this.inputRef.blur();
+      setTimeout(() => {
+        if (this.inputRef)
+          this.inputRef.focus();
+      }, 250);
+    } else {
+      this.inputRef.focus();
+    }
   }
 
   // When passed pin as a prop, act as a controlled component
@@ -98,26 +108,28 @@ export default class PinEntry extends Component {
     const { pin } = this.state;
 
     return (
-      <View style={style}>
-        <TextInput
-          ref={ref => (this.inputRef = ref)}
-          autoFocus={hasAutofocus}
-          blurOnSubmit={false}
-          keyboardType="number-pad"
-          maxLength={maxLength}
-          onChangeText={this.changeText}
-          onSubmitEditing={this.submit}
-          returnKeyType={pin.length >= minLength ? 'done' : null}
-          secureTextEntry={true}
-          style={styles.inputStyle}
-          value={pin}
-        />
-        <TouchableWithoutFeedback onPress={this.digitInputsPress}>
+      <TouchableWithoutFeedback onPress={this.digitInputsPress}>
+        <View style={style}>
+          <TextInput
+            autoFocus={hasAutofocus}
+            blurOnSubmit={false}
+            keyboardType="number-pad"
+            maxLength={maxLength}
+            onChangeText={this.changeText}
+            onSubmitEditing={this.submit}
+            ref={ref => (this.inputRef = ref)}
+            returnKeyType={pin.length >= minLength ? 'done' : null}
+            secureTextEntry={true}
+            style={styles.inputStyle}
+            value={pin}
+          />
+
           <View style={styles.inputsRowStyle}>
             { _.times(maxLength).map(this.renderDigitInput) }
           </View>
-        </TouchableWithoutFeedback>
-      </View>
+
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

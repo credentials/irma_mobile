@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NativeModules } from 'react-native';
+import { NativeModules, PermissionsAndroid, Vibration } from 'react-native';
 import { connect } from 'react-redux';
 import { CameraKitCamera } from 'react-native-camera-kit';
+// import { Sentry } from 'react-native-sentry';
 
 import {
   Toast,
@@ -28,8 +29,23 @@ export default class QRScannerContainer extends Component {
     },
   }
 
+  state = {
+    hasCameraPermission: false,
+    canStartSession: true,
+  }
+
   componentDidMount() {
-    // CameraKitCamera.requestDeviceCameraAuthorization();
+    this.requestCameraPermission();
+  }
+
+  async requestCameraPermission() {
+    try {
+      const result = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
+      if (result === PermissionsAndroid.RESULTS.GRANTED)
+        this.setState({hasCameraPermission: true});
+    } catch (e) {
+      // Sentry.captureException(e);
+    }
   }
 
   newSession(qr) {
@@ -65,8 +81,11 @@ export default class QRScannerContainer extends Component {
   }
 
   readQRCode = (event) => {
-    // TODO: readQRCode is called many times (at least on Android)
-    // So we need to make it pass only once in the lifetime (?) of the QRScanner component
+    const { canStartSession } = this.state;
+    if (!canStartSession)
+      return;
+
+    Vibration.vibrate();
 
     let qr;
     try {
@@ -85,12 +104,16 @@ export default class QRScannerContainer extends Component {
       return;
     }
 
+    this.setState({canStartSession: false});
     this.newSession(qr);
   }
 
   render() {
+    const { hasCameraPermission } = this.state;
+
     return (
       <QRScanner
+        hasCameraPermission={hasCameraPermission}
         newTestSession={this.newTestSession}
         readQRCode={this.readQRCode}
       />

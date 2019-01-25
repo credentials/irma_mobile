@@ -6,7 +6,7 @@ import CredentialDashboard, { t } from './CredentialDashboard';
 import fullCredentials from 'store/mappers/fullCredentials';
 import { STATUS_AUTHENTICATED } from 'store/reducers/appUnlock';
 import nbVariables from 'lib/native-base-theme/variables/platform';
-import { Navigation, showAppUnlockModal, setEnrollmentRoot, QR_SCANNER_SCREEN } from 'lib/navigation';
+import { Navigation, showAppUnlockModal, setEnrollmentRoot, showCredentialDashboardSidebar, QR_SCANNER_SCREEN } from 'lib/navigation';
 
 import menuIconImage from 'streamline/icons/regular/PNG/01-InterfaceEssential/03-Menu/24w/navigation-menu.png';
 import lockIconImage from 'streamline/icons/regular/PNG/01-InterfaceEssential/11-Lock-Unlock/24w/lock-1.png';
@@ -93,33 +93,47 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   navigationButtonPressed({ buttonId }) {
-    const { componentId, dispatch, isEnrolled } = this.props;
+    const { dispatch, isEnrolled } = this.props;
 
-    if (buttonId === 'menuButton') {
+    switch (buttonId) {
+      // Show sidebar
+      case 'menuButton': {
+        showCredentialDashboardSidebar();
+        break;
+      }
+
+      // Go to unlock screen, with failsafe for when not enrolled
+      case 'lockButton': {
+        if (!isEnrolled) {
+          setEnrollmentRoot();
+          return;
+        }
+
+        dispatch({
+          type: 'AppUnlock.Lock',
+        });
+
+        showAppUnlockModal();
+        break;
+      }
+
+      // Done button handling for CredentialCard longtap
+      case 'doneButton': {
+        this.makeUneditable();
+        break;
+      }
+    }
+  }
+
+  componentDidMount() {
+    const { componentId, isEnrolled } = this.props;
+    if (!isEnrolled) {
       Navigation.mergeOptions(componentId, {
-        sideMenu: {
-          left: {
-            visible: true,
-          },
+        topBar: {
+          rightButtons: [],
         },
       });
     }
-
-    if (buttonId === 'lockButton') {
-      if (!isEnrolled) {
-        setEnrollmentRoot();
-        return;
-      }
-
-      dispatch({
-        type: 'AppUnlock.Lock',
-      });
-
-      showAppUnlockModal();
-    }
-
-    if (buttonId === 'doneButton')
-      this.makeUneditable();
   }
 
   navigateToQRScanner = () => {

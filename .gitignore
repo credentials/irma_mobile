@@ -22,6 +22,7 @@ project.xcworkspace/
 
 # Android
 /android/build
+/lib/*/android
 /android/app/build
 /android/.gradle
 *.jsbundle

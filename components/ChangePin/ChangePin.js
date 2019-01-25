@@ -22,16 +22,15 @@ export const t = namespacedTranslation('ChangePin');
 
 export default class ChangePin extends Component {
   static propTypes = {
-    changeOldPin: PropTypes.func.isRequired,
     changeNewPin: PropTypes.func.isRequired,
-    newPin: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
-    error: PropTypes.object,
-    validationForced: PropTypes.bool.isRequired,
+    changeOldPin: PropTypes.func.isRequired,
     changePin: PropTypes.func.isRequired,
-    remainingAttempts: PropTypes.number.isRequired,
-    timeout: PropTypes.number,
+    error: PropTypes.object,
     navigateBack: PropTypes.func.isRequired,
+    remainingAttempts: PropTypes.number.isRequired,
+    status: PropTypes.string.isRequired,
+    timeout: PropTypes.number,
+    validationForced: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -57,7 +56,7 @@ export default class ChangePin extends Component {
   }
 
   renderForm() {
-    const { newPin, changeOldPin, changeNewPin, changePin, validationForced, remainingAttempts } = this.props;
+    const { changeOldPin, changeNewPin, changePin, validationForced, remainingAttempts } = this.props;
 
     return (
       <View>
@@ -71,8 +70,8 @@ export default class ChangePin extends Component {
           <Form style={{paddingRight: 20}}>
             <FormInput
               inputType="pin"
-              label={ t('.oldPinLabel') }
-              onChange={ changeOldPin }
+              label={ t('.oldPinLabel')}
+              onChange={changeOldPin}
               validationForced={validationForced}
               key={`attempt-${remainingAttempts}`}
               showInvalidMessage={true}
@@ -80,11 +79,10 @@ export default class ChangePin extends Component {
           </Form>
           <RepeatedValueForm
             inputType="pin"
-            firstLabel={ t('.newPinLabel') }
+            firstLabel={ t('.newPinLabel')}
             repeatLabel={ t('.newPinRepeatLabel')}
-            onChange={changeNewPin }
+            onChange={changeNewPin}
             validationForced={validationForced}
-            initialValue={newPin}
           />
           <View style={{marginVertical: 10, justifyContent: 'center', flexDirection: 'row'}}>
             <Button testID="changeButton" onPress={changePin}>

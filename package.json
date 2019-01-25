@@ -54,7 +54,7 @@
   "scripts": {
     "start": "react-native start",
     "android": "npm-run-all go:build_check android:run",
-    "android:run": "rm android/irmagobridge/irmagobridge.aar; react-native run-android",
+    "android:run": " react-native run-android",
     "ios": "npm-run-all go:build_check ios:run",
     "ios:run": "react-native run-ios --simulator \"iPhone 6\"",
     "go:build_check": "go build ./irmagobridge",
@@ -69,7 +69,7 @@
     "native-base": "git://github.com/confiks/NativeBase.git#53a4f35",
     "react": "16.6.0-alpha.8af6728",
     "react-native": "^0.57.4",
-    "react-native-camera-kit": "git://github.com/confiks/react-native-camera-kit.git#80b4f13",
+    "react-native-camera-kit": "git://github.com/confiks/react-native-camera-kit.git#a98797c",
     "react-native-hyperlink": "^0.0.14",
     "react-native-navigation": "2.4.0",
     "react-native-swiper": "^1.5.13",
