@@ -25,7 +25,7 @@ export default class ChangePin extends Component {
   static propTypes = {
     changeOldPin: PropTypes.func.isRequired,
     changeNewPin: PropTypes.func.isRequired,
-    newPin: PropTypes.string,
+    newPin: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     error: PropTypes.object,
     validationForced: PropTypes.bool.isRequired,
@@ -35,12 +35,15 @@ export default class ChangePin extends Component {
     navigateBack: PropTypes.func.isRequired,
   }
 
+  static defaultProps = {
+    error: null,
+    timeout: null,
   }
 
-  renderPinError() {
+  renderPinIncorrect() {
     const { status, remainingAttempts } = this.props;
 
-    if (status != 'pinError')
+    if (status !== 'pinIncorrect')
       return null;
 
     const attempts = t('.attempts', {count: remainingAttempts});
@@ -48,12 +51,12 @@ export default class ChangePin extends Component {
     return (
       <CardItem>
         <Text testID="errorText" style={{color: '#ed2f2f'}}>
-          { t('.pinError', {attempts}) }
+          { t('.pinIncorrect', {attempts}) }
         </Text>
       </CardItem>
     );
   }
-  
+
   renderForm() {
     const { newPin, changeOldPin, changeNewPin, changePin, validationForced, remainingAttempts } = this.props;
 
@@ -65,13 +68,13 @@ export default class ChangePin extends Component {
               { t('.intro') }
             </Text>
           </CardItem>
-          { this.renderPinError() }
+          { this.renderPinIncorrect() }
           <Form style={{paddingRight: 20}}>
             <FormInput
               inputType="pin"
               label={ t('.oldPinLabel') }
               onChange={ changeOldPin }
-              validationForced = { validationForced }
+              validationForced={validationForced}
               key={`attempt-${remainingAttempts}`}
               showInvalidMessage={true}
             />
@@ -79,13 +82,13 @@ export default class ChangePin extends Component {
           <RepeatedValueForm
             inputType="pin"
             firstLabel={ t('.newPinLabel') }
-            repeatLabel={ t('.newPinRepeatLabel') }
-            onChange={ changeNewPin }
-            validationForced = { validationForced }
-            initialValue = { newPin }
+            repeatLabel={ t('.newPinRepeatLabel')}
+            onChange={changeNewPin }
+            validationForced={validationForced}
+            initialValue={newPin}
           />
           <View style={{marginVertical: 10, justifyContent: 'center', flexDirection: 'row'}}>
-            <Button testID="changeButton" onPress = { changePin }>
+            <Button testID="changeButton" onPress={changePin}>
               <Text>{ t('.doChange') }</Text>
             </Button>
           </View>
@@ -97,9 +100,9 @@ export default class ChangePin extends Component {
   renderContent() {
     const { status, error, timeout } = this.props;
 
-    switch(status) {
-      case 'started':
-      case 'pinError':
+    switch (status) {
+      case 'idle':
+      case 'pinIncorrect':
         return this.renderForm();
 
       case 'changing':
@@ -130,6 +133,9 @@ export default class ChangePin extends Component {
           </IconCard>,
           <ErrorCard key="error" error={error} />
         ];
+
+      default:
+        return null;
     }
   }
 

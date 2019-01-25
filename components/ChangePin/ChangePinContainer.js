@@ -10,7 +10,7 @@ const mapStateToProps = (state) => {
       status,
       remainingAttempts,
       timeout,
-    }
+    },
   } = state;
 
   return {
@@ -25,34 +25,38 @@ const mapStateToProps = (state) => {
 export default class ChangePinContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    status: PropTypes.string.isRequired,
     error: PropTypes.object,
     navigation: PropTypes.object.isRequired,
     remainingAttempts: PropTypes.number.isRequired,
+    status: PropTypes.string.isRequired,
     timeout: PropTypes.number,
   }
 
+  static defaultProps = {
+    error: null,
+    timeout: null,
+  }
 
   state = {
-    oldPin: null,
-    newPin: null,
-    validationForced: false
+    oldPin: '',
+    newPin: '',
+    validationForced: false,
   }
 
-  componentDidMount() {
+  componentWillUnmount() {
     const { dispatch } = this.props;
-    dispatch({type: 'ChangePin.Start'});
+    dispatch({type: 'ChangePin.Reset'});
   }
 
-  changeOldPin(oldPin) {
+  changeOldPin = (oldPin) => {
     this.setState({oldPin});
   }
 
-  changeNewPin(newPin) {
+  changeNewPin = (newPin) => {
     this.setState({newPin});
   }
 
-  changePin() {
+  changePin = () => {
     const { oldPin, newPin } = this.state;
     const { dispatch } = this.props;
 
@@ -79,16 +83,16 @@ export default class ChangePinContainer extends Component {
 
     return (
       <ChangePin
-        changeOldPin = { ::this.changeOldPin }
-        changeNewPin = { ::this.changeNewPin }
-        newPin = { newPin }
-        status = { status }
-        error = { error }
-        validationForced = { validationForced }
-        changePin = { ::this.changePin }
-        remainingAttempts = { remainingAttempts }
-        timeout = { timeout }
-        navigateBack = { ::this.navigateBack }
+        changeNewPin={this.changeNewPin}
+        changeOldPin={this.changeOldPin}
+        changePin={this.changePin}
+        error={error}
+        navigateBack={this.navigateBack}
+        newPin={newPin}
+        remainingAttempts={remainingAttempts}
+        status={status}
+        timeout={timeout}
+        validationForced={validationForced}
       />
     );
   }

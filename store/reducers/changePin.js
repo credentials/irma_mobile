@@ -1,17 +1,13 @@
 const initialState = {
-  status: null,
-  error: null,
+  status: 'idle',
   remainingAttempts: -1,
 };
 
 export default function changePin(state = initialState, action) {
   switch (action.type) {
-    case 'ChangePin.Start':
-      return {
-        ...state,
-        status: 'started',
-        remainingAttempts: -1,
-      };
+    case 'ChangePin.Reset':
+      return initialState;
+
     case 'IrmaBridge.ChangePin':
       return {
         ...state,
@@ -25,7 +21,7 @@ export default function changePin(state = initialState, action) {
     case 'IrmaClient.ChangePinIncorrect':
       return {
         ...state,
-        status: 'pinError',
+        status: 'pinIncorrect',
         remainingAttempts: action.remainingAttempts,
       };
     case 'IrmaClient.ChangePinBlocked':
