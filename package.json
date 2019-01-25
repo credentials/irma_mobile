@@ -52,7 +52,7 @@
   },
   "scripts": {
     "start": "react-native start",
-    "android": "npm-run-all go:build_check android-run",
+    "android": "npm-run-all go:build_check android:run",
     "android:run": "rm android/irmagobridge/irmagobridge.aar; react-native run-android",
     "ios": "npm-run-all go:build_check ios:run",
     "ios:run": "react-native run-ios",
