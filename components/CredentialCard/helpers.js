@@ -107,17 +107,19 @@ export const CredentialAttribute = ({attribute, hasExpired = false, showDescript
   if (attribute.Value[lang] === '')
     return null;
 
-  const cardItemStyle = {
+  const style = {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-start',
+    paddingTop: 5,
+    paddingBottom: 5,
   };
 
   return (
-    <CardItem style={cardItemStyle}>
+    <CardItem style={style}>
       <View>
         <Text style={[nameStyle, hasExpired ? expiredStyle : null]}>
-          { showDescription ? attribute.AttributeType.Description[lang] : attribute.AttributeType.Name[lang] }
+          { showDescription ? 'as asd dsf sfdsfsdf sdfsd fsdf sdf sdf sdfsd sdf s  dwdsf sdf sdf sdf sd sdf sdf ' + attribute.AttributeType.Description[lang] : attribute.AttributeType.Name[lang] }
         </Text>
       </View>
       <View>
@@ -129,17 +131,25 @@ export const CredentialAttribute = ({attribute, hasExpired = false, showDescript
   );
 };
 
-export const CredentialAttributes = ({credential, showDescription = false, ...props}) =>
-  <View {...props}>
-    { credential.Attributes.map( attribute =>
-      <CredentialAttribute
-        key={attribute.AttributeType.ID}
-        attribute={attribute}
-        hasExpired={credential.hasExpired}
-        showDescription={showDescription}
-      />
-    )}
-  </View>;
+export const CredentialAttributes = ({credential, showDescription = false, style}) => {
+
+  const divStyle = {
+    paddingVertical: nbVariables.cardItemPadding,
+  };
+
+  return (
+    <View style={[divStyle, style]}>
+      { credential.Attributes.map( attribute =>
+        <CredentialAttribute
+          key={attribute.AttributeType.ID}
+          attribute={attribute}
+          hasExpired={credential.hasExpired}
+          showDescription={showDescription}
+        />
+      )}
+    </View>
+  );
+};
 
 export const RequestedAttribute = ({attribute}) => {
   const { AttributeType, CredentialType, Value } = attribute;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { resetNavigation } from 'lib/navigation';
+import { Navigation, setCredentialDashboardRoot, ENROLLMENT_SCREEN } from 'lib/navigation';
 
 import EnrollmentTeaser from './EnrollmentTeaser';
 
@@ -10,34 +10,37 @@ import EnrollmentTeaser from './EnrollmentTeaser';
 export default class EnrollmentTeaserContainer extends Component {
 
   static propTypes = {
+    componentId: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
-    navigation: PropTypes.object.isRequired,
   }
 
-  static navigationOptions = {
-    header: null,
+  static options = {
+
   }
 
-  navigateToEnrollment() {
-    const { dispatch, navigation } = this.props;
+  navigateToEnrollment = () => {
+    const { dispatch, componentId } = this.props;
 
     dispatch({
-      type: 'Enrollment.Start'
+      type: 'Enrollment.Start',
     });
 
-    navigation.navigate('Enrollment');
+    Navigation.push(componentId, {
+      component: {
+        name: ENROLLMENT_SCREEN,
+      },
+    });
   }
 
-  navigateToCredentialDashboard() {
-    const { navigation } = this.props;
-    resetNavigation(navigation.dispatch, 'CredentialDashboard');
+  navigateToCredentialDashboard = () => {
+    setCredentialDashboardRoot();
   }
 
   render() {
     return (
       <EnrollmentTeaser
-        navigateToCredentialDashboard={::this.navigateToCredentialDashboard}
-        navigateToEnrollment={::this.navigateToEnrollment}
+        navigateToCredentialDashboard={this.navigateToCredentialDashboard}
+        navigateToEnrollment={this.navigateToEnrollment}
       />
     );
   }

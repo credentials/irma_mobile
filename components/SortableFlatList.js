@@ -390,7 +390,7 @@ SortableFlatList.defaultProps = {
   contentContainerStyle: {},
 };
 
-class RowItem extends PureComponent {
+class RowItem extends Component { // TODO: This should be a pure component
 
   renderSpacer = (size) => <View style={this.props.horizontal ? { width: size } : { height: size }} />
 
@@ -402,6 +402,7 @@ class RowItem extends PureComponent {
 
   render() {
     const { moveEnd, isActiveRow, horizontal, endPadding, spacerSize, renderItem, item, index, setRef } = this.props;
+
     const component = renderItem({
       isActive: false,
       item,

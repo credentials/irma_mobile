@@ -99,7 +99,7 @@ module.exports = {
 
     // ECMAScript 6
     'arrow-spacing': 'warn',
-    'no-confusing-arrow': 'warn',
+    'no-confusing-arrow': ['warn', {"allowParens": true}],
     'no-duplicate-imports': 'warn',
     'no-var': 'error',
     'prefer-const': 'error',
@@ -122,7 +122,6 @@ module.exports = {
 
     // Use skipUndeclared so we can use stateless components without propTypes
     'react/prop-types': ['error', {skipUndeclared: true}],
-
     'react/require-default-props': 'error',
     'react/jsx-curly-spacing': ['warn', {when: 'never', children: false}],
     'react/jsx-equals-spacing': 'error',

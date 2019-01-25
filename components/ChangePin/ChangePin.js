@@ -35,8 +35,6 @@ export default class ChangePin extends Component {
     navigateBack: PropTypes.func.isRequired,
   }
 
-  static navigationOptions = {
-    title: t('.title')
   }
 
   renderPinError() {

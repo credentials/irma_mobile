@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ReactTimeout from 'react-timeout';
 
 import Enrollment from './Enrollment';
-import { resetNavigation } from 'lib/navigation';
+import { setCredentialDashboardRoot } from 'lib/navigation';
 import { getLanguage } from 'lib/i18n';
 
 const mapStateToProps = (state) => {
@@ -28,37 +28,41 @@ export default class EnrollmentContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     error: PropTypes.object,
-    navigation: PropTypes.object.isRequired,
     status: PropTypes.string.isRequired,
     setTimeout: PropTypes.func.isRequired,
   }
 
-  static navigationOptions = Enrollment.navigationOptions;
+  static defaultProps = {
+    error: null,
+  }
+
+  // static navigationOptions = {
+  //   title: Dimensions.get('window').width > 350 ? t('.title') : t('.shortTitle'),
+  // }
 
   state = {
     email: null,
-    validationForced: false,
     pin: null,
     disableRetry: false,
   }
 
-  componentDidUpdate(prevProps) {
-    const { status, navigation } = this.props;
+  // componentDidUpdate(prevProps) {
+  //   const { status } = this.props;
 
-    // When successfully enrolled, reset the route so we can't go back to EnrollmentTeaser
-    // TODO: This creates an unwanted animation, but react-navigation doesn't seem to support
-    // not displaying it, despite years of tickets. Only workaround seems to be react-navigation#1490
-    // Consider first upgrading react-navigation before attempting this.
-    if(prevProps.status !== status && status === 'success') {
-      resetNavigation(navigation.dispatch, 'Enrollment');
-    }
-  }
+  //   // When successfully enrolled, reset the route so we can't go back to EnrollmentTeaser
+  //   // TODO: This creates an unwanted animation, but react-navigation doesn't seem to support
+  //   // not displaying it, despite years of tickets. Only workaround seems to be react-navigation#1490
+  //   // Consider first upgrading react-navigation before attempting this.
+  //   if (prevProps.status !== status && status === 'success') {
+  //     resetNavigation(navigation.dispatch, 'Enrollment');
+  //   }
+  // }
 
-  changeEmail(email) {
+  changeEmail = (email) => {
     this.setState({email});
   }
 
-  changePin(pin) {
+  changePin = (pin) => {
     this.setState({pin});
   }
 
@@ -78,7 +82,7 @@ export default class EnrollmentContainer extends Component {
     });
   }
 
-  retryEnroll() {
+  retryEnroll = () => {
     const { dispatch } = this.props;
     const { email, pin } = this.state;
     const language = getLanguage();
@@ -94,43 +98,30 @@ export default class EnrollmentContainer extends Component {
       type: 'IrmaBridge.Enroll',
       email,
       pin,
-      language
+      language,
     });
   }
 
-  navigateBack() {
-    const { dispatch, navigation } = this.props;
-
-    dispatch({
-      type: 'Enrollment.Dismiss'
-    });
-
-    navigation.goBack();
-  }
-
-  navigateToDashboard() {
-    const { navigation } = this.props;
-    resetNavigation(navigation.dispatch, 'CredentialDashboard');
+  navigateToDashboard = () => {
+    setCredentialDashboardRoot();
   }
 
   render() {
     const { error, status } = this.props;
-    const { disableRetry, email, pin, validationForced } = this.state;
+    const { disableRetry, email, pin } = this.state;
 
     return (
       <Enrollment
+        changeEmail={this.changeEmail}
+        changePin={this.changePin}
         disableRetry={disableRetry}
-        changeEmail={::this.changeEmail}
-        changePin={::this.changePin}
         email={email}
-        enroll={::this.enroll}
+        enroll={this.enroll}
         error={error}
-        navigateBack={::this.navigateBack}
-        navigateToDashboard={::this.navigateToDashboard}
+        navigateToDashboard={this.navigateToDashboard}
         pin={pin}
-        retryEnroll={::this.retryEnroll}
+        retryEnroll={this.retryEnroll}
         status={status}
-        validationForced={validationForced}
       />
     );
   }

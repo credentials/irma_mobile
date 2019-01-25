@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
     logs: {
       logs
     },
-    
+
   } = state;
 
   return {
@@ -31,10 +31,6 @@ export default class LogDashboardContainer extends Component {
   static propTypes = {
     logs: PropTypes.array
   }
-
-  static navigationOptions = {
-    title: t('.title'),
-  };
 
   render() {
     const { logs } = this.props;

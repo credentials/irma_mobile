@@ -36,10 +36,6 @@ export default class PreferencesDashboard extends React.Component {
     enableCrashReporting: PropTypes.bool.isRequired,
   }
 
-  static navigationOptions = () => ({
-    title: t('.title'),
-  })
-
   setCrashReportingPreference(enableCrashReporting) {
     const { dispatch } = this.props;
 

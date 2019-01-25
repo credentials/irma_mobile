@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { namespacedTranslation, lang } from 'lib/i18n';
-import PaddedContent from 'lib/PaddedContent';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 
 import CredentialCard from 'components/CredentialCard';
+import SortableFlatList from 'components/SortableFlatList';
 
 import Footer from './children/Footer';
-import SortableFlatList from './children/SortableFlatList';
-
+import { ABOUT_SCREEN } from 'lib/navigation';
 
 import {
   Button,
@@ -26,29 +25,17 @@ export default class CredentialDashboard extends Component {
 
   static propTypes = {
     credentials: PropTypes.array.isRequired,
+    deleteCredential: PropTypes.func.isRequired,
     enrolled: PropTypes.bool.isRequired,
-    navigateToCredentialTypeDashboard: PropTypes.func.isRequired,
+    isEditable: PropTypes.bool.isRequired,
+    makeEditable: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,
     navigateToQRScanner: PropTypes.func.isRequired,
-    navigateToCredentialDashboard: PropTypes.func.isRequired,
-    deleteCredential: PropTypes.func.isRequired,
   }
 
   state = {
     credentials: this.props.credentials,
-    isEditable: false,
   }
-
-  // renderCredentials() {
-  //   const { credentials, deleteCredential } = this.props;
-
-  //   return credentials.map( credential =>
-  //     <CredentialCard
-  //       key={credential.Hash}
-  //       credential={credential}
-  //     />
-  //   );
-  // }
 
   renderEnrollButton() {
     const { navigateToEnrollment } = this.props;
@@ -88,15 +75,16 @@ export default class CredentialDashboard extends Component {
   }
 
   renderCredentialListItem = ({item: credential, move, moveEnd}) => {
-    const { isEditable } = this.state;
+    const { deleteCredential, makeEditable, isEditable } = this.props;
 
     return (
       <CredentialCard
         credential={credential}
-        onLongPress={() => this.setState({isEditable: true})}
+        isEditable={isEditable}
+        onDeletePress={() => deleteCredential(credential)}
+        onLongPress={makeEditable}
         onReorderPress={move}
         onReorderPressOut={moveEnd}
-        isEditable={isEditable}
       />
     );
   }
@@ -105,8 +93,9 @@ export default class CredentialDashboard extends Component {
     const {
       enrolled,
       navigateToQRScanner,
-      navigateToCredentialTypeDashboard,
-      navigateToCredentialDashboard,
+      deleteCredential,
+      makeEditable,
+      isEditable,
     } = this.props;
 
     const { credentials } = this.state;
@@ -114,24 +103,30 @@ export default class CredentialDashboard extends Component {
     return (
       <Container testID="CredentialDashboard">
         <View style={{flex: 1, padding: nbVariables.contentPadding, paddingBottom: 20}}>
+          { this.renderNoCredentialsHint() }
           <SortableFlatList
             data={credentials}
             renderItem={this.renderCredentialListItem}
             keyExtractor={(credential) => credential.Hash}
             onMoveEnd={({ data }) => this.setState({credentials: data})}
           />
-        </View>
 
-        {/*<PaddedContent>
-          { this.renderNoCredentialsHint() }
-          { this.renderCredentials() }
-        </PaddedContent>*/}
+          {/* { credentials.map( credential =>
+            <CredentialCard
+              key={credential.Hash}
+              credential={credential}
+              isEditable={isEditable}
+              onDeletePress={() => deleteCredential(credential)}
+              onLongPress={makeEditable}
+              // onReorderPress={move}
+              // onReorderPressOut={moveEnd}
+            />
+          )} */}
+        </View>
 
         <Footer
           enrolled={enrolled}
           navigateToQRScanner={navigateToQRScanner}
-          navigateToCredentialTypeDashboard={navigateToCredentialTypeDashboard}
-          navigateToCredentialDashboard={navigateToCredentialDashboard}
         />
       </Container>
     );

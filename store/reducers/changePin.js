@@ -1,20 +1,11 @@
 const initialState = {
-  loaded: false,
-  hasKeyshare: null,
-
   status: null,
   error: null,
   remainingAttempts: -1,
 };
 
 export default function changePin(state = initialState, action) {
-  switch(action.type) {
-    case 'IrmaClient.EnrollmentStatus':
-      return {
-        ...state,
-        loaded: true,
-        hasKeyshare: action.hasKeyshare,
-      };
+  switch (action.type) {
     case 'ChangePin.Start':
       return {
         ...state,

@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 const initialState = {
   loaded: false,
+  enrolledSchemeManagerIds: [],
   unenrolledSchemeManagerIds: [],
 
   status: null,
@@ -9,12 +10,13 @@ const initialState = {
 };
 
 export default function enrollment(state = initialState, action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'IrmaClient.EnrollmentStatus': {
       return {
         ...state,
         loaded: true,
-        unenrolledSchemeManagerIds: action.managers,
+        enrolledSchemeManagerIds: action.enrolledSchemeManagerIds,
+        unenrolledSchemeManagerIds: action.unenrolledSchemeManagerIds,
       };
     }
 

@@ -124,7 +124,7 @@ func (ah *ActionHandler) RespondPin(action *RespondPinAction) (err error) {
 }
 
 // Request to remove all attributes and keyshare enrollment
-func (ah *ActionHandler) RemoveAll() (err error) {
+func (ah *ActionHandler) DeleteAllCredentials() (err error) {
 	if err := client.RemoveAllCredentials(); err != nil {
 		return err
 	}

@@ -32,12 +32,16 @@ export default class ChangePinContainer extends Component {
     timeout: PropTypes.number,
   }
 
-  static navigationOptions = ChangePin.navigationOptions;
 
   state = {
     oldPin: null,
     newPin: null,
     validationForced: false
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({type: 'ChangePin.Start'});
   }
 
   changeOldPin(oldPin) {

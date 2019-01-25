@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import fuse from 'fuse.js';
+// import fuse from 'fuse.js';
 
 import { lang } from 'lib/i18n';
 
@@ -62,10 +62,6 @@ export default class CredentialTypeDashboardContainer extends Component {
     credentialTypes: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
-  }
-
-  static navigationOptions = {
-    title: CredentialTypeDashboard.title,
   }
 
   searchQueryChange = searchQuery => {

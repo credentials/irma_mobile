@@ -31,15 +31,6 @@ export default class AppUnlockContainer extends Component {
     navigation: PropTypes.object.isRequired,
   }
 
-  static navigationOptions = ({navigation}) => ({
-    title: t('.title'),
-    headerRight: (
-      <PreferencesButton
-        navigateToPreferences={() => navigation.navigate('PreferencesDashboard')}
-      />
-    ),
-  });
-
   componentDidUpdate(prevProps) {
     const { status, navigation } = this.props;
     if (prevProps.status === 'unlocking' && status === 'unlocked')

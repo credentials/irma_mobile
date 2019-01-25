@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, TouchableWithoutFeedback, StyleSheet, Linking } from 'react-native';
+import { TouchableOpacity, TouchableWithoutFeedback, StyleSheet, Linking, View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import Collapsible from 'react-native-collapsible';
+import Collapsible from 'components/Collapsible';
 
 import {
   Button,
   CardItem,
   Icon,
-  Text,
+  // Text,
   Card,
-  View,
+
   Body,
   Right,
 } from 'native-base';
@@ -27,17 +27,23 @@ export default class CredentialCard extends Component {
     credential: PropTypes.object.isRequired,
     isEditable: PropTypes.bool,
     lockMode: PropTypes.oneOf(['unlocked', 'open', 'closed']),
+    onDeletePress: PropTypes.func,
     onLongPress: PropTypes.func,
     onPress: PropTypes.func,
     onPressOut: PropTypes.func,
+    onReorderPress: PropTypes.func,
+    onReorderPressOut: PropTypes.func,
   }
 
   static defaultProps = {
     isEditable: false,
     lockMode: 'unlocked',
+    onDeletePress: () => {},
     onLongPress: () => {},
     onPress: () => {},
     onPressOut: () => {},
+    onReorderPress: () => {},
+    onReorderPressOut: () => {},
   }
 
   state = {
@@ -77,8 +83,8 @@ export default class CredentialCard extends Component {
     this.setState({showAdditionalInfo: !showAdditionalInfo});
 
     // TODO: Remove this very dirty hack to solve an issue with Collapsible not rendering properly
-    setTimeout(() => this.setState({collapsed: !collapsed}), 1);
-    setTimeout(() => this.setState({collapsed: collapsed}), 2);
+    // setTimeout(() => this.setState({collapsed: !collapsed}), 1);
+    // setTimeout(() => this.setState({collapsed: collapsed}), 2);
   }
 
   renderHeader() {
@@ -86,7 +92,7 @@ export default class CredentialCard extends Component {
     const { CredentialType, hasExpired } = credential;
 
     return (
-      <CardItem header style={[styles.headerCardItem, styles.cardItemBorderBottom]}>
+      <CardItem header style={[styles.headerDiv, styles.borderBottom]}>
         <Body style={{flex: 2}}>
           <Text style={[styles.credentialNameText, hasExpired ? styles.expiredName : null]}>
             { CredentialType.Name[lang] }
@@ -96,7 +102,7 @@ export default class CredentialCard extends Component {
           </Text>
         </Body>
         <Right style={{flex: 1}}>
-          { isEditable || true ?
+          { isEditable ?
             <View style={{flex: 1, flexDirection: 'row'}}>
               <TouchableWithoutFeedback
                 onPress={onDeletePress}
@@ -107,8 +113,8 @@ export default class CredentialCard extends Component {
                 />
               </TouchableWithoutFeedback>
               <TouchableWithoutFeedback
-                onLongPress={() => {console.log('got reorder longpress'); onReorderPress(); }}
-                onPressOut={() => {console.log('got reorder out'); onReorderPressOut(); }}
+                onLongPress={() => {console.log('got reorder longpress'); onReorderPress();}}
+                onPressOut={() => {console.log('got reorder out'); onReorderPressOut();}}
               >
                 <Icon
                   name="ios-reorder"
@@ -123,85 +129,101 @@ export default class CredentialCard extends Component {
     );
   }
 
-  renderFooter() {
+  renderIssuer() {
     const { credential } = this.props;
-    const { collapsed } = this.state;
     const { hasExpired, Expires, Issuer } = credential;
 
     return (
-      <View>
-        <CardItem>
-          <Body>
-            <Text style={hasExpired ? styles.expiredText : null}>
-              { t('.issuedBy') }: { Issuer.Name[lang] }
-            </Text>
-            <Text note style={hasExpired ? styles.expiredExpiry : null}>
-              { hasExpired ? t('.expired') : t('.expires') }
-              { ' ' }{ moment.unix(Expires).format('D MMM YYYY') }
-            </Text>
-          </Body>
-        </CardItem>
-        <Collapsible collapsed={collapsed}>
-          <View style={styles.actionButtonsView}>
-            <Button
-              transparent iconLeft dark
-              style={[styles.actionButton, styles.actionButtonBorderRight]}
-              onPress={this.additionalInfoPress}
-            >
-              <Icon type="MaterialCommunityIcons" name="information-outline" style={styles.actionButtonIcon} />
-              <Text>More info</Text>
-            </Button>
-            <Button
-              transparent iconLeft dark
-              style={styles.actionButton}
-              onPress={() => Linking.openURL('https://privacybydesign.foundation')} // TODO
-            >
-              <Icon type="MaterialCommunityIcons" name="web" style={styles.actionButtonIcon} />
-              <Text>Website</Text>
-            </Button>
-          </View>
-        </Collapsible>
+      <CardItem style={[styles.issuerDiv, styles.borderBottom]}>
+        <Body>
+          <Text style={hasExpired ? styles.expiredText : null}>
+            { t('.issuedBy') }: { Issuer.Name[lang] }
+          </Text>
+          <Text note style={hasExpired ? styles.expiredExpiry : null}>
+            { hasExpired ? t('.expired') : t('.expires') }
+            { ' ' }{ moment.unix(Expires).format('D MMM YYYY') }
+          </Text>
+        </Body>
+      </CardItem>
+    );
 
-        {/*
-          <View style={{flex: 1, flexDirection: 'row', alignSelf: 'center'}}>
-            <View style={{flex: 1.5}} />
-            <Button transparent iconLeft dark style={{flex: 1}}>
-              <Icon type="MaterialCommunityIcons" name="information-outline" style={styles.actionButtonIcon} />
-            </Button>
-            <Button transparent iconLeft dark style={{flex: 1}}>
-              <Icon type="MaterialCommunityIcons" name="web" style={styles.actionButtonIcon} />
-            </Button>
-            <Button transparent iconLeft dark style={{flex: 1}}>
-              <Icon type="FontAwesome" name="trash-o" style={styles.actionButtonIcon} />
-            </Button>
-            <View style={{flex: 2}} />
-          </View>*/}
+    // <View style={{flex: 1, flexDirection: 'row', alignSelf: 'center'}}>
+    //   <View style={{flex: 1.5}} />
+    //   <Button transparent iconLeft dark style={{flex: 1}}>
+    //     <Icon type="MaterialCommunityIcons" name="information-outline" style={styles.actionButtonIcon} />
+    //   </Button>
+    //   <Button transparent iconLeft dark style={{flex: 1}}>
+    //     <Icon type="MaterialCommunityIcons" name="web" style={styles.actionButtonIcon} />
+    //   </Button>
+    //   <Button transparent iconLeft dark style={{flex: 1}}>
+    //     <Icon type="FontAwesome" name="trash-o" style={styles.actionButtonIcon} />
+    //   </Button>
+    //   <View style={{flex: 2}} />
+    // </View>
+  }
+
+  renderAttributes() {
+    const { credential } = this.props;
+    const { showAdditionalInfo } = this.state;
+
+    return (
+      <CredentialAttributes
+        credential={credential}
+        showDescription={showAdditionalInfo}
+        style={styles.borderBottom}
+      />
+    );
+  }
+
+  renderActionButtons() {
+    return (
+      <View style={styles.actionButtonsView}>
+        <Button
+          transparent iconLeft dark
+          style={[styles.actionButton, styles.actionButtonBorderRight]}
+          onPress={this.additionalInfoPress}
+        >
+          <Icon type="MaterialCommunityIcons" name="information-outline" style={styles.actionButtonIcon} />
+          <Text>More info</Text>
+        </Button>
+        <Button
+          transparent iconLeft dark
+          style={styles.actionButton}
+          onPress={() => Linking.openURL('https://privacybydesign.foundation')} // TODO
+        >
+          <Icon type="MaterialCommunityIcons" name="web" style={styles.actionButtonIcon} />
+          <Text>Website</Text>
+        </Button>
       </View>
     );
   }
 
   render() {
-    const { credential, onLongPress, onPressOut } = this.props;
+    const { onLongPress, onPressOut } = this.props;
     const { collapsed, showAdditionalInfo } = this.state;
 
     return (
       <TouchableOpacity
-        onPressIn={() => console.log('got card longpress')}
+        onPressIn={() => console.log('got card press in')}
         onPress={() => {console.log('got card press'); this.cardPress()}}
         onLongPress={() => {console.log('got card longpress'); onLongPress()}}
         onPressOut={() => {console.log('got card pressout'); onPressOut()}}
         activeOpacity={0.6}
       >
         <Card rounded>
+          <TouchableWithoutFeedback onPress={() => this.setState({showAdditionalInfo: true})}>
           { this.renderHeader() }
+          </TouchableWithoutFeedback>
+          { this.renderIssuer() }
           <Collapsible collapsed={collapsed}>
-            <CredentialAttributes
-              credential={credential}
-              style={styles.cardItemBorderBottom}
-              showDescription={showAdditionalInfo}
-            />
+            {/* <View key={showAdditionalInfo.toString()}> */}
+            <View style={{flex: 1}}>
+              <Text>{ showAdditionalInfo ? 'this and that and such and so and this and that and such and so and this and that and such and so and this and that and such and so' : 'Hello world!' }</Text>
+
+              {/* { this.renderAttributes() }
+              { this.renderActionButtons() } */}
+            </View>
           </Collapsible>
-          { this.renderFooter() }
         </Card>
       </TouchableOpacity>
     );
@@ -210,7 +232,7 @@ export default class CredentialCard extends Component {
 
 const styles = StyleSheet.create({
   // General
-  cardItemBorderBottom: {
+  borderBottom: {
     borderBottomWidth: nbVariables.borderWidth,
     borderColor: nbVariables.cardBorderColor,
     marginBottom: 3,
@@ -242,15 +264,19 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
 
-  // Footer
+  // Issuer
+  issuerCardItem: {
+    borderBottomWidth: nbVariables.borderWidth,
+    borderBottomColor: nbVariables.cardBorderColor,
+  },
   expiredExpiry: {
     color: '#d72020',
   },
+
+  // Action buttons
   actionButtonsView: {
     flex: 1,
     flexDirection: 'row',
-    borderTopWidth: nbVariables.borderWidth,
-    borderTopColor: nbVariables.cardBorderColor,
   },
   actionButton: {
     flex: 1,

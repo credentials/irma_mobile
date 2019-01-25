@@ -12,15 +12,52 @@ import {
 
 export default class Footer extends Component {
 
-  static propsTypes = {
-    enrolled: PropTypes.func.isRequried,
-    navigateToQRScanner: PropTypes.func.isRequried,
-    navigateToCredentialTypeDashboard: PropTypes.func.isRequired,
-    navigateToCredentialDashboard: PropTypes.func.isRequired,
+  static propTypes = {
+    enrolled: PropTypes.bool.isRequired,
+    navigateToQRScanner: PropTypes.func.isRequired,
   }
 
-  // 'Old' button
-  renderQRScannerButton() {
+  // renderButtonTriplet() {
+  //   const { navigateToQRScanner, navigateToCredentialTypeDashboard, navigateToCredentialDashboard } = this.props;
+
+  //   return (
+  //     <NBFooter style={{height: 60, paddingTop: 7}}>
+  //       <Button
+  //         transparent
+  //         large
+  //         onPress={navigateToCredentialDashboard}
+  //       >
+  //         <Icon
+  //           name="ios-speedometer"
+  //           style={{fontSize: 32, marginTop: -10, color: '#888888'}}
+  //         />
+  //       </Button>
+  //       <Button
+  //         transparent
+  //         large
+  //         onPress={navigateToQRScanner}
+  //         style={{marginHorizontal: 20}}
+  //       >
+  //         <Icon
+  //           name="ios-camera"
+  //           style={{fontSize: 50, marginTop: -20, color: '#888888'}}
+  //         />
+  //       </Button>
+  //       <Button
+  //         transparent
+  //         large
+  //         onPress={navigateToCredentialTypeDashboard}
+  //       >
+  //         <Icon
+  //           name="ios-add-circle-outline"
+  //           style={{fontSize: 32, marginTop: -10, color: '#888888'}}
+  //         />
+  //       </Button>
+  //     </NBFooter>
+  //   );
+  // }
+
+  render() {
     const { enrolled, navigateToQRScanner } = this.props;
 
     return (
@@ -31,50 +68,5 @@ export default class Footer extends Component {
         </Button>
       </NBFooter>
     );
-  }
-
-  renderButtonTriplet() {
-    const { navigateToQRScanner, navigateToCredentialTypeDashboard, navigateToCredentialDashboard } = this.props;
-
-    return (
-      <NBFooter style={{height: 60, paddingTop: 7}}>
-        <Button
-          transparent
-          large
-          onPress={navigateToCredentialDashboard}
-        >
-          <Icon
-            name="ios-speedometer"
-            style={{fontSize: 32, marginTop: -10, color: '#888888'}}
-          />
-        </Button>
-        <Button
-          transparent
-          large
-          onPress={navigateToQRScanner}
-          style={{marginHorizontal: 20}}
-        >
-          <Icon
-            name="ios-camera"
-            style={{fontSize: 50, marginTop: -20, color: '#888888'}}
-          />
-        </Button>
-        <Button
-          transparent
-          large
-          onPress={navigateToCredentialTypeDashboard}
-        >
-          <Icon
-            name="ios-add-circle-outline"
-            style={{fontSize: 32, marginTop: -10, color: '#888888'}}
-          />
-        </Button>
-      </NBFooter>
-    );
-  }
-
-  render() {
-    return this.renderQRScannerButton();
-    // return this.renderButtonTriplet();
   }
 }

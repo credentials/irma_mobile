@@ -21,14 +21,6 @@ const sourceURL = 'https://github.com/privacybydesign';
 
 export default class About extends React.Component {
 
-  static propTypes = {
-    navigation: PropTypes.object.isRequired,
-  }
-
-  static navigationOptions = {
-    title: t('.title'),
-  };
-
   render() {
     return (
       <Container>

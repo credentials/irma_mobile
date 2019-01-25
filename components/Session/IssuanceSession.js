@@ -17,6 +17,7 @@ import PaddedContent from 'lib/PaddedContent';
 import {
   Text,
   View,
+  Container,
 } from 'native-base';
 
 const t = namespacedTranslation('Session.IssuanceSession');
@@ -134,8 +135,8 @@ export default class IssuanceSession extends Component {
     } = this.props;
 
     return (
-      <KeyboardAwareContainer>
-        <Header title={t('.headerTitle')} navigateBack={navigateBack} />
+      <Container>
+        {/* <Header title={t('.headerTitle')} navigateBack={navigateBack} /> */}
         <PaddedContent testID="IssuanceSession" enableAutomaticScroll={session.status !== 'requestPin'}>
           { this.renderStatusCard() }
           <Error session={session} />
@@ -153,7 +154,7 @@ export default class IssuanceSession extends Component {
           nextStep={nextStep}
           session={session}
         />
-      </KeyboardAwareContainer>
+      </Container>
     );
   }
 }

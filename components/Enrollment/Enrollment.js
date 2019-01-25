@@ -35,10 +35,6 @@ export default class Enrollment extends Component {
     status: PropTypes.string.isRequired,
   }
 
-  static navigationOptions = {
-    title: Dimensions.get('window').width > 350 ? t('.title') : t('.shortTitle'),
-  }
-
   state = {
     emailFormCollapsed: true,
     pinFormCollapsed: false,

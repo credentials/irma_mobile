@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NativeModules } from 'react-native';
-import URLParse from 'url-parse';
+import { Navigation } from 'react-native-navigation';
+import { connect } from 'react-redux';
 
-import { resetNavigation } from 'lib/navigation';
+import {
+  Toast,
+} from 'native-base';
+
+import { SESSION_SCREEN } from 'lib/navigation';
+
 import QRScanner, { t } from './QRScanner';
 
 @connect()
 export default class QRScannerContainer extends Component {
 
   static propTypes = {
+    componentId: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
-    navigation: PropTypes.object.isRequired,
   }
 
-  static navigationOptions = {
-    title: t('.title'),
-  };
-
-  newSession = (qr) => {
-    const { dispatch, navigation } = this.props;
+  newSession(qr) {
+    const { dispatch, componentId } = this.props;
 
     const sessionId = global.getAutoIncrementId();
     dispatch({
@@ -30,15 +31,19 @@ export default class QRScannerContainer extends Component {
       exitAfter: false,
     });
 
-    // Place the Session screen directly under the CredentialDashboard, so goBack works properly
-    resetNavigation(
-      navigation.dispatch,
-      'CredentialDashboard',
-      {routeName: 'Session', params: {sessionId}},
-    );
+    Navigation.push(componentId, {
+      component: {
+        name: SESSION_SCREEN,
+        passProps: {
+          sessionId,
+        },
+      },
+    });
   }
 
   newTestSession = (type) => {
+    const URLParse = require('url-parse');
+
     const { hostname } = new URLParse(NativeModules.SourceCode.scriptURL);
     window.fetch(`http://${hostname}:7000?type=${type}`).then( (res) => {
       res.json().then( (qr) => {
@@ -47,11 +52,35 @@ export default class QRScannerContainer extends Component {
     });
   }
 
+  readQRCode = (event) => {
+    // TODO: readQRCode is called many times (at least on Android)
+    // So we need to make it pass only once in the lifetime (?) of the QRScanner component
+
+    let qr;
+    try {
+      qr = JSON.parse(event.nativeEvent.codeStringValue);
+    } catch (err) {
+      // pass
+    }
+
+    if (typeof qr !== 'object' || typeof qr.irmaqr !== 'string') {
+      Toast.show({
+        text: t('.invalidQR'),
+        position: 'bottom',
+        duration: 2000,
+      });
+
+      return;
+    }
+
+    this.newSession(qr);
+  }
+
   render() {
     return (
       <QRScanner
-        newSession={this.newSession}
         newTestSession={this.newTestSession}
+        readQRCode={this.readQRCode}
       />
     );
   }
