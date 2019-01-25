@@ -7,7 +7,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
-// apply from: "../../node_modules/react-native-sentry/sentry.gradle"
+apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 
 def enableSeparateBuildPerCPUArchitecture = true
 def enableProguardInReleaseBuilds = false
