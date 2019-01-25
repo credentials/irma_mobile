@@ -10,6 +10,7 @@ import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
 
 import com.wix.RNCameraKit.RNCameraKitPackage;
+import dk.madslee.imageSequence.RCTImageSequencePackage;
 
 import org.irmacard.cardemu.BuildConfig;
 
@@ -37,7 +38,8 @@ public class MainApplication extends NavigationApplication {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new IrmaBridgePackage(),
-            new RNCameraKitPackage()
+            new RNCameraKitPackage(),
+            new RCTImageSequencePackage()
         );
     }
 
