@@ -28,7 +28,7 @@ export default class CredentialDashboard extends Component {
     credentials: PropTypes.array.isRequired,
     deleteCredential: PropTypes.func.isRequired,
     isEditable: PropTypes.bool.isRequired,
-    isEnrolled: PropTypes.bool.isRequired,
+    shouldEnroll: PropTypes.bool.isRequired,
     makeEditable: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,
     navigateToQRScanner: PropTypes.func.isRequired,
@@ -65,11 +65,11 @@ export default class CredentialDashboard extends Component {
   }
 
   renderNoCredentialsHint() {
-    const { credentials, isEnrolled } = this.props;
+    const { credentials, shouldEnroll } = this.props;
     if (credentials.length !== 0)
       return null;
 
-    const status = isEnrolled ? 'noAttributes' : 'unenrolled';
+    const status = shouldEnroll ? 'unenrolled' : 'noAttributes';
 
     return (
       <View key="title" style={{alignItems: 'center'}}>
@@ -80,7 +80,7 @@ export default class CredentialDashboard extends Component {
           <Text style={{paddingTop: 30, color: '#888888'}}>
             { t(`.${status}.text`) }
           </Text>
-          { isEnrolled ? null : this.renderEnrollButton() }
+          { shouldEnroll ? this.renderEnrollButton() : null }
         </View>
       </View>
     );
@@ -105,15 +105,15 @@ export default class CredentialDashboard extends Component {
   }
 
   renderFooter() {
-    const { isEnrolled, navigateToQRScanner } = this.props;
+    const { shouldEnroll, navigateToQRScanner } = this.props;
 
     return (
       <Footer style={{paddingVertical: 10}}>
         <Button
           style={{alignSelf: 'center'}}
           testID="scanQRButton"
-          primary={isEnrolled}
-          light={!isEnrolled}
+          primary={!shouldEnroll}
+          light={shouldEnroll}
           onPress={navigateToQRScanner}
           iconLeft
         >

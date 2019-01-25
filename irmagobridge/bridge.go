@@ -68,9 +68,9 @@ func recoveredStart(givenBridge IrmaBridge, appDataPath string, assetsPath strin
 	}
 
 	// Grab information from the client and send it to irma_mobile
+	sendEnrollmentStatus()
 	sendConfiguration()
 	sendPreferences()
-	sendEnrollmentStatus()
 	sendCredentials()
 }
 

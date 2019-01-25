@@ -9,7 +9,6 @@ import ButtonImage from 'components/ButtonImage';
 import {
   Button,
   CardItem,
-  Icon,
   Text,
   Card,
   View,
@@ -97,7 +96,7 @@ export default class CredentialCard extends Component {
     const { CredentialType, hasExpired } = credential;
 
     return (
-      <CardItem header style={[styles.headerDiv, styles.borderBottom]}>
+      <CardItem header style={[styles.headerCardItem, styles.borderBottom]}>
         <Body style={{flex: 2}}>
           <Text style={[styles.credentialNameText, hasExpired ? styles.expiredName : null]}>
             { CredentialType.Name[lang] }
@@ -126,8 +125,10 @@ export default class CredentialCard extends Component {
                   style={styles.reorderIcon}
                 />
               </TouchableWithoutFeedback> */}
+            </View> :
+            <View style={{flex: 1, paddingTop: 4}}>
+              <CardItemThumb source={{uri: CredentialType.logoUri}} />
             </View>
-            : <CardItemThumb source={{uri: CredentialType.logoUri}} />
           }
         </Right>
       </CardItem>
@@ -181,7 +182,7 @@ export default class CredentialCard extends Component {
   renderActionButtons() {
     const { credential, showActionButtons } = this.props;
     const { showAdditionalInfo } = this.state;
-    const { IssueUrl } = credential.CredentialType;
+    const { IssueURL } = credential.CredentialType;
 
     if (!showActionButtons)
       return null;
@@ -196,11 +197,11 @@ export default class CredentialCard extends Component {
           <ButtonImage source={infoCircleIcon} />
           <Text>{ showAdditionalInfo ? t('.lessInfo') : t('.moreInfo') }</Text>
         </Button>
-        { !IssueUrl ? null :
+        { !IssueURL ? null :
         <Button
           transparent iconLeft dark
           style={styles.actionButton}
-          onPress={() => Linking.openURL(IssueUrl[lang])} // TODO
+          onPress={() => Linking.openURL(IssueURL[lang])}
         >
           <ButtonImage source={shareIcon} />
           <Text>{ t('.refresh') }</Text>
@@ -257,10 +258,11 @@ const styles = StyleSheet.create({
 
   // Header
   headerCardItem: {
+    paddingTop: 12,
     paddingBottom: 8,
   },
   credentialNameText: {
-    color: nbVariables.colors.darkBlue,
+    color: nbVariables.colors.logoBlue,
     fontFamily: nbVariables.titleFontfamily,
     fontWeight: 'bold',
   },

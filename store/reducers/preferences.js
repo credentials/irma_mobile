@@ -1,5 +1,4 @@
 const initialState = {
-  preferences: {},
   loaded: false,
 };
 

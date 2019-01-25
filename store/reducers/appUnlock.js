@@ -7,7 +7,7 @@ const initialState = {
   hadFailure: false,
   remainingAttempts: 0,
   blockedDuration: 0,
-  status: __DEV__ ? STATUS_AUTHENTICATED : STATUS_UNAUTHENTICATED,
+  status: __DEV__ && true ? STATUS_AUTHENTICATED : STATUS_UNAUTHENTICATED,
 };
 
 export default function appUnlock(state = initialState, action) {

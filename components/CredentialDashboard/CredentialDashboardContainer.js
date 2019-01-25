@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
     },
     enrollment: {
       loaded: enrollmentLoaded,
-      enrolledSchemeManagerIds,
+      unenrolledSchemeManagerIds,
     },
     irmaConfiguration,
     irmaConfiguration: {
@@ -33,13 +33,13 @@ const mapStateToProps = (state) => {
     },
   } = state;
 
-  const isEnrolled = enrolledSchemeManagerIds.length > 0;
+  const shouldEnroll = enrollmentLoaded && unenrolledSchemeManagerIds.length > 0;
   const isLoaded = irmaConfigurationLoaded && preferencesLoaded && enrollmentLoaded && credentialsLoaded;
   const isAuthenticated = unlockStatus === STATUS_AUTHENTICATED;
 
   return {
     credentials: fullCredentials(credentials, irmaConfiguration),
-    isEnrolled,
+    shouldEnroll,
     isLoaded,
     isAuthenticated,
   };
@@ -53,7 +53,7 @@ export default class CredentialDashboardContainer extends React.Component {
     credentials: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
-    isEnrolled: PropTypes.bool.isRequired,
+    shouldEnroll: PropTypes.bool.isRequired,
     isLoaded: PropTypes.bool.isRequired,
   }
 
@@ -71,6 +71,9 @@ export default class CredentialDashboardContainer extends React.Component {
   static options() {
     return {
       topBar: {
+        // Make topbar invisible by default, until we know no appUnlock modal will show up
+        visible: false,
+
         leftButtons: {
           id: 'menuButton',
           icon: menuIconImage,
@@ -93,7 +96,7 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   navigationButtonPressed({ buttonId }) {
-    const { dispatch, isEnrolled } = this.props;
+    const { dispatch, shouldEnroll } = this.props;
 
     switch (buttonId) {
       // Show sidebar
@@ -104,7 +107,7 @@ export default class CredentialDashboardContainer extends React.Component {
 
       // Go to unlock screen, with failsafe for when not enrolled
       case 'lockButton': {
-        if (!isEnrolled) {
+        if (shouldEnroll) {
           setEnrollmentRoot();
           return;
         }
@@ -126,14 +129,33 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { componentId, isEnrolled } = this.props;
-    if (!isEnrolled) {
+    const { componentId, isAuthenticated, shouldEnroll } = this.props;
+
+    if (shouldEnroll) {
       Navigation.mergeOptions(componentId, {
         topBar: {
           rightButtons: [],
         },
       });
     }
+
+    if (isAuthenticated)
+      this.showTopBar();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { isAuthenticated } = this.props;
+    if (prevProps.isAuthenticated === false && isAuthenticated === true)
+      this.showTopBar();
+  }
+
+  showTopBar() {
+    const { componentId } = this.props;
+    Navigation.mergeOptions(componentId, {
+      topBar: {
+        visible: true,
+      },
+    });
   }
 
   navigateToQRScanner = () => {
@@ -179,7 +201,7 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   render() {
-    const { credentials, isEnrolled, isLoaded, isAuthenticated } = this.props;
+    const { credentials, shouldEnroll, isLoaded, isAuthenticated } = this.props;
     const { isEditable } = this.state;
 
     if (!isLoaded || !isAuthenticated)
@@ -189,7 +211,7 @@ export default class CredentialDashboardContainer extends React.Component {
       <CredentialDashboard
         credentials={credentials}
         deleteCredential={this.deleteCredential}
-        isEnrolled={isEnrolled}
+        shouldEnroll={shouldEnroll}
         isEditable={isEditable}
         makeEditable={this.makeEditable}
         navigateToEnrollment={this.navigateToEnrollment}

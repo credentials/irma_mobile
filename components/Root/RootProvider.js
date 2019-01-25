@@ -3,7 +3,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { Root as NBRoot, StyleProvider } from 'native-base';
 import { YellowBox } from 'react-native';
 
-import initStore from 'store/init';
+import { initStore } from 'store/init';
 import getTheme from 'lib/native-base-theme/components';
 
 import RootContainer from './RootContainer';

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NativeModules, PermissionsAndroid, Vibration } from 'react-native';
 import { connect } from 'react-redux';
-import { CameraKitCamera } from 'react-native-camera-kit';
-// import { Sentry } from 'react-native-sentry';
+import { Sentry } from 'react-native-sentry';
 
 import {
   Toast,
@@ -44,7 +43,7 @@ export default class QRScannerContainer extends Component {
       if (result === PermissionsAndroid.RESULTS.GRANTED)
         this.setState({hasCameraPermission: true});
     } catch (e) {
-      // Sentry.captureException(e);
+      Sentry.captureException(e);
     }
   }
 
