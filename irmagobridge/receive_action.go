@@ -31,6 +31,12 @@ func recoveredReceiveAction(actionJSONString string) {
 			err = actionHandler.Enroll(action)
 		}
 
+	case "Authenticate":
+		action := &AuthenticateAction{}
+		if err = json.Unmarshal(actionJSON, action); err == nil {
+			err = actionHandler.Authenticate(action)
+		}
+
 	case "ChangePin":
 		action := &ChangePinAction{}
 		if err = json.Unmarshal(actionJSON, action); err == nil {

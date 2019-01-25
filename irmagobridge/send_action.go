@@ -39,6 +39,27 @@ func sendEnrollmentStatus() {
 	})
 }
 
+func sendAuthenticateFailure(tries, blocked int) {
+	sendAction(&OutgoingAction{
+		"type":              "IrmaClient.AuthenticateFailure",
+		"remainingAttempts": tries,
+		"blockedDuration":   blocked,
+	})
+}
+
+func sendAuthenticateSuccess() {
+	sendAction(&OutgoingAction{
+		"type": "IrmaClient.AuthenticateSuccess",
+	})
+}
+
+func sendAuthenticateError(err error) {
+	sendAction(&OutgoingAction{
+		"type":  "IrmaClient.AuthenticateError",
+		"error": err.Error(),
+	})
+}
+
 func sendAction(action *OutgoingAction) {
 	jsonBytes, err := json.Marshal(action)
 	if err != nil {

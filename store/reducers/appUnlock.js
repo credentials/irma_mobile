@@ -31,6 +31,16 @@ export default function appUnlock(state = initialState, action) {
         status: 'unauthenticated',
         hadFailure: true,
         remainingAttempts: action.remainingAttempts,
+        blockedDuration: action.blockedDuration,
+      };
+    }
+
+    case 'IrmaClient.AuthenticateError': {
+      return {
+        ...state,
+        status: 'unauthenticated',
+        hadFailure: true,
+        error: action.error,
       };
     }
 

@@ -27,6 +27,7 @@ export default class AppUnlock extends Component {
     hadFailure: PropTypes.bool.isRequired,
     remainingAttempts: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
+    blockedDuration: PropTypes.number.isRequired,
   }
 
   state = {
@@ -78,10 +79,11 @@ export default class AppUnlock extends Component {
   }
 
   renderError() {
-    const { hadFailure, remainingAttempts } = this.props;
+    const { hadFailure, remainingAttempts, blockedDuration } = this.props;
     if (!hadFailure)
       return null;
 
+    // TODO: handle blockedDuration here
     return (
       <Text style={styles.errorText}>
         { t('Session.PinEntry.incorrectMessage', {attempts: t('Session.PinEntry.attempts', {count: remainingAttempts})}) }

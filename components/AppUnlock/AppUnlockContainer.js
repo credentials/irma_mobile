@@ -31,6 +31,7 @@ export default class AppUnlockContainer extends Component {
     hadFailure: PropTypes.bool.isRequired,
     status: PropTypes.string.isRequired,
     remainingAttempts: PropTypes.number.isRequired,
+    blockedDuration: PropTypes.number.isRequired,
   }
 
   componentWillUnmount() {
@@ -56,7 +57,7 @@ export default class AppUnlockContainer extends Component {
   }
 
   render() {
-    const { status, hadFailure, remainingAttempts } = this.props;
+    const { status, hadFailure, remainingAttempts, blockedDuration } = this.props;
 
     return (
       <AppUnlock
@@ -64,6 +65,7 @@ export default class AppUnlockContainer extends Component {
         dismissModal={this.dismissModal}
         hadFailure={hadFailure}
         remainingAttempts={remainingAttempts}
+        blockedDuration={blockedDuration}
         status={status}
        />
     );

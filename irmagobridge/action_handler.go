@@ -30,6 +30,27 @@ func (ah *ActionHandler) Enroll(action *EnrollAction) (err error) {
 	return nil
 }
 
+type AuthenticateAction struct {
+	Pin string
+}
+
+func (ah *ActionHandler) Authenticate(action *AuthenticateAction) (err error) {
+	enrolled := client.EnrolledSchemeManagers()
+	if len(enrolled) == 0 {
+		sendAuthenticateError(errors.New("Can't verify PIN, not enrolled"))
+		return
+	}
+	success, tries, blocked, err := client.KeyshareVerifyPin(action.Pin, enrolled[0])
+	if err != nil {
+		sendAuthenticateError(err)
+	} else if success {
+		sendAuthenticateSuccess()
+	} else {
+		sendAuthenticateFailure(tries, blocked)
+	}
+	return nil
+}
+
 // Changing keyshare pin
 type ChangePinAction struct {
 	OldPin string
