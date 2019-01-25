@@ -35,7 +35,7 @@ export default class RootNavigatorContainer extends Component {
 
     // On mount, which is on application start, see if we there are any unenrolled
     // scheme managers for which we need to start a keyshare enrollment
-    ensureEnrollment(this.navigator);
+    //ensureEnrollment(this.navigator);
 
     // Also on mount, handle any initial IRMA URL with which the app was started
     Linking.getInitialURL().then( irmaUrl => {

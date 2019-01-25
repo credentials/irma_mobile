@@ -11,7 +11,7 @@ import {
   View,
 } from 'native-base';
 
-import { CardItemImage } from 'components/CredentialCard/helpers';
+import { CardItemThumb } from 'components/CredentialCard/helpers';
 
 const lang = getLanguage();
 
@@ -28,7 +28,7 @@ export default class MissingDisclosures extends Component {
     return (
       <CardItem key={index}>
         <Left>
-          <CardItemImage source={{uri: attribute.CredentialType.logoUri}} />
+          <CardItemThumb source={{uri: attribute.CredentialType.logoUri}} />
           <Body>
             <Text>{ attribute.AttributeType.Name[lang] }{ requiredValue }</Text>
             <Text note>{ attribute.CredentialType.Name[lang] }</Text>

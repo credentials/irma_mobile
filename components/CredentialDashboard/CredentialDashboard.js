@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableWithoutFeedback } from 'react-native';
 
 import { namespacedTranslation, lang } from 'lib/i18n';
 import PaddedContent from 'lib/PaddedContent';
 
 import CredentialCard from 'components/CredentialCard';
-import { CredentialHeader } from 'components/CredentialCard/helpers';
 
 import Footer from './children/Footer';
 
@@ -17,12 +15,6 @@ import {
   Icon,
   Text,
   View,
-  Card,
-  Left,
-  Thumbnail,
-  CardItem,
-  Body,
-  Content,
 } from 'native-base';
 
 export const t = namespacedTranslation('CredentialDashboard');
@@ -46,10 +38,7 @@ export default class CredentialDashboard extends Component {
       <CredentialCard
         key={credential.Hash}
         credential={credential}
-        onLongPress={deleteCredential}
-      >
-        <Card><CredentialHeader credential={credential} /></Card>
-      </CredentialCard>
+      />
     );
   }
 

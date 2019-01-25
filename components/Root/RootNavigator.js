@@ -9,6 +9,7 @@ import PreferencesDashboard from 'components/PreferencesDashboard';
 import QRScanner from 'components/QRScanner';
 import Session from 'components/Session';
 import Sidebar from './children/Sidebar';
+import AppUnlock from 'components/AppUnlock';
 
 const CredentialDashboardNavigator = StackNavigator({
   About: About,
@@ -19,6 +20,7 @@ const CredentialDashboardNavigator = StackNavigator({
   PreferencesDashboard: PreferencesDashboard,
   QRScanner: QRScanner,
   Session: Session,
+  AppUnlock: AppUnlock,
 }, {
   initialRouteName: 'CredentialDashboard',
 });

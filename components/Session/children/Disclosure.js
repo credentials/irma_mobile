@@ -13,7 +13,7 @@ import {
 } from 'native-base';
 
 import { getLanguage } from 'lib/i18n';
-import { CardItemImage } from 'components/CredentialCard/helpers';
+import { CardItemThumb } from 'components/CredentialCard/helpers';
 
 const lang = getLanguage();
 
@@ -56,7 +56,7 @@ export default class Disclosure extends Component {
         noIndent={true}
       >
         <Left>
-          <CardItemImage source={{uri: attribute.CredentialType.logoUri}} />
+          <CardItemThumb source={{uri: attribute.CredentialType.logoUri}} />
           <Body>
             <Text style={{fontWeight: 'normal'}}>
               { attribute.Value[lang] }
