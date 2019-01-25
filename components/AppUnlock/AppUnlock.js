@@ -27,7 +27,7 @@ export default class AppUnlock extends Component {
     hadFailure: PropTypes.bool.isRequired,
     remainingAttempts: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
-    blockedDuration: PropTypes.number.isRequired,
+    blockedDuration: PropTypes.number,
   }
 
   state = {

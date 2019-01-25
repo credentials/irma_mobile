@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Navigation } from 'lib/navigation';
 
-import AppUnlock, { t } from './AppUnlock';
+import AppUnlock from './AppUnlock';
 
 const mapStateToProps = (state) => {
   const {
@@ -31,7 +31,7 @@ export default class AppUnlockContainer extends Component {
     hadFailure: PropTypes.bool.isRequired,
     status: PropTypes.string.isRequired,
     remainingAttempts: PropTypes.number.isRequired,
-    blockedDuration: PropTypes.number.isRequired,
+    blockedDuration: PropTypes.number,
   }
 
   componentWillUnmount() {
