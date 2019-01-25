@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image, StyleSheet, Animated, Dimensions, TouchableWithoutFeedback } from 'react-native';
+import { Image, StyleSheet, Animated, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import ImageSequence from 'lib/ImageSequence';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 
@@ -19,6 +19,7 @@ import { STATUS_AUTHENTICATED, STATUS_AUTHENTICATING } from 'store/reducers/appU
 import { namespacedTranslation } from 'lib/i18n';
 
 export const t = namespacedTranslation('AppUnlock');
+const displayFactor = Dimensions.get('window').width / 450;
 
 export default class AppUnlock extends Component {
 
@@ -51,9 +52,11 @@ export default class AppUnlock extends Component {
     const { dismissModal } = this.props;
     const { animatedOpacity, animatedBackgroundColor } = this.state;
 
+    Keyboard.dismiss();
+
     setTimeout(() => {
       dismissModal();
-    }, 2400);
+    }, 2200);
 
     Animated.parallel([
       Animated.timing(animatedOpacity, {
@@ -151,17 +154,11 @@ export default class AppUnlock extends Component {
         </View>
         <Container transparent>
           <Animated.View style={{flex: 1, flexDirection: 'column', opacity: animatedOpacity}}>
-            <View style={{alignItems: 'center'}}>
-              <TouchableWithoutFeedback>
-                <Image source={irmaLogoImage} style={styles.imageStyle} />
-              </TouchableWithoutFeedback>
-            </View>
             <PinEntry
-              dismissKeyboard={status === STATUS_AUTHENTICATED}
-              key={remainingAttempts}
-              maxLength={7}
+              clearKey={remainingAttempts}
               minLength={5}
               onPinSubmit={authenticate}
+              recommendedLength={7}
               style={styles.pinEntryStyle}
             />
             { this.renderSpinner() }
@@ -177,20 +174,13 @@ export default class AppUnlock extends Component {
 const styles = StyleSheet.create({
   vaultUnderlayView: {
     position: 'absolute',
-    top: nbVariables.platform === 'ios' ? -120 : -140,
-  },
-
-  imageStyle: {
-    marginTop: 20,
-    height: 80,
-    position: 'relative',
-    resizeMode: 'contain',
+    top: 0,
   },
   spinnerStyle: {
     marginTop: nbVariables.platform === 'ios' ? -5 : 0,
   },
   pinEntryStyle: {
-    marginTop: nbVariables.platform === 'ios' ? 175 : 155,
+    marginTop: nbVariables.platform === 'ios' ? 175 : 190 * displayFactor,
   },
   errorText: {
     marginTop: 20,

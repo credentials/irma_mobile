@@ -1,41 +1,51 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import { TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard, Platform, Dimensions, Image } from 'react-native';
 import _ from 'lodash';
-
-import { namespacedTranslation } from 'lib/i18n';
 
 import {
   View,
 } from 'native-base';
 
+import { namespacedTranslation } from 'lib/i18n';
+import extraIconImage from 'streamline/icons/regular/PNG/01-InterfaceEssential/43-Remove-Add/24w/add-circle.png';
+
 export const t = namespacedTranslation('AppUnlock.PinEntry');
+const displayFactor = Dimensions.get('window').width / 450;
+const digitSize = displayFactor * 40;
 
 export default class PinEntry extends Component {
 
   static propTypes = {
-    hasAutofocus: PropTypes.bool,
+    clearKey: PropTypes.any,
     dismissKeyboard: PropTypes.bool,
-    maxLength: PropTypes.number.isRequired,
+    hasAutofocus: PropTypes.bool,
     minLength: PropTypes.number.isRequired,
     onPinChange: PropTypes.func,
     onPinSubmit: PropTypes.func.isRequired,
     pin: PropTypes.string,
+    recommendedLength: PropTypes.number.isRequired,
     style: PropTypes.any,
   }
 
   static defaultProps = {
-    hasAutofocus: true,
+    clearKey: null,
     dismissKeyboard: false,
+    hasAutofocus: true,
     onPinChange: undefined,
     pin: undefined,
     style: null,
   }
 
   componentDidUpdate(prevProps) {
-    const { dismissKeyboard } = this.props;
+    const { dismissKeyboard, clearKey } = this.props;
     if (!prevProps.dismissKeyboard && dismissKeyboard)
       Keyboard.dismiss();
+
+    if (prevProps.clearKey !== clearKey) {
+      this.inputRef.clear();
+      this.changeText('');
+    }
   }
 
   state = {
@@ -85,7 +95,7 @@ export default class PinEntry extends Component {
   }
 
   renderDigitInput = (index) => {
-    const { minLength } = this.props;
+    const { minLength, recommendedLength } = this.props;
     const { pin } = this.state;
 
     const style = [
@@ -95,16 +105,22 @@ export default class PinEntry extends Component {
       index >= minLength ? styles.optionalDigitStyle : null,
     ];
 
+    const showExtraDigits = index === recommendedLength - 1 && pin.length > recommendedLength;
+
     return (
       <View
         key={index}
         style={style}
-      />
+      >
+        { !showExtraDigits ? null : (
+          <Image style={styles.extraDigitsImage} source={extraIconImage} />
+        )}
+      </View>
     );
   }
 
   render() {
-    const { hasAutofocus, minLength, maxLength, style } = this.props;
+    const { hasAutofocus, minLength, recommendedLength, style } = this.props;
     const { pin } = this.state;
 
     return (
@@ -114,9 +130,10 @@ export default class PinEntry extends Component {
             autoFocus={hasAutofocus}
             blurOnSubmit={false}
             keyboardType="number-pad"
-            maxLength={maxLength}
+            maxLength={16}
             onChangeText={this.changeText}
             onSubmitEditing={this.submit}
+            recommendedLength={recommendedLength}
             ref={ref => (this.inputRef = ref)}
             returnKeyType={pin.length >= minLength ? 'done' : null}
             secureTextEntry={true}
@@ -125,7 +142,7 @@ export default class PinEntry extends Component {
           />
 
           <View style={styles.inputsRowStyle}>
-            { _.times(maxLength).map(this.renderDigitInput) }
+            { _.times(recommendedLength).map(this.renderDigitInput) }
           </View>
 
         </View>
@@ -151,8 +168,13 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginHorizontal: 4,
     padding: 0,
-    width: 35,
-    height: 35,
+    width: 40 * displayFactor,
+    height: 40 * displayFactor,
+  },
+  extraDigitsImage: {
+    width: digitSize - 4,
+    height: digitSize - 4,
+    tintColor: 'white',
   },
   filledDigitStyle: {
     backgroundColor: '#00B1E6',

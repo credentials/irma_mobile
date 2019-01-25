@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Navigation } from 'lib/navigation';
+import irmaLogoImage from 'assets/irmaLogoSmall.png';
 
 import AppUnlock from './AppUnlock';
 
@@ -41,6 +42,17 @@ export default class AppUnlockContainer extends Component {
 
   static defaultProps = {
     error: null,
+  }
+
+  static options = {
+    topBar: {
+      leftButtons: {
+        icon: irmaLogoImage,
+      },
+      title: {
+        text: 'Enter your IRMA PIN',
+      },
+    },
   }
 
   componentWillUnmount() {

@@ -69,6 +69,7 @@ export default function appUnlock(state = initialState, action) {
         ...state,
         ...statusValues(STATUS_AUTHENTICATING),
         hadFailure: false,
+        error: null,
       };
     }
 
@@ -94,6 +95,14 @@ export default function appUnlock(state = initialState, action) {
         ...state,
         ...statusValues(STATUS_UNAUTHENTICATED),
         error: action.error,
+      };
+    }
+
+    // When successfully enrolled, also set that we're authenticated
+    case 'IrmaClient.EnrollmentSuccess': {
+      return {
+        ...state,
+        ...statusValues(STATUS_AUTHENTICATED),
       };
     }
 

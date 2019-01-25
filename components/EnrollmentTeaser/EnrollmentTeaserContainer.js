@@ -37,19 +37,18 @@ export default class EnrollmentTeaserContainer extends Component {
     },
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    Navigation.events().bindComponent(this);
+  }
+
+  componentDidAppear({ componentId: appearedComponentId }) {
     // The user may swipe back (iOS) or tap the hardware back button after finishing Enrollment
     // react-native-navigation doesn't support pulling out this component from under the stack
     // For now: on appearance of EnrollmentTeaser, we check if we're already enrolled, then setRoot
     // TODO: Refactor when react-native-navigation natively supports this
-    Navigation.events().registerComponentDidAppearListener(({ componentId: appearedComponentId }) => {
-      const { componentId, isEnrolled } = this.props;
-      if (appearedComponentId !== componentId)
-        return;
-
-      if (isEnrolled)
-        this.navigateToCredentialDashboard();
-    });
+    const { componentId, isEnrolled } = this.props;
+    if (appearedComponentId === componentId && isEnrolled)
+      this.navigateToCredentialDashboard();
   }
 
   navigateToEnrollment = () => {
