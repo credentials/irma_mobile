@@ -103,7 +103,14 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 35
         versionName "5.3.2"
+        missingDimensionStrategy "RNN.reactNativeVersion", rootProject.ext.reactNavigationRNVersion
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     signingConfigs {
         release {
             if (project.hasProperty('IRMA_RELEASE_STORE_FILE')) {
@@ -114,6 +121,7 @@ android {
             }
         }
     }
+
     splits {
         abi {
             reset()
@@ -122,6 +130,7 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
+
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
@@ -129,11 +138,12 @@ android {
             signingConfig signingConfigs.release
         }
     }
-    // applicationVariants are e.g. debug, release
+
+    // For each separate APK per architecture, set a unique version code as described here:
+    // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            // For each separate APK per architecture, set a unique version code as described here:
-            // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
+
             def versionCodes = ["armeabi-v7a":1, "x86":2]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
@@ -148,7 +158,9 @@ dependencies {
     implementation project(':irmagobridge')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
+    implementation "com.facebook.react:react-native:+"
+    implementation project(':react-native-navigation')
 }
 
 // Run this once to be able to run the application with BUCK

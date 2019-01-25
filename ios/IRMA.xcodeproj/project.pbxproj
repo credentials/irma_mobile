@@ -50,6 +50,7 @@
 		9D958D6E10004F239657605D /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D772FDAF29FD4779981F3520 /* rubicon-icon-font.ttf */; };
 		AA17781B395C48298397B2D1 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66166A314AEC4EE7AB00AAE1 /* EvilIcons.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		D06D383821D69D11006B4D4F /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D06D383521D69CB3006B4D4F /* libReactNativeNavigation.a */; };
 		D078849C219C1C3A009DFA7E /* irma_configuration in Resources */ = {isa = PBXBuildFile; fileRef = D078849B219C1C3A009DFA7E /* irma_configuration */; };
 		D086EA4B219A380300ED4957 /* Irmagobridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D086EA25219A380300ED4957 /* Irmagobridge.framework */; };
 		D0AD0AC3219A3A3100C6AF84 /* IrmaBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = D0AD0AC2219A3A3100C6AF84 /* IrmaBridge.m */; };
@@ -331,6 +332,20 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		D06D383421D69CB3006B4D4F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D06D380A21D69CB3006B4D4F /* ReactNativeNavigation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D8AFADBD1BEE6F3F00A4592D;
+			remoteInfo = ReactNativeNavigation;
+		};
+		D06D383621D69CB3006B4D4F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D06D380A21D69CB3006B4D4F /* ReactNativeNavigation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7B49FEBB1E95090800DEB3EA;
+			remoteInfo = ReactNativeNavigationTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -372,6 +387,7 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B599EDB81C8C4621B200781F /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/native-base/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		BFEE08729B69407F93ACCF7B /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		D06D380A21D69CB3006B4D4F /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/lib/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		D078849B219C1C3A009DFA7E /* irma_configuration */ = {isa = PBXFileReference; lastKnownFileType = folder; name = irma_configuration; path = ../irma_configuration; sourceTree = "<group>"; };
 		D086EA25219A380300ED4957 /* Irmagobridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Irmagobridge.framework; sourceTree = "<group>"; };
 		D0AD0A9C219A3A3100C6AF84 /* IrmaBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IrmaBridge.h; path = IRMA/IrmaBridge.h; sourceTree = "<group>"; };
@@ -393,6 +409,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D06D383821D69D11006B4D4F /* libReactNativeNavigation.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -583,6 +600,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D06D380A21D69CB3006B4D4F /* ReactNativeNavigation.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -661,6 +679,15 @@
 			children = (
 				ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */,
 				2D16E6721FA4F8DC00B85C8A /* libRCTBlob-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D06D380B21D69CB3006B4D4F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D06D383521D69CB3006B4D4F /* libReactNativeNavigation.a */,
+				D06D383721D69CB3006B4D4F /* ReactNativeNavigationTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -827,6 +854,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = D06D380B21D69CB3006B4D4F /* Products */;
+					ProjectRef = D06D380A21D69CB3006B4D4F /* ReactNativeNavigation.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1097,6 +1128,20 @@
 			fileType = archive.ar;
 			path = libRCTBlob.a;
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D06D383521D69CB3006B4D4F /* libReactNativeNavigation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeNavigation.a;
+			remoteRef = D06D383421D69CB3006B4D4F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D06D383721D69CB3006B4D4F /* ReactNativeNavigationTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ReactNativeNavigationTests.xctest;
+			remoteRef = D06D383621D69CB3006B4D4F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
