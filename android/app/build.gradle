@@ -161,6 +161,7 @@ dependencies {
     implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"
     implementation project(':react-native-navigation')
+    implementation project(":rncamerakit")
 }
 
 // Run this once to be able to run the application with BUCK
