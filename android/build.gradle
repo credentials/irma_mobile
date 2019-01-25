@@ -35,9 +35,17 @@ task wrapper(type: Wrapper) {
     distributionUrl = distributionUrl.replace("bin", "all")
 }
 
-// Ignore React Native Navigation flavors other than the target flavor
 subprojects { subproject ->
-    afterEvaluate {
+    afterEvaluate {project ->
+        // Override some compilation values for Android dependencies
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion rootProject.ext.compileSdkVersion
+                buildToolsVersion rootProject.ext.buildToolsVersion
+            }
+        }
+
+        // Ignore React Native Navigation flavors other than the target flavor
         if (subproject.name == 'react-native-navigation') {
             android {
                 variantFilter { variant ->

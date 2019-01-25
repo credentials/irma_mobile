@@ -59,11 +59,11 @@ export default class Sidebar extends Component {
       text: t('.preferences'),
       navigateTo: PREFERENCES_DASHBOARD_SCREEN,
     },
-    {
-      icon: {ios: 'ios-paper', android: 'md-paper'},
-      text: t('.log'),
-      navigateTo: LOG_DASHBOARD_SCREEN,
-    },
+    // {
+    //   icon: {ios: 'ios-paper', android: 'md-paper'},
+    //   text: t('.log'),
+    //   navigateTo: LOG_DASHBOARD_SCREEN,
+    // },
     {
       icon: {name: 'md-add'},
       text: t('.moreAttributes'),

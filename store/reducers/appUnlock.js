@@ -1,14 +1,19 @@
 const initialState = {
-  status: 'locked',
+  status: 'unauthenticated',
   hadFailure: false,
+  remainingAttempts: 4,
 };
 
 export default function appUnlock(state = initialState, action) {
   switch (action.type) {
+    case 'AppUnlock.Reset': {
+      return initialState;
+    }
+
     case 'IrmaBridge.Authenticate': {
       return {
         ...state,
-        status: 'unlocking',
+        status: 'authenticating',
         hadFailure: false,
       };
     }
@@ -16,15 +21,16 @@ export default function appUnlock(state = initialState, action) {
     case 'IrmaClient.AuthenticateSuccess': {
       return {
         ...state,
-        status: 'unlocked',
+        status: 'authenticated',
       };
     }
 
     case 'IrmaClient.AuthenticateFailure': {
       return {
         ...state,
-        status: 'locked',
+        status: 'unauthenticated',
         hadFailure: true,
+        remainingAttempts: action.remainingAttempts,
       };
     }
 

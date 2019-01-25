@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactTimeout from 'react-timeout';
 
-import Enrollment from './Enrollment';
+import Enrollment, { t } from './Enrollment';
 import { setCredentialDashboardRoot } from 'lib/navigation';
 import { getLanguage } from 'lib/i18n';
 
@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
     enrollment: {
       error,
       status,
-    }
+    },
   } = state;
 
   return {
@@ -36,9 +36,13 @@ export default class EnrollmentContainer extends Component {
     error: null,
   }
 
-  // static navigationOptions = {
-  //   title: Dimensions.get('window').width > 350 ? t('.title') : t('.shortTitle'),
-  // }
+  static options = {
+    topBar: {
+      title: {
+        text: t('.shortTitle'),
+      },
+    },
+  }
 
   state = {
     email: null,
@@ -66,7 +70,7 @@ export default class EnrollmentContainer extends Component {
     this.setState({pin});
   }
 
-  enroll({ pin, email }) {
+  enroll = ({ pin, email }) => {
     const { dispatch } = this.props;
     const language = getLanguage();
 

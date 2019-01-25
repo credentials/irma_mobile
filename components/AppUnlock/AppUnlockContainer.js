@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { resetNavigation } from 'lib/navigation';
+import { Navigation } from 'lib/navigation';
 
-import PreferencesButton from './children/PreferencesButton';
 import AppUnlock, { t } from './AppUnlock';
 
 const mapStateToProps = (state) => {
@@ -12,12 +11,14 @@ const mapStateToProps = (state) => {
     appUnlock: {
       status,
       hadFailure,
+      remainingAttempts,
     },
   } = state;
 
   return {
     status,
     hadFailure,
+    remainingAttempts,
   };
 };
 
@@ -25,19 +26,24 @@ const mapStateToProps = (state) => {
 export default class AppUnlockContainer extends Component {
 
   static propTypes = {
+    componentId: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     hadFailure: PropTypes.bool.isRequired,
     status: PropTypes.string.isRequired,
-    navigation: PropTypes.object.isRequired,
+    remainingAttempts: PropTypes.number.isRequired,
   }
 
-  componentDidUpdate(prevProps) {
-    const { status, navigation } = this.props;
-    if (prevProps.status === 'unlocking' && status === 'unlocked')
-      resetNavigation(navigation.dispatch, 'CredentialDashboard');
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({type: 'AppUnlock.Reset'});
   }
 
-  pinSubmit = pin => {
+  dismissModal = () => {
+    const { componentId } = this.props;
+    Navigation.dismissModal(componentId);
+  }
+
+  authenticate = pin => {
     const { dispatch } = this.props;
 
     if (pin.length < 5)
@@ -50,12 +56,14 @@ export default class AppUnlockContainer extends Component {
   }
 
   render() {
-    const { status, hadFailure } = this.props;
+    const { status, hadFailure, remainingAttempts } = this.props;
 
     return (
       <AppUnlock
+        authenticate={this.authenticate}
+        dismissModal={this.dismissModal}
         hadFailure={hadFailure}
-        pinSubmit={this.pinSubmit}
+        remainingAttempts={remainingAttempts}
         status={status}
        />
     );

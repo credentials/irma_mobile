@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 
@@ -7,10 +8,11 @@ import { setEnrollmentRoot, QR_SCANNER_SCREEN } from 'lib/navigation';
 
 import CredentialDashboard, { t } from './CredentialDashboard';
 import fullCredentials from 'store/mappers/fullCredentials';
-import Header from './children/Header';
 
-import menuIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/03-Menu/24w/navigation-menu.png';
-import lockIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/11-Lock-Unlock/24w/lock-1.png';
+import menuIconImage from 'streamline/icons/regular/PNG/01-InterfaceEssential/03-Menu/24w/navigation-menu.png';
+import lockIconImage from 'streamline/icons/regular/PNG/01-InterfaceEssential/11-Lock-Unlock/24w/lock-1.png';
+import { setAppUnlockModal } from '../../lib/navigation';
+import nbVariables from 'lib/native-base-theme/variables/platform';
 
 const mapStateToProps = (state) => {
   const {
@@ -55,21 +57,16 @@ export default class CredentialDashboardContainer extends React.Component {
   static options() {
     return {
       topBar: {
-        color: 'black',
         leftButtons: {
           id: 'menuButton',
-          icon: menuIcon,
-          color: 'black',
-          width: 24,
-          height: 24,
+          icon: menuIconImage,
         },
         rightButtons: {
           id: 'lockButton',
-          icon: lockIcon,
-          color: 'black',
+          icon: lockIconImage,
         },
         title: {
-          text: t('.yourAttributes'),
+          text: t('.title'),
         },
       },
     };
@@ -96,6 +93,10 @@ export default class CredentialDashboardContainer extends React.Component {
         },
       });
     }
+
+    if (buttonId === 'lockButton') {
+      setAppUnlockModal();
+    }
   }
 
   navigateToQRScanner = () => {
@@ -105,6 +106,23 @@ export default class CredentialDashboardContainer extends React.Component {
         name: QR_SCANNER_SCREEN,
       },
     });
+
+    // Navigation.showModal({
+    //   stack: {
+    //     children: [{
+    //       component: {
+    //         name: QR_SCANNER_SCREEN,
+    //         options: {
+    //           topBar: {
+    //             title: {
+    //               text: 'Scan QR',
+    //             },
+    //           },
+    //         },
+    //       },
+    //     }],
+    //   },
+    // });
   }
 
   navigateToEnrollment = () => {

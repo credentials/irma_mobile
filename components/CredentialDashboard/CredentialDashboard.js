@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Alert } from 'react-native';
 
-import { namespacedTranslation } from 'lib/i18n';
+import { namespacedTranslation, lang } from 'lib/i18n';
 import PaddedContent from 'lib/PaddedContent';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 
@@ -37,6 +38,21 @@ export default class CredentialDashboard extends Component {
 
   state = {
     // credentials: this.props.credentials,
+  }
+
+  showDeleteCredentialDialog(credential) {
+    const { deleteCredential } = this.props;
+    const credentialName = credential.CredentialType.Name[lang];
+
+    Alert.alert(
+      t('.deleteCredential.title', {credentialName}),
+      t('.deleteCredential.message', {credentialName}),
+      [
+        {text: t('.deleteCredential.cancel'), style: 'cancel'},
+        {text: t('.deleteCredential.ok'), onPress: () => deleteCredential(credential)},
+      ],
+      { cancelable: true }
+    );
   }
 
   renderEnrollButton() {
@@ -88,7 +104,6 @@ export default class CredentialDashboard extends Component {
 
     const {
       credentials,
-      deleteCredential,
       makeEditable,
       isEditable,
     } = this.props;
@@ -98,7 +113,7 @@ export default class CredentialDashboard extends Component {
         key={credential.Hash}
         credential={credential}
         isEditable={isEditable}
-        onDeletePress={() => deleteCredential(credential)}
+        onDeletePress={() => this.showDeleteCredentialDialog(credential)}
         onLongPress={makeEditable}
       />
     );
@@ -123,7 +138,7 @@ export default class CredentialDashboard extends Component {
     const { enrolled, navigateToQRScanner } = this.props;
 
     return (
-      <Footer>
+      <Footer style={{paddingVertical: 10}}>
         <Button
           style={{alignSelf: 'center'}}
           testID="scanQRButton"
@@ -132,7 +147,7 @@ export default class CredentialDashboard extends Component {
           onPress={navigateToQRScanner}
           iconLeft
         >
-          <Image style={{height: 24, width: 24}} source={qrScannerIcon} />
+          <Image style={{height: 24, width: 24, marginLeft: nbVariables.buttonIconPadding, tintColor: 'white'}} source={qrScannerIcon} />
           {/* <Icon ios="ios-qr-scanner" android="md-qr-scanner" /> */}
           <Text>{ t('.scanQRCode') }</Text>
         </Button>

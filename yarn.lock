@@ -6179,8 +6179,9 @@ react-lifecycles-compat@^3.0.0:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-"react-native-camera-kit@file:../../../sources/react-native-camera-kit":
-  version "6.3.0"
+"react-native-camera-kit@git://github.com/confiks/react-native-camera-kit.git#80b4f13":
+  version "7.3.3"
+  resolved "git://github.com/confiks/react-native-camera-kit.git#80b4f137ba2f8c2d32988bf95be74e4dc2f26f13"
   dependencies:
     lodash "^4.14.2"
 

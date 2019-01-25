@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TextInput, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import _ from 'lodash';
 
 import { namespacedTranslation } from 'lib/i18n';
@@ -15,17 +15,27 @@ export default class PinEntry extends Component {
 
   static propTypes = {
     hasAutofocus: PropTypes.bool,
+    dismissKeyboard: PropTypes.bool,
     maxLength: PropTypes.number.isRequired,
     minLength: PropTypes.number.isRequired,
     onPinChange: PropTypes.func,
     onPinSubmit: PropTypes.func.isRequired,
     pin: PropTypes.string,
+    style: PropTypes.any,
   }
 
   static defaultProps = {
     hasAutofocus: true,
+    dismissKeyboard: false,
     onPinChange: undefined,
     pin: undefined,
+    style: null,
+  }
+
+  componentDidUpdate(prevProps) {
+    const { dismissKeyboard } = this.props;
+    if (!prevProps.dismissKeyboard && dismissKeyboard)
+      Keyboard.dismiss();
   }
 
   state = {
@@ -84,16 +94,11 @@ export default class PinEntry extends Component {
   }
 
   render() {
-    const { hasAutofocus, minLength, maxLength } = this.props;
+    const { hasAutofocus, minLength, maxLength, style } = this.props;
     const { pin } = this.state;
 
     return (
-      <View>
-        <TouchableWithoutFeedback onPress={this.digitInputsPress}>
-          <View style={styles.inputsRowStyle}>
-            { _.times(maxLength).map(this.renderDigitInput) }
-          </View>
-        </TouchableWithoutFeedback>
+      <View style={style}>
         <TextInput
           ref={ref => (this.inputRef = ref)}
           autoFocus={hasAutofocus}
@@ -107,6 +112,11 @@ export default class PinEntry extends Component {
           style={styles.inputStyle}
           value={pin}
         />
+        <TouchableWithoutFeedback onPress={this.digitInputsPress}>
+          <View style={styles.inputsRowStyle}>
+            { _.times(maxLength).map(this.renderDigitInput) }
+          </View>
+        </TouchableWithoutFeedback>
       </View>
     );
   }
@@ -116,7 +126,6 @@ const styles = StyleSheet.create({
   inputsRowStyle: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: 10,
   },
   inputStyle: {
     backgroundColor: 'white',
@@ -141,6 +150,6 @@ const styles = StyleSheet.create({
     borderColor: '#00B1E6',
   },
   optionalDigitStyle: {
-    borderStyle: 'dashed', // TODO: Seems to be broken on Android: facebook/react-native#17251
+    borderStyle: 'dashed',
   },
 });

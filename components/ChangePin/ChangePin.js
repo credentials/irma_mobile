@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import {
   Container,

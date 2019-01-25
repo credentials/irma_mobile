@@ -1,5 +1,5 @@
 import { YellowBox } from 'react-native';
-import { Navigation, initNavigation, setCredentialDashboardRoot } from 'lib/navigation';
+import { Navigation, initNavigation, setCredentialDashboardRoot, setAppUnlockRoot } from 'lib/navigation';
 
 // Ignore specific deprecation warnings or harmless issues
 if (__DEV__) {
@@ -19,5 +19,4 @@ if (__DEV__) {
 
 Navigation.events().registerAppLaunchedListener( () => {
   initNavigation();
-  setCredentialDashboardRoot();
 });

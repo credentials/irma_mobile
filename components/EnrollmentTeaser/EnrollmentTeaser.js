@@ -29,7 +29,7 @@ export default class EnrollmentTeaser extends Component {
     navigateToCredentialDashboard: PropTypes.func.isRequired,
   }
 
-  renderFooter(index, total, swiperLib) {
+  renderFooter = (index, total, swiperLib) => {
     const { navigateToEnrollment, navigateToCredentialDashboard } = this.props;
 
     const footerStyle = {
@@ -108,7 +108,7 @@ export default class EnrollmentTeaser extends Component {
         testID="EnrollmentTeaser"
         loop={false}
         paginationStyle={{bottom: 40}}
-        renderPagination={::this.renderFooter}
+        renderPagination={this.renderFooter}
         showsButtons={true}
       >
         <ImageBackground

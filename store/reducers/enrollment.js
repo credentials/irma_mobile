@@ -1,3 +1,4 @@
+import { AsyncStorage } from 'react-native';
 import _ from 'lodash';
 
 const initialState = {
@@ -28,6 +29,8 @@ export default function enrollment(state = initialState, action) {
     }
 
     case 'IrmaBridge.Enroll': {
+      AsyncStorage.setItem('pin', action.pin);
+
       return {
         ...state,
         status: 'enrolling',
