@@ -9,15 +9,15 @@ import nbVariables from 'lib/native-base-theme/variables/platform';
 import CredentialCard from 'components/CredentialCard';
 // import SortableFlatList from 'components/SortableFlatList';
 import Container from 'components/Container';
-import Image from 'components/Image';
+import ButtonImage from 'components/ButtonImage';
 
+import registerIcon from 'streamline/icons/regular/PNG/17-Users/13-Geomertic-Close-Up-Single-User-Actions-Neutral/24w/single-neutral-actions-add.png';
 import qrScannerIcon from 'streamline/icons/regular/PNG/20-Phones-Mobile-Devices/08-QR-Code/48w/qr-code-scan.png';
 
 import {
   Button,
   Footer,
   H3,
-  Icon,
   Text,
   View,
 } from 'native-base';
@@ -63,7 +63,7 @@ export default class CredentialDashboard extends Component {
     return (
       <View style={{paddingTop: 60}}>
         <Button iconLeft primary onPress={navigateToEnrollment} style={buttonStyle}>
-          <Icon name="key" style={{color: 'white'}} />
+          <ButtonImage source={registerIcon} style={{tintColor: 'white'}} />
           <Text style={{color: 'white'}}>{ t('.unenrolled.button') }</Text>
         </Button>
       </View>
@@ -147,7 +147,7 @@ export default class CredentialDashboard extends Component {
           onPress={navigateToQRScanner}
           iconLeft
         >
-          <Image style={{height: 24, width: 24, marginLeft: nbVariables.buttonIconPadding, tintColor: 'white'}} source={qrScannerIcon} />
+          <ButtonImage source={qrScannerIcon} style={{tintColor: 'white'}} />
           {/* <Icon ios="ios-qr-scanner" android="md-qr-scanner" /> */}
           <Text>{ t('.scanQRCode') }</Text>
         </Button>

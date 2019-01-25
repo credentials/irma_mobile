@@ -2,10 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Image, Alert } from 'react-native';
 
+import attributesIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/03-Menu/24w/navigation-menu-4.png';
+import registerIcon from 'streamline/icons/regular/PNG/17-Users/13-Geomertic-Close-Up-Single-User-Actions-Neutral/24w/single-neutral-actions-add.png';
+import changePinIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/10-Password/24w/password-lock-1.png';
+import preferencesIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/12-Settings/24w/cog.png';
+import moreAttributesIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/43-Remove-Add/24w/add-circle.png';
+import deleteAllIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/23-Delete/24w/bin-1.png';
+import aboutIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/14-Alerts/24w/information-circle.png';
+
 import {
   CHANGE_PIN_SCREEN,
   PREFERENCES_DASHBOARD_SCREEN,
-  LOG_DASHBOARD_SCREEN,
   CREDENTIAL_TYPE_DASHBOARD_SCREEN,
   ABOUT_SCREEN,
 } from 'lib/navigation';
@@ -13,7 +20,6 @@ import {
 import {
   Container,
   Content,
-  Icon,
   Left,
   List,
   ListItem,
@@ -38,39 +44,34 @@ export default class Sidebar extends Component {
 
   sidebarListItems = [
     {
-      icon: {name: 'ios-card-outline'},
+      iconImage: attributesIcon,
       text: t('.attributes'),
       onPress: this.props.closeSidebar,
     },
     {
-      icon: {name: 'key'},
+      iconImage: registerIcon,
       text: t('.register'),
       isVisible: () => this.props.canEnroll,
       onPress: this.props.navigateToEnrollment,
     },
     {
-      icon: {name: 'key'},
+      iconImage: changePinIcon,
       text: t('.changePin'),
       isVisible: () => this.props.isEnrolled,
       navigateTo: CHANGE_PIN_SCREEN,
     },
     {
-      icon: {android: 'md-settings', ios: 'ios-settings'},
+      iconImage: preferencesIcon,
       text: t('.preferences'),
       navigateTo: PREFERENCES_DASHBOARD_SCREEN,
     },
-    // {
-    //   icon: {ios: 'ios-paper', android: 'md-paper'},
-    //   text: t('.log'),
-    //   navigateTo: LOG_DASHBOARD_SCREEN,
-    // },
     {
-      icon: {name: 'md-add'},
+      iconImage: moreAttributesIcon,
       text: t('.moreAttributes'),
       navigateTo: CREDENTIAL_TYPE_DASHBOARD_SCREEN,
     },
     {
-      icon: {ios: 'ios-trash', android: 'md-trash'},
+      iconImage: deleteAllIcon,
       text: t('.deleteAll.menu'),
       isVisible: () => this.props.isEnrolled,
       onPress: () => {
@@ -91,7 +92,7 @@ export default class Sidebar extends Component {
       },
     },
     {
-      icon: {name: 'md-help'},
+      iconImage: aboutIcon,
       text: t('.about'),
       navigateTo: ABOUT_SCREEN,
     },
@@ -100,7 +101,7 @@ export default class Sidebar extends Component {
   renderSidebarListItem = (listItem) => {
     const { navigate } = this.props;
     const {
-      icon,
+      iconImage,
       isVisible = () => true,
       navigateTo,
       onPress,
@@ -119,7 +120,7 @@ export default class Sidebar extends Component {
     return (
       <ListItem key={text} button onPress={finalOnPress}>
         <Left>
-          <Icon style={styles.icon} {...icon} />
+          <Image style={{width: 24, height: 24, marginRight: 10}} source={iconImage} />
           <Text>{ text }</Text>
         </Left>
       </ListItem>
@@ -151,9 +152,5 @@ const styles = {
     marginTop: 30,
     position: 'relative',
     resizeMode: 'contain',
-  },
-  icon: {
-    fontSize: 30,
-    width: 35,
   },
 };
