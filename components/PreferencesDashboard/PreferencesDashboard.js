@@ -31,12 +31,11 @@ const mapStateToProps = (state) => {
 export default class PreferencesDashboard extends React.Component {
 
   static propTypes = {
-    navigation: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     enableCrashReporting: PropTypes.bool.isRequired,
   }
 
-  setCrashReportingPreference(enableCrashReporting) {
+  setCrashReportingPreference = (enableCrashReporting) => {
     const { dispatch } = this.props;
 
     dispatch({
@@ -63,7 +62,7 @@ export default class PreferencesDashboard extends React.Component {
         <Content style={{marginTop: 10}}>
           <PreferenceItem name={t('.errors.title')} explanation={reportingExplanation}>
             <Right>
-              <Switch value={enableCrashReporting} onValueChange={::this.setCrashReportingPreference}/>
+              <Switch value={enableCrashReporting} onValueChange={this.setCrashReportingPreference}/>
             </Right>
           </PreferenceItem>
         </Content>

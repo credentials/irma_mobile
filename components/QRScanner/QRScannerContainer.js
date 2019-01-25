@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NativeModules } from 'react-native';
-import { Navigation } from 'react-native-navigation';
 import { connect } from 'react-redux';
 import { CameraKitCamera } from 'react-native-camera-kit';
 
@@ -9,7 +8,7 @@ import {
   Toast,
 } from 'native-base';
 
-import { SESSION_SCREEN, CREDENTIAL_DASHBOARD_ROOT_ID } from 'lib/navigation';
+import { Navigation, SESSION_SCREEN, CREDENTIAL_DASHBOARD_ROOT_ID } from 'lib/navigation';
 
 import QRScanner, { t } from './QRScanner';
 
@@ -24,17 +23,17 @@ export default class QRScannerContainer extends Component {
   static options = {
     topBar: {
       title: {
-        text: 'Scan QR',
+        text: t('.title'),
       },
     },
   }
 
   componentDidMount() {
-    CameraKitCamera.requestDeviceCameraAuthorization();
+    // CameraKitCamera.requestDeviceCameraAuthorization();
   }
 
   newSession(qr) {
-    const { dispatch, componentId } = this.props;
+    const { dispatch } = this.props;
 
     const sessionId = global.getAutoIncrementId();
     dispatch({
@@ -44,7 +43,6 @@ export default class QRScannerContainer extends Component {
       exitAfter: false,
     });
 
-    Navigation.dismissModal(componentId);
     Navigation.push(CREDENTIAL_DASHBOARD_ROOT_ID, {
       component: {
         name: SESSION_SCREEN,

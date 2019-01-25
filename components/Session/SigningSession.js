@@ -4,12 +4,11 @@ import _ from 'lodash';
 
 import { namespacedTranslation } from 'lib/i18n';
 import PaddedContent from 'lib/PaddedContent';
-import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
+import Container from 'components/Container';
 
 import DisclosuresChoices from './children/DisclosuresChoices';
 import Error from './children/Error';
 import Footer from './children/Footer';
-import Header from './children/Header';
 import MissingDisclosures from './children/MissingDisclosures';
 import PinEntry from './children/PinEntry';
 import StatusCard from './children/StatusCard';
@@ -24,16 +23,22 @@ const t = namespacedTranslation('Session.SigningSession');
 export default class SigningSession extends Component {
 
   static propTypes = {
-    validationForced: PropTypes.bool.isRequired,
     irmaConfiguration: PropTypes.object.isRequired,
     makeDisclosureChoice: PropTypes.func.isRequired,
     message: PropTypes.string,
     navigateBack: PropTypes.func.isRequired,
-    sendMail: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,
     nextStep: PropTypes.func.isRequired,
     pinChange: PropTypes.func.isRequired,
+    sendMail: PropTypes.func.isRequired,
     session: PropTypes.object.isRequired,
+    setTopbarTitle: PropTypes.func.isRequired,
+    validationForced: PropTypes.bool.isRequired,
+  }
+
+  componentDidMount() {
+    const { setTopbarTitle } = this.props;
+    setTopbarTitle(t('.headerTitle'));
   }
 
   renderStatusCard() {
@@ -133,8 +138,7 @@ export default class SigningSession extends Component {
     } = this.props;
 
     return (
-      <KeyboardAwareContainer>
-        {/* <Header title={t('.headerTitle')} navigateBack={navigateBack} /> */}
+      <Container>
         <PaddedContent testID="SigningSession" enableAutomaticScroll={session.status !== 'requestPin'}>
           { this.renderStatusCard() }
           <Error session={session} />
@@ -152,7 +156,7 @@ export default class SigningSession extends Component {
           nextStep={nextStep}
           session={session}
         />
-      </KeyboardAwareContainer>
+      </Container>
     );
   }
 }

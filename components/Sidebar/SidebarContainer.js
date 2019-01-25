@@ -5,6 +5,7 @@ import { Navigation } from 'react-native-navigation';
 
 import { CREDENTIAL_DASHBOARD_ROOT_ID, setEnrollmentRoot } from 'lib/navigation';
 import Sidebar from './Sidebar';
+import Sidebar, { t } from './Sidebar';
 
 const mapStateToProps = (state) => {
   const {
@@ -90,6 +91,11 @@ export default class SidebarContainer extends Component {
     setEnrollmentRoot();
   }
 
+  navigateToMoreAttributes = () => {
+    Linking.openURL(t('.moreAttributesURL')).catch();
+    this.closeSidebar();
+  }
+
   render() {
     const { isEnrolled, canEnroll } = this.props;
 
@@ -101,6 +107,7 @@ export default class SidebarContainer extends Component {
         isEnrolled={isEnrolled}
         navigate={this.navigate}
         navigateToEnrollment={this.navigateToEnrollment}
+        navigateToMoreAttributes={this.navigateToMoreAttributes}
       />
     );
   }

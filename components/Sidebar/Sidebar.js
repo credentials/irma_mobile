@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image, Alert } from 'react-native';
+import { Image, Alert, Linking } from 'react-native';
 
 import attributesIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/03-Menu/24w/navigation-menu-4.png';
 import registerIcon from 'streamline/icons/regular/PNG/17-Users/13-Geomertic-Close-Up-Single-User-Actions-Neutral/24w/single-neutral-actions-add.png';
@@ -13,7 +13,6 @@ import aboutIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/14-Ale
 import {
   CHANGE_PIN_SCREEN,
   PREFERENCES_DASHBOARD_SCREEN,
-  CREDENTIAL_TYPE_DASHBOARD_SCREEN,
   ABOUT_SCREEN,
 } from 'lib/navigation';
 
@@ -29,17 +28,18 @@ import {
 import { namespacedTranslation } from 'lib/i18n';
 import irmaLogo from 'assets/irmaLogo.png';
 
-const t = namespacedTranslation('Sidebar');
+export const t = namespacedTranslation('Sidebar');
 
 export default class Sidebar extends Component {
 
   static propTypes = {
-    isEnrolled: PropTypes.bool.isRequired,
     canEnroll: PropTypes.bool.isRequired,
     closeSidebar: PropTypes.func.isRequired,
     deleteAllCredentials: PropTypes.func.isRequired,
+    isEnrolled: PropTypes.bool.isRequired,
     navigate: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,
+    navigateToMoreAttributes: PropTypes.func.isRequired,
   }
 
   sidebarListItems = [
@@ -68,7 +68,7 @@ export default class Sidebar extends Component {
     {
       iconImage: moreAttributesIcon,
       text: t('.moreAttributes'),
-      navigateTo: CREDENTIAL_TYPE_DASHBOARD_SCREEN,
+      onPress: this.props.navigateToMoreAttributes,
     },
     {
       iconImage: deleteAllIcon,
@@ -120,8 +120,8 @@ export default class Sidebar extends Component {
     return (
       <ListItem key={text} button onPress={finalOnPress}>
         <Left>
-          <Image style={{width: 24, height: 24, marginRight: 10}} source={iconImage} />
-          <Text>{ text }</Text>
+          <Image style={{width: 32, height: 32, marginRight: 10}} source={iconImage} />
+          <Text style={{fontSize: 18}}>{ text }</Text>
         </Left>
       </ListItem>
     );
@@ -150,6 +150,7 @@ const styles = {
   topImage: {
     height: 120,
     marginTop: 30,
+    marginBottom: 20,
     position: 'relative',
     resizeMode: 'contain',
   },

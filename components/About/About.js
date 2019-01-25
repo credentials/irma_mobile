@@ -1,25 +1,30 @@
 import React from 'react';
 import { Image } from 'react-native';
-import PropTypes from 'prop-types';
+import Hyperlink from 'react-native-hyperlink';
+
 import {
-  Container,
   CardItem,
   H3,
-  View,
   Text,
 } from 'native-base';
-import Hyperlink from 'react-native-hyperlink';
+
 import { namespacedTranslation } from 'lib/i18n';
 import Card from 'lib/UnwrappedCard';
 import PaddedContent from 'lib/PaddedContent';
-
+import Container from 'components/Container';
 import irmaLogo from 'assets/irmaLogo.png';
 
 const t = namespacedTranslation('About');
-const homeURL = 'https://privacybydesign.foundation';
-const sourceURL = 'https://github.com/privacybydesign';
 
 export default class About extends React.Component {
+
+  static options = {
+    topBar: {
+      title: {
+        text: t('.title'),
+      },
+    },
+  }
 
   render() {
     return (
@@ -28,11 +33,10 @@ export default class About extends React.Component {
           <Hyperlink linkDefault={true} linkStyle={{ color: '#2980b9' }}>
             <Card>
               <CardItem>
-                <Image source={irmaLogo} style={{
-                  height: 120,
-                  position: 'relative',
-                  resizeMode: 'contain',
-                }} />
+                <Image
+                  source={irmaLogo}
+                  style={{height: 120, position: 'relative', resizeMode: 'contain'}}
+                />
               </CardItem>
               <CardItem>
                 <H3 style={{textAlign: 'center'}}>
@@ -60,12 +64,9 @@ export default class About extends React.Component {
                 </Text>
               </CardItem>
               <CardItem>
-                <View>
-                  <Text>{ t('.more') }:</Text>
-                  <Text>{homeURL}</Text>
-                  <Text>{ t('.source') }:</Text>
-                  <Text>{sourceURL}</Text>
-                </View>
+                <Text>
+                  { t('.moreInformation') }
+                </Text>
               </CardItem>
               <CardItem>
                 <Text>

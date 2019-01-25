@@ -3,15 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Platform, BackHandler } from 'react-native';
 
-import { setEnrollmentRoot } from 'lib/navigation';
+import { Navigation, setEnrollmentRoot } from 'lib/navigation';
+import fullCredentials from 'store/mappers/fullCredentials';
+import fullDisclosuresCandidates from 'store/mappers/fullDisclosuresCandidates';
+import fullMissingDisclosures from 'store/mappers/fullMissingDisclosures';
 
 import IssuanceSession from './IssuanceSession';
 import DisclosureSession from './DisclosureSession';
 import SigningSession from './SigningSession';
-
-import fullCredentials from 'store/mappers/fullCredentials';
-import fullDisclosuresCandidates from 'store/mappers/fullDisclosuresCandidates';
-import fullMissingDisclosures from 'store/mappers/fullMissingDisclosures';
 
 // import { sendMail } from 'lib/mail';
 
@@ -21,7 +20,6 @@ import {
 } from 'native-base';
 
 import PaddedContent from 'lib/PaddedContent';
-import { Navigation } from '../../lib/navigation';
 
 const mapStateToProps = (state, props) => {
   const { sessionId } = props;
@@ -69,6 +67,17 @@ export default class SessionContainer extends Component {
 
   componentWillUnmount() {
     this.dismiss();
+  }
+
+  setTopbarTitle = (text) => {
+    const { componentId } = this.props;
+    Navigation.mergeOptions(componentId, {
+      topBar: {
+        title: {
+          text,
+        },
+      },
+    });
   }
 
   navigateBack = () => {
@@ -171,7 +180,6 @@ export default class SessionContainer extends Component {
       status = 'requestDisclosurePermission';
 
     const sessionProps = {
-      validationForced,
       irmaConfiguration,
       makeDisclosureChoice: this.makeDisclosureChoice,
       navigateBack: this.navigateBack,
@@ -179,12 +187,16 @@ export default class SessionContainer extends Component {
       nextStep: this.nextStep,
       pinChange: this.pinChange,
       sendMail: this.sendMail,
+      setTopbarTitle: this.setTopbarTitle,
+      validationForced,
 
       session: {
         ...session,
         status,
       },
     };
+
+    console.log('state is now:', this.props.session);
 
     let content;
     switch (session.irmaAction) {

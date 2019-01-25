@@ -40,6 +40,7 @@ export default class EnrollmentContainer extends Component {
     topBar: {
       title: {
         text: t('.shortTitle'),
+        alignment: 'center',
       },
     },
   }

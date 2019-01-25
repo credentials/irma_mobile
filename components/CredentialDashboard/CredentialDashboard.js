@@ -4,10 +4,8 @@ import { Alert } from 'react-native';
 
 import { namespacedTranslation, lang } from 'lib/i18n';
 import PaddedContent from 'lib/PaddedContent';
-import nbVariables from 'lib/native-base-theme/variables/platform';
 
 import CredentialCard from 'components/CredentialCard';
-// import SortableFlatList from 'components/SortableFlatList';
 import Container from 'components/Container';
 import ButtonImage from 'components/ButtonImage';
 
@@ -29,15 +27,11 @@ export default class CredentialDashboard extends Component {
   static propTypes = {
     credentials: PropTypes.array.isRequired,
     deleteCredential: PropTypes.func.isRequired,
-    enrolled: PropTypes.bool.isRequired,
     isEditable: PropTypes.bool.isRequired,
+    isEnrolled: PropTypes.bool.isRequired,
     makeEditable: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,
     navigateToQRScanner: PropTypes.func.isRequired,
-  }
-
-  state = {
-    // credentials: this.props.credentials,
   }
 
   showDeleteCredentialDialog(credential) {
@@ -71,11 +65,11 @@ export default class CredentialDashboard extends Component {
   }
 
   renderNoCredentialsHint() {
-    const { credentials, enrolled } = this.props;
+    const { credentials, isEnrolled } = this.props;
     if (credentials.length !== 0)
       return null;
 
-    const status = enrolled ? 'noAttributes' : 'unenrolled';
+    const status = isEnrolled ? 'noAttributes' : 'unenrolled';
 
     return (
       <View key="title" style={{alignItems: 'center'}}>
@@ -86,22 +80,13 @@ export default class CredentialDashboard extends Component {
           <Text style={{paddingTop: 30, color: '#888888'}}>
             { t(`.${status}.text`) }
           </Text>
-          { enrolled ? null : this.renderEnrollButton() }
+          { isEnrolled ? null : this.renderEnrollButton() }
         </View>
       </View>
     );
   }
 
   renderCredentials() {
-    // return (
-    //   <SortableFlatList
-    //     data={credentials}
-    //     renderItem={this.renderCredentialListItem}
-    //     keyExtractor={(credential) => credential.Hash}
-    //     onMoveEnd={({ data }) => this.setState({credentials: data})}
-    //   />
-    // );
-
     const {
       credentials,
       makeEditable,
@@ -119,36 +104,20 @@ export default class CredentialDashboard extends Component {
     );
   }
 
-  // renderCredentialListItem = ({item: credential, move, moveEnd}) => {
-  //   const { deleteCredential, makeEditable, isEditable } = this.props;
-
-  //   return (
-  //     <CredentialCard
-  //       credential={credential}
-  //       isEditable={isEditable}
-  //       onDeletePress={() => deleteCredential(credential)}
-  //       onLongPress={makeEditable}
-  //       onReorderPress={move}
-  //       onReorderPressOut={moveEnd}
-  //     />
-  //   );
-  // }
-
   renderFooter() {
-    const { enrolled, navigateToQRScanner } = this.props;
+    const { isEnrolled, navigateToQRScanner } = this.props;
 
     return (
       <Footer style={{paddingVertical: 10}}>
         <Button
           style={{alignSelf: 'center'}}
           testID="scanQRButton"
-          primary={enrolled}
-          light={!enrolled}
+          primary={isEnrolled}
+          light={!isEnrolled}
           onPress={navigateToQRScanner}
           iconLeft
         >
-          <ButtonImage source={qrScannerIcon} style={{tintColor: 'white'}} />
-          {/* <Icon ios="ios-qr-scanner" android="md-qr-scanner" /> */}
+          <ButtonImage style={{tintColor: 'white'}} source={qrScannerIcon} />
           <Text>{ t('.scanQRCode') }</Text>
         </Button>
       </Footer>
@@ -157,10 +126,7 @@ export default class CredentialDashboard extends Component {
 
   render() {
     return (
-      <Container
-        style={{backgroundColor: nbVariables.colors.backgroundAlabaster}}
-        testID="CredentialDashboard"
-      >
+      <Container testID="CredentialDashboard">
         <PaddedContent>
           { this.renderNoCredentialsHint() }
           { this.renderCredentials() }

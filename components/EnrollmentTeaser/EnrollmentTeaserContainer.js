@@ -17,6 +17,7 @@ export default class EnrollmentTeaserContainer extends Component {
   static options = {
     topBar: {
       visible: false,
+      drawBehind: true,
     },
   }
 

@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Platform } from 'react-native';
 import { connect } from 'react-redux';
-import { Navigation } from 'react-native-navigation';
-
-import { setEnrollmentRoot, QR_SCANNER_SCREEN } from 'lib/navigation';
 
 import CredentialDashboard, { t } from './CredentialDashboard';
 import fullCredentials from 'store/mappers/fullCredentials';
+import { STATUS_AUTHENTICATED } from 'store/reducers/appUnlock';
+import nbVariables from 'lib/native-base-theme/variables/platform';
+import { Navigation, showAppUnlockModal, setEnrollmentRoot, QR_SCANNER_SCREEN } from 'lib/navigation';
 
 import menuIconImage from 'streamline/icons/regular/PNG/01-InterfaceEssential/03-Menu/24w/navigation-menu.png';
 import lockIconImage from 'streamline/icons/regular/PNG/01-InterfaceEssential/11-Lock-Unlock/24w/lock-1.png';
-import { setAppUnlockModal } from '../../lib/navigation';
-import nbVariables from 'lib/native-base-theme/variables/platform';
 
 const mapStateToProps = (state) => {
   const {
+    appUnlock: {
+      status: unlockStatus,
+    },
     credentials: {
       loaded: credentialsLoaded,
       credentials,
@@ -33,13 +33,15 @@ const mapStateToProps = (state) => {
     },
   } = state;
 
-  const enrolled = unenrolledSchemeManagerIds.length === 0;
-  const loaded = irmaConfigurationLoaded && preferencesLoaded && enrollmentLoaded && credentialsLoaded;
+  const isEnrolled = unenrolledSchemeManagerIds.length === 0;
+  const isLoaded = irmaConfigurationLoaded && preferencesLoaded && enrollmentLoaded && credentialsLoaded;
+  const isAuthenticated = unlockStatus === STATUS_AUTHENTICATED;
 
   return {
     credentials: fullCredentials(credentials, irmaConfiguration),
-    enrolled,
-    loaded,
+    isEnrolled,
+    isLoaded,
+    isAuthenticated,
   };
 };
 
@@ -50,8 +52,20 @@ export default class CredentialDashboardContainer extends React.Component {
     componentId: PropTypes.string.isRequired,
     credentials: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
-    enrolled: PropTypes.bool.isRequired,
-    loaded: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    isEnrolled: PropTypes.bool.isRequired,
+    isLoaded: PropTypes.bool.isRequired,
+  }
+
+  static lockButton = {
+    id: 'lockButton',
+    icon: lockIconImage,
+  }
+
+  static doneButton = {
+    id: 'doneButton',
+    text: t('.done'),
+    color: nbVariables.platform === 'ios' ? nbVariables.colors.iosBlue : nbVariables.topBarContentColor,
   }
 
   static options() {
@@ -61,10 +75,7 @@ export default class CredentialDashboardContainer extends React.Component {
           id: 'menuButton',
           icon: menuIconImage,
         },
-        rightButtons: {
-          id: 'lockButton',
-          icon: lockIconImage,
-        },
+        rightButtons: CredentialDashboardContainer.lockButton,
         title: {
           text: t('.title'),
         },
@@ -82,7 +93,7 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   navigationButtonPressed({ buttonId }) {
-    const { componentId } = this.props;
+    const { componentId, dispatch, isEnrolled } = this.props;
 
     if (buttonId === 'menuButton') {
       Navigation.mergeOptions(componentId, {
@@ -95,8 +106,20 @@ export default class CredentialDashboardContainer extends React.Component {
     }
 
     if (buttonId === 'lockButton') {
-      setAppUnlockModal();
+      if (!isEnrolled) {
+        setEnrollmentRoot();
+        return;
+      }
+
+      dispatch({
+        type: 'AppUnlock.Lock',
+      });
+
+      showAppUnlockModal();
     }
+
+    if (buttonId === 'doneButton')
+      this.makeUneditable();
   }
 
   navigateToQRScanner = () => {
@@ -106,23 +129,6 @@ export default class CredentialDashboardContainer extends React.Component {
         name: QR_SCANNER_SCREEN,
       },
     });
-
-    // Navigation.showModal({
-    //   stack: {
-    //     children: [{
-    //       component: {
-    //         name: QR_SCANNER_SCREEN,
-    //         options: {
-    //           topBar: {
-    //             title: {
-    //               text: 'Scan QR',
-    //             },
-    //           },
-    //         },
-    //       },
-    //     }],
-    //   },
-    // });
   }
 
   navigateToEnrollment = () => {
@@ -137,21 +143,39 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   makeEditable = () => {
+    const { componentId } = this.props;
     this.setState({isEditable: true});
+
+    Navigation.mergeOptions(componentId, {
+      topBar: {
+        rightButtons: CredentialDashboardContainer.doneButton,
+      },
+    });
+  }
+
+  makeUneditable = () => {
+    const { componentId } = this.props;
+    this.setState({isEditable: false});
+
+    Navigation.mergeOptions(componentId, {
+      topBar: {
+        rightButtons: CredentialDashboardContainer.lockButton,
+      },
+    });
   }
 
   render() {
-    const { credentials, enrolled, loaded } = this.props;
+    const { credentials, isEnrolled, isLoaded, isAuthenticated } = this.props;
     const { isEditable } = this.state;
 
-    if (!loaded)
+    if (!isLoaded || !isAuthenticated)
       return null;
 
     return (
       <CredentialDashboard
         credentials={credentials}
         deleteCredential={this.deleteCredential}
-        enrolled={enrolled}
+        isEnrolled={isEnrolled}
         isEditable={isEditable}
         makeEditable={this.makeEditable}
         navigateToEnrollment={this.navigateToEnrollment}

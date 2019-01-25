@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 
+import Container from 'components/Container';
+
 import {
   Button,
   Card,
   CardItem,
-  Container,
   Footer,
   Text,
   View,
@@ -208,7 +209,7 @@ export default class Enrollment extends Component {
 
   render() {
     return (
-      <Container testID="Enrollment" style={{backgroundColor: '#E9E9EF'}}>
+      <Container testID="Enrollment">
         <PaddedContent>
           { this.renderContent() }
         </PaddedContent>

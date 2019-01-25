@@ -14,6 +14,7 @@ import irmaLogoImage from 'assets/irmaLogo.png';
 import Container from 'components/Container';
 import PinEntry from './children/PinEntry';
 import imageSequence from './imageSequence';
+import { STATUS_AUTHENTICATED, STATUS_AUTHENTICATING } from 'store/reducers/appUnlock';
 
 import { namespacedTranslation } from 'lib/i18n';
 
@@ -37,7 +38,7 @@ export default class AppUnlock extends Component {
 
   componentDidUpdate(prevProps) {
     const { status } = this.props;
-    if (prevProps.status !== 'authenticated' && status === 'authenticated')
+    if (prevProps.status !== STATUS_AUTHENTICATED && status === STATUS_AUTHENTICATED)
       this.startEntryAnimation();
   }
 
@@ -65,7 +66,7 @@ export default class AppUnlock extends Component {
 
   renderSpinner() {
     const { status } = this.props;
-    if (status !== 'authenticating')
+    if (status !== STATUS_AUTHENTICATING)
       return null;
 
     return (
@@ -104,7 +105,7 @@ export default class AppUnlock extends Component {
         <ImageSequence
           images={imageSequence}
           framesPerSecond={24}
-          started={status === 'authenticated'}
+          started={status === STATUS_AUTHENTICATED}
           loop={false}
           style={{width: screenWidth, height: imageHeight}}
         />
@@ -126,15 +127,15 @@ export default class AppUnlock extends Component {
         <View style={styles.vaultUnderlayView}>
           { this.renderImageSequence() }
         </View>
-        <Container>
+        <Container transparent>
           <Animated.View style={{flex: 1, flexDirection: 'column', opacity: animatedOpacity}}>
             <View style={{alignItems: 'center'}}>
-              <TouchableWithoutFeedback onPress={this.startEntryAnimation}>
+              <TouchableWithoutFeedback>
                 <Image source={irmaLogoImage} style={styles.imageStyle} />
               </TouchableWithoutFeedback>
             </View>
             <PinEntry
-              dismissKeyboard={status === 'authenticated'}
+              dismissKeyboard={status === STATUS_AUTHENTICATED}
               key={remainingAttempts}
               maxLength={7}
               minLength={5}

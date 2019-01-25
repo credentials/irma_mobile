@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import Collapsible from 'components/Collapsible';
-import Image from 'components/Image';
+import ButtonImage from 'components/ButtonImage';
 
 import {
   Button,
@@ -23,6 +23,7 @@ import { namespacedTranslation, lang } from 'lib/i18n';
 
 import infoCircleIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/14-Alerts/48w/information-circle.png';
 import shareIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/28-Share/48w/share-3.png';
+import deleteIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/23-Delete/24w/bin-1.png';
 
 const t = namespacedTranslation('CredentialCard');
 
@@ -84,12 +85,8 @@ export default class CredentialCard extends Component {
   }
 
   additionalInfoPress = () => {
-    const { showAdditionalInfo, collapsed } = this.state;
+    const { showAdditionalInfo } = this.state;
     this.setState({showAdditionalInfo: !showAdditionalInfo});
-
-    // TODO: Remove this very dirty hack to solve an issue with Collapsible not rendering properly
-    // setTimeout(() => this.setState({collapsed: !collapsed}), 1);
-    // setTimeout(() => this.setState({collapsed: collapsed}), 2);
   }
 
   renderHeader() {
@@ -112,20 +109,19 @@ export default class CredentialCard extends Component {
               <TouchableWithoutFeedback
                 onPress={onDeletePress}
               >
-                <Icon
-                  name="ios-remove-circle"
-                  style={styles.deleteIcon}
-                />
+                <ButtonImage source={deleteIcon} style={{width: 28, height: 28, marginTop: 6}} />
               </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback
-                onLongPress={() => {console.log('got reorder longpress'); onReorderPress();}}
-                onPressOut={() => {console.log('got reorder out'); onReorderPressOut();}}
-              >
-                <Icon
-                  name="ios-reorder"
-                  style={styles.reorderIcon}
-                />
-              </TouchableWithoutFeedback>
+              { true ? null : (
+                <TouchableWithoutFeedback
+                  onLongPress={() => {console.log('got reorder longpress'); onReorderPress();}}
+                  onPressOut={() => {console.log('got reorder out'); onReorderPressOut();}}
+                >
+                  <Icon
+                    name="ios-reorder"
+                    style={styles.reorderIcon}
+                  />
+                </TouchableWithoutFeedback>
+              )}
             </View>
             : <CardItemThumb source={{uri: CredentialType.logoUri}} />
           }
@@ -151,20 +147,6 @@ export default class CredentialCard extends Component {
         </Body>
       </CardItem>
     );
-
-    // <View style={{flex: 1, flexDirection: 'row', alignSelf: 'center'}}>
-    //   <View style={{flex: 1.5}} />
-    //   <Button transparent iconLeft dark style={{flex: 1}}>
-    //     <Icon type="MaterialCommunityIcons" name="information-outline" style={styles.actionButtonIcon} />
-    //   </Button>
-    //   <Button transparent iconLeft dark style={{flex: 1}}>
-    //     <Icon type="MaterialCommunityIcons" name="web" style={styles.actionButtonIcon} />
-    //   </Button>
-    //   <Button transparent iconLeft dark style={{flex: 1}}>
-    //     <Icon type="FontAwesome" name="trash-o" style={styles.actionButtonIcon} />
-    //   </Button>
-    //   <View style={{flex: 2}} />
-    // </View>
   }
 
   renderAttributes() {
@@ -190,17 +172,15 @@ export default class CredentialCard extends Component {
           style={[styles.actionButton, styles.actionButtonBorderRight]}
           onPress={this.additionalInfoPress}
         >
-          <Image style={{height: 24, width: 24}} source={infoCircleIcon} />
-          {/* <Icon type="MaterialCommunityIcons" name="information-outline" style={styles.actionButtonIcon} /> */}
-          <Text>{ showAdditionalInfo ? 'Less info' : 'More info' }</Text>
+          <ButtonImage source={infoCircleIcon} />
+          <Text>{ showAdditionalInfo ? t('.lessInfo') : t('.moreInfo') }</Text>
         </Button>
         <Button
           transparent iconLeft dark
           style={styles.actionButton}
           onPress={() => Linking.openURL('https://privacybydesign.foundation')} // TODO
         >
-          <Image style={{height: 24, width: 24}} source={shareIcon} />
-          {/* <Icon type="MaterialCommunityIcons" name="web" style={styles.actionButtonIcon} /> */}
+          <ButtonImage source={shareIcon} />
           <Text>Website</Text>
         </Button>
       </View>
@@ -213,10 +193,9 @@ export default class CredentialCard extends Component {
 
     return (
       <TouchableOpacity
-        onPressIn={() => console.log('got card press in')}
-        onPress={() => {console.log('got card press'); this.cardPress()}}
-        onLongPress={() => {console.log('got card longpress'); onLongPress()}}
-        onPressOut={() => {console.log('got card pressout'); onPressOut()}}
+        onPress={this.cardPress}
+        onLongPress={onLongPress}
+        onPressOut={onPressOut}
         activeOpacity={0.6}
       >
         <Card rounded>

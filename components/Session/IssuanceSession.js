@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import { namespacedTranslation } from 'lib/i18n';
 import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
+import Container from 'components/Container';
 
 import DisclosuresChoices from './children/DisclosuresChoices';
 import Error from './children/Error';
 import Footer from './children/Footer';
-import Header from './children/Header';
 import IssuedCredentials from './children/IssuedCredentials';
 import MissingDisclosures from './children/MissingDisclosures';
 import PinEntry from './children/PinEntry';
@@ -17,7 +17,6 @@ import PaddedContent from 'lib/PaddedContent';
 import {
   Text,
   View,
-  Container,
 } from 'native-base';
 
 const t = namespacedTranslation('Session.IssuanceSession');
@@ -25,7 +24,6 @@ const t = namespacedTranslation('Session.IssuanceSession');
 export default class IssuanceSession extends Component {
 
   static propTypes = {
-    validationForced: PropTypes.bool.isRequired,
     irmaConfiguration: PropTypes.object.isRequired,
     makeDisclosureChoice: PropTypes.func.isRequired,
     navigateBack: PropTypes.func.isRequired,
@@ -33,6 +31,13 @@ export default class IssuanceSession extends Component {
     nextStep: PropTypes.func.isRequired,
     pinChange: PropTypes.func.isRequired,
     session: PropTypes.object.isRequired,
+    setTopbarTitle: PropTypes.func.isRequired,
+    validationForced: PropTypes.bool.isRequired,
+  }
+
+  componentDidMount() {
+    const { setTopbarTitle } = this.props;
+    setTopbarTitle(t('.headerTitle'));
   }
 
   renderStatusCard() {
@@ -136,7 +141,6 @@ export default class IssuanceSession extends Component {
 
     return (
       <Container>
-        {/* <Header title={t('.headerTitle')} navigateBack={navigateBack} /> */}
         <PaddedContent testID="IssuanceSession" enableAutomaticScroll={session.status !== 'requestPin'}>
           { this.renderStatusCard() }
           <Error session={session} />
