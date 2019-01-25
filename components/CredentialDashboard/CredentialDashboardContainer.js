@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
     },
     enrollment: {
       loaded: enrollmentLoaded,
-      unenrolledSchemeManagerIds,
+      enrolledSchemeManagerIds,
     },
     irmaConfiguration,
     irmaConfiguration: {
@@ -33,7 +33,7 @@ const mapStateToProps = (state) => {
     },
   } = state;
 
-  const isEnrolled = unenrolledSchemeManagerIds.length === 0;
+  const isEnrolled = enrolledSchemeManagerIds.length > 0;
   const isLoaded = irmaConfigurationLoaded && preferencesLoaded && enrollmentLoaded && credentialsLoaded;
   const isAuthenticated = unlockStatus === STATUS_AUTHENTICATED;
 

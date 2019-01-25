@@ -93,6 +93,7 @@ export default class CredentialCard extends Component {
 
   renderHeader() {
     const { credential, isEditable, onDeletePress, onReorderPress, onReorderPressOut } = this.props;
+    const { showAdditionalInfo } = this.state;
     const { CredentialType, hasExpired } = credential;
 
     return (
@@ -102,7 +103,9 @@ export default class CredentialCard extends Component {
             { CredentialType.Name[lang] }
           </Text>
           <Text note>
-            { t('common.attributes', {count: credential.Attributes.length}) }
+            { showAdditionalInfo && CredentialType.Attributes.length > 1 ? CredentialType.Description[lang] :
+                t('common.attributes', {count: credential.Attributes.length})
+            }
           </Text>
         </Body>
         <Right style={{flex: 1}}>
@@ -150,6 +153,18 @@ export default class CredentialCard extends Component {
     );
   }
 
+  renderCredentialDescription() {
+    const { credential } = this.props;
+
+    return (
+      <CardItem>
+        <Text>
+          { credential.CredentialType.Description[lang] }
+        </Text>
+      </CardItem>
+    );
+  }
+
   renderAttributes() {
     const { credential } = this.props;
     const { showAdditionalInfo } = this.state;
@@ -164,8 +179,9 @@ export default class CredentialCard extends Component {
   }
 
   renderActionButtons() {
-    const { showActionButtons } = this.props;
+    const { credential, showActionButtons } = this.props;
     const { showAdditionalInfo } = this.state;
+    const { IssueUrl } = credential.CredentialType;
 
     if (!showActionButtons)
       return null;
@@ -180,14 +196,16 @@ export default class CredentialCard extends Component {
           <ButtonImage source={infoCircleIcon} />
           <Text>{ showAdditionalInfo ? t('.lessInfo') : t('.moreInfo') }</Text>
         </Button>
+        { !IssueUrl ? null :
         <Button
           transparent iconLeft dark
           style={styles.actionButton}
-          onPress={() => Linking.openURL('https://privacybydesign.foundation')} // TODO
+          onPress={() => Linking.openURL(IssueUrl[lang])} // TODO
         >
           <ButtonImage source={shareIcon} />
           <Text>{ t('.refresh') }</Text>
         </Button>
+        }
       </View>
     );
   }
@@ -206,6 +224,9 @@ export default class CredentialCard extends Component {
         <Card rounded>
           { this.renderHeader() }
           <Collapsible collapsed={collapsed} extraData={showAdditionalInfo}>
+            {/* <Collapsible collapsed={!showAdditionalInfo}>
+              { this.renderCredentialDescription() }
+            </Collapsible> */}
             { this.renderAttributes() }
           </Collapsible>
           { this.renderIssuer() }

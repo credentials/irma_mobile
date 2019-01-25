@@ -42,6 +42,9 @@ export default class EnrollmentContainer extends Component {
         text: t('.title'),
         alignment: 'center',
       },
+
+      // TODO: Dynamic backbutton visibility change (for enrollment success) is broken
+      // in react-native-navigation on Android, so always hide the button
       backButton: {
         visible: false,
       },

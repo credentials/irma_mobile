@@ -44,7 +44,6 @@ export default class EnrollmentTeaserContainer extends Component {
     // TODO: Refactor when react-native-navigation natively supports this
     Navigation.events().registerComponentDidAppearListener(({ componentId: appearedComponentId }) => {
       const { componentId, isEnrolled } = this.props;
-      console.log(componentId, isEnrolled);
       if (appearedComponentId !== componentId)
         return;
 

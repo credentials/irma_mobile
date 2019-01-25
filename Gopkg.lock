@@ -45,12 +45,6 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/credentials/go-go-gadget-paillier"
-  packages = ["."]
-  revision = "720887075201f3105c335f837431426d54891b7f"
-
-[[projects]]
-  branch = "master"
   name = "github.com/credentials/safeprime"
   packages = ["."]
   revision = "b04afffdb6d92bdfb4b8b7305129c3e39fcd000e"
@@ -116,7 +110,7 @@
   version = "v0.8.0"
 
 [[projects]]
-  branch = "master"
+  branch = "paillier"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
@@ -124,7 +118,7 @@
     "internal/fs",
     "irmaclient"
   ]
-  revision = "83b932bb12d4c35dc66bbdb10df373d92f5d76de"
+  revision = "d4a89e40a9b6e9b4228b605c1e1ad69fa6f7df54"
 
 [[projects]]
   branch = "master"
@@ -169,6 +163,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ad82f3334e50de14e042b7ff67ff660a956fb9ec55595c929f0aaf77c0e62f18"
+  inputs-digest = "bf502ec9e6cacad379aa5f756c87a9a17e0455feb25e153612787963f2cb49a4"
   solver-name = "gps-cdcl"
   solver-version = 1

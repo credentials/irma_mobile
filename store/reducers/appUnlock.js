@@ -3,13 +3,29 @@ export const STATUS_AUTHENTICATING = 'authenticating';
 export const STATUS_AUTHENTICATED = 'authenticated';
 
 const initialState = {
-  status: __DEV__ ? STATUS_AUTHENTICATED : STATUS_UNAUTHENTICATED,
+  error: null,
   hadFailure: false,
-  remainingAttempts: 4,
+  remainingAttempts: 0,
+  blockedDuration: 0,
+  status: __DEV__ ? STATUS_AUTHENTICATED : STATUS_UNAUTHENTICATED,
 };
 
 export default function appUnlock(state = initialState, action) {
   switch (action.type) {
+    case 'AppUnlock.Reset': {
+      return {
+        ...state,
+        error: null,
+      };
+    }
+
+    case 'AppUnlock.Lock': {
+      return {
+        ...state,
+        status: STATUS_UNAUTHENTICATED,
+      };
+    }
+
     case 'IrmaBridge.Authenticate': {
       return {
         ...state,
@@ -39,15 +55,7 @@ export default function appUnlock(state = initialState, action) {
       return {
         ...state,
         status: 'unauthenticated',
-        hadFailure: true,
         error: action.error,
-      };
-    }
-
-    case 'AppUnlock.Lock': {
-      return {
-        ...state,
-        status: STATUS_UNAUTHENTICATED,
       };
     }
 

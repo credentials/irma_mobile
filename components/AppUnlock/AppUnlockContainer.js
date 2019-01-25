@@ -31,7 +31,8 @@ export default class AppUnlockContainer extends Component {
     hadFailure: PropTypes.bool.isRequired,
     status: PropTypes.string.isRequired,
     remainingAttempts: PropTypes.number.isRequired,
-    blockedDuration: PropTypes.number,
+    blockedDuration: PropTypes.number.isRequired,
+    error: PropTypes.object,
   }
 
   componentWillUnmount() {
