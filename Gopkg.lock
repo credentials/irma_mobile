@@ -124,7 +124,7 @@
     "internal/fs",
     "irmaclient"
   ]
-  revision = "a5eb23a3c1de2ec5d80f3b4436b16a9b7941ef1a"
+  revision = "83b932bb12d4c35dc66bbdb10df373d92f5d76de"
 
 [[projects]]
   branch = "master"
