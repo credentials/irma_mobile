@@ -66,9 +66,11 @@ export default class Disclosure extends Component {
             </Text>
           </Body>
         </Left>
-        <Right>
-          <Radio selected={isSelected} />
-        </Right>
+        { hideUnchosen ? null : (
+          <Right>
+            <Radio selected={isSelected} />
+          </Right>
+        )}
       </ListItem>
     );
   }

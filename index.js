@@ -1,10 +1,12 @@
-import { YellowBox, Linking, AppState } from 'react-native';
+import { Linking, AppState } from 'react-native';
 import moment from 'moment';
 
 import { initStore } from 'store';
 import parseIrmaUrl from 'lib/parseIrmaUrl';
+import ignoreWarnings from 'lib/ignoreWarnings';
 import {
   Navigation,
+  componentAppearanceChangedListener,
   registerScreens,
   setCredentialDashboardRoot,
   setDefaultOptions,
@@ -14,24 +16,25 @@ import {
 } from 'lib/navigation';
 
 // Ignore specific deprecation warnings or harmless issues
-if (__DEV__) {
-  YellowBox.ignoreWarnings([
-    // TODO: Migrate to (libraries with) new lifecycle methods, and remove this ignore
-    'Warning: isMounted(...) is deprecated',
-    // TODO: Remove when react-native#17679 released
-    'Module RCTImageLoader requires main queue setup',
-    'Module RNMail requires main queue setup',
-    // TODO: Remove when react-native#18201 is fixed
-    'Class RCTCxxModule was not exported',
-
-    // Ignore require cycles
-    'Require cycle',
-  ]);
-}
+if (__DEV__)
+  ignoreWarnings();
 
 // Initialize store
 const store = initStore();
 
+// // Main entry point of application on boot
+Navigation.events().registerAppLaunchedListener( () => {
+  setDefaultOptions();
+  registerScreens();
+  componentAppearanceChangedListener();
+
+  handleInitialUrl();
+  AppState.addEventListener('change', appStateChangeListener);
+  store.subscribe(initialScreenStoreListener);
+  Linking.addEventListener('url', handleUrl);
+});
+
+// // Initialization helper functions
 // Function that handles initial incoming url, and saves it in store
 const handleInitialUrl = () => {
   Linking.getInitialURL().then( irmaUrl => {
@@ -56,8 +59,8 @@ const handleUrl = (event) => {
   startSessionAndNavigate({sessionPointer, exitAfter: true, setRoot: true});
 };
 
-// Function that sets the initial screen as soon as the irmagobridge
-// enrollment reducer has been loaded. Also set the unlockModal if necessary.
+// Sets the initial screen as soon as the irmagobridge enrollment reducer
+// has been loaded. Also set the unlockModal if necessary.
 let hasSetInitialScreen = false;
 const initialScreenStoreListener = () => {
   if (hasSetInitialScreen)
@@ -96,7 +99,7 @@ const initialScreenStoreListener = () => {
     else
       setCredentialDashboardRoot();
 
-    // Show AppUnlock if not authenticated
+    // Show AppUnlock modal on top of screen if not authenticated
     if (enrolledSchemeManagerIds.length > 0 && !isAuthenticated)
       showAppUnlockModal();
   }
@@ -134,13 +137,3 @@ const appStateChangeListener = (appState) => {
     appState,
   });
 };
-
-Navigation.events().registerAppLaunchedListener( () => {
-  setDefaultOptions();
-  registerScreens();
-
-  handleInitialUrl();
-  AppState.addEventListener('change', appStateChangeListener);
-  store.subscribe(initialScreenStoreListener);
-  Linking.addEventListener('url', handleUrl);
-});

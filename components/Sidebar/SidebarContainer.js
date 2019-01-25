@@ -32,25 +32,6 @@ export default class SidebarContainer extends Component {
     isEnrolled: PropTypes.bool.isRequired,
   }
 
-  componentWillMount() {
-    // Make sure the sidebar is only available from the CredentialDashboard
-    Navigation.events().registerComponentDidAppearListener(({ componentId }) => {
-      if (componentId === CREDENTIAL_DASHBOARD_ROOT_ID) {
-        setCredentialDashboardSidebarEnabled(true);
-
-        // TODO: Workaround for sideMenu popping up sometimes on back button to CredentialDashboard on Android
-        // Remove this when react-native-navigation has this fixed
-        if (Platform.OS === 'android')
-          hideCredentialDashboardSidebar();
-      }
-    });
-
-    Navigation.events().registerComponentDidDisappearListener(({ componentId }) => {
-      if (componentId === CREDENTIAL_DASHBOARD_ROOT_ID)
-      setCredentialDashboardSidebarEnabled(false);
-    });
-  }
-
   deleteAllCredentials = () => {
     const { dispatch } = this.props;
     dispatch({type: 'IrmaBridge.DeleteAllCredentials'});

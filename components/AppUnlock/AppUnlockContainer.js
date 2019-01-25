@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Navigation } from 'lib/navigation';
-import irmaLogoImage from 'assets/irmaLogoSmall.png';
+import irmaLogoImage from 'assets/irmaLogoAppUnlock.png';
 
 import AppUnlock from './AppUnlock';
 

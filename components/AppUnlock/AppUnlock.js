@@ -174,13 +174,13 @@ export default class AppUnlock extends Component {
 const styles = StyleSheet.create({
   vaultUnderlayView: {
     position: 'absolute',
-    top: 0,
+    top: -20,
   },
   spinnerStyle: {
     marginTop: nbVariables.platform === 'ios' ? -5 : 0,
   },
   pinEntryStyle: {
-    marginTop: nbVariables.platform === 'ios' ? 175 : 190 * displayFactor,
+    marginTop: nbVariables.platform === 'ios' ? 175 : 160 * displayFactor,
   },
   errorText: {
     marginTop: 20,
