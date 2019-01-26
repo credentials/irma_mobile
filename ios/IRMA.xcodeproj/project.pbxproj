@@ -52,6 +52,7 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		D04909AF21E41E56002FDED5 /* libRCTImageSequence.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D049098E21E41E3B002FDED5 /* libRCTImageSequence.a */; };
 		D06D383821D69D11006B4D4F /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D06D383521D69CB3006B4D4F /* libReactNativeNavigation.a */; };
+		D06DAD0421FCC4A800BBC58C /* libRNLanguages.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D06DAD0121FCC48E00BBC58C /* libRNLanguages.a */; };
 		D078849C219C1C3A009DFA7E /* irma_configuration in Resources */ = {isa = PBXBuildFile; fileRef = D078849B219C1C3A009DFA7E /* irma_configuration */; };
 		D086EA4B219A380300ED4957 /* Irmagobridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D086EA25219A380300ED4957 /* Irmagobridge.framework */; };
 		D0AD0AC3219A3A3100C6AF84 /* IrmaBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = D0AD0AC2219A3A3100C6AF84 /* IrmaBridge.m */; };
@@ -355,6 +356,20 @@
 			remoteGlobalIDString = 7B49FEBB1E95090800DEB3EA;
 			remoteInfo = ReactNativeNavigationTests;
 		};
+		D06DAD0021FCC48E00BBC58C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D06DACD221FCC48D00BBC58C /* RNLanguages.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNLanguages;
+		};
+		D06DAD0221FCC48E00BBC58C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D06DACD221FCC48D00BBC58C /* RNLanguages.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28471D9B043800D4039D;
+			remoteInfo = "RNLanguages-tvOS";
+		};
 		D0DC78C321DACC3D0097034A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D0DC789A21DACC3D0097034A /* ReactNativeCameraKit.xcodeproj */;
@@ -403,8 +418,9 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B599EDB81C8C4621B200781F /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/native-base/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		BFEE08729B69407F93ACCF7B /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
-		D049098121E41E3B002FDED5 /* RCTImageSequence.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImageSequence.xcodeproj; path = "../lib/ImageSequence/ios/RCTImageSequence.xcodeproj"; sourceTree = "<group>"; };
+		D049098121E41E3B002FDED5 /* RCTImageSequence.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImageSequence.xcodeproj; path = ../lib/ImageSequence/ios/RCTImageSequence.xcodeproj; sourceTree = "<group>"; };
 		D06D380A21D69CB3006B4D4F /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/lib/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
+		D06DACD221FCC48D00BBC58C /* RNLanguages.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNLanguages.xcodeproj; path = "../node_modules/react-native-languages/ios/RNLanguages.xcodeproj"; sourceTree = "<group>"; };
 		D078849B219C1C3A009DFA7E /* irma_configuration */ = {isa = PBXFileReference; lastKnownFileType = folder; name = irma_configuration; path = ../irma_configuration; sourceTree = "<group>"; };
 		D086EA25219A380300ED4957 /* Irmagobridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Irmagobridge.framework; sourceTree = "<group>"; };
 		D0AD0A9C219A3A3100C6AF84 /* IrmaBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IrmaBridge.h; path = IRMA/IrmaBridge.h; sourceTree = "<group>"; };
@@ -427,6 +443,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D06DAD0421FCC4A800BBC58C /* libRNLanguages.a in Frameworks */,
 				D04909AF21E41E56002FDED5 /* libRCTImageSequence.a in Frameworks */,
 				D0DC78C721DACC7F0097034A /* libReactNativeCameraKit.a in Frameworks */,
 				D06D383821D69D11006B4D4F /* libReactNativeNavigation.a in Frameworks */,
@@ -649,6 +666,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				D06DACD221FCC48D00BBC58C /* RNLanguages.xcodeproj */,
 				D049098121E41E3B002FDED5 /* RCTImageSequence.xcodeproj */,
 				D0DC789A21DACC3D0097034A /* ReactNativeCameraKit.xcodeproj */,
 				13B07FAE1A68108700A75B9A /* IRMA */,
@@ -718,6 +736,15 @@
 			children = (
 				D06D383521D69CB3006B4D4F /* libReactNativeNavigation.a */,
 				D06D383721D69CB3006B4D4F /* ReactNativeNavigationTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D06DACD321FCC48D00BBC58C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D06DAD0121FCC48E00BBC58C /* libRNLanguages.a */,
+				D06DAD0321FCC48E00BBC58C /* libRNLanguages-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -904,6 +931,10 @@
 				{
 					ProductGroup = D06D380B21D69CB3006B4D4F /* Products */;
 					ProjectRef = D06D380A21D69CB3006B4D4F /* ReactNativeNavigation.xcodeproj */;
+				},
+				{
+					ProductGroup = D06DACD321FCC48D00BBC58C /* Products */;
+					ProjectRef = D06DACD221FCC48D00BBC58C /* RNLanguages.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1195,6 +1226,20 @@
 			fileType = wrapper.cfbundle;
 			path = ReactNativeNavigationTests.xctest;
 			remoteRef = D06D383621D69CB3006B4D4F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D06DAD0121FCC48E00BBC58C /* libRNLanguages.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNLanguages.a;
+			remoteRef = D06DAD0021FCC48E00BBC58C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D06DAD0321FCC48E00BBC58C /* libRNLanguages-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNLanguages-tvOS.a";
+			remoteRef = D06DAD0221FCC48E00BBC58C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		D0DC78C421DACC3D0097034A /* libReactNativeCameraKit.a */ = {
