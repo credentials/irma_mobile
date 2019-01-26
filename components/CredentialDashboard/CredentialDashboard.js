@@ -9,8 +9,8 @@ import CredentialCard from 'components/CredentialCard';
 import Container from 'components/Container';
 import ButtonImage from 'components/ButtonImage';
 
-import registerIcon from 'streamline/icons/regular/PNG/17-Users/13-Geomertic-Close-Up-Single-User-Actions-Neutral/24w/single-neutral-actions-add.png';
-import qrScannerIcon from 'streamline/icons/regular/PNG/20-Phones-Mobile-Devices/08-QR-Code/48w/qr-code-scan.png';
+import registerIcon from 'assets/icons/streamline-regular/17/13/single-neutral-actions-add.png';
+import qrScannerIcon from 'assets/icons/streamline-light/20/08/qr-code-scan.png';
 
 import {
   Button,

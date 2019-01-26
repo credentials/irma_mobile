@@ -8,7 +8,7 @@ import {
 } from 'native-base';
 
 import { namespacedTranslation } from 'lib/i18n';
-import extraIconImage from 'streamline/icons/regular/PNG/01-InterfaceEssential/43-Remove-Add/24w/add-circle.png';
+import extraIconImage from 'assets/icons/streamline-regular/01/43/add-circle.png';
 
 export const t = namespacedTranslation('AppUnlock.PinEntry');
 const displayFactor = Dimensions.get('window').width / 450;

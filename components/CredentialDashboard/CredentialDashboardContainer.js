@@ -7,8 +7,8 @@ import fullCredentials from 'store/mappers/fullCredentials';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 import { Navigation, showAppUnlockModal, setEnrollmentRoot, showCredentialDashboardSidebar, QR_SCANNER_SCREEN } from 'lib/navigation';
 
-import menuIconImage from 'streamline/icons/regular/PNG/01-InterfaceEssential/03-Menu/24w/navigation-menu.png';
-import lockIconImage from 'streamline/icons/regular/PNG/01-InterfaceEssential/11-Lock-Unlock/24w/lock-1.png';
+import menuIconImage from 'assets/icons/streamline-regular/01/03/navigation-menu.png';
+import lockIconImage from 'assets/icons/streamline-regular/01/11/lock-1.png';
 
 const mapStateToProps = (state) => {
   const {

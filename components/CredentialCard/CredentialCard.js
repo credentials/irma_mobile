@@ -20,9 +20,9 @@ import { CredentialAttributes, CardItemThumb } from './helpers';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 import { namespacedTranslation, lang } from 'lib/i18n';
 
-import infoCircleIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/14-Alerts/48w/information-circle.png';
-import shareIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/28-Share/48w/share-3.png';
-import deleteIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/23-Delete/24w/bin-1.png';
+import infoCircleIcon from 'assets/icons/streamline-regular/01/14/information-circle.png';
+import shareIcon from 'assets/icons/streamline-regular/01/28/share-3.png';
+import deleteIcon from 'assets/icons/streamline-regular/01/23/bin-1.png';
 
 const t = namespacedTranslation('CredentialCard');
 

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Image, Alert, Linking } from 'react-native';
 
-import attributesIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/03-Menu/24w/navigation-menu-4.png';
-import registerIcon from 'streamline/icons/regular/PNG/17-Users/13-Geomertic-Close-Up-Single-User-Actions-Neutral/24w/single-neutral-actions-add.png';
-import changePinIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/10-Password/24w/password-lock-1.png';
-import preferencesIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/12-Settings/24w/cog.png';
-import moreAttributesIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/43-Remove-Add/24w/add-circle.png';
-import deleteAllIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/23-Delete/24w/bin-1.png';
-import aboutIcon from 'streamline/icons/regular/PNG/01-InterfaceEssential/14-Alerts/24w/information-circle.png';
+import attributesIcon from 'assets/icons/streamline-regular/01/03/navigation-menu-4.png';
+import registerIcon from 'assets/icons/streamline-regular/17/13/single-neutral-actions-add.png';
+import changePinIcon from 'assets/icons/streamline-regular/01/10/password-lock-1.png';
+import preferencesIcon from 'assets/icons/streamline-regular/01/12/cog.png';
+import moreAttributesIcon from 'assets/icons/streamline-regular/01/43/add-circle.png';
+import deleteAllIcon from 'assets/icons/streamline-regular/01/23/bin-1.png';
+import aboutIcon from 'assets/icons/streamline-regular/01/14/information-circle.png';
 
 import {
   CHANGE_PIN_SCREEN,
