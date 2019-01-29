@@ -103,7 +103,7 @@ const initialScreenStoreListener = () => {
 
     // Show AppUnlock modal on top of screen if not authenticated
     if (enrolledSchemeManagerIds.length > 0 && !isAuthenticated)
-      showAppUnlockModal();
+      showAppUnlockModal({showModalAnimation: false});
   }
 };
 
@@ -130,7 +130,7 @@ const appStateChangeListener = (appState) => {
     });
 
     if (enrolledSchemeManagerIds.length > 0)
-      showAppUnlockModal();
+      showAppUnlockModal({showModalAnimation: false});
   }
 
   // Record the current state
