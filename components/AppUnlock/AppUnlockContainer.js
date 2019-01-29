@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { BackHandler, Platform } from 'react-native';
 
 import { Navigation } from 'lib/navigation';
-import irmaLogoImage from 'assets/irmaLogoAppUnlock.png';
 
 import AppUnlock, { t } from './AppUnlock';
 
@@ -49,7 +48,8 @@ export default class AppUnlockContainer extends Component {
     topBar: {
       leftButtons: {
         id: 'logo',
-        icon: irmaLogoImage,
+        // Android needs extra padding for the icon, so hackily insert padding by using a different image
+        icon: Platform.OS === 'ios' ? require('assets/irmaLogoAppUnlock.png') : require('assets/irmaLogoAppUnlockAndroid.png'),
       },
       title: {
         text: t('.title'),
