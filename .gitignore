@@ -25,7 +25,9 @@ project.xcworkspace/
 /lib/*/android
 /android/app/build
 /android/.gradle
+local.properties
 *.jsbundle
+*.iml
 
 # Go libs
 *.jar
