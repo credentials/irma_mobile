@@ -1,4 +1,4 @@
-import { Linking, AppState } from 'react-native';
+import { Linking, AppState, StatusBar } from 'react-native';
 import moment from 'moment';
 
 import { initStore } from 'store';
@@ -24,6 +24,8 @@ const store = initStore();
 
 // // Main entry point of application on boot
 Navigation.events().registerAppLaunchedListener( () => {
+  StatusBar.setBarStyle('light-content');
+
   setDefaultOptions();
   registerScreens();
   componentAppearanceChangedListener();
