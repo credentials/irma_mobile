@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { BackHandler } from 'react-native';
+import { BackHandler, Platform } from 'react-native';
 
 import { Navigation } from 'lib/navigation';
 import irmaLogoImage from 'assets/irmaLogoAppUnlock.png';
@@ -48,6 +48,7 @@ export default class AppUnlockContainer extends Component {
   static options = {
     topBar: {
       leftButtons: {
+        id: 'logo',
         icon: irmaLogoImage,
       },
       title: {
@@ -79,7 +80,13 @@ export default class AppUnlockContainer extends Component {
 
   dismissModal = () => {
     const { componentId } = this.props;
-    Navigation.dismissModal(componentId);
+    Navigation.dismissModal(componentId, {
+      animations: {
+        dismissModal: {
+          enabled: Platform.OS !== 'ios',
+        }
+      }
+    });
   }
 
   authenticate = pin => {

@@ -12,12 +12,13 @@ import {
 
 import Container from 'components/Container';
 import PinEntry from './children/PinEntry';
-import imageSequence from './imageSequence';
+import vaultFrames from './children/vaultFrames';
 import { STATUS_AUTHENTICATED, STATUS_AUTHENTICATING } from 'store/reducers/appUnlock';
 
 import { namespacedTranslation } from 'lib/i18n';
 
 export const t = namespacedTranslation('AppUnlock');
+const isAnimationEnabled = vaultFrames.length > 1;
 
 export default class AppUnlock extends Component {
 
@@ -49,23 +50,24 @@ export default class AppUnlock extends Component {
   startEntryAnimation = () => {
     const { dismissModal } = this.props;
     const { animatedOpacity, animatedBackgroundColor } = this.state;
+    const durationSubtraction = isAnimationEnabled ? 0 : 1200;
 
     Keyboard.dismiss();
 
     setTimeout(() => {
       dismissModal();
-    }, 2200);
+    }, 2200 - durationSubtraction);
 
     Animated.parallel([
       Animated.timing(animatedOpacity, {
         toValue: 0,
         duration: 400,
-        delay: 1200,
+        delay: 1200 - durationSubtraction,
       }),
       Animated.timing(animatedBackgroundColor, {
         toValue: 1,
         duration: 400,
-        delay: 2000,
+        delay: 2000 - durationSubtraction,
       }),
     ]).start();
   }
@@ -117,13 +119,12 @@ export default class AppUnlock extends Component {
 
   renderImageSequence() {
     const { status } = this.props;
-
     const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
     return (
       <TouchableWithoutFeedback>
         <ImageSequence
-          images={imageSequence}
+          images={vaultFrames}
           framesPerSecond={24}
           started={status === STATUS_AUTHENTICATED}
           loop={false}
@@ -137,18 +138,22 @@ export default class AppUnlock extends Component {
     const { authenticate, remainingAttempts } = this.props;
     const { animatedOpacity, animatedBackgroundColor } = this.state;
 
-    const backgroundColor = animatedBackgroundColor.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['rgba(248, 248, 248, 1)', 'rgba(248, 248, 248, 0)'],
-    });
+    const backgroundColorStyle = {
+      backgroundColor: animatedBackgroundColor.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['rgba(248, 248, 248, 1)', 'rgba(248, 248, 248, 0)'],
+      }),
+    };
+
+    const opacityStyle = {opacity: animatedOpacity};
 
     return (
-      <Animated.View style={{flex: 1, backgroundColor}}>
+      <Animated.View style={[{flex: 1}, backgroundColorStyle, !isAnimationEnabled ? opacityStyle : null]}>
         <View style={styles.vaultUnderlayView}>
           { this.renderImageSequence() }
         </View>
         <Container transparent>
-          <Animated.View style={{flex: 1, flexDirection: 'column', opacity: animatedOpacity}}>
+          <Animated.View style={[{flex: 1, flexDirection: 'column'}, isAnimationEnabled ? opacityStyle : null]}>
             <PinEntry
               clearKey={remainingAttempts}
               minLength={5}
