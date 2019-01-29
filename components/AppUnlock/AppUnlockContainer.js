@@ -55,6 +55,10 @@ export default class AppUnlockContainer extends Component {
         text: t('.title'),
       },
     },
+    layout: {
+      backgroundColor: 'transparent',
+    },
+    modalPresentationStyle: Platform.OS === 'ios' ? 'overFullScreen' : 'overCurrentContext',
   }
 
   constructor(props) {
