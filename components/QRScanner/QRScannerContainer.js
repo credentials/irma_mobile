@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NativeModules, PermissionsAndroid, Vibration } from 'react-native';
+import { NativeModules, PermissionsAndroid, Vibration, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Sentry } from 'react-native-sentry';
+import { CameraKitCamera } from 'react-native-camera-kit';
 
 import {
   Toast,
@@ -34,10 +35,19 @@ export default class QRScannerContainer extends Component {
   }
 
   componentDidMount() {
-    this.requestCameraPermission();
+    if (Platform.OS === 'ios')
+      this.requestCameraPermissionIos();
+    else
+      this.requestCameraPermissionAndroid();
   }
 
-  async requestCameraPermission() {
+  async requestCameraPermissionIos() {
+    if (await CameraKitCamera.requestDeviceCameraAuthorization())
+      this.setState({hasCameraPermission: true});
+  }
+
+  async requestCameraPermissionAndroid() {
+    // Don't use requestDeviceCameraAuthorization, which is a mess in react-native-camera-kit for Android
     try {
       const result = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
       if (result === PermissionsAndroid.RESULTS.GRANTED)
