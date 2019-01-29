@@ -64,7 +64,15 @@ public class RCTImageSequenceView extends ImageView {
                 currentFrame = this.mCurFrameField.getInt(this);
             } catch (Exception e) {}
 
-            InputStream in = new ByteArrayInputStream(this.imagesData.get(currentFrame));
+            // In some obscure Android flavours, mCurFrame can be -1, so in that case just show the first frame
+            byte[] currentFrameData;
+            try {
+                currentFrameData = this.imagesData.get(currentFrame);
+            } catch (IndexOutOfBoundsException e) {
+                currentFrameData = this.imagesData.get(0);
+            }
+
+            InputStream in = new ByteArrayInputStream(currentFrameData);
             BitmapDrawable drawable = new BitmapDrawable(this.context.getResources(), in);
 
             drawable.setBounds(this.getBounds());
@@ -200,7 +208,6 @@ public class RCTImageSequenceView extends ImageView {
 
         this.animationDrawable.setOneShot(!this.loop);
         this.setImageDrawable(this.animationDrawable);
-        
         this.isSetup = true;
         if(this.started) {
             this.animationDrawable.start();
