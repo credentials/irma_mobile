@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Platform, BackHandler } from 'react-native';
+import { Platform, BackHandler, Linking } from 'react-native';
 
 import { Navigation, setEnrollmentRoot } from 'lib/navigation';
 import fullCredentials from 'store/mappers/fullCredentials';
@@ -122,11 +122,13 @@ export default class SessionContainer extends Component {
   }
 
   navigateBack = () => {
-    const { componentId, session: { exitAfter } } = this.props;
+    const { componentId, session: { exitAfter, qr } } = this.props;
 
     Navigation.popToRoot(componentId);
 
-    if (exitAfter && Platform.OS === 'android')
+    if (exitAfter && qr.returnURL)
+      Linking.openURL(qr.returnURL);
+    else if (exitAfter && Platform.OS === 'android')
       BackHandler.exitApp();
   }
 
