@@ -7,7 +7,6 @@ const fullCandidateAttribute = (disclosureCandidate, irmaConfiguration, credenti
     Issuer,
     CredentialType,
     AttributeType,
-    attributeIndex // TODO: Remove me when irmago offers index
   } = attributeInfo(disclosureCandidate.Type, irmaConfiguration);
 
   // Find the credential in which the candidate attribute is contained,
@@ -16,7 +15,8 @@ const fullCandidateAttribute = (disclosureCandidate, irmaConfiguration, credenti
     credential.Hash === disclosureCandidate.CredentialHash
   );
 
-  const Value = Credential.Attributes[attributeIndex]; // TODO: Change me when irmago offers index
+  const attributeTypeId = `${AttributeType.SchemeManagerID}.${AttributeType.IssuerID}.${AttributeType.CredentialTypeID}.${AttributeType.ID}`;
+  const Value = Credential.Attributes[attributeTypeId];
 
   return {
     SchemeManager,

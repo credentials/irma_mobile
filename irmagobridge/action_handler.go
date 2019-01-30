@@ -1,6 +1,7 @@
 package irmagobridge
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/go-errors/errors"
@@ -8,8 +9,7 @@ import (
 )
 
 type ActionHandler struct {
-	sessionLookup        map[int]*SessionHandler
-	manualSessionHandler *SessionHandler
+	sessionLookup map[int]*SessionHandler
 }
 
 // Enrollment to a keyshare server
@@ -86,7 +86,7 @@ func (ah *ActionHandler) ChangePin(action *ChangePinAction) (err error) {
 // Initiating a new session
 type NewSessionAction struct {
 	SessionID int
-	Qr        *irma.Qr
+	Request   json.RawMessage
 }
 
 func (ah *ActionHandler) NewSession(action *NewSessionAction) (err error) {
@@ -97,21 +97,7 @@ func (ah *ActionHandler) NewSession(action *NewSessionAction) (err error) {
 	sessionHandler := &SessionHandler{sessionID: action.SessionID}
 	ah.sessionLookup[sessionHandler.sessionID] = sessionHandler
 
-	sessionHandler.dismisser = client.NewSession(action.Qr, sessionHandler)
-	return nil
-}
-
-// Initiating a new manual session
-type NewManualSessionAction struct {
-	Request string
-}
-
-func (ah *ActionHandler) NewManualSession(action *NewManualSessionAction) (err error) {
-	ah.manualSessionHandler = &SessionHandler{
-		sessionID: 0,
-	}
-
-	client.NewManualSession(action.Request, ah.manualSessionHandler)
+	sessionHandler.dismisser = client.NewSession(string(action.Request), sessionHandler)
 	return nil
 }
 
@@ -189,10 +175,6 @@ type DismissSessionAction struct {
 }
 
 func (ah *ActionHandler) DismissSession(action *DismissSessionAction) error {
-	if action.SessionID == 0 {
-		// Manual sessions don't need to be dismissed
-		return nil
-	}
 	sh, err := ah.findSessionHandler(action.SessionID)
 	if err != nil {
 		return err
@@ -217,9 +199,6 @@ func (ah *ActionHandler) SetCrashReportingPreference(action *SetCrashReportingPr
 
 // findSessionHandler is a helper function to find a session in the sessionLookup
 func (ah *ActionHandler) findSessionHandler(sessionID int) (*SessionHandler, error) {
-	if sessionID == 0 {
-		return ah.manualSessionHandler, nil
-	}
 	sh := ah.sessionLookup[sessionID]
 	if sh == nil {
 		return nil, errors.Errorf("Invalid session ID in RespondPermission: %d", sessionID)

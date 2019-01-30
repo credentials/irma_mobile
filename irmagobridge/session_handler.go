@@ -12,6 +12,9 @@ type SessionHandler struct {
 	pinHandler        irmaclient.PinHandler
 }
 
+// SessionHandler implements irmaclient.Handler
+var _ irmaclient.Handler = (*SessionHandler)(nil)
+
 func (sh *SessionHandler) StatusUpdate(irmaAction irma.Action, status irma.Status) {
 	logDebug("Handling StatusUpdate")
 	action := &OutgoingAction{
@@ -24,25 +27,23 @@ func (sh *SessionHandler) StatusUpdate(irmaAction irma.Action, status irma.Statu
 	sendAction(action)
 }
 
-func (sh *SessionHandler) Success(irmaAction irma.Action, result string) {
+func (sh *SessionHandler) Success(result string) {
 	logDebug("Handling Success")
 	action := &OutgoingAction{
-		"type":       "IrmaSession.Success",
-		"sessionId":  sh.sessionID,
-		"irmaAction": irmaAction,
-		"result":     result,
+		"type":      "IrmaSession.Success",
+		"sessionId": sh.sessionID,
+		"result":    result,
 	}
 
 	sendAction(action)
 }
 
-func (sh *SessionHandler) Failure(irmaAction irma.Action, err *irma.SessionError) {
+func (sh *SessionHandler) Failure(err *irma.SessionError) {
 	logDebug("Handling Failure")
 
 	action := &OutgoingAction{
-		"type":       "IrmaSession.Failure",
-		"sessionId":  sh.sessionID,
-		"irmaAction": irmaAction,
+		"type":      "IrmaSession.Failure",
+		"sessionId": sh.sessionID,
 		"error": &OutgoingAction{
 			"type":         err.ErrorType,
 			"wrappedError": err.WrappedError(),
@@ -56,7 +57,7 @@ func (sh *SessionHandler) Failure(irmaAction irma.Action, err *irma.SessionError
 	sendAction(action)
 }
 
-func (sh *SessionHandler) Cancelled(irmaAction irma.Action) {
+func (sh *SessionHandler) Cancelled() {
 	logDebug("Handling Cancelled")
 	action := &OutgoingAction{
 		"type":      "IrmaSession.Cancelled",
@@ -66,7 +67,7 @@ func (sh *SessionHandler) Cancelled(irmaAction irma.Action) {
 	sendAction(action)
 }
 
-func (sh *SessionHandler) UnsatisfiableRequest(irmaAction irma.Action, serverName string, missingDisclosures irma.AttributeDisjunctionList) {
+func (sh *SessionHandler) UnsatisfiableRequest(serverName string, missingDisclosures irma.AttributeDisjunctionList) {
 	logDebug("Handling UnsatisfiableRequest")
 	action := &OutgoingAction{
 		"type":               "IrmaSession.UnsatisfiableRequest",

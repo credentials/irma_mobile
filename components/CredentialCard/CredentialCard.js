@@ -102,7 +102,7 @@ export default class CredentialCard extends Component {
             { CredentialType.Name[lang] }
           </Text>
           <Text note>
-            { showAdditionalInfo && CredentialType.Attributes.length > 1 ? CredentialType.Description[lang] :
+            { showAdditionalInfo && credential.Attributes.length > 1 ? CredentialType.Description[lang] :
                 t('common.attributes', {count: credential.Attributes.length})
             }
           </Text>
