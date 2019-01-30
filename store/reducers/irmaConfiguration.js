@@ -1,8 +1,8 @@
-import attributeTypes from 'store/mappers/attributeTypes';
 import fullCredentialTypes from 'store/mappers/fullCredentialTypes';
 import fullIssuers from 'store/mappers/fullIssuers';
 
 const initialState = {
+  attributeTypes: {},
   credentialTypes: {},
   issuers: {},
   schemeManagers: {},
@@ -21,14 +21,12 @@ export default function irmaConfiguration(state = initialState, action) {
       return {
         ...state,
         loaded: true,
+        attributeTypes: irmaConfig.AttributeTypes,
         credentialTypes: fullCredentialTypes(irmaConfig.CredentialTypes, configurationPath),
         issuers: fullIssuers(irmaConfig.Issuers, configurationPath),
         schemeManagers: irmaConfig.SchemeManagers,
         configurationPath,
         sentryDSN: action.sentryDSN,
-
-        // Make attribute information more easily available
-        attributeTypes: attributeTypes(irmaConfig.CredentialTypes),
       };
     }
 

@@ -49,12 +49,6 @@ func recoveredReceiveAction(actionJSONString string) {
 			err = actionHandler.NewSession(action)
 		}
 
-	case "NewManualSession":
-		action := &NewManualSessionAction{}
-		if err = json.Unmarshal(actionJSON, action); err == nil {
-			err = actionHandler.NewManualSession(action)
-		}
-
 	case "RespondPermission":
 		action := &RespondPermissionAction{}
 		if err = json.Unmarshal(actionJSON, action); err == nil {
