@@ -9,6 +9,16 @@ RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(start) {
   NSString* bundlePath = NSBundle.mainBundle.bundlePath;
   NSString *libraryPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
+  // Mark librarypath as non-backup
+  NSURL* URL= [NSURL fileURLWithPath: libraryPath];
+
+  NSError *error = nil;
+  BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
+                              forKey: NSURLIsExcludedFromBackupKey error: &error];
+  if(!success){
+    NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
+  }
+
   IrmagobridgeStart(self, libraryPath, bundlePath);
 }
 
