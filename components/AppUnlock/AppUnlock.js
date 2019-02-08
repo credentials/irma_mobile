@@ -128,7 +128,7 @@ export default class AppUnlock extends Component {
           framesPerSecond={24}
           started={status === STATUS_AUTHENTICATED}
           loop={false}
-          style={{width: screenWidth, height: screenHeight}}
+          style={{width: screenWidth, height: screenWidth/500*888}}
         />
       </TouchableWithoutFeedback>
     );
@@ -159,7 +159,7 @@ export default class AppUnlock extends Component {
               minLength={5}
               onPinSubmit={authenticate}
               recommendedLength={7}
-              style={{marginTop: Dimensions.get('window').width / 500 * 250 - 50}}
+              style={{marginTop: Dimensions.get('window').width / 500 * 250 - 20}}
             />
             { this.renderSpinner() }
             { this.renderFailure() }
