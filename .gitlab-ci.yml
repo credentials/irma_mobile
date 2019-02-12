@@ -1,0 +1,27 @@
+stages:
+  - build
+  
+cache:
+  key: $CI_COMMIT_REF_SLUG
+  paths:
+  - vendor/
+  - node_modules/
+
+variables:
+  PACKAGE_NAME: github.com/privacybydesign/irmago
+
+before_script:
+  - set -euxo pipefail
+  - mkdir -p "$GOPATH/src/$(dirname "$PACKAGE_NAME")"
+  - rm -f "$GOPATH/src/$PACKAGE_NAME"
+  - ln -s "$CI_PROJECT_DIR" "$GOPATH/src/$PACKAGE_NAME"
+  - cd "$GOPATH/src/$PACKAGE_NAME/ios"
+  - dep ensure
+  - yarn install
+
+build:
+  stage: build
+  script: 
+    - xcodebuild build -project IRMA.xcodeproj -scheme IRMA
+  tags:
+    - macos
