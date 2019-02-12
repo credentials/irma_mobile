@@ -122,6 +122,14 @@
   revision = "e651d75abec6fbd4f2c09508f72ae7af8a8b7171"
 
 [[projects]]
+  branch = "master"
+  digest = "1:4db2738e3625ff5b5752fd48e2e48f5b008790a7ac5d68b7663f380d2d5c4b39"
+  name = "github.com/jasonlvhit/gocron"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "6771d4b492ba2d5f57919c04b4cddb3735365120"
+
+[[projects]]
   digest = "1:0a69a1c0db3591fcefb47f115b224592c8dfa4368b7ba9fae509d5e16cdc95c8"
   name = "github.com/konsorten/go-windows-terminal-sequences"
   packages = ["."]
@@ -159,7 +167,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:0b9fdb75e12125b4aff5b75ee34981df9a60016e46f0fe3d5de93ff82e1acb48"
+  digest = "1:846f70339230e07475229151b117a3110a86977bf5ed6aa9f4847556b279d82b"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
@@ -168,7 +176,7 @@
     "irmaclient",
   ]
   pruneopts = "UT"
-  revision = "63968d2d30b1ec748a5551afb5956e3792b9fbc9"
+  revision = "934c2f34cd6a0d2ed18efadd146f60cdc06806d2"
 
 [[projects]]
   branch = "master"
