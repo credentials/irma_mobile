@@ -20,8 +20,8 @@ before_script:
   - yarn install
 
 build:
-  stage: build
-  script: 
-    - xcodebuild build -project IRMA.xcodeproj -scheme IRMA
   tags:
     - macos
+  stage: build
+  script: 
+    - xcodebuild build -project IRMA.xcodeproj -scheme IRMA-Alpha
