@@ -58,7 +58,7 @@ const handleUrl = (event) => {
   if (!sessionPointer)
     return;
 
-  startSessionAndNavigate({sessionPointer, exitAfter: true, setRoot: true});
+  startSessionAndNavigate({sessionPointer, exitAfter: true, setRoot: false});
 };
 
 // Sets the initial screen as soon as the irmagobridge enrollment reducer
