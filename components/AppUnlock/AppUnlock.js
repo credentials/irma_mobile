@@ -78,12 +78,17 @@ export default class AppUnlock extends Component {
       return null;
 
     return (
-      <View>
-        <Spinner
-          style={styles.spinnerStyle}
-          color="#00B1E6"
-        />
-      </View>
+      <>
+        <View>
+          <Spinner
+            style={styles.spinnerStyle}
+            color="#00B1E6"
+          />
+        </View>
+        <Text style={styles.statusText}>
+          {t('.checkingPin')}
+        </Text>
+      </>
     );
   }
 
@@ -178,6 +183,12 @@ const styles = StyleSheet.create({
   },
   spinnerStyle: {
     marginTop: -5,
+  },
+  statusText: {
+    marginTop: 20,
+    paddingHorizontal: 10,
+    textAlign: 'center',
+    fontSize: 16*Dimensions.get('window').width / 450,
   },
   errorText: {
     marginTop: 20,
