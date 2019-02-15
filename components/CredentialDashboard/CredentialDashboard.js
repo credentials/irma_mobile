@@ -93,7 +93,29 @@ export default class CredentialDashboard extends Component {
       isEditable,
     } = this.props;
 
-    return credentials.map( credential =>
+    const sortedCredentials = credentials.sort((a,b) => {
+      if (a.SignedOn > b.SignedOn) {
+        return -1;
+      }
+      if (a.SignedOn < b.SignedOn) {
+        return +1;
+      }
+      if (a.CredentialType.fullID < b.CredentialType.fullID) {
+        return -1;
+      }
+      if (a.CredentialType.fullID > b.CredentialType.fullID) {
+        return +1;
+      }
+      if (a.Hash < b.Hash) {
+        return -1;
+      }
+      if (a.Hash > b.Hash) {
+        return +1;
+      }
+      return 0;
+    });
+
+    return sortedCredentials.map( credential =>
       <CredentialCard
         key={credential.Hash}
         credential={credential}
