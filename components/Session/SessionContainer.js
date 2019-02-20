@@ -12,6 +12,9 @@ import IssuanceSession from './IssuanceSession';
 import DisclosureSession from './DisclosureSession';
 import SigningSession from './SigningSession';
 
+import Error from './children/Error';
+import Footer from './children/Footer';
+
 // import { sendMail } from 'lib/mail';
 
 import {
@@ -250,6 +253,21 @@ export default class SessionContainer extends Component {
 
       // Display an empty container while awaiting irmago response
       case undefined:
+        if (status === 'failure') {
+          // But do display errors
+          return (
+            <Container>
+              <PaddedContent>
+                <Error session={sessionProps.session}/>
+              </PaddedContent>
+              <Footer
+                navigateBack={sessionProps.navigateBack}
+                nextStep={sessionProps.nextStep}
+                session={sessionProps.session}
+              />
+            </Container>
+          );
+        }
         return <Container />;
 
       default:
