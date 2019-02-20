@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:privacybydesign.foundation</string>
+		<string>applinks:irma.app</string>
 	</array>
 </dict>
 </plist>

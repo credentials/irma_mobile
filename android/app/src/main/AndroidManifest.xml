@@ -31,7 +31,7 @@
             <category android:name="android.intent.category.BROWSABLE"/>
             <data android:scheme="irma"/>
             <data android:scheme="cardemu"/>
-            <data android:scheme="https" android:host="privacybydesign.foundation" android:pathPrefix="/appsession/start"/>
+	    <data android:scheme="https" android:host="irma.app" android:pathPrefix="/-/session"/>
         </intent-filter>
         <intent-filter>
           <category android:name="android.intent.category.DEFAULT" />
