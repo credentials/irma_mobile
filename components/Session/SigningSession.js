@@ -82,6 +82,7 @@ export default class SigningSession extends Component {
         explanation = (
           <View>
             <Text>
+              <Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
               { t('.requestPermission.beforeExplanation') }
             </Text>
             { messageText }
