@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { namespacedTranslation } from 'lib/i18n';
+import { namespacedTranslation, lang } from 'lib/i18n';
 import PaddedContent from 'lib/PaddedContent';
 import Container from 'components/Container';
 
@@ -82,7 +82,7 @@ export default class SigningSession extends Component {
         explanation = (
           <View>
             <Text>
-              <Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
+              <Text style={{fontWeight: 'bold'}}>{ serverName[lang] }</Text>&nbsp;
               { t('.requestPermission.beforeExplanation') }
             </Text>
             { messageText }

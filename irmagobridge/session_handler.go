@@ -67,7 +67,7 @@ func (sh *SessionHandler) Cancelled() {
 	sendAction(action)
 }
 
-func (sh *SessionHandler) UnsatisfiableRequest(serverName string, missingDisclosures irma.AttributeDisjunctionList) {
+func (sh *SessionHandler) UnsatisfiableRequest(serverName irma.TranslatedString, missingDisclosures irma.AttributeDisjunctionList) {
 	logDebug("Handling UnsatisfiableRequest")
 	action := &OutgoingAction{
 		"type":               "IrmaSession.UnsatisfiableRequest",
@@ -79,7 +79,7 @@ func (sh *SessionHandler) UnsatisfiableRequest(serverName string, missingDisclos
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestIssuancePermission(request irma.IssuanceRequest, serverName string, ph irmaclient.PermissionHandler) {
+func (sh *SessionHandler) RequestIssuancePermission(request irma.IssuanceRequest, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestIssuancePermission")
 	action := &OutgoingAction{
 		"type":                  "IrmaSession.RequestIssuancePermission",
@@ -94,7 +94,7 @@ func (sh *SessionHandler) RequestIssuancePermission(request irma.IssuanceRequest
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestVerificationPermission(request irma.DisclosureRequest, serverName string, ph irmaclient.PermissionHandler) {
+func (sh *SessionHandler) RequestVerificationPermission(request irma.DisclosureRequest, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestVerificationPermission")
 	action := &OutgoingAction{
 		"type":                  "IrmaSession.RequestVerificationPermission",
@@ -108,7 +108,7 @@ func (sh *SessionHandler) RequestVerificationPermission(request irma.DisclosureR
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestSignaturePermission(request irma.SignatureRequest, serverName string, ph irmaclient.PermissionHandler) {
+func (sh *SessionHandler) RequestSignaturePermission(request irma.SignatureRequest, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestSignaturePermission")
 	action := &OutgoingAction{
 		"type":                  "IrmaSession.RequestSignaturePermission",

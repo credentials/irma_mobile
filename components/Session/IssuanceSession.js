@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { namespacedTranslation } from 'lib/i18n';
+import { namespacedTranslation, lang } from 'lib/i18n';
 import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
 import Container from 'components/Container';
 
@@ -65,7 +65,7 @@ export default class IssuanceSession extends Component {
         explanation = (
           <Text>
             { t('.unsatisfiableRequestExplanation.before') }
-            &nbsp;<Text style={{fontWeight: 'bold'}}>{ serverName }</Text>&nbsp;
+            &nbsp;<Text style={{fontWeight: 'bold'}}>{ serverName[lang] }</Text>&nbsp;
             { t('.unsatisfiableRequestExplanation.after') }
           </Text>
         );
@@ -83,7 +83,7 @@ export default class IssuanceSession extends Component {
 
         explanation = (
           <Text>
-            <Text style={{fontWeight: 'bold'}}>{ serverName }</Text>
+            <Text style={{fontWeight: 'bold'}}>{ serverName[lang] }</Text>
             { t('.requestPermissionExplanation', {credentialAmount, attributeAmount}) }
           </Text>
         );
@@ -95,7 +95,7 @@ export default class IssuanceSession extends Component {
         explanation = (
           <View>
             <Text>
-              { t('.requestDisclosurePermission', {serverName}) }
+              { t('.requestDisclosurePermission', {serverName: serverName[lang]}) }
             </Text>
           </View>
         );
