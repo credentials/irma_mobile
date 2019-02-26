@@ -1,4 +1,4 @@
-import { NativeModules, NativeEventEmitter } from 'react-native';
+import { NativeModules, NativeEventEmitter, AsyncStorage } from 'react-native';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import moment from 'moment';
@@ -60,6 +60,9 @@ export const initStore = () => {
 
   store = createStoreWithMiddleware(rootReducer);
   store.subscribe(sentryStoreListener);
+
+  // Deal with problem inherited from 5.4.*
+  AsyncStorage.removeItem('pin');
 
   // Prepare to receive events and start bridge. Never bother to unsubscribe,
   // as we want to keep listening for as long as the app is alive
