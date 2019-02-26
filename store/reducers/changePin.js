@@ -11,8 +11,6 @@ export default function changePin(state = initialState, action) {
       return initialState;
 
     case 'IrmaBridge.ChangePin':
-      AsyncStorage.setItem('pin', action.pin);
-
       return {
         ...state,
         status: 'changing',
