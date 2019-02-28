@@ -122,12 +122,12 @@ export default class SessionContainer extends Component {
   }
 
   navigateBack = () => {
-    const { componentId, session: { exitAfter, qr } } = this.props;
+    const { componentId, session: { exitAfter, request } } = this.props;
 
     Navigation.popToRoot(componentId);
 
-    if (exitAfter && qr.returnURL)
-      Linking.openURL(qr.returnURL);
+    if (exitAfter && request.returnURL)
+      Linking.openURL(request.returnURL);
     else if (exitAfter && Platform.OS === 'android')
       BackHandler.exitApp();
   }
