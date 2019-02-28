@@ -31,6 +31,9 @@ const mapStateToProps = (state) => {
     preferences: {
       loaded: preferencesLoaded,
     },
+    app: {
+      error,
+    },
   } = state;
 
   const shouldEnroll = enrollmentLoaded && unenrolledSchemeManagerIds.length > 0;
@@ -42,6 +45,7 @@ const mapStateToProps = (state) => {
     shouldAuthenticate,
     isLoaded,
     shouldEnroll,
+    error,
   };
 };
 
@@ -55,6 +59,7 @@ export default class CredentialDashboardContainer extends React.Component {
     shouldAuthenticate: PropTypes.bool.isRequired,
     isLoaded: PropTypes.bool.isRequired,
     shouldEnroll: PropTypes.bool.isRequired,
+    error: PropTypes.object.isRequired,
   }
 
   static lockButton = {
@@ -201,8 +206,10 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   render() {
-    const { credentials, shouldEnroll, isLoaded, shouldAuthenticate } = this.props;
+    const { credentials, shouldEnroll, isLoaded, shouldAuthenticate, error } = this.props;
     const { isEditable } = this.state;
+
+    if (error) console.warn(error);
 
     if (!isLoaded || shouldAuthenticate)
       return null;

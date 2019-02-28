@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import { app } from './app';
 import appUnlock from './appUnlock';
 import changePin from './changePin';
 import credentialTypeDashboard from './credentialTypeDashboard';
@@ -13,6 +14,8 @@ import preferences from './preferences';
 import sessions from './sessions';
 
 export default combineReducers({
+  app,
+
   credentials,
   currentTime,
   enrollment,

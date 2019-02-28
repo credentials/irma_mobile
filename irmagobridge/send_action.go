@@ -61,6 +61,13 @@ func sendAuthenticateError(err *irma.SessionError) {
 	})
 }
 
+func sendError(err *errors.Error) {
+	sendAction(&OutgoingAction{
+		"type":  "IrmaClient.Error",
+		"error": err,
+	})
+}
+
 func sendAction(action *OutgoingAction) {
 	jsonBytes, err := json.Marshal(action)
 	if err != nil {

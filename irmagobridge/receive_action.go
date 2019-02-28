@@ -3,17 +3,12 @@ package irmagobridge
 import (
 	"encoding/json"
 
-	raven "github.com/getsentry/raven-go"
 	"github.com/go-errors/errors"
 )
 
 func ReceiveAction(actionJSONString string) {
-	raven.CapturePanic(func() {
-		recoveredReceiveAction(actionJSONString)
-	}, nil)
-}
+	defer handlePanic()
 
-func recoveredReceiveAction(actionJSONString string) {
 	actionJSON := []byte(actionJSONString)
 
 	actionType, err := getActionType(actionJSON)

@@ -29,14 +29,29 @@ var actionHandler = &ActionHandler{
 // clientHandler is used for messages coming in from irmago (see client_handler.go)
 var clientHandler = &ClientHandler{}
 
-// The Start function is invoked from Javascript via native code, when the app starts
-func Start(givenBridge IrmaBridge, appDataPath string, assetsPath string) {
-	raven.CapturePanic(func() {
-		recoveredStart(givenBridge, appDataPath, assetsPath)
-	}, nil)
+func handlePanic() {
+	msg := recover()
+	if msg == nil {
+		return
+	}
+
+	// Ensure we send an *errors.Error
+	var err *errors.Error
+	switch e := msg.(type) {
+	case *errors.Error:
+		err = e
+	default:
+		err = errors.Wrap(e, 0)
+	}
+
+	raven.CaptureError(err, nil)
+	sendError(err)
 }
 
-func recoveredStart(givenBridge IrmaBridge, appDataPath string, assetsPath string) {
+// The Start function is invoked from Javascript via native code, when the app starts
+func Start(givenBridge IrmaBridge, appDataPath string, assetsPath string) {
+	defer handlePanic()
+
 	bridge = givenBridge
 
 	// Check for user data directory, and create version-specific directory
