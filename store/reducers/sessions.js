@@ -64,7 +64,7 @@ export default function credentials(state = initialState, action) {
         ...state,
         [sessionId]: {
           id: sessionId,
-          qr: action.qr,
+          request: action.request,
           exitAfter: action.exitAfter,
         }
       };

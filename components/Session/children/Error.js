@@ -13,7 +13,7 @@ export default class Error extends Component {
 
   render() {
     const {
-      session: { status, error, didRespondPermission, irmaAction, qr }
+      session: { status, error, didRespondPermission, irmaAction, request }
     } = this.props;
 
     if(status !== 'failure')
@@ -22,7 +22,7 @@ export default class Error extends Component {
     const extraReportInfo = {
       didRespondPermission,
       irmaAction,
-      qr,
+      request,
     };
 
     return (
