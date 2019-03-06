@@ -70,44 +70,12 @@ export default class SessionContainer extends Component {
     shouldAuthenticate: PropTypes.bool.isRequired,
   }
 
-  static options = {
-    // Make topbar invisible by default, until we know we don't have to authenticate
-    topBar: {
-      visible: false,
-    }
-  }
-
   state = {
     validationForced: false,
     pin: null,
 
     // Meant for disclosure in issuance and signing
     showDisclosureStep: false,
-  }
-
-  componentDidMount() {
-    const { shouldAuthenticate } = this.props;
-    if (!shouldAuthenticate)
-      this.showTopBar();
-  }
-
-  componentDidUpdate(prevProps) {
-    const { shouldAuthenticate } = this.props;
-    if (prevProps.shouldAuthenticate === true && shouldAuthenticate === false)
-      this.showTopBar();
-  }
-
-  componentWillUnmount() {
-    this.dismiss();
-  }
-
-  showTopBar() {
-    const { componentId } = this.props;
-    Navigation.mergeOptions(componentId, {
-      topBar: {
-        visible: true,
-      },
-    });
   }
 
   setTopbarTitle = (text) => {
