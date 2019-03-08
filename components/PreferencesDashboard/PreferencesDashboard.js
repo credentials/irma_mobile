@@ -11,6 +11,8 @@ import {
   Switch,
 } from 'native-base';
 import PreferenceItem from './children/PreferenceItem';
+import { NativeModules } from 'react-native';
+const { IrmaVersion } = NativeModules;
 
 const t = namespacedTranslation('Preferences');
 const privacyPolicyUrl = 'https://privacybydesign.foundation/privacy-policy-en/';
@@ -71,6 +73,13 @@ export default class PreferencesDashboard extends React.Component {
           <PreferenceItem name={t('.errors.title')} explanation={reportingExplanation}>
             <Right>
               <Switch value={enableCrashReporting} onValueChange={this.setCrashReportingPreference}/>
+            </Right>
+          </PreferenceItem>
+          <PreferenceItem name={t('About.version')}>
+            <Right>
+              <Text>
+                { IrmaVersion.version }&nbsp;({ IrmaVersion.build })
+              </Text>
             </Right>
           </PreferenceItem>
         </Content>

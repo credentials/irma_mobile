@@ -1,6 +1,8 @@
 import React from 'react';
 import { Image } from 'react-native';
 import Hyperlink from 'react-native-hyperlink';
+import { NativeModules } from 'react-native';
+const { IrmaVersion } = NativeModules;
 
 import {
   CardItem,
@@ -71,6 +73,13 @@ export default class About extends React.Component {
               <CardItem>
                 <Text>
                   { t('.attributions') }
+                </Text>
+              </CardItem>
+              <CardItem>
+                <Text>
+                  { t('.version') }
+                  &nbsp;{ IrmaVersion.version }&nbsp;
+                  ({ IrmaVersion.build })
                 </Text>
               </CardItem>
             </Card>
