@@ -40,6 +40,7 @@ public class MainApplication extends NavigationApplication {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new IrmaBridgePackage(),
+            new IrmaVersionPackage(),
             new RNCameraKitPackage(),
             new RCTImageSequencePackage(),
             new RNSentryPackage(),
