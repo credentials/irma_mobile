@@ -71,9 +71,6 @@ export default class CredentialDashboardContainer extends React.Component {
   static options() {
     return {
       topBar: {
-        // Make topbar invisible by default, until we know we don't have to authenticate
-        visible: false,
-
         leftButtons: {
           id: 'menuButton',
           icon: menuIconImage,
@@ -129,7 +126,7 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { componentId, shouldAuthenticate, shouldEnroll } = this.props;
+    const { componentId, shouldEnroll } = this.props;
 
     if (shouldEnroll) {
       Navigation.mergeOptions(componentId, {
@@ -138,24 +135,6 @@ export default class CredentialDashboardContainer extends React.Component {
         },
       });
     }
-
-    if (!shouldAuthenticate)
-      this.showTopBar();
-  }
-
-  componentDidUpdate(prevProps) {
-    const { shouldAuthenticate } = this.props;
-    if (prevProps.shouldAuthenticate === true && shouldAuthenticate === false)
-      this.showTopBar();
-  }
-
-  showTopBar() {
-    const { componentId } = this.props;
-    Navigation.mergeOptions(componentId, {
-      topBar: {
-        visible: true,
-      },
-    });
   }
 
   navigateToQRScanner = () => {
