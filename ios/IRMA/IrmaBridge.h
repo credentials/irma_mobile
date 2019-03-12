@@ -2,6 +2,6 @@
 #import <React/RCTEventEmitter.h>
 #import <Irmagobridge/Irmagobridge.h>
 
-@interface IrmaBridge : NSObject <RCTBridgeModule>
+@interface IrmaBridge : RCTEventEmitter <RCTBridgeModule, IrmagobridgeIrmaBridge>
 
 @end

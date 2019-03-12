@@ -45,6 +45,7 @@
 		4795A485B8B1413B952C3BE7 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6421EA7EB8944A7197DD04BC /* Roboto_medium.ttf */; };
 		4BA63DD62A3F474EAEC8340E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 550E9928743D4BA3AAE0D544 /* Zocial.ttf */; };
 		50D5E4FA7BB9449696575EBC /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B599EDB81C8C4621B200781F /* FontAwesome.ttf */; };
+		63CBD6F122381B2B007C9FC4 /* IrmaVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CBD6F022381B2B007C9FC4 /* IrmaVersion.m */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8AEDBC82EBB3463FB5F1D780 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 572414C352C24665AE1E00CA /* Foundation.ttf */; };
 		9D958D6E10004F239657605D /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D772FDAF29FD4779981F3520 /* rubicon-icon-font.ttf */; };
@@ -408,6 +409,8 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		60566569839044BBA092E10A /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/native-base/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		632C20952204393100ED9BC7 /* IRMA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = IRMA.entitlements; path = IRMA/IRMA.entitlements; sourceTree = "<group>"; };
+		63CBD6C422381B2B007C9FC4 /* IrmaVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IrmaVersion.h; path = IRMA/IrmaVersion.h; sourceTree = "<group>"; };
+		63CBD6F022381B2B007C9FC4 /* IrmaVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IrmaVersion.m; path = IRMA/IrmaVersion.m; sourceTree = "<group>"; };
 		6421EA7EB8944A7197DD04BC /* Roboto_medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_medium.ttf; path = "../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
 		66166A314AEC4EE7AB00AAE1 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -572,6 +575,8 @@
 		13B07FAE1A68108700A75B9A /* IRMA */ = {
 			isa = PBXGroup;
 			children = (
+				63CBD6C422381B2B007C9FC4 /* IrmaVersion.h */,
+				63CBD6F022381B2B007C9FC4 /* IrmaVersion.m */,
 				632C20952204393100ED9BC7 /* IRMA.entitlements */,
 				D078849B219C1C3A009DFA7E /* irma_configuration */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -1368,6 +1373,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				D0AD0AC3219A3A3100C6AF84 /* IrmaBridge.m in Sources */,
+				63CBD6F122381B2B007C9FC4 /* IrmaVersion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
