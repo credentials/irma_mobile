@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { NativeModules, PermissionsAndroid, Vibration, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Sentry } from 'react-native-sentry';
+import { Navigation } from 'react-native-navigation';
 import { CameraKitCamera } from 'react-native-camera-kit';
 
 import {
@@ -93,6 +94,7 @@ export default class QRScannerContainer extends Component {
     }
 
     this.setState({hasStartedSession: true});
+    Navigation.pop(this.props.componentId);
     startSessionAndNavigate({sessionPointer});
   }
 
