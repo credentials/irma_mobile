@@ -9,9 +9,11 @@ import {
   Toast,
 } from 'native-base';
 
-import { startSessionAndNavigate } from 'lib/navigation';
+import { startSession } from 'lib/navigation';
 
 import QRScanner, { t } from './QRScanner';
+
+import Session from '../Session';
 
 @connect()
 export default class QRScannerContainer extends Component {
@@ -92,12 +94,22 @@ export default class QRScannerContainer extends Component {
       return;
     }
 
-    this.setState({hasStartedSession: true});
-    startSessionAndNavigate({sessionPointer});
+    sessionId = startSession({sessionPointer});
+    this.setState({hasStartedSession: true, sessionId});
   }
 
   render() {
-    const { hasCameraPermission, hasStartedSession } = this.state;
+    const { hasCameraPermission, hasStartedSession, sessionId } = this.state;
+
+    if (hasStartedSession) {
+      // Do an in place replacement with SessionContainer.
+      //  this avoids problems with back handling.
+      return (
+        <Session {...this.props}
+          sessionId = { sessionId }
+        />
+      );
+    }
 
     return (
       <QRScanner
