@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  IRMA
+
+  Created by David on 3/15/19.
+  Copyright © 2019 Facebook. All rights reserved.
+*/
+
+NSCameraUsageDescription = "Om QRs te kunnen scannen is toegang tot uw camera nodig.";
+NSPhotoLibraryUsageDescription = "Voel je vrij om nee te zeggen als je dit ziet. We hebben dit niet nodig.";
