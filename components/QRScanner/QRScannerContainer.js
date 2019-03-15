@@ -9,11 +9,10 @@ import {
   Toast,
 } from 'native-base';
 
-import { startSession } from 'lib/navigation';
+import { startSession, startSessionAndNavigate } from 'lib/navigation';
 
+import Session from 'components/Session';
 import QRScanner, { t } from './QRScanner';
-
-import Session from '../Session';
 
 @connect()
 export default class QRScannerContainer extends Component {
@@ -32,8 +31,9 @@ export default class QRScannerContainer extends Component {
   }
 
   state = {
+    displaySession: false,
     hasCameraPermission: false,
-    hasStartedSession: false,
+    sessionId: null,
   }
 
   componentDidMount() {
@@ -71,11 +71,9 @@ export default class QRScannerContainer extends Component {
   }
 
   readQRCode = (event) => {
-    const { hasStartedSession } = this.state;
-    if (hasStartedSession)
+    const { sessionId } = this.state;
+    if (sessionId)
       return;
-
-    Vibration.vibrate();
 
     let sessionPointer;
     try {
@@ -94,19 +92,25 @@ export default class QRScannerContainer extends Component {
       return;
     }
 
-    sessionId = startSession({sessionPointer});
-    this.setState({hasStartedSession: true, sessionId});
+    // Show a green scanning reticle for a second while the session is started in the background
+    this.setState({
+      sessionId: startSession({sessionPointer}),
+    });
+
+    Vibration.vibrate();
+
+    setTimeout(() => this.setState({displaySession: true}), 1000);
   }
 
   render() {
-    const { hasCameraPermission, hasStartedSession, sessionId } = this.state;
+    const { hasCameraPermission, sessionId, displaySession } = this.state;
 
-    if (hasStartedSession) {
-      // Do an in place replacement with SessionContainer.
-      //  this avoids problems with back handling.
+    // Do an in place replacement with SessionContainer, which avoids problems with back handling
+    if (sessionId && displaySession) {
       return (
-        <Session {...this.props}
-          sessionId = { sessionId }
+        <Session
+          {...this.props}
+          sessionId={sessionId}
         />
       );
     }
@@ -114,7 +118,7 @@ export default class QRScannerContainer extends Component {
     return (
       <QRScanner
         hasCameraPermission={hasCameraPermission}
-        hasStartedSession={hasStartedSession}
+        hasStartedSession={Boolean(sessionId)}
         newTestSession={this.newTestSession}
         readQRCode={this.readQRCode}
       />
