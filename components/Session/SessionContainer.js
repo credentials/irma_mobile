@@ -78,6 +78,10 @@ export default class SessionContainer extends Component {
     showDisclosureStep: false,
   }
 
+  componentWillUnmount() {
+    this.dismiss();
+  }
+
   setTopbarTitle = (text) => {
     const { componentId } = this.props;
     Navigation.mergeOptions(componentId, {
