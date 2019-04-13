@@ -82,6 +82,14 @@
   revision = "ed7bcb39ff10f39ab08e317ce16df282845852fa"
 
 [[projects]]
+  digest = "1:1c70b4d7285f792bd387c1adac08825715147fa210b3d2826ffd2bf56be9455b"
+  name = "github.com/go-chi/chi"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "da24bba8dcd4021cafac38724bf10dccc97c3e36"
+  version = "v4.0.2"
+
+[[projects]]
   digest = "1:aacef5f5e45685f2aeda5534d0a750dee6859de7e9088cdd06192787bb01ae6d"
   name = "github.com/go-errors/errors"
   packages = ["."]
@@ -138,6 +146,30 @@
   version = "v1.0.1"
 
 [[projects]]
+  digest = "1:2fa7b0155cd54479a755c629de26f888a918e13f8857a2c442205d825368e084"
+  name = "github.com/mattn/go-colorable"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "3a70a971f94a22f2fa562ffcc7a0eb45f5daf045"
+  version = "v0.1.1"
+
+[[projects]]
+  digest = "1:e150b5fafbd7607e2d638e4e5cf43aa4100124e5593385147b0a74e2733d8b0d"
+  name = "github.com/mattn/go-isatty"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "c2a7a6ca930a4cd0bc33a3f298eb71960732a3a7"
+  version = "v0.0.7"
+
+[[projects]]
+  branch = "master"
+  digest = "1:2b32af4d2a529083275afc192d1067d8126b578c7a9613b26600e4df9c735155"
+  name = "github.com/mgutz/ansi"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "9520e82c474b0a04dd04f8a40959027271bab992"
+
+[[projects]]
   branch = "master"
   digest = "1:6491080aa184f88c2bb8e2f6056e5e0e9a578b2d8666efbd6e97bc37a0c41e72"
   name = "github.com/nightlyone/lockfile"
@@ -155,7 +187,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:61a44e70558a6fa59604ce3590db333d2fcd0b68a0da94d1fdc4a4d1b5b00450"
+  digest = "1:a248b97b17d5d091f03237ca02b74451b9b338b81846f4cd2b26a4fd369826f3"
   name = "github.com/privacybydesign/gabi"
   packages = [
     ".",
@@ -163,28 +195,23 @@
     "safeprime",
   ]
   pruneopts = "UT"
-  revision = "a51e7b01af8aa69a74d3aea5221d6c38c9160489"
+  revision = "ea73e7bcb6005225b0253fdff3a500bd162ad090"
 
 [[projects]]
   branch = "master"
-  digest = "1:5c2d31f2e42705fb7e9a981894e717eed6e128fbf4264c97ec06b6b8b3c234f9"
+  digest = "1:b5330fc4d92fca61f72b90ed4658d37b5ec348c999df529cfbcabc1d0bd21c59"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
     "internal/disable_sigpipe",
     "internal/fs",
+    "internal/servercore",
     "irmaclient",
+    "server",
+    "server/irmaserver",
   ]
   pruneopts = "UT"
-  revision = "f5c59478ad88cf7ebce80b44c9fb2112765ae8f6"
-
-[[projects]]
-  branch = "master"
-  digest = "1:abab2c85a12689a4218964335aa990ff33b4f3c7ba48e3283861c4714d2e93b1"
-  name = "github.com/rainycape/dl"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "1b01514224a1a60a6bcbb0b6b9d3a00ec14ae17f"
+  revision = "b8eadff382ff5d6101a66e99b91e03a6bc5f7d00"
 
 [[projects]]
   digest = "1:87c2e02fb01c27060ccc5ba7c5a407cc91147726f8f40b70cceeedbc52b1f3a8"
@@ -219,6 +246,14 @@
   revision = "525de816b1a2c1cfbb67b5e9936a6b76e0c7f3e6"
 
 [[projects]]
+  digest = "1:39a425f98fb19427061a693fe6bf0683c9bddec4b25b17067e34fdb465e39cb9"
+  name = "github.com/x-cray/logrus-prefixed-formatter"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "bb2702d423886830dee131692131d35648c382e2"
+  version = "v0.5.2"
+
+[[projects]]
   branch = "master"
   digest = "1:38f2c29b6f212911a89f51e22941cbf4fee978946a4f810aa2929238af70a18e"
   name = "golang.org/x/crypto"
@@ -242,14 +277,25 @@
   pruneopts = "UT"
   revision = "ac767d655b305d4e9612f5f6e33120b9176c4ad4"
 
+[[projects]]
+  branch = "v1"
+  digest = "1:08eeb29b91cc584a7227b52e8865638091ee6f399689d8e16e63eb9f91d9cda8"
+  name = "gopkg.in/antage/eventsource.v1"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "803f4c5af2259daa9225c72732b23e1e65ee794e"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
     "github.com/getsentry/raven-go",
+    "github.com/go-chi/chi",
     "github.com/go-errors/errors",
     "github.com/privacybydesign/irmago",
     "github.com/privacybydesign/irmago/irmaclient",
+    "github.com/privacybydesign/irmago/server",
+    "github.com/privacybydesign/irmago/server/irmaserver",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
