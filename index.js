@@ -23,7 +23,9 @@ if (__DEV__)
 const store = initStore();
 
 // // Main entry point of application on boot
+let hasSetInitialScreen = false;
 Navigation.events().registerAppLaunchedListener( () => {
+  hasSetInitialScreen = false;
   StatusBar.setBarStyle('light-content');
 
   setDefaultOptions();
@@ -63,7 +65,6 @@ const handleUrl = (event) => {
 
 // Sets the initial screen as soon as the irmagobridge enrollment reducer
 // has been loaded. Also set the unlockModal if necessary.
-let hasSetInitialScreen = false;
 const initialScreenStoreListener = () => {
   if (hasSetInitialScreen)
     return;
