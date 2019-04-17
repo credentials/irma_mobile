@@ -67,55 +67,62 @@ func (sh *SessionHandler) Cancelled() {
 	sendAction(action)
 }
 
-func (sh *SessionHandler) UnsatisfiableRequest(serverName irma.TranslatedString, missingDisclosures irma.AttributeDisjunctionList) {
+func (sh *SessionHandler) UnsatisfiableRequest(serverName irma.TranslatedString, missing map[int]map[int]irma.AttributeCon) {
 	logDebug("Handling UnsatisfiableRequest")
 	action := &OutgoingAction{
 		"type":               "IrmaSession.UnsatisfiableRequest",
 		"sessionId":          sh.sessionID,
 		"serverName":         serverName,
-		"missingDisclosures": missingDisclosures,
+		"missingDisclosures": missing,
 	}
 
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestIssuancePermission(request irma.IssuanceRequest, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
+func (sh *SessionHandler) RequestIssuancePermission(request *irma.IssuanceRequest, candidates [][][]*irma.AttributeIdentifier, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestIssuancePermission")
+	disclose := request.Disclose
+	if disclose == nil {
+		disclose = irma.AttributeConDisCon{}
+	}
 	action := &OutgoingAction{
 		"type":                  "IrmaSession.RequestIssuancePermission",
 		"sessionId":             sh.sessionID,
 		"serverName":            serverName,
 		"issuedCredentials":     request.CredentialInfoList,
-		"disclosures":           request.ToDisclose(),
-		"disclosuresCandidates": request.Candidates,
+		"disclosures":           disclose,
+		"disclosuresLabels":     request.Labels,
+		"disclosuresCandidates": candidates,
 	}
 
 	sh.permissionHandler = ph
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestVerificationPermission(request irma.DisclosureRequest, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
+func (sh *SessionHandler) RequestVerificationPermission(request *irma.DisclosureRequest, candidates [][][]*irma.AttributeIdentifier, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestVerificationPermission")
 	action := &OutgoingAction{
 		"type":                  "IrmaSession.RequestVerificationPermission",
 		"sessionId":             sh.sessionID,
 		"serverName":            serverName,
-		"disclosures":           request.ToDisclose(),
-		"disclosuresCandidates": request.Candidates,
+		"disclosures":           request.Disclose,
+		"disclosuresLabels":     request.Labels,
+		"disclosuresCandidates": candidates,
 	}
 
 	sh.permissionHandler = ph
 	sendAction(action)
 }
 
-func (sh *SessionHandler) RequestSignaturePermission(request irma.SignatureRequest, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
+func (sh *SessionHandler) RequestSignaturePermission(request *irma.SignatureRequest, candidates [][][]*irma.AttributeIdentifier, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestSignaturePermission")
 	action := &OutgoingAction{
 		"type":                  "IrmaSession.RequestSignaturePermission",
 		"sessionId":             sh.sessionID,
 		"serverName":            serverName,
-		"disclosures":           request.ToDisclose(),
-		"disclosuresCandidates": request.Candidates,
+		"disclosures":           request.Disclose,
+		"disclosuresLabels":     request.Labels,
+		"disclosuresCandidates": candidates,
 		"message":               request.Message,
 	}
 

@@ -30,11 +30,13 @@ const fullCandidateAttribute = (disclosureCandidate, irmaConfiguration, credenti
   };
 };
 
-// `disclosuresCandidates` is of type [][]irma.AttributeIdentifier.
+// `disclosuresCandidateSets` is of type [][][]irma.AttributeIdentifier.
 // A disclosureCandidate contains a Type (fullAttributeTypeID) and a CredentialHash
-export default (disclosuresCandidates = [], irmaConfiguration, credentials) =>
-  disclosuresCandidates.map(disclosureCandidates =>
-    disclosureCandidates.map(disclosureCandidate =>
-      fullCandidateAttribute(disclosureCandidate, irmaConfiguration, credentials)
+export default (disclosuresCandidateSets = [], irmaConfiguration, credentials) =>
+  disclosuresCandidateSets.map(disclosureCandidateSets =>
+    disclosureCandidateSets.map(disclosureCandidateSet =>
+      disclosureCandidateSet.map(disclosureCandidate =>
+        fullCandidateAttribute(disclosureCandidate, irmaConfiguration, credentials)
+      )
     )
   );

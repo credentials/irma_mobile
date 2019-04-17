@@ -105,7 +105,7 @@ func (ah *ActionHandler) NewSession(action *NewSessionAction) (err error) {
 type RespondPermissionAction struct {
 	SessionID         int
 	Proceed           bool
-	DisclosureChoices []*irma.AttributeIdentifier
+	DisclosureChoices [][]*irma.AttributeIdentifier
 }
 
 func (ah *ActionHandler) RespondPermission(action *RespondPermissionAction) (err error) {

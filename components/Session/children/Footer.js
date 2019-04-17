@@ -63,7 +63,7 @@ export default class Footer extends Component {
     let yesLabel = t('.accept');
     let noLabel = t('.decline');
 
-    if(status === 'requestPermission' && irmaAction === 'issuing' && disclosures.length > 0)
+    if(status === 'requestPermission' && irmaAction === 'issuing' && disclosures && disclosures.length > 0)
       yesLabel = t('.next');
 
     if(status === 'requestPin') {
