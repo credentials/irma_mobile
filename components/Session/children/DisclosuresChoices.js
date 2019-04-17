@@ -7,7 +7,7 @@ import {
   Card,
 } from 'native-base';
 
-import Disclosure from './Disclosure';
+import Disjunction from './Disjunction';
 
 export default class DisclosureChoices extends Component {
 
@@ -21,36 +21,30 @@ export default class DisclosureChoices extends Component {
     hideUnchosen: false,
   }
 
-  renderChoice = ([disclosure, candidates, choice], disclosureIndex) => {
-    const { hideUnchosen, makeDisclosureChoice } = this.props;
+  renderDisjunction = ([candidateSets, choice], conjunctionIndex) => {
+    const { hideUnchosen, makeDisclosureChoice, session: { status, disclosuresLabels } } = this.props;
+    const label = disclosuresLabels && disclosuresLabels[conjunctionIndex] ? disclosuresLabels[conjunctionIndex] : null;
 
-    const press = candidate => makeDisclosureChoice(disclosureIndex, candidate.AttributeTypeFullID, candidate.CredentialHash);
-    const chosenCandidate = _.find(candidates, candidate =>
-      choice.Type === candidate.AttributeTypeFullID && choice.CredentialHash === candidate.CredentialHash
-    );
-
-    // TODO: Can we use anything else as key here?
     return (
-      <Card key={disclosureIndex}>
-        <Disclosure
-          attributes={candidates}
-          chosenAttribute={chosenCandidate}
-          hideUnchosen={hideUnchosen}
-          label={disclosure.label}
-          onPress={press}
-        />
-      </Card>
+      <Disjunction
+        key={conjunctionIndex}
+        candidateSets={candidateSets}
+        makeDisclosureChoice={status === 'requestPermission' ? j => makeDisclosureChoice(conjunctionIndex, j) : null}
+        hideUnchosen={hideUnchosen}
+        choice={choice}
+        label={label}
+      />
     );
   }
 
   render() {
     const { session } = this.props;
-    const { disclosures, disclosuresCandidates, disclosureChoices } = session;
+    const { disclosuresCandidates, disclosureIndices } = session;
 
     return (
       <View>
-        { _.zip(disclosures, disclosuresCandidates, disclosureChoices)
-           .map(this.renderChoice)
+        { _.zip(disclosuresCandidates, disclosureIndices)
+           .map(this.renderDisjunction)
         }
       </View>
     );

@@ -113,14 +113,14 @@ export default class SessionContainer extends Component {
     setEnrollmentRoot();
   }
 
-  makeDisclosureChoice = (disclosureIndex, Type, CredentialHash) => {
+  makeDisclosureChoice = (disclosureIndex, choice) => {
     const { dispatch, session } = this.props;
 
     dispatch({
       type: 'Session.MakeDisclosureChoice',
       sessionId: session.id,
       disclosureIndex,
-      choice: {Type, CredentialHash},
+      choice,
     });
   }
 

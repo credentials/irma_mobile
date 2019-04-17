@@ -32,8 +32,8 @@ const isValidSessionAction = (state, action) => {
     case 'IrmaSession.KeyshareBlocked':
     case 'IrmaSession.KeyshareEnrollmentIncomplete':
     case 'IrmaBridge.RespondPermission':
-    case 'Session.MakeDisclosureChoice':{
-      if(!state.hasOwnProperty(action.sessionId)) {
+    case 'Session.MakeDisclosureChoice': {
+      if (!state.hasOwnProperty(action.sessionId)) {
         console.error('Session ID', action.sessionId, 'for action', action.type, 'cannot be found'); // eslint-disable-line no-console
         return false;
       }
@@ -134,10 +134,12 @@ export default function credentials(state = initialState, action) {
           serverName: action.serverName,
           issuedCredentials: action.issuedCredentials,
           disclosures: action.disclosures,
+          disclosuresLabels: action.disclosuresLabels,
           disclosuresCandidates: action.disclosuresCandidates,
 
           disclosureChoices: initialDisclosureChoices(action.disclosuresCandidates),
-        }
+          disclosureIndices: new Array(action.disclosures ? action.disclosures.length: 0).fill(0),
+        },
       };
     }
 
@@ -149,10 +151,12 @@ export default function credentials(state = initialState, action) {
           status: 'requestPermission',
           serverName: action.serverName,
           disclosures: action.disclosures,
+          disclosuresLabels: action.disclosuresLabels,
           disclosuresCandidates: action.disclosuresCandidates,
 
           disclosureChoices: initialDisclosureChoices(action.disclosuresCandidates),
-        }
+          disclosureIndices: new Array(action.disclosures.length).fill(0),
+        },
       };
     }
 
@@ -164,12 +168,14 @@ export default function credentials(state = initialState, action) {
           status: 'requestPermission',
           serverName: action.serverName,
           disclosures: action.disclosures,
+          disclosuresLabels: action.disclosuresLabels,
           disclosuresCandidates: action.disclosuresCandidates,
           message: action.message,
           messageType: action.messageType,
 
           disclosureChoices: initialDisclosureChoices(action.disclosuresCandidates),
-        }
+          disclosureIndices: new Array(action.disclosures.length).fill(0),
+        },
       };
     }
 
@@ -243,12 +249,17 @@ export default function credentials(state = initialState, action) {
         ...state,
         [sessionId]: {
           ...state[sessionId],
+          disclosureIndices: Object.assign(
+            [], state[sessionId].disclosureIndices, {
+              [action.disclosureIndex]: action.choice,
+            },
+          ),
           disclosureChoices: Object.assign(
             [], state[sessionId].disclosureChoices, {
-              [action.disclosureIndex]: action.choice
-            }
-          )
-        }
+              [action.disclosureIndex]: state[sessionId].disclosuresCandidates[action.disclosureIndex][action.choice],
+            },
+          ),
+        },
       };
     }
 
