@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 // Takes a full attributeTypeId, and returns all associated information,
 // including the index at which the attribute is located within the credential
 export default (fullAttributeTypeId, irmaConfiguration) => {
@@ -16,3 +18,11 @@ export default (fullAttributeTypeId, irmaConfiguration) => {
     AttributeType,
   };
 };
+
+export const groupIntoCredentials = candidateSet => Object.values(
+  _.reduce(candidateSet, (grouped, candidate) => ({
+    ...grouped,
+    [candidate.CredentialType.fullID]: Object.assign([],
+      grouped[candidate.CredentialType.fullID]).concat([candidate]),
+  }), {})
+);

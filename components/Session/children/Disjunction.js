@@ -42,15 +42,6 @@ export default class Disjunction extends Component {
     makeDisclosureChoice: null,
   }
 
-  groupIntoCredentials = candidateSet => Object.values(
-    candidateSet.reduce((grouped, candidate) =>
-      ({
-        ...grouped,
-        [candidate.CredentialType.fullID]: Object.assign([],
-          grouped[candidate.CredentialType.fullID]).concat([candidate]),
-      }), {})
-    )
-
   renderAttribute = (attribute, index) => {
     const note = attribute.Value ? <Text note>{ attribute.AttributeType.Name[lang] }</Text> : null;
     const text = attribute.Value ? attribute.Value[lang] : attribute.AttributeType.Name[lang];
@@ -110,7 +101,7 @@ export default class Disjunction extends Component {
 
     return (
       <View key={index} style={{width: disjunctionWidth}}>
-        { this.groupIntoCredentials(candidateSet).map(this.renderCredentialSubset) }
+        { candidateSet.map(this.renderCredentialSubset) }
       </View>
     );
   }

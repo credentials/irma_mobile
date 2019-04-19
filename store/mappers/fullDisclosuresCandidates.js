@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import attributeInfo from './attributeInfo';
+import attributeInfo, { groupIntoCredentials } from './attributeInfo';
 
 const fullCandidateAttribute = (disclosureCandidate, irmaConfiguration, credentials) => {
   const {
@@ -39,4 +39,5 @@ export default (disclosuresCandidateSets = [], irmaConfiguration, credentials) =
         fullCandidateAttribute(disclosureCandidate, irmaConfiguration, credentials)
       )
     )
+    .map(groupIntoCredentials)
   );
