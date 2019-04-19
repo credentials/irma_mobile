@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import {
   View,
-  Card,
 } from 'native-base';
 
 import Disjunction from './Disjunction';

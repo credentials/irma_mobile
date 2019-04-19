@@ -121,7 +121,8 @@ export default function credentials(state = initialState, action) {
           status: 'unsatisfiableRequest',
           serverName: action.serverName,
           missingDisclosures: action.missingDisclosures,
-        }
+          disclosuresLabels: action.disclosuresLabels,
+        },
       };
     }
 

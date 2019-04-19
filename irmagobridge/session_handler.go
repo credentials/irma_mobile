@@ -67,13 +67,15 @@ func (sh *SessionHandler) Cancelled() {
 	sendAction(action)
 }
 
-func (sh *SessionHandler) UnsatisfiableRequest(serverName irma.TranslatedString, missing map[int]map[int]irma.AttributeCon) {
+func (sh *SessionHandler) UnsatisfiableRequest(request irma.SessionRequest,
+	serverName irma.TranslatedString, missing map[int]map[int]irma.AttributeCon) {
 	logDebug("Handling UnsatisfiableRequest")
 	action := &OutgoingAction{
 		"type":               "IrmaSession.UnsatisfiableRequest",
 		"sessionId":          sh.sessionID,
 		"serverName":         serverName,
 		"missingDisclosures": missing,
+		"disclosuresLabels":  request.Disclosure().Labels,
 	}
 
 	sendAction(action)

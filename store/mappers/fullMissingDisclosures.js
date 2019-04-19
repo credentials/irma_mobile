@@ -15,26 +15,17 @@ const fullAttribute = (fullAttributeTypeId, Value, irmaConfiguration) => {
     CredentialType,
     AttributeType,
 
-    Value,
+    Value: Value ? {en: Value, nl: Value} : undefined,
   };
 };
 
-// Normalize the attributes, which is either a list or a map, to a common structure.
-// `null` is used to denote that the attribute value is not restricted.
-const normalizeAttributes = attributes => {
-  return _.isPlainObject(attributes) ?
-    _.map(attributes, (value, id) => ({id, value})) :
-    _.map(attributes, (id) => ({id, value: null}));
-};
-
-// First first argument `missingDisclosures` is of type []irma.AttributeDisjunction,
-// where a single irma.AttributeDisjunction is marshalled by a custom MarshalJSON function.
-// It always contains a `label` and `attributes` key; the value under the `attributes` key
-// is either a list of attributes types, or a map of attribute types to accepted attribute value.
-export default (missingDisclosures = [], irmaConfiguration) =>
-  missingDisclosures.map(missingDisclosure => ({
-    label: missingDisclosure.label,
-    attributes: normalizeAttributes(missingDisclosure.attributes).map( ({id, value}) =>
-      fullAttribute(id, value, irmaConfiguration)
-    ),
-  }));
+// First argument `missingDisclosures` is of type map[int]map[int]irma.AttributeCon
+export default (missingDisclosures = [], irmaConfiguration) => {
+    return _.transform(missingDisclosures, (result, disjunctionCandidateSets, conjunctionIndex) => {
+      result[conjunctionIndex] = _.transform(disjunctionCandidateSets, (r, disjunctionCandidateSet, disjunctionIndex) => {
+        r[disjunctionIndex] = disjunctionCandidateSet.map( attributeRequest =>
+          fullAttribute(attributeRequest.Type, attributeRequest.Value, irmaConfiguration)
+        );
+      }, {});
+    }, {});
+  };

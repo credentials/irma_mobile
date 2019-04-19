@@ -12,6 +12,8 @@ import {
   View,
 } from 'native-base';
 
+import _ from 'lodash';
+
 import { getLanguage } from 'lib/i18n';
 import { CardItemThumb } from 'components/CredentialCard/helpers';
 import HorizontalPicker from 'lib/HorizontalPicker';
@@ -23,8 +25,11 @@ const disjunctionWidth = Dimensions.get('window').width - 24;
 export default class Disjunction extends Component {
 
   static propTypes = {
-    candidateSets: PropTypes.array.isRequired,
-    choice: PropTypes.number.isRequired,
+    candidateSets: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.object,
+    ]).isRequired,
+    choice: PropTypes.number,
     hideUnchosen: PropTypes.bool,
     label: PropTypes.object,
     makeDisclosureChoice: PropTypes.func,
@@ -47,14 +52,15 @@ export default class Disjunction extends Component {
     )
 
   renderAttribute = (attribute, index) => {
+    const note = attribute.Value ? <Text note>{ attribute.AttributeType.Name[lang] }</Text> : null;
+    const text = attribute.Value ? attribute.Value[lang] : attribute.AttributeType.Name[lang];
+
     return (
       <CardItem key={index}>
         <Body>
-          <Text note>
-            { attribute.AttributeType.Name[lang] }
-          </Text>
+          { note }
           <Text style={{fontWeight: 'normal'}}>
-            { attribute.Value[lang] }
+            { text }
           </Text>
         </Body>
       </CardItem>
@@ -113,23 +119,26 @@ export default class Disjunction extends Component {
     const {
       label,
       candidateSets,
-      choice,
       makeDisclosureChoice,
       hideUnchosen,
     } = this.props;
 
-    const labelText = label ? label[lang] : undefined;
+    const labelHeader = label ?
+      <CardItem style={[styles.borderBottom, styles.centerContent]}>
+        <Text style={{fontStyle: 'italic'}}>
+          { label[lang] }
+        </Text>
+      </CardItem> : undefined;
 
     return (
       <Card rounded>
-        { labelText ? <CardItem><Text style={{fontWeight: 'bold'}}>{ labelText }</Text></CardItem> : null }
+        { labelHeader }
         <HorizontalPicker
-          choice={choice}
           hideUnchosen={hideUnchosen}
           makeChoice={makeDisclosureChoice}
           width={disjunctionWidth}
         >
-          { candidateSets.map(this.renderCandidateSet) }
+          { _.map(candidateSets, this.renderCandidateSet) }
         </HorizontalPicker>
       </Card>
     );
@@ -151,5 +160,10 @@ const styles = StyleSheet.create({
     color: nbVariables.colors.logoBlue,
     fontFamily: nbVariables.titleFontfamily,
     fontWeight: 'bold',
+  },
+  centerContent: {
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'space-around',
   },
 });
