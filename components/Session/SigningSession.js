@@ -12,6 +12,7 @@ import Footer from './children/Footer';
 import MissingDisclosures from './children/MissingDisclosures';
 import PinEntry from './children/PinEntry';
 import StatusCard from './children/StatusCard';
+import MoreIndicator from './children/MoreIndicator';
 
 import {
   Text,
@@ -34,6 +35,13 @@ export default class SigningSession extends Component {
     session: PropTypes.object.isRequired,
     setTopbarTitle: PropTypes.func.isRequired,
     validationForced: PropTypes.bool.isRequired,
+    positionChanged: PropTypes.func.isRequired,
+    onLayout: PropTypes.func.isRequired,
+    bottomReached: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    bottomReached: null,
   }
 
   componentDidMount() {
@@ -136,22 +144,38 @@ export default class SigningSession extends Component {
       nextStep,
       pinChange,
       session,
+      positionChanged,
+      onLayout,
+      bottomReached,
+      session: { status },
     } = this.props;
+
+    const showMore = _.includes(['requestPermission', 'unsatisfiableRequest'], status)
+      && ( bottomReached === null ? false : !bottomReached );
 
     return (
       <Container>
-        <PaddedContent testID="SigningSession" enableAutomaticScroll={session.status !== 'requestPin'}>
-          { this.renderStatusCard() }
-          <Error session={session} />
-          <PinEntry
-            session={session}
-            validationForced={validationForced}
-            pinChange={pinChange}
-          />
-          <MissingDisclosures session={session} />
-          { this.renderDisclosures() }
+        <PaddedContent
+          testID="SigningSession"
+          enableAutomaticScroll={session.status !== 'requestPin'}
+          onScroll={positionChanged}
+          onLayout={e => onLayout(true, e)}
+         >
+          <View onLayout={e => onLayout(false, e)}>
+            { this.renderStatusCard() }
+            <Error session={session} />
+            <PinEntry
+              session={session}
+              validationForced={validationForced}
+              pinChange={pinChange}
+            />
+            <MissingDisclosures session={session} />
+            { this.renderDisclosures() }
+          </View>
         </PaddedContent>
+        <MoreIndicator show={showMore} />
         <Footer
+          disabled={!bottomReached}
           navigateBack={navigateBack}
           nextStep={nextStep}
           session={session}

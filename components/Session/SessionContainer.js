@@ -24,6 +24,8 @@ import {
 
 import PaddedContent from 'lib/PaddedContent';
 
+const paddingToBottom = 20;
+
 const mapStateToProps = (state, props) => {
   const { sessionId } = props;
 
@@ -76,7 +78,15 @@ export default class SessionContainer extends Component {
 
     // Meant for disclosure in issuance and signing
     showDisclosureStep: false,
+
+    // Whether or not the bottom of the main scrollview has been reached:
+    // the user has scrolled all the way down.
+    // Initially null. Set by onLayout after rendering, and positionChanged when scrolling
+    bottomReached: null,
   }
+
+  wrapperHeight = 0
+  contentHeight = 0
 
   componentWillUnmount() {
     this.dismiss();
@@ -137,6 +147,25 @@ export default class SessionContainer extends Component {
     });
   }
 
+  isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) =>
+    layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
+
+  positionChanged = ({nativeEvent}) => {
+    if (!this.state.bottomReached && this.isCloseToBottom(nativeEvent))
+      this.setState({ bottomReached: true });
+  }
+
+  onLayout = (wrapper, {nativeEvent}) => {
+    if (nativeEvent.layout.height < 100)
+      return;
+    if (wrapper)
+      this.wrapperHeight = nativeEvent.layout.height;
+    else
+      this.contentHeight = nativeEvent.layout.height;
+    if (this.wrapperHeight !== 0 && this.contentHeight !== 0)
+      this.setState({bottomReached: this.wrapperHeight - this.contentHeight > -25});
+  }
+
   // TODO: This nextStep function has been overloaded with too many responsibilies
   // It should be refactored along with the different session screens.
   // It returns false only when proceeding on an invalid pin
@@ -186,7 +215,7 @@ export default class SessionContainer extends Component {
 
   render() {
     const { irmaConfiguration, session, shouldAuthenticate } = this.props;
-    const { validationForced, showDisclosureStep } = this.state;
+    const { validationForced, showDisclosureStep, bottomReached } = this.state;
 
     if (shouldAuthenticate)
       return null;
@@ -205,7 +234,10 @@ export default class SessionContainer extends Component {
       pinChange: this.pinChange,
       // sendMail: this.sendMail,
       setTopbarTitle: this.setTopbarTitle,
+      positionChanged: this.positionChanged,
+      onLayout: this.onLayout,
       validationForced,
+      bottomReached,
 
       session: {
         ...session,
@@ -232,7 +264,7 @@ export default class SessionContainer extends Component {
           return (
             <Container>
               <PaddedContent>
-                <Error session={sessionProps.session}/>
+                <Error session={sessionProps.session} />
               </PaddedContent>
               <Footer
                 navigateBack={sessionProps.navigateBack}
