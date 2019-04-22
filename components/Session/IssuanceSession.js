@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import { namespacedTranslation, lang } from 'lib/i18n';
-import KeyboardAwareContainer from 'lib/KeyboardAwareContainer';
 import Container from 'components/Container';
 
 import DisclosuresChoices from './children/DisclosuresChoices';
@@ -12,6 +12,7 @@ import IssuedCredentials from './children/IssuedCredentials';
 import MissingDisclosures from './children/MissingDisclosures';
 import PinEntry from './children/PinEntry';
 import StatusCard from './children/StatusCard';
+import MoreIndicator from './children/MoreIndicator';
 
 import PaddedContent from 'lib/PaddedContent';
 import {
@@ -33,6 +34,13 @@ export default class IssuanceSession extends Component {
     session: PropTypes.object.isRequired,
     setTopbarTitle: PropTypes.func.isRequired,
     validationForced: PropTypes.bool.isRequired,
+    positionChanged: PropTypes.func.isRequired,
+    onLayout: PropTypes.func.isRequired,
+    bottomReached: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    bottomReached: null,
   }
 
   componentDidMount() {
@@ -137,23 +145,39 @@ export default class IssuanceSession extends Component {
       nextStep,
       pinChange,
       session,
+      positionChanged,
+      onLayout,
+      bottomReached,
+      session: { status },
     } = this.props;
+
+    const showMore = _.includes(['requestPermission', 'requestDisclosurePermission', 'unsatisfiableRequest'], status)
+      && ( bottomReached === null ? false : !bottomReached );
 
     return (
       <Container>
-        <PaddedContent testID="IssuanceSession" enableAutomaticScroll={session.status !== 'requestPin'}>
-          { this.renderStatusCard() }
-          <Error session={session} />
-          <PinEntry
-            session={session}
-            validationForced={validationForced}
-            pinChange={pinChange}
-          />
-          <MissingDisclosures session={session} />
-          <IssuedCredentials session={session} />
-          { this.renderDisclosures() }
+        <PaddedContent
+          testID="IssuanceSession"
+          enableAutomaticScroll={session.status !== 'requestPin'}
+          onScroll={positionChanged}
+          onLayout={e => onLayout(true, e)}
+        >
+          <View onLayout={e => onLayout(false, e)}>
+            { this.renderStatusCard() }
+            <Error session={session} />
+            <PinEntry
+              session={session}
+              validationForced={validationForced}
+              pinChange={pinChange}
+            />
+            <MissingDisclosures session={session} />
+            <IssuedCredentials session={session} />
+            { this.renderDisclosures() }
+          </View>
         </PaddedContent>
+        <MoreIndicator show={showMore} />
         <Footer
+          disabled={status === 'requestDisclosurePermission' ? !bottomReached : false}
           navigateBack={navigateBack}
           nextStep={nextStep}
           session={session}

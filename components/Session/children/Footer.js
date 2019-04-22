@@ -21,11 +21,16 @@ export default class Footer extends Component {
     session: PropTypes.object.isRequired,
     nextStep: PropTypes.func.isRequired,
     navigateBack: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
     // sendMail: PropTypes.func,
   }
 
+  static defaultProps = {
+    disabled: false,
+  }
+
   state = {
-    hidden: false
+    hidden: false,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -53,20 +58,25 @@ export default class Footer extends Component {
         irmaAction,
         status,
         disclosures,
-      }
+      },
+      disabled,
     } = this.props;
     const { hidden } = this.state;
 
-    if(hidden || !_.includes(['requestPermission', 'requestDisclosurePermission', 'requestPin'], status))
+    if (hidden || !_.includes(['requestPermission', 'requestDisclosurePermission', 'requestPin'], status))
+      return null;
+
+    // We don't know yet whether the buttons should be enabled; do nothing
+    if (disabled === null)
       return null;
 
     let yesLabel = t('.accept');
     let noLabel = t('.decline');
 
-    if(status === 'requestPermission' && irmaAction === 'issuing' && disclosures && disclosures.length > 0)
+    if (status === 'requestPermission' && irmaAction === 'issuing' && disclosures && disclosures.length > 0)
       yesLabel = t('.next');
 
-    if(status === 'requestPin') {
+    if (status === 'requestPin') {
       // TODO: We probably shouldn't be dismissing the keyboard on every render,
       // and the responsibilty of hiding lies closer to the PinEntry component
       if (hidden) {
@@ -79,14 +89,29 @@ export default class Footer extends Component {
     }
 
     return [
-      <Button key="no" danger iconLeft onPress={() => this.press(false)} testID="noButton">
+      <Button
+        key="no"
+        danger
+        iconLeft
+        disabled={disabled}
+        onPress={() => this.press(false)}
+        testID="noButton"
+      >
         <Icon name="close-circle" />
         <Text>{ noLabel }</Text>
       </Button>,
-      <Button key="yes" success iconLeft onPress={() => this.press(true)} style={{marginLeft: 20}} testID="yesButton">
+      <Button
+        key="yes"
+        success
+        iconLeft
+        disabled={disabled}
+        onPress={() => this.press(true)}
+        style={{marginLeft: 20}}
+        testID="yesButton"
+      >
         <Icon name="checkmark-circle" />
         <Text>{ yesLabel }</Text>
-      </Button>
+      </Button>,
     ];
   }
 
