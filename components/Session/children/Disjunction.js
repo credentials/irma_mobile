@@ -116,7 +116,7 @@ export default class Disjunction extends Component {
 
     const labelHeader = label ?
       <CardItem style={[styles.borderBottom, styles.centerContent]}>
-        <Text style={{fontStyle: 'italic'}}>
+        <Text>
           { label[lang] }
         </Text>
       </CardItem> : undefined;
