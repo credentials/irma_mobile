@@ -53,8 +53,10 @@
 	<key>NSCameraUsageDescription</key>
 	<string>In order to scan QRs, please provide access to your camera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>If you see this, feel free to refuse. We will not need this.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
+	<string>If you see this, feel free to refuse. We will not need this.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
 	<string>If you see this, feel free to refuse. We will not need this.</string>
 	<key>UIAppFonts</key>
 	<array>
