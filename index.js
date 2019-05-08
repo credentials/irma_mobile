@@ -119,6 +119,9 @@ const appStateChangeListener = (appState) => {
       appState: previousAppState,
       lastForegroundedTime,
     },
+    irmaConfiguration: {
+      lastUpdateTime,
+    },
   } = store.getState();
 
   // Check if we are changing from backgrounded to active
@@ -132,6 +135,15 @@ const appStateChangeListener = (appState) => {
 
     if (enrolledSchemeManagerIds.length > 0)
       showAppUnlockModal({showModalAnimation: false});
+  }
+
+  // Update configuration when becoming active, but at most once every 6 hours
+  if (previousAppState !== 'active' && appState === 'active' &&
+    moment(lastUpdateTime).isBefore(moment().subtract(6, 'hours'))
+  ) {
+    store.dispatch({
+      type: 'IrmaBridge.UpdateSchemes',
+    });
   }
 
   // Record the current state

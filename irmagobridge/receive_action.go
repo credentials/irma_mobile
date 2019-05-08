@@ -82,6 +82,9 @@ func recoveredReceiveAction(actionJSONString string) {
 			err = actionHandler.SetCrashReportingPreference(action)
 		}
 
+	case "UpdateSchemes":
+		err = actionHandler.updateSchemes()
+
 	default:
 		err = errors.Errorf("Unrecognized action type %s", actionType)
 	}

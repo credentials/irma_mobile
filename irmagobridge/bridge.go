@@ -67,6 +67,13 @@ func recoveredStart(givenBridge IrmaBridge, appDataPath string, assetsPath strin
 		return
 	}
 
+	// Update schemes before boot
+	err = client.Configuration.UpdateSchemes()
+	if err != nil {
+		logError(errors.WrapPrefix(err, "Cannot update schemes", 0))
+		// Continuing here should be safe
+	}
+
 	// Grab information from the client and send it to irma_mobile
 	sendEnrollmentStatus()
 	sendConfiguration()
