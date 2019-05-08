@@ -8,3 +8,5 @@
 
 NSCameraUsageDescription = "Om QRs te kunnen scannen is toegang tot uw camera nodig.";
 NSPhotoLibraryUsageDescription = "Voel je vrij om nee te zeggen als je dit ziet. We hebben dit niet nodig.";
+NSLocationAlwaysUsageDescription = "Voel je vrij om nee te zeggen als je dit ziet. We hebben dit niet nodig.";
+NSLocationWhenInUseUsageDescription = "Voel je vrij om nee te zeggen als je dit ziet. We hebben dit niet nodig.";
