@@ -206,3 +206,13 @@ func (ah *ActionHandler) findSessionHandler(sessionID int) (*SessionHandler, err
 
 	return sh, nil
 }
+
+func (ah *ActionHandler) updateSchemes() error {
+	err := client.Configuration.UpdateSchemes()
+	if err != nil {
+		return err
+	}
+
+	sendConfiguration()
+	return nil
+}

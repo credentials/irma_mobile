@@ -16,6 +16,9 @@ const mapStateToProps = (state) => {
       remainingAttempts,
       status,
     },
+    irmaConfiguration: {
+      showingUpdate,
+    },
   } = state;
 
   return {
@@ -24,6 +27,7 @@ const mapStateToProps = (state) => {
     hadFailure,
     remainingAttempts,
     status,
+    showingUpdate,
   };
 };
 
@@ -38,6 +42,7 @@ export default class AppUnlockContainer extends Component {
     hadFailure: PropTypes.bool.isRequired,
     remainingAttempts: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
+    showingUpdate: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -106,7 +111,11 @@ export default class AppUnlockContainer extends Component {
   }
 
   render() {
-    const { status, error, hadFailure, remainingAttempts, blockedDuration } = this.props;
+    const { status, error, hadFailure, remainingAttempts, blockedDuration, showingUpdate } = this.props;
+
+    // Force update modal to show always
+    if (showingUpdate)
+      this.dismissModal();
 
     return (
       <AppUnlock

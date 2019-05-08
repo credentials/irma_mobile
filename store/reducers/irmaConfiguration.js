@@ -10,6 +10,8 @@ const initialState = {
   sentryDSN: '',
 
   loaded: false,
+  lastUpdateTime: '',
+  showingUpdate: false,
 };
 
 export default function irmaConfiguration(state = initialState, action) {
@@ -27,6 +29,14 @@ export default function irmaConfiguration(state = initialState, action) {
         schemeManagers: irmaConfig.SchemeManagers,
         configurationPath,
         sentryDSN: action.sentryDSN,
+        lastUpdateTime: Date().valueOf(),
+      };
+    }
+
+    case 'IrmaConfiguration.ShowingUpdate': {
+      return {
+        ...state,
+        showingUpdate: true,
       };
     }
 
