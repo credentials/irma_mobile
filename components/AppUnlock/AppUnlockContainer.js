@@ -6,6 +6,7 @@ import { BackHandler, Platform } from 'react-native';
 import { Navigation } from 'lib/navigation';
 
 import AppUnlock, { t } from './AppUnlock';
+import Update from './children/Update';
 
 const mapStateToProps = (state) => {
   const {
@@ -110,12 +111,27 @@ export default class AppUnlockContainer extends Component {
     });
   }
 
+  setTopbarTitle = (text) => {
+    const { componentId } = this.props;
+    Navigation.mergeOptions(componentId, {
+      topBar: {
+        title: {
+          text,
+        },
+      },
+    });
+  }
+
   render() {
     const { status, error, hadFailure, remainingAttempts, blockedDuration, showingUpdate } = this.props;
-
-    // Force update modal to show always
-    if (showingUpdate)
-      this.dismissModal();
+    
+    if (showingUpdate) {
+      return (
+        <Update
+          setTopbarTitle={this.setTopbarTitle}
+        />
+      );
+    }
 
     return (
       <AppUnlock
