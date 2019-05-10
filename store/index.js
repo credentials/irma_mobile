@@ -5,7 +5,6 @@ import moment from 'moment';
 import { Sentry } from 'react-native-sentry';
 
 import irmaBridgeMiddleware from './middlewares/irmaBridge';
-import irmaVersionMiddleware from './middlewares/irmaVersion';
 import rootReducer from './reducers/root';
 
 export let store;
@@ -56,7 +55,7 @@ const sentryStoreListener = () => {
 
 export const initStore = () => {
   // Create Redux store
-  const middleware = [thunk, irmaBridgeMiddleware, irmaVersionMiddleware];
+  const middleware = [thunk, irmaBridgeMiddleware];
   const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore);
 
   store = createStoreWithMiddleware(rootReducer);
