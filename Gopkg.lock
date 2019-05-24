@@ -3,245 +3,186 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:e730c8372514c662e9ed97228c2e2023f1ec99eb68f7bb56a44c1084733d85f5"
   name = "github.com/bwesterb/byteswriter"
   packages = ["."]
-  pruneopts = "UT"
   revision = "c31a76b641f8b94ffccad99eeeabf795e53b1e4a"
 
 [[projects]]
   branch = "master"
-  digest = "1:670b0da164df747fbf79fb31921355d9e5c81a54bfe4c3ea7b2d4ec734f088c3"
   name = "github.com/bwesterb/go-atum"
   packages = ["."]
-  pruneopts = "UT"
   revision = "b79a6b33c09b7b8d49d2454bbde06162fdc0cd70"
 
 [[projects]]
   branch = "master"
-  digest = "1:e2c5caf65b79d6a5b246690148a6ae89c4bd2cf1af0d8dd2370c5bb4315ef155"
   name = "github.com/bwesterb/go-pow"
   packages = ["."]
-  pruneopts = "UT"
   revision = "b53ca488a9ca0a21ee44c6a6b0ad792693214e1a"
 
 [[projects]]
   branch = "master"
-  digest = "1:7a23a7a01a99876e516bbed346971bd09c8b5af57d3ad9b37355d74999667f0a"
   name = "github.com/bwesterb/go-xmssmt"
   packages = ["."]
-  pruneopts = "UT"
   revision = "c7ed6207145b8af6d194cab000796a9c8ffb563a"
 
 [[projects]]
-  digest = "1:fed1f537c2f1269fe475a8556c393fe466641682d73ef8fd0491cd3aa1e47bad"
   name = "github.com/certifi/gocertifi"
   packages = ["."]
-  pruneopts = "UT"
   revision = "deb3ae2ef2610fde3330947281941c562861188b"
   version = "2018.01.18"
 
 [[projects]]
-  digest = "1:3535f00c607f3993a1a2f1cbb1b3faa3bf8903f9edc77c1386491882d3b2754c"
   name = "github.com/cespare/xxhash"
   packages = ["."]
-  pruneopts = "UT"
   revision = "5c37fe3735342a2e0d01c87a907579987c8936cc"
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:c28625428387b63dd7154eb857f51e700465cfbf7c06f619e71f2da33cefe47e"
   name = "github.com/coreos/bbolt"
   packages = ["."]
-  pruneopts = "UT"
   revision = "583e8937c61f1af6513608ccc75c97b6abdf4ff9"
   version = "v1.3.0"
 
 [[projects]]
-  digest = "1:76dc72490af7174349349838f2fe118996381b31ea83243812a97e5a0fd5ed55"
   name = "github.com/dgrijalva/jwt-go"
   packages = ["."]
-  pruneopts = "UT"
   revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
   version = "v3.2.0"
 
 [[projects]]
   branch = "master"
-  digest = "1:67d0b50be0549e610017cb91e0b0b745ec0cad7c613bc8e18ff2d1c1fc8825a7"
   name = "github.com/edsrzf/mmap-go"
   packages = ["."]
-  pruneopts = "UT"
   revision = "0bce6a6887123b67a60366d2c9fe2dfb74289d2e"
 
 [[projects]]
   branch = "master"
-  digest = "1:d4623fc7bf7e281d9107367cc4a9e76ed3e86b1eec1a4e30630c870bef1fedd0"
   name = "github.com/getsentry/raven-go"
   packages = ["."]
-  pruneopts = "UT"
   revision = "ed7bcb39ff10f39ab08e317ce16df282845852fa"
 
 [[projects]]
-  digest = "1:aacef5f5e45685f2aeda5534d0a750dee6859de7e9088cdd06192787bb01ae6d"
   name = "github.com/go-errors/errors"
   packages = ["."]
-  pruneopts = "UT"
   revision = "a6af135bd4e28680facf08a3d206b454abc877a4"
   version = "v1.0.1"
 
 [[projects]]
   branch = "master"
-  digest = "1:d1971637b21871ec2033a44ca87c99c5608a7340cb34ec75fab8d2ab503276c9"
   name = "github.com/hashicorp/errwrap"
   packages = ["."]
-  pruneopts = "UT"
   revision = "d6c0cd88035724dd42e0f335ae30161c20575ecc"
 
 [[projects]]
   branch = "master"
-  digest = "1:77cb3be9b21ba7f1a4701e870c84ea8b66e7d74c7c8951c58155fdadae9414ec"
   name = "github.com/hashicorp/go-cleanhttp"
   packages = ["."]
-  pruneopts = "UT"
   revision = "d5fe4b57a186c716b0e00b8c301cbd9b4182694d"
 
 [[projects]]
   branch = "master"
-  digest = "1:46fb6a9f1b9667f32ac93e08b1da118b2c666991424ea12e848b05d4fe5155ef"
   name = "github.com/hashicorp/go-multierror"
   packages = ["."]
-  pruneopts = "UT"
   revision = "3d5d8f294aa03d8e98859feac328afbdf1ae0703"
 
 [[projects]]
   branch = "master"
-  digest = "1:183f00c472fb9b2446659618eebf4899872fa267b92f926539411abdc8b941df"
   name = "github.com/hashicorp/go-retryablehttp"
   packages = ["."]
-  pruneopts = "UT"
   revision = "e651d75abec6fbd4f2c09508f72ae7af8a8b7171"
 
 [[projects]]
   branch = "master"
-  digest = "1:4db2738e3625ff5b5752fd48e2e48f5b008790a7ac5d68b7663f380d2d5c4b39"
   name = "github.com/jasonlvhit/gocron"
   packages = ["."]
-  pruneopts = "UT"
   revision = "6771d4b492ba2d5f57919c04b4cddb3735365120"
 
 [[projects]]
-  digest = "1:0a69a1c0db3591fcefb47f115b224592c8dfa4368b7ba9fae509d5e16cdc95c8"
   name = "github.com/konsorten/go-windows-terminal-sequences"
   packages = ["."]
-  pruneopts = "UT"
   revision = "5c8c8bd35d3832f5d134ae1e1e375b69a4d25242"
   version = "v1.0.1"
 
 [[projects]]
   branch = "master"
-  digest = "1:6491080aa184f88c2bb8e2f6056e5e0e9a578b2d8666efbd6e97bc37a0c41e72"
   name = "github.com/nightlyone/lockfile"
   packages = ["."]
-  pruneopts = "UT"
   revision = "0ad87eef1443f64d3d8c50da647e2b1552851124"
 
 [[projects]]
-  digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
   name = "github.com/pkg/errors"
   packages = ["."]
-  pruneopts = "UT"
   revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
   version = "v0.8.0"
 
 [[projects]]
   branch = "master"
-  digest = "1:a248b97b17d5d091f03237ca02b74451b9b338b81846f4cd2b26a4fd369826f3"
   name = "github.com/privacybydesign/gabi"
   packages = [
     ".",
     "big",
-    "safeprime",
+    "safeprime"
   ]
-  pruneopts = "UT"
   revision = "ea73e7bcb6005225b0253fdff3a500bd162ad090"
 
 [[projects]]
-  branch = "master"
-  digest = "1:d32f67802641048e2f0f23fce790cbee3133947670fa5fefa918b6eb596b1917"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
     "internal/disable_sigpipe",
     "internal/fs",
-    "irmaclient",
+    "irmaclient"
   ]
-  pruneopts = "UT"
-  revision = "b8eadff382ff5d6101a66e99b91e03a6bc5f7d00"
+  revision = "7f7e0c83c0221b17cfa064f3fcf0c5d5c319cd3c"
+  version = "v0.2.0"
 
 [[projects]]
-  digest = "1:87c2e02fb01c27060ccc5ba7c5a407cc91147726f8f40b70cceeedbc52b1f3a8"
   name = "github.com/sirupsen/logrus"
   packages = ["."]
-  pruneopts = "UT"
   revision = "e1e72e9de974bd926e5c56f83753fba2df402ce5"
   version = "v1.3.0"
 
 [[projects]]
   branch = "master"
-  digest = "1:13c0b931f59468b7a881b7feaf13590af95f79950b8097c5f73b0221d50b9c26"
   name = "github.com/templexxx/cpufeat"
   packages = ["."]
-  pruneopts = "UT"
   revision = "5901679d5808f3583b3a7d86cdea9b7704a763ec"
 
 [[projects]]
-  digest = "1:a0a269bea865974fc4d583373c984a5aa60cf98b5aa4f3e1b5de527891d37845"
   name = "github.com/templexxx/xor"
   packages = ["."]
-  pruneopts = "UT"
   revision = "0af8e873c554da75f37f2049cdffda804533d44c"
   version = "0.1.2"
 
 [[projects]]
   branch = "master"
-  digest = "1:f1bcadef588162241008b4806b1f2a9c92153cf442fd3d9ad3bc879518a5a824"
   name = "github.com/timshannon/bolthold"
   packages = ["."]
-  pruneopts = "UT"
   revision = "525de816b1a2c1cfbb67b5e9936a6b76e0c7f3e6"
 
 [[projects]]
   branch = "master"
-  digest = "1:38f2c29b6f212911a89f51e22941cbf4fee978946a4f810aa2929238af70a18e"
   name = "golang.org/x/crypto"
   packages = [
     "ed25519",
     "ed25519/internal/edwards25519",
     "sha3",
-    "ssh/terminal",
+    "ssh/terminal"
   ]
-  pruneopts = "UT"
   revision = "c126467f60eb25f8f27e5a981f32a87e3965053f"
 
 [[projects]]
   branch = "master"
-  digest = "1:3364d01296ce7eeca363e3d530ae63a2092d6f8efb85fb3d101e8f6d7de83452"
   name = "golang.org/x/sys"
   packages = [
     "unix",
-    "windows",
+    "windows"
   ]
-  pruneopts = "UT"
   revision = "ac767d655b305d4e9612f5f6e33120b9176c4ad4"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = [
-    "github.com/getsentry/raven-go",
-    "github.com/go-errors/errors",
-    "github.com/privacybydesign/irmago",
-    "github.com/privacybydesign/irmago/irmaclient",
-  ]
+  inputs-digest = "ad82f3334e50de14e042b7ff67ff660a956fb9ec55595c929f0aaf77c0e62f18"
   solver-name = "gps-cdcl"
   solver-version = 1
