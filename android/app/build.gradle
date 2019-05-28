@@ -20,8 +20,8 @@ android {
         applicationId "org.irmacard.cardemu"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 50
-        versionName "5.5.4"
+        versionCode 51
+        versionName "5.5.5"
         missingDimensionStrategy "RNN.reactNativeVersion", rootProject.ext.reactNavigationRNVersion
     }
 
