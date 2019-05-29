@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { namespacedTranslation } from 'lib/i18n';
-
 import {
   Text,
   Icon,
   View,
 } from 'native-base';
-
-const t = namespacedTranslation('Session.MoreIndicator');
 
 export default class MoreIndicator extends Component {
 
@@ -27,10 +23,8 @@ export default class MoreIndicator extends Component {
     return (
       <View key="text" style={styles.moreIndicator} pointerEvents="none">
         <View style={{flexDirection: 'row'}}>
-          <Text note style={{...styles.text, padding: 20, paddingBottom: 5}}>
-            { t('.more') }
-            { '  ' }
-            <Icon name="ios-arrow-down" style={{fontSize: 14, color: '#a7a7a7'}} />
+          <Text note style={{...styles.text}}>
+            <Icon name="ios-arrow-down" style={{fontSize: 40, color: '#a7a7a7'}} />
           </Text>
         </View>
       </View>
@@ -43,6 +37,9 @@ const styles = {
     textShadowColor: '#000',
     textShadowOffset: { width: 1, height: 0 },
     textShadowRadius: 15,
+    padding: 20,
+    paddingBottom: 0,
+    marginBottom: -13,
   },
   moreIndicator: {
     position: 'absolute',
