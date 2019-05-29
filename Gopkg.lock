@@ -2,28 +2,28 @@
 
 
 [[projects]]
-  branch = "master"
   name = "github.com/bwesterb/byteswriter"
   packages = ["."]
-  revision = "c31a76b641f8b94ffccad99eeeabf795e53b1e4a"
+  revision = "fe2f57e9fb9cee2d2843caa9e7bc1baa081fb567"
+  version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/bwesterb/go-atum"
   packages = ["."]
-  revision = "b79a6b33c09b7b8d49d2454bbde06162fdc0cd70"
+  revision = "9965266e59eee42f26153a8be40c1463c79ed17b"
+  version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/bwesterb/go-pow"
   packages = ["."]
-  revision = "b53ca488a9ca0a21ee44c6a6b0ad792693214e1a"
+  revision = "c84a42458d2e58f61395e19d07cfc9630df15dc6"
+  version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/bwesterb/go-xmssmt"
   packages = ["."]
-  revision = "c7ed6207145b8af6d194cab000796a9c8ffb563a"
+  revision = "3dc1e812afc06ff57e314a9a2257c2ccba5264dc"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/certifi/gocertifi"
@@ -34,14 +34,8 @@
 [[projects]]
   name = "github.com/cespare/xxhash"
   packages = ["."]
-  revision = "5c37fe3735342a2e0d01c87a907579987c8936cc"
-  version = "v1.0.0"
-
-[[projects]]
-  name = "github.com/coreos/bbolt"
-  packages = ["."]
-  revision = "583e8937c61f1af6513608ccc75c97b6abdf4ff9"
-  version = "v1.3.0"
+  revision = "3b82fb7d186719faeedd0c2864f868c74fbf79a1"
+  version = "v2.0.0"
 
 [[projects]]
   name = "github.com/dgrijalva/jwt-go"
@@ -50,16 +44,16 @@
   version = "v3.2.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/edsrzf/mmap-go"
   packages = ["."]
-  revision = "0bce6a6887123b67a60366d2c9fe2dfb74289d2e"
+  revision = "188cc3b666ba704534fa4f96e9e61f21f1e1ba7c"
+  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
   name = "github.com/getsentry/raven-go"
   packages = ["."]
-  revision = "ed7bcb39ff10f39ab08e317ce16df282845852fa"
+  revision = "c977f96e109525a5d8fa10a19165341f601f38b0"
 
 [[projects]]
   name = "github.com/go-errors/errors"
@@ -68,40 +62,40 @@
   version = "v1.0.1"
 
 [[projects]]
-  branch = "master"
   name = "github.com/hashicorp/errwrap"
   packages = ["."]
-  revision = "d6c0cd88035724dd42e0f335ae30161c20575ecc"
+  revision = "8a6fb523712970c966eefc6b39ed2c5e74880354"
+  version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/hashicorp/go-cleanhttp"
   packages = ["."]
-  revision = "d5fe4b57a186c716b0e00b8c301cbd9b4182694d"
+  revision = "eda1e5db218aad1db63ca4642c8906b26bcf2744"
+  version = "v0.5.1"
 
 [[projects]]
-  branch = "master"
   name = "github.com/hashicorp/go-multierror"
   packages = ["."]
-  revision = "3d5d8f294aa03d8e98859feac328afbdf1ae0703"
+  revision = "886a7fbe3eb1c874d46f623bfa70af45f425b3d1"
+  version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/hashicorp/go-retryablehttp"
   packages = ["."]
-  revision = "e651d75abec6fbd4f2c09508f72ae7af8a8b7171"
+  revision = "357460732517ec3b57c05c51443296bdd6df1874"
+  version = "v0.5.3"
 
 [[projects]]
   branch = "master"
   name = "github.com/jasonlvhit/gocron"
   packages = ["."]
-  revision = "6771d4b492ba2d5f57919c04b4cddb3735365120"
+  revision = "f996a843b48da99bb5dfabc2ddf9738fc7c18e55"
 
 [[projects]]
   name = "github.com/konsorten/go-windows-terminal-sequences"
   packages = ["."]
-  revision = "5c8c8bd35d3832f5d134ae1e1e375b69a4d25242"
-  version = "v1.0.1"
+  revision = "f55edac94c9bbba5d6182a4be46d86a2c9b5b50e"
+  version = "v1.0.2"
 
 [[projects]]
   branch = "master"
@@ -112,8 +106,8 @@
 [[projects]]
   name = "github.com/pkg/errors"
   packages = ["."]
-  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
-  version = "v0.8.0"
+  revision = "ba968bfe8b2f7e042a574c888954fccecfa385b4"
+  version = "v0.8.1"
 
 [[projects]]
   branch = "master"
@@ -123,9 +117,10 @@
     "big",
     "safeprime"
   ]
-  revision = "ea73e7bcb6005225b0253fdff3a500bd162ad090"
+  revision = "ce779395f4c98898f21f8c49f71f4b3353995127"
 
 [[projects]]
+  branch = "master"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
@@ -133,20 +128,19 @@
     "internal/fs",
     "irmaclient"
   ]
-  revision = "7f7e0c83c0221b17cfa064f3fcf0c5d5c319cd3c"
-  version = "v0.2.0"
+  revision = "ec3366e7eafd2a87935253bdbf879537c2c9b28a"
 
 [[projects]]
   name = "github.com/sirupsen/logrus"
   packages = ["."]
-  revision = "e1e72e9de974bd926e5c56f83753fba2df402ce5"
-  version = "v1.3.0"
+  revision = "839c75faf7f98a33d445d181f3018b5c3409a45e"
+  version = "v1.4.2"
 
 [[projects]]
   branch = "master"
   name = "github.com/templexxx/cpufeat"
   packages = ["."]
-  revision = "5901679d5808f3583b3a7d86cdea9b7704a763ec"
+  revision = "cef66df7f161dee20f4d650da7268d77eaaec82d"
 
 [[projects]]
   name = "github.com/templexxx/xor"
@@ -158,7 +152,13 @@
   branch = "master"
   name = "github.com/timshannon/bolthold"
   packages = ["."]
-  revision = "525de816b1a2c1cfbb67b5e9936a6b76e0c7f3e6"
+  revision = "eed35b7556710c9108bd536193dae1ecb91f16fa"
+
+[[projects]]
+  name = "go.etcd.io/bbolt"
+  packages = ["."]
+  revision = "63597a96ec0ad9e6d43c3fc81e809909e0237461"
+  version = "v1.3.2"
 
 [[projects]]
   branch = "master"
@@ -166,19 +166,19 @@
   packages = [
     "ed25519",
     "ed25519/internal/edwards25519",
-    "sha3",
-    "ssh/terminal"
+    "sha3"
   ]
-  revision = "c126467f60eb25f8f27e5a981f32a87e3965053f"
+  revision = "22d7a77e9e5f409e934ed268692e56707cd169e5"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = [
+    "cpu",
     "unix",
     "windows"
   ]
-  revision = "ac767d655b305d4e9612f5f6e33120b9176c4ad4"
+  revision = "3626398d77499f570be2e36a6ad4fc91963a02c5"
 
 [solve-meta]
   analyzer-name = "dep"
