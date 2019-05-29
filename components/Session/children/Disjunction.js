@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, LayoutAnimation } from 'react-native';
 
 import {
   Card,
@@ -42,50 +42,12 @@ export default class Disjunction extends Component {
     makeDisclosureChoice: null,
   }
 
-  renderAttribute = (attribute, index) => {
-    const note = attribute.Value ? <Text note>{ attribute.AttributeType.Name[lang] }</Text> : null;
-    const text = attribute.Value ? attribute.Value[lang] : attribute.AttributeType.Name[lang];
+  constructor(props) {
+    super(props);
 
-    return (
-      <CardItem key={index}>
-        <Body>
-          { note }
-          <Text style={{fontWeight: 'normal'}}>
-            { text }
-          </Text>
-        </Body>
-      </CardItem>
-    );
-  }
-
-  renderHeader = (attrType) => {
-    const credType = attrType.CredentialType;
-    return (
-      <CardItem key={credType.fullID} header style={styles.headerCardItem}>
-        <Body style={{flex: 2}}>
-          <Text style={styles.credentialNameText}>
-            { credType.Name[lang] }
-          </Text>
-          <Text note>
-            Issued by: { attrType.Issuer.Name[lang] }
-          </Text>
-        </Body>
-        <Right style={{flex: 1}}>
-          <View style={{flex: 1, paddingTop: 4}}>
-            <CardItemThumb source={{uri: credType.logoUri}} />
-          </View>
-        </Right>
-      </CardItem>
-    );
-  }
-
-  renderCredentialSubset = (credSubset) => {
-    return (
-      <View key={credSubset[0].CredentialType.fullID} style={styles.borderBottom}>
-        { this.renderHeader(credSubset[0]) }
-        { credSubset.map(this.renderAttribute) }
-      </View>
-    );
+    this.state = {
+      height: this.candidateSetHeight(props.candidateSets[props.choice]),
+    };
   }
 
   renderCandidateSet = (candidateSet, index) => {
@@ -93,18 +55,90 @@ export default class Disjunction extends Component {
       hideUnchosen,
       choice,
     } = this.props;
+    const { height } = this.state;
 
     // Decide if this candidate set (un)selected and maybe not displayed
     const isSelected = index === choice;
     if (hideUnchosen && !isSelected)
       return null;
 
+    let count = 0;
+
+    const renderHeader = (attrType) => {
+      count++;
+      if (count > height) return null;
+
+      const credType = attrType.CredentialType;
+      return (
+        <CardItem key={credType.fullID} header style={styles.headerCardItem}>
+          <Body style={{flex: 2}}>
+            <Text style={styles.credentialNameText}>
+              { credType.Name[lang] }
+            </Text>
+            <Text note>
+              Issued by: { attrType.Issuer.Name[lang] }
+            </Text>
+          </Body>
+          <Right style={{flex: 1}}>
+            <View style={{flex: 1, paddingTop: 4}}>
+              <CardItemThumb source={{uri: credType.logoUri}} />
+            </View>
+          </Right>
+        </CardItem>
+      );
+    };
+
+    const renderAttribute = (attribute, id) => {
+      count++;
+      if (count > height) return null;
+
+      const note = attribute.Value ? <Text note>{ attribute.AttributeType.Name[lang] }</Text> : null;
+      const text = attribute.Value ? attribute.Value[lang] : attribute.AttributeType.Name[lang];
+
+      return (
+        <CardItem key={id}>
+          <Body>
+            { note }
+            <Text style={{fontWeight: 'normal'}}>
+              { text }
+            </Text>
+          </Body>
+        </CardItem>
+      );
+    };
+
+    const renderBorder = () => {
+      if (count > height) return null;
+      return <View style={{...styles.borderBottom, width: disjunctionWidth}}></View>;
+    };
+
+    const renderCredentialSubset = (credSubset) => {
+      return (
+        <View key={credSubset[0].CredentialType.fullID}>
+          { renderHeader(credSubset[0]) }
+          { credSubset.map(renderAttribute) }
+          { renderBorder() }
+        </View>
+      );
+    };
+
     return (
       <View key={index} style={{width: disjunctionWidth}}>
-        { candidateSet.map(this.renderCredentialSubset) }
+        { candidateSet.map(renderCredentialSubset) }
       </View>
     );
   }
+
+  checkHeight = j => {
+    const newHeight = this.candidateSetHeight(this.props.candidateSets[j]);
+    if (newHeight !== this.state.height) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      this.setState({height: newHeight});
+    }
+  }
+
+  candidateSetHeight = candidateSet =>
+    candidateSet.length + candidateSet.map(s => s.length).reduce((a, b) => a+b, 0);
 
   render() {
     const {
@@ -121,12 +155,18 @@ export default class Disjunction extends Component {
         </Text>
       </CardItem> : undefined;
 
+    const makeChoice = j => {
+      makeDisclosureChoice(j);
+      this.checkHeight(j);
+    };
+
+
     return (
       <Card rounded>
         { labelHeader }
         <HorizontalPicker
           hideUnchosen={hideUnchosen}
-          makeChoice={makeDisclosureChoice}
+          makeChoice={makeChoice}
           width={disjunctionWidth}
         >
           { _.map(candidateSets, this.renderCandidateSet) }
