@@ -14,10 +14,12 @@ import {
 
 import _ from 'lodash';
 
-import { getLanguage } from 'lib/i18n';
+import { getLanguage, namespacedTranslation } from 'lib/i18n';
 import { CardItemThumb } from 'components/CredentialCard/helpers';
 import HorizontalPicker from 'lib/HorizontalPicker';
 import nbVariables from 'lib/native-base-theme/variables/platform';
+
+const t = namespacedTranslation('Session.Disjunction');
 
 const lang = getLanguage();
 const disjunctionWidth = Dimensions.get('window').width - 24;
@@ -122,9 +124,26 @@ export default class Disjunction extends Component {
       );
     };
 
+    const renderEmptyConjunction = () => {
+      count++;
+      return (
+        <View>
+          <CardItem>
+            <Body style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+              <View>
+                <Text>{ t('.emptyConjunction') }</Text>
+                <Text note>{ t('.emptyConjunctionNote') }</Text>
+              </View>
+            </Body>
+          </CardItem>
+          { renderBorder() }
+        </View>
+      );
+    };
+
     return (
       <View key={index} style={{width: disjunctionWidth}}>
-        { candidateSet.map(renderCredentialSubset) }
+        { candidateSet.length !== 0 ? candidateSet.map(renderCredentialSubset) : renderEmptyConjunction() }
       </View>
     );
   }
@@ -137,8 +156,9 @@ export default class Disjunction extends Component {
     }
   }
 
-  candidateSetHeight = candidateSet =>
-    candidateSet.length + candidateSet.map(s => s.length).reduce((a, b) => a+b, 0);
+  // empty candidate sets are rendered with an explanatory label, so it has a height
+  candidateSetHeight = candidateSet => ( candidateSet.length === 0 ? 1 :
+    candidateSet.length + candidateSet.map(s => s.length).reduce((a, b) => a+b, 0) );
 
   render() {
     const {
@@ -146,6 +166,7 @@ export default class Disjunction extends Component {
       candidateSets,
       makeDisclosureChoice,
       hideUnchosen,
+      choice,
     } = this.props;
 
     const labelHeader = label ?
@@ -160,6 +181,8 @@ export default class Disjunction extends Component {
       this.checkHeight(j);
     };
 
+    if (hideUnchosen && candidateSets[choice].length === 0)
+      return null;
 
     return (
       <Card rounded>
