@@ -13,6 +13,7 @@ import MissingDisclosures from './children/MissingDisclosures';
 import PinEntry from './children/PinEntry';
 import StatusCard from './children/StatusCard';
 import MoreIndicator from './children/MoreIndicator';
+import SessionStyles from './children/Styles';
 
 import {
   Text,
@@ -49,6 +50,32 @@ export default class DisclosureSession extends Component {
     setTopbarTitle(t('.headerTitle'));
   }
 
+  renderHeader() {
+    const {
+      session: {
+        status,
+        serverName,
+      },
+    } = this.props;
+
+    switch (status) {
+      case 'success':
+      case 'cancelled':
+        return <Text style={SessionStyles.header}>{ t(`.${status}Explanation`) }</Text>;
+      case 'requestPermission':
+        return (
+          <View>
+            <Text style={SessionStyles.header}>
+              <Text style={{...SessionStyles.header, fontWeight: 'bold'}}>{ serverName[lang] }</Text>&nbsp;
+              { t('.requestPermissionExplanation') }
+            </Text>
+          </View>
+        );
+      default:
+        return this.renderStatusCard();
+    }
+  }
+
   renderStatusCard() {
     const {
       navigateToEnrollment,
@@ -58,14 +85,6 @@ export default class DisclosureSession extends Component {
         serverName,
       },
     } = this.props;
-
-    let heading;
-    switch (status) {
-      case 'success':
-      case 'cancelled':
-      case 'requestPermission':
-        heading = <Text>{ t(`.${status}Heading`) }</Text>;
-    }
 
     let explanation;
     switch (status) {
@@ -79,30 +98,11 @@ export default class DisclosureSession extends Component {
         );
 
         break;
-
-      case 'requestPermission': {
-        explanation = (
-          <View>
-            <Text>
-              <Text style={{fontWeight: 'bold'}}>{ serverName[lang] }</Text>&nbsp;
-              { t('.requestPermissionExplanation') }
-            </Text>
-          </View>
-        );
-
-        break;
-      }
-
-      case 'requestDisclosurePermission':
-      case 'success': {
-        explanation = <Text>{ t(`.${status}Explanation`) }</Text>;
-      }
     }
 
     return (
       <StatusCard
         explanation={explanation}
-        heading={heading}
         navigateToEnrollment={navigateToEnrollment}
         session={session} />
     );
@@ -152,7 +152,7 @@ export default class DisclosureSession extends Component {
           onLayout={e => onLayout(true, e)}
         >
           <View onLayout={e => onLayout(false, e)}>
-            { this.renderStatusCard() }
+            { this.renderHeader() }
             <Error session={session} />
             <PinEntry
               session={session}

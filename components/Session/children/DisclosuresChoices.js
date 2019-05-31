@@ -28,14 +28,14 @@ export default class DisclosureChoices extends Component {
   }
 
   renderDisjunction = ([candidateSets, choice], conjunctionIndex) => {
-    const { makeDisclosureChoice, session: { status, disclosuresLabels } } = this.props;
+    const { makeDisclosureChoice, session: { disclosuresLabels } } = this.props;
     const label = disclosuresLabels && disclosuresLabels[conjunctionIndex] ? disclosuresLabels[conjunctionIndex] : null;
 
     return (
       <Disjunction
         key={conjunctionIndex}
         candidateSets={candidateSets}
-        makeDisclosureChoice={status === 'requestPermission' ? j => makeDisclosureChoice(conjunctionIndex, j) : null}
+        makeDisclosureChoice={j => makeDisclosureChoice(conjunctionIndex, j)}
         choice={choice}
         label={label}
       />
@@ -71,17 +71,12 @@ export default class DisclosureChoices extends Component {
     const { session } = this.props;
     const { disclosuresCandidates, disclosureIndices } = session;
 
-    const filtered = _
-      .zip(disclosuresCandidates, disclosureIndices)
-      .filter(this.filterEmpty)
-      .map(this.filterUnchosen);
-    const count = filtered.length;
-
     return (
       <View>
-        { filtered
+        { _.zip(disclosuresCandidates, disclosureIndices)
+           .filter(this.filterEmpty)
+           .map(this.filterUnchosen)
            .map(this.renderDisjunction)
-           .map((disjunction, index) => [disjunction, this.renderSeparator(index, count)])
         }
       </View>
     );
@@ -90,9 +85,11 @@ export default class DisclosureChoices extends Component {
 
 const styles = StyleSheet.create({
   borderBottom: {
+    borderColor: SessionStyles.header.color,
     marginBottom: 8, width: (screenWidth/2)-60,
   },
   text: {
+    color: SessionStyles.header.color,
     paddingHorizontal: 20,
     textTransform: 'uppercase',
   },

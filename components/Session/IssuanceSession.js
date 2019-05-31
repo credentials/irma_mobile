@@ -13,6 +13,7 @@ import MissingDisclosures from './children/MissingDisclosures';
 import PinEntry from './children/PinEntry';
 import StatusCard from './children/StatusCard';
 import MoreIndicator from './children/MoreIndicator';
+import SessionStyles from './children/Styles';
 
 import PaddedContent from 'lib/PaddedContent';
 import {
@@ -48,27 +49,54 @@ export default class IssuanceSession extends Component {
     setTopbarTitle(t('.headerTitle'));
   }
 
-  renderStatusCard() {
+  renderHeader() {
     const {
-      navigateToEnrollment,
-      session,
       session: {
-        issuedCredentials,
         serverName,
         status,
       },
     } = this.props;
 
-    let heading;
-    switch(status) {
+    switch (status) {
       case 'success':
       case 'cancelled':
+        return <Text style={SessionStyles.header}>{ t(`.${status}Explanation`) }</Text>;
       case 'requestPermission':
-        heading = <Text>{ t(`.${status}Heading`) }</Text>;
+          return (
+            <View>
+              <Text style={SessionStyles.header}>
+                <Text style={{...SessionStyles.header, fontWeight: 'bold'}}>{ serverName[lang] }</Text>&nbsp;
+                { t('.requestPermissionExplanation') }
+              </Text>
+            </View>
+          );
+      case 'requestDisclosurePermission':
+        return (
+          <View>
+            <Text style={SessionStyles.header}>
+              { t('.requestDisclosurePermission.before') }
+              &nbsp;<Text style={{...SessionStyles.header, fontWeight: 'bold'}}>{ serverName[lang] }</Text>&nbsp;
+              { t('.requestDisclosurePermission.after') }
+            </Text>
+          </View>
+        );
+      default:
+        return this.renderStatusCard();
     }
+  }
+
+  renderStatusCard() {
+    const {
+      navigateToEnrollment,
+      session,
+      session: {
+        serverName,
+        status,
+      },
+    } = this.props;
 
     let explanation;
-    switch(status) {
+    switch (status) {
       case 'unsatisfiableRequest':
         explanation = (
           <Text>
@@ -79,47 +107,11 @@ export default class IssuanceSession extends Component {
         );
 
         break;
-
-      case 'requestPermission': {
-        const credentialCount = issuedCredentials.length;
-        const attributeCount = issuedCredentials.reduce(
-          (acc, cr) => acc + cr.Attributes.length, 0
-        );
-
-        const credentialAmount = t('common.credentials', { count: credentialCount });
-        const attributeAmount = t('common.attributes', { count: attributeCount });
-
-        explanation = (
-          <Text>
-            <Text style={{fontWeight: 'bold'}}>{ serverName[lang] }</Text>
-            { t('.requestPermissionExplanation', {credentialAmount, attributeAmount}) }
-          </Text>
-        );
-
-        break;
-      }
-
-      case 'requestDisclosurePermission': {
-        explanation = (
-          <View>
-            <Text>
-              { t('.requestDisclosurePermission', {serverName: serverName[lang]}) }
-            </Text>
-          </View>
-        );
-
-        break;
-      }
-
-      case 'success': {
-        explanation = <Text>{ t(`.${status}Explanation`) }</Text>;
-      }
     }
 
     return (
       <StatusCard
         explanation={explanation}
-        heading={heading}
         navigateToEnrollment={navigateToEnrollment}
         session={session} />
     );
@@ -127,7 +119,7 @@ export default class IssuanceSession extends Component {
 
   renderDisclosures() {
     const { makeDisclosureChoice, session, session: { status } } = this.props;
-    if(status !== 'requestDisclosurePermission')
+    if (status !== 'requestDisclosurePermission')
       return null;
 
     return (
@@ -163,7 +155,7 @@ export default class IssuanceSession extends Component {
           onLayout={e => onLayout(true, e)}
         >
           <View onLayout={e => onLayout(false, e)}>
-            { this.renderStatusCard() }
+            { this.renderHeader() }
             <Error session={session} />
             <PinEntry
               session={session}

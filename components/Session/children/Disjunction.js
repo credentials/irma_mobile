@@ -57,6 +57,8 @@ export default class Disjunction extends Component {
   );
 
   checkHeight = j => {
+    if (!this.props.candidateSets[j])
+      return;
     const newHeight = this.candidateSetHeight(this.props.candidateSets[j]);
     if (newHeight !== this.state.height) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
