@@ -13,6 +13,7 @@ import MissingDisclosures from './children/MissingDisclosures';
 import PinEntry from './children/PinEntry';
 import StatusCard from './children/StatusCard';
 import MoreIndicator from './children/MoreIndicator';
+import SessionStyles from './children/Styles';
 
 import {
   Text,
@@ -49,34 +50,60 @@ export default class SigningSession extends Component {
     setTopbarTitle(t('.headerTitle'));
   }
 
+  renderHeader() {
+    const {
+      session: {
+        status,
+        serverName,
+        message,
+      },
+    } = this.props;
+
+    const messageText = (
+      <Text style={{...SessionStyles.header, fontStyle: 'italic', paddingLeft: 20, paddingVertical: 0}}>
+        &ldquo;{ message }&rdquo;
+      </Text>
+    );
+
+    switch (status) {
+      case 'cancelled':
+        return <Text style={SessionStyles.header}>{ t(`.${status}Explanation`) }</Text>;
+      case 'success':
+        return (
+          <View>
+            <Text style={{...SessionStyles.header}}>{ t(`.${status}.before`) }</Text>
+            { messageText }
+            <Text style={{...SessionStyles.header}}>{ t(`.${status}.after`) }</Text>
+          </View>
+        );
+      case 'requestPermission':
+        return (
+          <View>
+            <Text style={{...SessionStyles.header}}>
+              <Text style={{...SessionStyles.header, fontWeight: 'bold'}}>{ serverName[lang] }&nbsp;</Text>
+              { t('.requestPermission.before') }
+            </Text>
+            { messageText }
+            <Text style={{...SessionStyles.header}}>{ t('.requestPermission.after') }</Text>
+          </View>
+        );
+      default:
+        return this.renderStatusCard();
+    }
+  }
+
   renderStatusCard() {
     const {
       navigateToEnrollment,
       session,
       session: {
-        message,
-        serverName,
         status,
-        request,
-      }
+      },
     } = this.props;
 
-    let heading;
-    switch(status) {
-      case 'success':
-      case 'cancelled':
-      case 'requestPermission':
-        heading = <Text>{ t(`.${status}Heading`) }</Text>;
-    }
-
-    const messageText = (
-      <Text style={{fontWeight: 'bold', paddingLeft: 10}}>
-        {'\n'}{ message }
-      </Text>
-    );
 
     let explanation;
-    switch(status) {
+    switch (status) {
       case 'unsatisfiableRequest':
         explanation = (
           <Text>
@@ -85,37 +112,11 @@ export default class SigningSession extends Component {
         );
 
         break;
-
-      case 'requestPermission': {
-        explanation = (
-          <View>
-            <Text>
-              <Text style={{fontWeight: 'bold'}}>{ serverName[lang] }</Text>&nbsp;
-              { t('.requestPermission.beforeExplanation') }
-            </Text>
-            { messageText }
-            <Text>{'\n'}{ t('.requestPermission.afterExplanation') }</Text>
-          </View>
-        );
-
-        break;
-      }
-
-      case 'success': {
-        explanation = (
-          <View>
-            <Text>{ t(`.${status}.beforeExplanation`) }</Text>
-            { messageText }
-            <Text>{'\n'}{ t(`.${status}.afterExplanation`) }</Text>
-          </View>
-        );
-      }
     }
 
     return (
       <StatusCard
         explanation={explanation}
-        heading={heading}
         navigateToEnrollment={navigateToEnrollment}
         session={session} />
     );
@@ -162,7 +163,7 @@ export default class SigningSession extends Component {
           onLayout={e => onLayout(true, e)}
          >
           <View onLayout={e => onLayout(false, e)}>
-            { this.renderStatusCard() }
+            { this.renderHeader() }
             <Error session={session} />
             <PinEntry
               session={session}
