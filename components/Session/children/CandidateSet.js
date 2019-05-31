@@ -14,6 +14,8 @@ import { getLanguage, namespacedTranslation } from 'lib/i18n';
 import { CardItemThumb } from 'components/CredentialCard/helpers';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 
+import SessionStyles from './Styles';
+
 const t = namespacedTranslation('Session.Disjunction');
 const lang = getLanguage();
 
@@ -74,7 +76,7 @@ export default class CandidateSet extends Component {
   renderBorder = (count) => {
     const { height, width } = this.props;
     if (count.c > height) return null;
-    return <View style={{...styles.borderBottom, width}}></View>;
+    return <View style={{...SessionStyles.borderBottom, paddingBottom: 10, width}}></View>;
   };
 
   renderCredentialSubset = (count) => (credSubset) => {
@@ -119,11 +121,6 @@ export default class CandidateSet extends Component {
 }
 
 const styles = StyleSheet.create({
-  borderBottom: {
-    borderBottomWidth: nbVariables.borderWidth,
-    borderColor: nbVariables.cardBorderColor,
-    paddingBottom: 10,
-  },
   headerCardItem: {
     paddingTop: 12,
     paddingBottom: 0,

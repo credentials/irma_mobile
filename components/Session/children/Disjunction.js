@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Dimensions, StyleSheet, LayoutAnimation } from 'react-native';
+import { StyleSheet, LayoutAnimation } from 'react-native';
 
 import {
   Card,
@@ -15,10 +15,10 @@ import _ from 'lodash';
 import { getLanguage } from 'lib/i18n';
 import CandidateSet from './CandidateSet';
 import HorizontalPicker from 'lib/HorizontalPicker';
-import nbVariables from 'lib/native-base-theme/variables/platform';
+
+import SessionStyles, { disjunctionWidth } from './Styles';
 
 const lang = getLanguage();
-const disjunctionWidth = Dimensions.get('window').width - 24;
 
 export default class Disjunction extends Component {
 
@@ -28,14 +28,12 @@ export default class Disjunction extends Component {
       PropTypes.object,
     ]).isRequired,
     choice: PropTypes.number,
-    hideUnchosen: PropTypes.bool,
     label: PropTypes.object,
     makeDisclosureChoice: PropTypes.func,
   }
 
   static defaultProps = {
     choice: 0,
-    hideUnchosen: false,
     label: null,
     makeDisclosureChoice: null,
   }
@@ -48,28 +46,15 @@ export default class Disjunction extends Component {
     };
   }
 
-  renderCandidateSet = (candidateSet, index) => {
-    const {
-      hideUnchosen,
-      choice,
-    } = this.props;
-    const { height } = this.state;
-
-    // Decide if this candidate set (un)selected and maybe not displayed
-    const isSelected = index === choice;
-    if (hideUnchosen && !isSelected)
-      return null;
-
-    return (
-      <View key={index} style={{width: disjunctionWidth}}>
-        <CandidateSet
-          candidateSet={candidateSet}
-          height={height}
-          width={disjunctionWidth}
-        />
-      </View>
-    );
-  }
+  renderCandidateSet = (candidateSet, index) => (
+    <View key={index} style={{width: disjunctionWidth}}>
+      <CandidateSet
+        candidateSet={candidateSet}
+        height={this.state.height}
+        width={disjunctionWidth}
+      />
+    </View>
+  );
 
   checkHeight = j => {
     const newHeight = this.candidateSetHeight(this.props.candidateSets[j]);
@@ -88,12 +73,10 @@ export default class Disjunction extends Component {
       label,
       candidateSets,
       makeDisclosureChoice,
-      hideUnchosen,
-      choice,
     } = this.props;
 
     const labelHeader = label ?
-      <CardItem style={[styles.borderBottom, styles.centerContent]}>
+      <CardItem style={{...SessionStyles.borderBottom, paddingBottom: 10, ...styles.centerContent}}>
         <Text>
           { label[lang] }
         </Text>
@@ -104,14 +87,10 @@ export default class Disjunction extends Component {
       this.checkHeight(j);
     };
 
-    if (hideUnchosen && candidateSets[choice].length === 0)
-      return null;
-
     return (
       <Card rounded>
         { labelHeader }
         <HorizontalPicker
-          hideUnchosen={hideUnchosen}
           makeChoice={makeChoice}
           width={disjunctionWidth}
         >
@@ -123,12 +102,6 @@ export default class Disjunction extends Component {
 }
 
 const styles = StyleSheet.create({
-  // General
-  borderBottom: {
-    borderBottomWidth: nbVariables.borderWidth,
-    borderColor: nbVariables.cardBorderColor,
-    paddingBottom: 10,
-  },
   centerContent: {
     flex: 1,
     alignContent: 'center',
