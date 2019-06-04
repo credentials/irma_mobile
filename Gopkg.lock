@@ -53,7 +53,7 @@
   branch = "master"
   name = "github.com/getsentry/raven-go"
   packages = ["."]
-  revision = "c977f96e109525a5d8fa10a19165341f601f38b0"
+  revision = "9599e76ac913fac2da68ae09a59537ad212ba754"
 
 [[projects]]
   name = "github.com/go-errors/errors"
@@ -89,7 +89,7 @@
   branch = "master"
   name = "github.com/jasonlvhit/gocron"
   packages = ["."]
-  revision = "f996a843b48da99bb5dfabc2ddf9738fc7c18e55"
+  revision = "f1cf2bd73e84a479e339a71f89b49b474ed6903c"
 
 [[projects]]
   name = "github.com/konsorten/go-windows-terminal-sequences"
@@ -128,7 +128,7 @@
     "internal/fs",
     "irmaclient"
   ]
-  revision = "ec3366e7eafd2a87935253bdbf879537c2c9b28a"
+  revision = "db2b06f4cf9948ecb120d5c6f968e722d0428ab7"
 
 [[projects]]
   name = "github.com/sirupsen/logrus"
@@ -168,7 +168,7 @@
     "ed25519/internal/edwards25519",
     "sha3"
   ]
-  revision = "22d7a77e9e5f409e934ed268692e56707cd169e5"
+  revision = "20be4c3c3ed52bfccdb2d59a412ee1a936d175a7"
 
 [[projects]]
   branch = "master"
@@ -178,7 +178,7 @@
     "unix",
     "windows"
   ]
-  revision = "3626398d77499f570be2e36a6ad4fc91963a02c5"
+  revision = "4c4f7f33c9ed00de01c4c741d2177abfcfe19307"
 
 [solve-meta]
   analyzer-name = "dep"

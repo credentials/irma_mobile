@@ -34,7 +34,7 @@
   version = "1.0.0"
 
 [[constraint]]
-  branch = "forcedupdates"
+  branch = "master"
   name = "github.com/privacybydesign/irmago"
 
 [[override]]
