@@ -128,7 +128,7 @@
     "internal/fs",
     "irmaclient"
   ]
-  revision = "db2b06f4cf9948ecb120d5c6f968e722d0428ab7"
+  revision = "f448271fb1d9b272c83db7a3ba0d66983de4a64f"
 
 [[projects]]
   name = "github.com/sirupsen/logrus"
