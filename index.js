@@ -1,4 +1,5 @@
-import { Linking, AppState, StatusBar } from 'react-native';
+import { Linking, AppState, StatusBar, Platform, NativeModules } from 'react-native';
+const { IrmaVersion } = NativeModules;
 import moment from 'moment';
 
 import { initStore } from 'store';
@@ -23,7 +24,9 @@ if (__DEV__)
 const store = initStore();
 
 // // Main entry point of application on boot
+let hasSetInitialScreen = false;
 Navigation.events().registerAppLaunchedListener( () => {
+  hasSetInitialScreen = false;
   StatusBar.setBarStyle('light-content');
 
   setDefaultOptions();
@@ -33,6 +36,7 @@ Navigation.events().registerAppLaunchedListener( () => {
   handleInitialUrl();
   AppState.addEventListener('change', appStateChangeListener);
   store.subscribe(initialScreenStoreListener);
+  store.subscribe(minimumVersionStoreListener);
   Linking.addEventListener('url', handleUrl);
 });
 
@@ -63,7 +67,6 @@ const handleUrl = (event) => {
 
 // Sets the initial screen as soon as the irmagobridge enrollment reducer
 // has been loaded. Also set the unlockModal if necessary.
-let hasSetInitialScreen = false;
 const initialScreenStoreListener = () => {
   if (hasSetInitialScreen)
     return;
@@ -107,30 +110,83 @@ const initialScreenStoreListener = () => {
   }
 };
 
-// Function that listens for change in foreground/background appState,
-// records that state and locks the app after a timeout
-const appStateChangeListener = (appState) => {
+// Check version requirements
+const minimumVersionStoreListener = () => {
+  const {
+    irmaConfiguration: {
+      loaded,
+      schemeManagers,
+      showingUpdate,
+    },
+  } = store.getState();
+  
+  if (!loaded || showingUpdate)
+  	return;
+
+  let minBuild = 0;
+  for (const scheme in schemeManagers) {
+    if (Platform.OS === 'android')
+      minBuild = Math.max(minBuild, schemeManagers[scheme].MinimumAppVersion.Android);
+    if (Platform.OS === 'ios')
+      minBuild = Math.max(minBuild, schemeManagers[scheme].MinimumAppVersion.IOS);
+  }
+  
+  let myVersion = parseInt(IrmaVersion.build, 10);
+  if (Platform.OS === 'android') {
+    while (myVersion > 1024*1024)
+      myVersion -= 1024*1024;
+  }
+  
+  if (minBuild > myVersion) {
+    store.dispatch({
+      type: 'IrmaConfiguration.ShowingUpdate',
+    });
+  }
+}
+
+// Event handler for becoming active (called from appStateChange)
+const onAppBecomesActive = () => {
   const {
     enrollment: {
       enrolledSchemeManagerIds,
     },
     appUnlock: {
-      appState: previousAppState,
       lastForegroundedTime,
+    },
+    irmaConfiguration: {
+      lastUpdateTime,
     },
   } = store.getState();
 
-  // Check if we are changing from backgrounded to active
   // If we were active more than 5 minutes ago, show AppUnlock again (if enrolled)
-  if (previousAppState !== 'active' && appState === 'active' &&
-    moment(lastForegroundedTime).isBefore(moment().subtract(5, 'minutes'))
-  ) {
+  if (moment(lastForegroundedTime).isBefore(moment().subtract(5, 'minutes'))) {
     store.dispatch({
       type: 'AppUnlock.Lock',
     });
 
     if (enrolledSchemeManagerIds.length > 0)
       showAppUnlockModal({showModalAnimation: false});
+  }
+
+  // Update configuration when becoming active, but at most once every 6 hours
+  if (moment(lastUpdateTime).isBefore(moment().subtract(6, 'hours'))) {
+    store.dispatch({
+      type: 'IrmaBridge.UpdateSchemes',
+    });
+  }
+}
+
+// Function that listens for change in foreground/background appState,
+// records that state and calls event handler when app changes to foreground
+const appStateChangeListener = (appState) => {
+  const {
+    appUnlock: {
+      appState: previousAppState,
+    },
+  } = store.getState();
+
+  if (previousAppState !== 'active' && appState === 'active') {
+    onAppBecomesActive()
   }
 
   // Record the current state

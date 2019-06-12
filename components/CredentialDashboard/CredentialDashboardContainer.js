@@ -65,7 +65,6 @@ export default class CredentialDashboardContainer extends React.Component {
   static doneButton = {
     id: 'doneButton',
     text: t('.done'),
-    color: nbVariables.platform === 'ios' ? nbVariables.colors.iosBlue : nbVariables.topBarContentColor,
   }
 
   static options() {
