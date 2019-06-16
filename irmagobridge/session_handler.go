@@ -68,7 +68,7 @@ func (sh *SessionHandler) Cancelled() {
 }
 
 func (sh *SessionHandler) UnsatisfiableRequest(request irma.SessionRequest,
-	serverName irma.TranslatedString, missing map[int]map[int]irma.AttributeCon) {
+	serverName irma.TranslatedString, missing irmaclient.MissingAttributes) {
 	logDebug("Handling UnsatisfiableRequest")
 	action := &OutgoingAction{
 		"type":               "IrmaSession.UnsatisfiableRequest",

@@ -28,6 +28,11 @@ export default class CandidateSet extends Component {
     ]).isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
+    multiple: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    multiple: false,
   }
 
   renderHeader = (attrType, count) => {
@@ -55,19 +60,23 @@ export default class CandidateSet extends Component {
   };
 
   renderAttribute = (count) => (attribute, id) => {
-    count.c++;
-    if (count.c > this.props.height) return null;
+    const {
+      height,
+    } = this.props;
 
-    const note = attribute.Value ? <Text note>{ attribute.AttributeType.Name[lang] }</Text> : null;
-    const text = attribute.Value ? attribute.Value[lang] : attribute.AttributeType.Name[lang];
+    count.c++;
+    if (count.c > height) return null;
+
+    const noValue = !attribute.Missing && attribute.Null ? `: ${t('.noValue')}` : null;
+    const note = attribute.Missing && !attribute.Value ? null : <Text note>{ attribute.AttributeType.Name[lang] }{ noValue }</Text>;
+    const text = attribute.Value ? <Text>{ attribute.Value[lang] }</Text>
+      : (attribute.Missing ? <Text>{ attribute.AttributeType.Name[lang] }</Text> : null);
 
     return (
       <CardItem key={id}>
         <Body>
           { note }
-          <Text style={{fontWeight: 'normal'}}>
-            { text }
-          </Text>
+          { text }
         </Body>
       </CardItem>
     );
@@ -91,13 +100,14 @@ export default class CandidateSet extends Component {
 
   renderEmptyConjunction = (count) => {
     count.c++;
+    const note = this.props.multiple ? <Text note>{ t('.emptyConjunctionNote') }</Text> : null;
     return (
       <View>
         <CardItem>
           <Body style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
             <View>
               <Text>{ t('.emptyConjunction') }</Text>
-              <Text note>{ t('.emptyConjunctionNote') }</Text>
+              { note }
             </View>
           </Body>
         </CardItem>
