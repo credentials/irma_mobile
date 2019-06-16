@@ -26,6 +26,8 @@ const fullCandidateAttribute = (disclosureCandidate, irmaConfiguration, credenti
 
     AttributeTypeFullID: disclosureCandidate.Type,
     CredentialHash: disclosureCandidate.CredentialHash,
+    Missing: false,
+    Null: !Value,
     Value,
   };
 };

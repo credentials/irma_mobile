@@ -15,6 +15,8 @@ const fullAttribute = (fullAttributeTypeId, Value, irmaConfiguration) => {
     CredentialType,
     AttributeType,
 
+    Missing: true,
+    Null: !Value,
     Value: Value ? {en: Value, nl: Value} : undefined,
   };
 };
@@ -24,8 +26,8 @@ export default (missingDisclosures = [], irmaConfiguration) =>
   _.transform(missingDisclosures, (result, disjunctionCandidateSets, conjunctionIndex) => {
     result[conjunctionIndex] = _.chain(disjunctionCandidateSets)
       .transform((r, disjunctionCandidateSet, disjunctionIndex) => {
-        r[disjunctionIndex] = disjunctionCandidateSet.map( attributeRequest =>
-          fullAttribute(attributeRequest.Type, attributeRequest.Value, irmaConfiguration)
+        r[disjunctionIndex] = _.map(disjunctionCandidateSet, attributeRequest =>
+            fullAttribute(attributeRequest.type, attributeRequest.value, irmaConfiguration)
         );
       }, {})
       .map(groupIntoCredentials)

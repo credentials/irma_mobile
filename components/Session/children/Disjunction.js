@@ -46,10 +46,11 @@ export default class Disjunction extends Component {
     };
   }
 
-  renderCandidateSet = (candidateSet, index) => (
+  renderCandidateSet = multiple => (candidateSet, index) => (
     <View key={index} style={{width: disjunctionWidth}}>
       <CandidateSet
         candidateSet={candidateSet}
+        multiple={multiple}
         height={this.state.height}
         width={disjunctionWidth}
       />
@@ -85,7 +86,8 @@ export default class Disjunction extends Component {
       </CardItem> : undefined;
 
     const makeChoice = j => {
-      makeDisclosureChoice(j);
+      if (makeDisclosureChoice)
+        makeDisclosureChoice(j);
       this.checkHeight(j);
     };
 
@@ -96,7 +98,7 @@ export default class Disjunction extends Component {
           makeChoice={makeChoice}
           width={disjunctionWidth}
         >
-          { _.map(candidateSets, this.renderCandidateSet) }
+          { _.map(candidateSets, this.renderCandidateSet(candidateSets.length > 1)) }
         </HorizontalPicker>
       </Card>
     );
