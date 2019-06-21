@@ -119,9 +119,9 @@ const minimumVersionStoreListener = () => {
       showingUpdate,
     },
   } = store.getState();
-  
+
   if (!loaded || showingUpdate)
-  	return;
+    return;
 
   let minBuild = 0;
   for (const scheme in schemeManagers) {
@@ -130,19 +130,19 @@ const minimumVersionStoreListener = () => {
     if (Platform.OS === 'ios')
       minBuild = Math.max(minBuild, schemeManagers[scheme].MinimumAppVersion.IOS);
   }
-  
+
   let myVersion = parseInt(IrmaVersion.build, 10);
   if (Platform.OS === 'android') {
     while (myVersion > 1024*1024)
       myVersion -= 1024*1024;
   }
-  
+
   if (minBuild > myVersion) {
     store.dispatch({
       type: 'IrmaConfiguration.ShowingUpdate',
     });
   }
-}
+};
 
 // Event handler for becoming active (called from appStateChange)
 const onAppBecomesActive = () => {

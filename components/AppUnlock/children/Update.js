@@ -7,6 +7,7 @@ import {
   Container,
   Text,
   Button,
+  View,
 } from 'native-base';
 import PaddedContent from 'lib/PaddedContent';
 
@@ -27,16 +28,17 @@ export default class UpdateModal extends Component {
       Linking.openURL('itms://itunes.apple.com/us/app/apple-store/id1294092994?mt=8');
      else
       Linking.openURL('market://details?id=org.irmacard.cardemu');
-
   }
 
   render() {
     return (
       <Container>
         <PaddedContent>
-          <IconCard iconName="alert">
+          <IconCard>
             <Text>{t('.outofdate')}</Text>
-            <Button onPress={this.linkUpdate}><Text>{t('.update')}</Text></Button>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 30}}>
+              <Button onPress={this.linkUpdate}><Text>{t('.update')}</Text></Button>
+            </View>
           </IconCard>
         </PaddedContent>
       </Container>
