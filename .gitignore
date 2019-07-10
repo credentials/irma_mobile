@@ -24,6 +24,7 @@ project.xcworkspace/
 /android/build
 /lib/*/android
 /android/app/build
+/android/irmagobridge/build
 /android/.gradle
 local.properties
 *.jsbundle
