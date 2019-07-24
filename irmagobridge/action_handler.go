@@ -3,6 +3,9 @@ package irmagobridge
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/privacybydesign/irmago/irmaclient"
+	"strconv"
+	"time"
 
 	"github.com/go-errors/errors"
 	"github.com/privacybydesign/irmago"
@@ -214,5 +217,55 @@ func (ah *ActionHandler) updateSchemes() error {
 	}
 
 	sendConfiguration()
+	return nil
+}
+
+type LoadLogsAction struct {
+	Before string
+	Max int
+}
+
+func (ah *ActionHandler) LoadLogs(action *LoadLogsAction) error {
+	beforeInt, err := strconv.ParseInt(action.Before, 10, 64)
+	if err != nil {
+		return err
+	}
+	logEntries, err := client.LoadLogs(time.Unix(beforeInt, 0), action.Max)
+	if err != nil {
+		logError(errors.WrapPrefix(err, "Could not collect logs to send", 0))
+		return err
+	}
+
+	logsOutgoing := make([]*OutgoingAction, len(logEntries))
+	for i, entry := range logEntries {
+		var removed map[irma.CredentialTypeIdentifier][]irma.TranslatedString
+		if entry.Type == irmaclient.ActionRemoval {
+			removed = entry.Removed
+		}
+		disclosedCredentials, err := entry.GetDisclosedCredentials(client.Configuration)
+		if err != nil {
+			return err
+		}
+		issuedCredentials, err := entry.GetIssuedCredentials(client.Configuration)
+		if err != nil {
+			return err
+		}
+		signedMessage, err := entry.GetSignedMessage()
+		if err != nil {
+			return err
+		}
+		entry.SessionRequest()
+		logsOutgoing[i] = &OutgoingAction{
+			"type":                 entry.Type,
+			"time":                 entry.Time.String(),
+			"serverName":           entry.ServerName,
+			"issuedCredentials":    issuedCredentials,
+			"disclosedCredentials": disclosedCredentials,
+			"signedMessage":        signedMessage,
+			"removedCredentials":   removed,
+		}
+	}
+
+	sendLogs(action.Before, action.Max, logsOutgoing)
 	return nil
 }

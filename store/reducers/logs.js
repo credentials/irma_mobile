@@ -1,8 +1,7 @@
 import _ from 'lodash';
 
 const initialState = {
-  logs: [],
-  loaded: false,
+  loadedLogs: [],
 };
 
 export default function logs(state = initialState, action) {
@@ -10,8 +9,7 @@ export default function logs(state = initialState, action) {
     case 'IrmaClient.Logs': {
       return {
         ...state,
-        loaded: true,
-        logs: action.logs, //_.zip(action.logs, action.zipit).map(([a,b]) => ({...a, ...b})),
+        loadedLogs: action.loadedLogs,
       };
     }
 

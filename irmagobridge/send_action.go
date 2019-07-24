@@ -2,7 +2,6 @@ package irmagobridge
 
 import (
 	"encoding/json"
-
 	"github.com/go-errors/errors"
 	"github.com/privacybydesign/irmago"
 	"github.com/privacybydesign/irmago/irmaclient"
@@ -59,6 +58,16 @@ func sendAuthenticateError(err *irma.SessionError) {
 		"type":  "IrmaClient.AuthenticateError",
 		"error": err,
 	})
+}
+
+func sendLogs(before string, max int, logs []*OutgoingAction) {
+	logDebug("Handling SendLogs")
+
+	action := &OutgoingAction{
+		"type": "IrmaClient.Logs",
+		"loadedLogs": logs,
+	}
+	sendAction(action)
 }
 
 func sendAction(action *OutgoingAction) {
