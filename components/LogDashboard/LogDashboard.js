@@ -140,7 +140,10 @@ export default class LogDashboard extends Component {
         //const attributeAmount = this.attributeAmount(log.issuedCredentials);
 
         iconName = 'md-log-in';
-        title = t('.issuing.title', { serverName: serverName[lang] });
+        title = t('.issuing.title');
+        if (serverName !== null) {
+          title += ' ' + t('.issuing.serverName', { serverName: serverName[lang]})
+        }
 
         break;
       }
@@ -149,7 +152,10 @@ export default class LogDashboard extends Component {
         //const attributeAmount = this.attributeAmount(log.disclosedCredentials);
 
         iconName = 'md-log-out';
-        title = t('.disclosing.title', { serverName: serverName[lang]});
+        title = t('.disclosing.title');
+        if (serverName !== null) {
+          title += ' ' + t('.disclosing.serverName', { serverName: serverName[lang]})
+        }
 
         break;
       }
@@ -158,7 +164,10 @@ export default class LogDashboard extends Component {
         //const attributeAmount = this.attributeAmount(log.disclosedCredentials);
 
         iconName = 'create';
-        title = t('.signing.title', {serverName: serverName[lang]});
+        title = t('.signing.title');
+        if (serverName !== null) {
+          title += ' ' + t('.signing.serverName', { serverName: serverName[lang]})
+        }
 
         break;
       }
