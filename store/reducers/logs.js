@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const initialState = {
-  loadedLogs: [],
+  loadedLogs: null,
 };
 
 export default function logs(state = initialState, action) {

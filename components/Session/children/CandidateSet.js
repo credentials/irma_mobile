@@ -47,7 +47,7 @@ export default class CandidateSet extends Component {
             { credType.Name[lang] }
           </Text>
           <Text note>
-            Issued by: { attrType.Issuer.Name[lang] }
+            {t('.issuedBy')}: { attrType.Issuer.Name[lang] }
           </Text>
         </Body>
         <Right style={{flex: 1}}>

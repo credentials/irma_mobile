@@ -241,6 +241,8 @@ func (ah *ActionHandler) LoadLogs(action *LoadLogsAction) error {
 		var removed map[irma.CredentialTypeIdentifier][]irma.TranslatedString
 		if entry.Type == irmaclient.ActionRemoval {
 			removed = entry.Removed
+		} else {
+		    removed = make(map[irma.CredentialTypeIdentifier][]irma.TranslatedString)
 		}
 		disclosedCredentials, err := entry.GetDisclosedCredentials(client.Configuration)
 		if err != nil {

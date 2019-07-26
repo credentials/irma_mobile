@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
+import { FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import _ from 'lodash';
 
 import {
-  Card,
-  CardItem,
   Container,
   Text,
-  Left,
   Icon,
-  Body,
   View,
   H3,
 } from 'native-base';
@@ -22,8 +19,8 @@ import PaddedContent from 'lib/PaddedContent';
 import SelfCollapsableCard from 'lib/SelfCollapsableCard';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 import { namespacedTranslation, lang } from 'lib/i18n';
-import CandidateSet from "../Session/children/CandidateSet";
-import {disjunctionWidth} from "../Session/children/Styles";
+import CandidateSet from '../Session/children/CandidateSet';
+import {disjunctionWidth} from '../Session/children/Styles';
 
 export const t = namespacedTranslation('LogDashboard');
 
@@ -49,6 +46,7 @@ export default class LogDashboard extends Component {
 
   static propTypes = {
     logs: PropTypes.array.isRequired,
+    loadNewLogs: PropTypes.func.isRequired,
   };
 
   static attributeAmount(credentials) {
@@ -70,7 +68,7 @@ export default class LogDashboard extends Component {
 
     const issuedCredentials = log.issuedCredentials.map( credential =>
       <View key={credential.Hash} style={{marginLeft: 10}}>
-        <Text style={headerStyle}>{t('.issuing.header')}</Text>
+        <Text style={headerStyle}>{t('.issuing.header')}:</Text>
         <View key={`card-${credential.Hash}`}>
           <CredentialCard
             key={`card-${credential.Hash}`}
@@ -95,7 +93,7 @@ export default class LogDashboard extends Component {
     }
     return (
       <View style={{marginLeft: 10}}>
-        <Text style={headerStyle}>{t('.disclosing.header')}</Text>
+        <Text style={headerStyle}>{t('.disclosing.header')}:</Text>
         <CandidateSet candidateSet={log.disclosuresCandidates}
           width={this.candidateSetHeight(log.disclosuresCandidates)}
           height={disjunctionWidth}
@@ -104,7 +102,36 @@ export default class LogDashboard extends Component {
       );
   };
 
-  renderLog = (log) => {
+  renderRemovalContent = (log) => {
+    if(log.removedCredentials.length === 0) {
+      return null;
+    }
+    return (
+        <View style={{marginLeft: 10}}>
+          <Text style={headerStyle}>{t('.removal.header')}:</Text>
+          <CandidateSet candidateSet={log.removedCredentials}
+                        width={this.candidateSetHeight(log.removedCredentials)}
+                        height={disjunctionWidth}
+          />
+        </View>
+    );
+  };
+
+  renderSigningContent = (log) => {
+    if (log.signedMessage === null) {
+      return null
+    }
+
+    return (
+      <View style={{margin: 10}}>
+        <Text style={headerStyle}>{t('.signing.header')}:</Text>
+        <Text>{log.signedMessage.message}</Text>
+      </View>
+    );
+  };
+
+  renderLog = ({item}) => {
+    const log = item.log;
     const { type: type, time: timestamp, serverName: serverName } = log;
 
     let iconName, title;
@@ -152,12 +179,8 @@ export default class LogDashboard extends Component {
 
     const disclosingContent = this.renderDisclosingContent(log);
     const issuingContent = this.renderIssuingContent(log);
-    const signingContent = !log.signedMessage ? null : (
-      <View style={{margin: 10}}>
-        <Text style={headerStyle}>{t('.signing.header')}</Text>
-        <Text>{log.signedMessage.message}</Text>
-      </View>
-    );
+    const removalContent = this.renderRemovalContent(log);
+    const signingContent = this.renderSigningContent(log);
 
     const time = moment.unix(timestamp).format('D MMM YYYY HH:mm:ss');
     const header = (
@@ -176,34 +199,41 @@ export default class LogDashboard extends Component {
         { signingContent }
         { issuingContent}
         { disclosingContent }
+        { removalContent }
       </SelfCollapsableCard>
     );
   };
 
   renderNoLogs() {
-    const { logs } = this.props;
-    if (logs.length !== 0)
-      return null;
-
     return (
-      <View style={{alignItems: 'center'}}>
-        <H3 style={{paddingTop: 30, color: '#888888'}}>
-          { t('.noLogs') }
-        </H3>
-      </View>
+        <Container>
+          <PaddedContent>
+            <View style={{alignItems: 'center'}}>
+              <H3 style={{paddingTop: 30, color: '#888888'}}>
+                { t('.noLogs') }
+              </H3>
+            </View>
+          </PaddedContent>
+        </Container>
     );
   }
 
   render() {
-    const { logs } = this.props;
+    const { logs, loadNewLogs } = this.props;
+    const contentContainerStyle = {padding: nbVariables.contentPadding, paddingBottom: 20};
+
+    if (logs.length === 0) {
+      return this.renderNoLogs();
+    }
 
     return (
-      <Container>
-        <PaddedContent>
-          { this.renderNoLogs() }
-          { logs.map(this.renderLog) }
-        </PaddedContent>
-      </Container>
+        <FlatList
+          data={logs.map(log => {return ({key: log.time, log: log})})}
+          renderItem={this.renderLog}
+          onEndReached={loadNewLogs}
+          onEndReachedThreshold={0.5}
+          contentContainerStyle={contentContainerStyle}
+        />
     );
   }
 }
