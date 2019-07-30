@@ -49,26 +49,40 @@ export default class LogDashboard extends Component {
     loadNewLogs: PropTypes.func.isRequired,
   };
 
-  static attributeAmount(credentials) {
+  attributeAmount(credentials) {
+    const attributeCount = credentials.reduce(
+        (acc, cr) => acc + cr.length, 0
+    );
+
+    return attributeCount;
+  }
+
+  issuedAttributeAmount(credentials) {
     const attributeCount = credentials.reduce(
         (acc, cr) => acc + cr.Attributes.length, 0
     );
 
-    return t('common.attributes', {count: attributeCount});
+    return attributeCount;
   }
 
   // empty candidate sets are rendered with an explanatory label, so it has a height
   candidateSetHeight = candidateSet => ( candidateSet.length === 0 ? 1 :
     candidateSet.length + candidateSet.map(s => s.length).reduce((a, b) => a+b, 0) );
 
-  renderIssuingContent = (log) => {
+  renderIssuingContent = (log, attributeAmountDisclosure) => {
     if (log.issuedCredentials.length === 0) {
       return null;
     }
 
+    // Hide header in case of issuance without additional disclosure
+    let header = null;
+    if (attributeAmountDisclosure !== 0) {
+      header = <Text style={headerStyle}>{t('.issuing.header')}:</Text>;
+    }
+
     const issuedCredentials = log.issuedCredentials.map( credential =>
       <View key={credential.Hash} style={{marginLeft: 10}}>
-        <Text style={headerStyle}>{t('.issuing.header')}:</Text>
+        { header }
         <View key={`card-${credential.Hash}`}>
           <CredentialCard
             key={`card-${credential.Hash}`}
@@ -87,13 +101,20 @@ export default class LogDashboard extends Component {
       );
   };
 
-  renderDisclosingContent = (log) => {
-    if (log.disclosuresCandidates.length === 0) {
+  renderDisclosingContent = (log, attributeAmountDisclosure) => {
+    if (attributeAmountDisclosure === 0) {
       return null;
     }
+
+    // When disclosing, clarifying headers are not needed
+    let header = null;
+    if (log.type !== 'disclosing') {
+      header = <Text style={headerStyle}>{t('.disclosing.header')}:</Text>;
+    }
+
     return (
       <View style={{marginLeft: 10}}>
-        <Text style={headerStyle}>{t('.disclosing.header')}:</Text>
+        { header }
         <CandidateSet candidateSet={log.disclosuresCandidates}
           width={this.candidateSetHeight(log.disclosuresCandidates)}
           height={disjunctionWidth}
@@ -108,7 +129,6 @@ export default class LogDashboard extends Component {
     }
     return (
         <View style={{marginLeft: 10}}>
-          <Text style={headerStyle}>{t('.removal.header')}:</Text>
           <CandidateSet candidateSet={log.removedCredentials}
                         width={this.candidateSetHeight(log.removedCredentials)}
                         height={disjunctionWidth}
@@ -135,12 +155,14 @@ export default class LogDashboard extends Component {
     const { type: type, time: timestamp, serverName: serverName } = log;
 
     let iconName, title;
+    const attributeAmountDisclosure = this.attributeAmount(log.disclosedCredentials);
+
     switch (type) {
       case 'issuing': {
-        //const attributeAmount = this.attributeAmount(log.issuedCredentials);
+        const attributeAmount = this.issuedAttributeAmount(log.issuedCredentials);
 
         iconName = 'md-log-in';
-        title = t('.issuing.title');
+        title = t('.issuing.title', {attr: t('common.attributes', {count: attributeAmount})});
         if (serverName !== null) {
           title += ' ' + t('.issuing.serverName', { serverName: serverName[lang]})
         }
@@ -149,10 +171,8 @@ export default class LogDashboard extends Component {
       }
 
       case 'disclosing': {
-        //const attributeAmount = this.attributeAmount(log.disclosedCredentials);
-
         iconName = 'md-log-out';
-        title = t('.disclosing.title');
+        title = t('.disclosing.title', {attr: t('common.attributes', {count: attributeAmountDisclosure})});
         if (serverName !== null) {
           title += ' ' + t('.disclosing.serverName', { serverName: serverName[lang]})
         }
@@ -161,10 +181,10 @@ export default class LogDashboard extends Component {
       }
 
       case 'signing': {
-        //const attributeAmount = this.attributeAmount(log.disclosedCredentials);
+        const attributeAmount = this.attributeAmount(log.disclosedCredentials);
 
         iconName = 'create';
-        title = t('.signing.title');
+        title = t('.signing.title', {attr: t('common.attributes', {count: attributeAmount})});
         if (serverName !== null) {
           title += ' ' + t('.signing.serverName', { serverName: serverName[lang]})
         }
@@ -173,10 +193,10 @@ export default class LogDashboard extends Component {
       }
 
       case 'removal': {
-        const attributeAmount = log.removedCredentials.length;
+        const attributeAmount = this.attributeAmount(log.removedCredentials);
 
         iconName = 'md-trash';
-        title = t('.removal.title', {amount: attributeAmount});
+        title = t('.removal.title', {attr: t('common.attributes', {count: attributeAmount})});
 
         break;
       }
@@ -186,8 +206,8 @@ export default class LogDashboard extends Component {
         return null;
     }
 
-    const disclosingContent = this.renderDisclosingContent(log);
-    const issuingContent = this.renderIssuingContent(log);
+    const disclosingContent = this.renderDisclosingContent(log, attributeAmountDisclosure);
+    const issuingContent = this.renderIssuingContent(log, attributeAmountDisclosure);
     const removalContent = this.renderRemovalContent(log);
     const signingContent = this.renderSigningContent(log);
 
