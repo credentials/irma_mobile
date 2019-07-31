@@ -46,6 +46,7 @@ export default class LogDashboard extends Component {
 
   static propTypes = {
     logs: PropTypes.array.isRequired,
+    loadingFinished: PropTypes.bool.isRequired,
     loadNewLogs: PropTypes.func.isRequired,
   };
 
@@ -234,12 +235,19 @@ export default class LogDashboard extends Component {
   };
 
   renderNoLogs() {
+    const { loadingFinished } = this.props;
+
+    let text = t('.loading') + '...';
+    if (loadingFinished) {
+      text = t('.noLogs');
+    }
+
     return (
         <Container>
           <PaddedContent>
             <View style={{alignItems: 'center'}}>
               <H3 style={{paddingTop: 30, color: '#888888'}}>
-                { t('.noLogs') }
+                { text }
               </H3>
             </View>
           </PaddedContent>

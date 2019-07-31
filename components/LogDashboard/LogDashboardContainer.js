@@ -9,6 +9,8 @@ import fullCredentials from 'store/mappers/fullCredentials';
 import fullDisclosureCandidatesFromLogs from '../../store/mappers/fullDisclosuresCandidatesFromLogs';
 import fullRemovedCredentials from "../../store/mappers/fullRemovedCredentials";
 
+const MAX_LOAD_LOGS = 20;
+
 const mapStateToProps = (state) => {
   const {
     irmaConfiguration,
@@ -55,11 +57,12 @@ export default class LogDashboardContainer extends Component {
   };
 
   render() {
-    const { logs } = this.state;
+    const { logs, loadingFinished } = this.state;
 
     return (
         <LogDashboard
             logs={logs}
+            loadingFinished={loadingFinished}
             loadNewLogs={this.loadNewLogs.bind(this)}
         />
     );
@@ -73,7 +76,7 @@ export default class LogDashboardContainer extends Component {
       dispatch({
         type: 'IrmaBridge.LoadLogs',
         before: logs[logs.length - 1].time,
-        max: 10,
+        max: MAX_LOAD_LOGS,
       });
     }
   }
@@ -84,7 +87,7 @@ export default class LogDashboardContainer extends Component {
     dispatch({
       type: 'IrmaBridge.LoadLogs',
       before: moment().format('X'),
-      max: 10,
+      max: MAX_LOAD_LOGS,
     });
   }
 
@@ -104,6 +107,7 @@ export default class LogDashboardContainer extends Component {
       if (logs.length === 0 || lastLoaded !== logs[logs.length - 1].time) {
         this.setState({
           logs: logs.concat(loadedLogs),
+          loadingFinished: loadedLogs.length < MAX_LOAD_LOGS,
         });
       }
     }
