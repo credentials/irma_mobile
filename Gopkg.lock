@@ -10,8 +10,8 @@
 [[projects]]
   name = "github.com/bwesterb/go-atum"
   packages = ["."]
-  revision = "9965266e59eee42f26153a8be40c1463c79ed17b"
-  version = "v1.0.0"
+  revision = "1ace26c6d4315cb157d5a66aba183ead7e54a52c"
+  version = "v1.0.1"
 
 [[projects]]
   name = "github.com/bwesterb/go-pow"
@@ -22,8 +22,8 @@
 [[projects]]
   name = "github.com/bwesterb/go-xmssmt"
   packages = ["."]
-  revision = "3dc1e812afc06ff57e314a9a2257c2ccba5264dc"
-  version = "v1.0.0"
+  revision = "f9589c1ebdc2f640a6d6e7e50c9ca6c99024c6ce"
+  version = "v1.0.2"
 
 [[projects]]
   name = "github.com/certifi/gocertifi"
@@ -89,7 +89,7 @@
   branch = "master"
   name = "github.com/jasonlvhit/gocron"
   packages = ["."]
-  revision = "f1cf2bd73e84a479e339a71f89b49b474ed6903c"
+  revision = "18abb4835426ee97944e560c9281dd4dbdcf2e68"
 
 [[projects]]
   name = "github.com/konsorten/go-windows-terminal-sequences"
@@ -128,7 +128,7 @@
     "internal/fs",
     "irmaclient"
   ]
-  revision = "c8fd650e9a4953677b7bfdeeb2a24715ae55bfb7"
+  revision = "5578f2e2f385a8753a3c98d70ea0ce6c6715f040"
 
 [[projects]]
   name = "github.com/sirupsen/logrus"
@@ -152,7 +152,7 @@
   branch = "master"
   name = "github.com/timshannon/bolthold"
   packages = ["."]
-  revision = "aa134f742c1c6cd601585d3725c0ad59eaea4db8"
+  revision = "b73eaf0ecf37450c47a16d16e036945901ecd9fc"
 
 [[projects]]
   name = "go.etcd.io/bbolt"
@@ -178,7 +178,7 @@
     "unix",
     "windows"
   ]
-  revision = "04f50cda93cbb67f2afa353c52f342100e80e625"
+  revision = "51ab0e2deafac1f46c46ad59cf0921be2f180c3d"
 
 [solve-meta]
   analyzer-name = "dep"
