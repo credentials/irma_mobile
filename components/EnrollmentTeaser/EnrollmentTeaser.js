@@ -100,6 +100,24 @@ export default class EnrollmentTeaser extends Component {
     );
   }
 
+  renderNext() {
+    const buttonText = {
+      color:"#004C92",
+      fontSize:50,
+    };
+
+    return (<Text style={buttonText}>›</Text>)
+  }
+
+  renderPrev() {
+    const buttonText = {
+      color:"#004C92",
+      fontSize:50,
+    };
+
+    return (<Text style={buttonText}>‹</Text>)
+  }
+
   render() {
     // TODO: Can the second image be edited to show the wine bottle more prominently, for the >18 use case?
 
@@ -110,6 +128,9 @@ export default class EnrollmentTeaser extends Component {
         paginationStyle={{bottom: 40}}
         renderPagination={this.renderFooter}
         showsButtons={true}
+        activeDotColor="#004C92"
+        nextButton={this.renderNext()}
+        prevButton={this.renderPrev()}
       >
         <ImageBackground
           imageStyle={{marginTop: isSmallDevice && !isIos ? 225 : 300}}
