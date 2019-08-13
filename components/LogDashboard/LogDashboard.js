@@ -71,15 +71,13 @@ export default class LogDashboard extends Component {
     candidateSet.length + candidateSet.map(s => s.length).reduce((a, b) => a+b, 0) );
 
   renderIssuingContent = (log, attributeAmountDisclosure) => {
-    if (log.issuedCredentials.length === 0) {
+    if (log.issuedCredentials.length === 0)
       return null;
-    }
 
     // Hide header in case of issuance without additional disclosure
     let header = null;
-    if (attributeAmountDisclosure !== 0) {
+    if (attributeAmountDisclosure !== 0)
       header = <Text style={headerStyle}>{t('.issuing.header')}:</Text>;
-    }
 
     const issuedCredentials = log.issuedCredentials.map( credential =>
       <View key={credential.Hash} style={{marginLeft: 10}}>
@@ -90,33 +88,32 @@ export default class LogDashboard extends Component {
             credential={credential}
             lockMode="open"
             showActionButtons={false}
-            embeddedInCard={true}
+            drawCard={false}
           />
-         </View>
+        </View>
       </View>
     );
 
-      return intersperse(
-        issuedCredentials,
-        <View style={borderStyle} />
-      );
+    return intersperse(
+      issuedCredentials,
+      <View style={borderStyle} />
+    );
   };
 
   renderDisclosingContent = (log, attributeAmountDisclosure) => {
-    if (attributeAmountDisclosure === 0) {
+    if (attributeAmountDisclosure === 0)
       return null;
-    }
 
     // When disclosing, clarifying headers are not needed
     let header = null;
-    if (log.type !== 'disclosing') {
+    if (log.type !== 'disclosing')
       header = <Text style={headerStyle}>{t('.disclosing.header')}:</Text>;
-    }
 
     return (
       <View style={{marginLeft: 10}}>
         { header }
-        <CandidateSet candidateSet={log.disclosuresCandidates}
+        <CandidateSet
+          candidateSet={log.disclosuresCandidates}
           width={this.candidateSetHeight(log.disclosuresCandidates)}
           height={disjunctionWidth}
         />
@@ -125,23 +122,23 @@ export default class LogDashboard extends Component {
   };
 
   renderRemovalContent = (log) => {
-    if(log.removedCredentials.length === 0) {
+    if (log.removedCredentials.length === 0)
       return null;
-    }
+
     return (
-        <View style={{marginLeft: 10}}>
-          <CandidateSet candidateSet={log.removedCredentials}
-                        width={this.candidateSetHeight(log.removedCredentials)}
-                        height={disjunctionWidth}
-          />
-        </View>
+      <View style={{marginLeft: 10}}>
+        <CandidateSet
+          candidateSet={log.removedCredentials}
+          width={this.candidateSetHeight(log.removedCredentials)}
+          height={disjunctionWidth}
+        />
+      </View>
     );
   };
 
   renderSigningContent = (log) => {
-    if (log.signedMessage === null) {
-      return null
-    }
+    if (log.signedMessage === null)
+      return null;
 
     return (
       <View style={{margin: 10}}>
@@ -164,9 +161,8 @@ export default class LogDashboard extends Component {
 
         iconName = 'md-log-in';
         title = t('.issuing.title', {attr: t('common.attributes', {count: attributeAmount})});
-        if (serverName !== null) {
-          title += ' ' + t('.issuing.serverName', { serverName: serverName[lang]})
-        }
+        if (serverName !== null)
+          title += ` ${t('.issuing.serverName', { serverName: serverName[lang]})}`;
 
         break;
       }
@@ -174,9 +170,8 @@ export default class LogDashboard extends Component {
       case 'disclosing': {
         iconName = 'md-log-out';
         title = t('.disclosing.title', {attr: t('common.attributes', {count: attributeAmountDisclosure})});
-        if (serverName !== null) {
-          title += ' ' + t('.disclosing.serverName', { serverName: serverName[lang]})
-        }
+        if (serverName !== null)
+          title += ` ${t('.disclosing.serverName', { serverName: serverName[lang]})}`;
 
         break;
       }
@@ -186,9 +181,8 @@ export default class LogDashboard extends Component {
 
         iconName = 'create';
         title = t('.signing.title', {attr: t('common.attributes', {count: attributeAmount})});
-        if (serverName !== null) {
-          title += ' ' + t('.signing.serverName', { serverName: serverName[lang]})
-        }
+        if (serverName !== null)
+          title += ` ${t('.signing.serverName', { serverName: serverName[lang]})}`;
 
         break;
       }
@@ -237,21 +231,20 @@ export default class LogDashboard extends Component {
   renderNoLogs() {
     const { loadingFinished } = this.props;
 
-    let text = t('.loading') + '...';
-    if (loadingFinished) {
+    let text = `${t('.loading')}...`;
+    if (loadingFinished)
       text = t('.noLogs');
-    }
 
     return (
-        <Container>
-          <PaddedContent>
-            <View style={{alignItems: 'center'}}>
-              <H3 style={{paddingTop: 30, color: '#888888'}}>
-                { text }
-              </H3>
-            </View>
-          </PaddedContent>
-        </Container>
+      <Container>
+        <PaddedContent>
+          <View style={{alignItems: 'center'}}>
+            <H3 style={{paddingTop: 30, color: '#888888'}}>
+              { text }
+            </H3>
+          </View>
+        </PaddedContent>
+      </Container>
     );
   }
 
@@ -259,18 +252,17 @@ export default class LogDashboard extends Component {
     const { logs, loadNewLogs } = this.props;
     const contentContainerStyle = {padding: nbVariables.contentPadding, paddingBottom: 20};
 
-    if (logs.length === 0) {
+    if (logs.length === 0)
       return this.renderNoLogs();
-    }
 
     return (
-        <FlatList
-          data={logs.map(log => {return ({key: log.time, log: log})})}
-          renderItem={this.renderLog}
-          onEndReached={loadNewLogs}
-          onEndReachedThreshold={0.5}
-          contentContainerStyle={contentContainerStyle}
-        />
+      <FlatList
+        data={logs.map(log => ({key: log.time, log: log}))}
+        renderItem={this.renderLog}
+        onEndReached={loadNewLogs}
+        onEndReachedThreshold={0.5}
+        contentContainerStyle={contentContainerStyle}
+      />
     );
   }
 }

@@ -1,5 +1,4 @@
-import _ from 'lodash';
-import attributeInfo, { groupIntoCredentials } from './attributeInfo';
+import attributeInfo from './attributeInfo';
 
 const fullCandidateAttribute = (disclosedAttribute, irmaConfiguration) => {
     const {

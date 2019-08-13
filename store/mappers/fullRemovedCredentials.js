@@ -7,11 +7,10 @@ const getCredentialInfo = (fullCredentialTypeId, irmaConfiguration) => {
     const Issuer = issuers[`${schemeManagerId}.${issuerId}`];
     const CredentialType = credentialTypes[`${schemeManagerId}.${issuerId}.${credentialTypeId}`];
 
-    let AttributeTypes = [];
-    for(let attributeId in attributeTypes) {
-        if(attributeId.includes(credentialTypeId + ".")) {
+    const AttributeTypes = [];
+    for (const attributeId in attributeTypes) {
+        if (attributeId.includes(`${credentialTypeId}.`))
             AttributeTypes.push(attributeTypes[attributeId]);
-        }
     }
 
     return {
@@ -30,7 +29,9 @@ const fullRemovedCredential = (removedCredentialId, values, irmaConfiguration) =
         AttributeTypes,
     } = getCredentialInfo(removedCredentialId, irmaConfiguration);
 
-    AttributeTypes.sort((a, b) => (a.Index > b.Index) ? 1 : -1); // To make sure list is ordered on index
+    // To make sure list is ordered on index
+    AttributeTypes.sort((a, b) => (a.Index > b.Index ? 1 : -1));
+
     return values.map( (value, i) => {
         const AttributeType = AttributeTypes[i];
         return {
@@ -39,7 +40,7 @@ const fullRemovedCredential = (removedCredentialId, values, irmaConfiguration) =
             CredentialType,
             AttributeType,
 
-            AttributeTypeFullID: removedCredentialId + '.' + AttributeType.ID,
+            AttributeTypeFullID: `${removedCredentialId}.${AttributeType.ID}`,
             // CredentialHash is skipped, because it is not needed
             Missing: false,
             Null: !value,

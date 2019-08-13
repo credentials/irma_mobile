@@ -39,7 +39,7 @@ export default class CredentialCard extends Component {
     onReorderPress: PropTypes.func,
     onReorderPressOut: PropTypes.func,
     showActionButtons: PropTypes.bool,
-    embeddedInCard: PropTypes.bool,
+    drawCard: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -52,7 +52,7 @@ export default class CredentialCard extends Component {
     onReorderPress: () => {},
     onReorderPressOut: () => {},
     showActionButtons: true,
-    embeddedInCard: false,
+    drawCard: true,
   }
 
   state = {
@@ -234,11 +234,10 @@ export default class CredentialCard extends Component {
   }
 
   render() {
-    const { onLongPress, onPressOut, embeddedInCard } = this.props;
+    const { onLongPress, onPressOut, drawCard } = this.props;
 
-    if (embeddedInCard) {
+    if (!drawCard)
       return this.renderCardContent();
-    }
 
     return (
       <TouchableOpacity

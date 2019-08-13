@@ -1,11 +1,9 @@
-import _ from 'lodash';
-
 const initialState = {
   loadedLogs: null,
 };
 
 export default function logs(state = initialState, action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'IrmaClient.Logs': {
       return {
         ...state,

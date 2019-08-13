@@ -7,7 +7,7 @@ import LogDashboard, { t } from './LogDashboard';
 
 import fullCredentials from 'store/mappers/fullCredentials';
 import fullDisclosureCandidatesFromLogs from '../../store/mappers/fullDisclosuresCandidatesFromLogs';
-import fullRemovedCredentials from "../../store/mappers/fullRemovedCredentials";
+import fullRemovedCredentials from '../../store/mappers/fullRemovedCredentials';
 
 const MAX_LOAD_LOGS = 20;
 
@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
   const {
     irmaConfiguration,
     logs: {
-      loadedLogs
+      loadedLogs,
     },
 
   } = state;
@@ -32,7 +32,7 @@ const mapStateToProps = (state) => {
       issuedCredentials: fullCredentials(log.issuedCredentials, irmaConfiguration),
       disclosuresCandidates: fullDisclosureCandidatesFromLogs(log.disclosedCredentials, irmaConfiguration),
       removedCredentials: fullRemovedCredentials(log.removedCredentials, irmaConfiguration),
-    }))
+    })),
   };
 };
 
@@ -40,7 +40,12 @@ const mapStateToProps = (state) => {
 export default class LogDashboardContainer extends Component {
 
   static propTypes = {
-    loadedLogs: PropTypes.array
+    loadedLogs: PropTypes.array,
+    dispatch: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    loadedLogs: null,
   };
 
   static options = {
@@ -60,11 +65,11 @@ export default class LogDashboardContainer extends Component {
     const { logs, loadingFinished } = this.state;
 
     return (
-        <LogDashboard
-            logs={logs}
-            loadingFinished={loadingFinished}
-            loadNewLogs={this.loadNewLogs.bind(this)}
-        />
+      <LogDashboard
+        logs={logs}
+        loadingFinished={loadingFinished}
+        loadNewLogs={this.loadNewLogs.bind(this)}
+      />
     );
   }
 
@@ -96,14 +101,14 @@ export default class LogDashboardContainer extends Component {
     const { logs, loadingFinished } = this.state;
 
     if (loadedLogs !== null && !loadingFinished) {
-      if (loadedLogs.length === 0) { // All logs are loaded
+      if (loadedLogs.length === 0) {
         this.setState({
           loadingFinished: true,
         });
         return;
       }
 
-      let lastLoaded = loadedLogs[loadedLogs.length - 1].time;
+      const lastLoaded = loadedLogs[loadedLogs.length - 1].time;
       if (logs.length === 0 || lastLoaded !== logs[logs.length - 1].time) {
         this.setState({
           logs: logs.concat(loadedLogs),

@@ -236,7 +236,7 @@ func (ah *ActionHandler) LoadLogs(action *LoadLogsAction) error {
 		return err
 	}
 
-	logsOutgoing := make([]*OutgoingAction, len(logEntries))
+	logsOutgoing := make([]map[string]interface{}, len(logEntries))
 	for i, entry := range logEntries {
 		var removed map[irma.CredentialTypeIdentifier][]irma.TranslatedString
 		if entry.Type == irmaclient.ActionRemoval {
@@ -257,7 +257,7 @@ func (ah *ActionHandler) LoadLogs(action *LoadLogsAction) error {
 			return err
 		}
 		entry.SessionRequest()
-		logsOutgoing[i] = &OutgoingAction{
+		logsOutgoing[i] = map[string]interface{}{
 			"type":                 entry.Type,
 			"time":                 entry.Time.String(),
 			"serverName":           entry.ServerName,
