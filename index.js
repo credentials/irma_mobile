@@ -99,14 +99,15 @@ const initialScreenStoreListener = () => {
   } else {
     // If there was an initial session pointer, load up a stack with the session started
     // Otherwise show the dashboard
-    if (initialSessionPointer)
-      startSessionAndNavigate({sessionPointer: initialSessionPointer, exitAfter: true, setRoot: true});
-    else
-      setCredentialDashboardRoot();
-
     // Show AppUnlock modal on top of screen if not authenticated
-    if (enrolledSchemeManagerIds.length > 0 && !isAuthenticated)
-      showAppUnlockModal({showModalAnimation: false});
+    if (initialSessionPointer)
+      startSessionAndNavigate({
+        sessionPointer: initialSessionPointer,
+        exitAfter: true,
+        setRoot: true,
+        showUnlockModal: enrolledSchemeManagerIds.length > 0 && !isAuthenticated});
+    else
+      setCredentialDashboardRoot(enrolledSchemeManagerIds.length > 0 && !isAuthenticated);
   }
 };
 
