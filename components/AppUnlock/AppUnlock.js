@@ -82,7 +82,7 @@ export default class AppUnlock extends Component {
         <View>
           <Spinner
             style={styles.spinnerStyle}
-            color="#00B1E6"
+            color="#004C92"
           />
         </View>
         <Text style={styles.statusText}>
