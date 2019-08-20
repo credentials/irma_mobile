@@ -73,7 +73,7 @@
     "react-native-languages": "^3.0.2",
     "react-native-navigation": "2.22.3",
     "react-native-sentry": "^0.43.2",
-    "react-native-swiper": "^1.5.13",
+    "react-native-swiper": "^1.5.14",
     "react-redux": "^5.1.1",
     "react-test-renderer": "16.6.3",
     "react-timeout": "^1.1.2",
