@@ -80,7 +80,7 @@ export default class LogDashboardContainer extends Component {
     if (!loadingFinished) {
       dispatch({
         type: 'IrmaBridge.LoadLogs',
-        before: logs[logs.length - 1].time,
+        before: logs[logs.length - 1].id,
         max: MAX_LOAD_LOGS,
       });
     }
@@ -91,7 +91,6 @@ export default class LogDashboardContainer extends Component {
 
     dispatch({
       type: 'IrmaBridge.LoadLogs',
-      before: moment().format('X'),
       max: MAX_LOAD_LOGS,
     });
   }

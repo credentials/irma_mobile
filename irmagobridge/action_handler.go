@@ -3,12 +3,9 @@ package irmagobridge
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/privacybydesign/irmago/irmaclient"
-	"strconv"
-	"time"
-
 	"github.com/go-errors/errors"
 	"github.com/privacybydesign/irmago"
+	"github.com/privacybydesign/irmago/irmaclient"
 )
 
 type ActionHandler struct {
@@ -226,11 +223,13 @@ type LoadLogsAction struct {
 }
 
 func (ah *ActionHandler) LoadLogs(action *LoadLogsAction) error {
-	beforeInt, err := strconv.ParseInt(action.Before, 10, 64)
-	if err != nil {
-		return err
+	var logEntries []*irmaclient.LogEntry
+	var err error
+	if action.Before == "" {
+		logEntries, err = client.LoadNewestLogs(action.Max)
+	} else {
+		logEntries, err = client.LoadLogsBefore(action.Before, action.Max)
 	}
-	logEntries, err := client.LoadLogs(time.Unix(beforeInt, 0), action.Max)
 	if err != nil {
 		logError(errors.WrapPrefix(err, "Could not collect logs to send", 0))
 		return err
@@ -258,6 +257,7 @@ func (ah *ActionHandler) LoadLogs(action *LoadLogsAction) error {
 		}
 		entry.SessionRequest()
 		logsOutgoing[i] = map[string]interface{}{
+			"id":                   entry.ID,
 			"type":                 entry.Type,
 			"time":                 entry.Time.String(),
 			"serverName":           entry.ServerName,
