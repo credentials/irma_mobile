@@ -52,8 +52,14 @@ export default class DisclosureSession extends Component {
       session: {
         status,
         serverName,
+        request,
+        clientReturnUrl,
       },
     } = this.props;
+
+    // request.returnURL is included for backwards compatibility
+    const returnUrl = clientReturnUrl || request.returnURL || '';
+    const isReturnPhoneNumber = returnUrl.substring(0, 4) === 'tel:';
 
     switch (status) {
       case 'success':
@@ -64,7 +70,8 @@ export default class DisclosureSession extends Component {
           <View>
             <Text style={SessionStyles.header}>
               <Text style={{...SessionStyles.header, fontWeight: 'bold'}}>{ serverName[lang] }</Text>&nbsp;
-              { t('.requestPermissionExplanation') }
+              { !isReturnPhoneNumber ? t('.requestPermissionExplanation')
+                : t('.requestPermissionPhoneExplanation', {phoneNumber: returnUrl.substring(4).split(',')[0]}) }
             </Text>
           </View>
         );

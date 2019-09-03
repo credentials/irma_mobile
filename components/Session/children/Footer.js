@@ -58,6 +58,8 @@ export default class Footer extends Component {
         irmaAction,
         status,
         disclosures,
+        request,
+        clientReturnUrl,
       },
       disabled,
     } = this.props;
@@ -70,11 +72,24 @@ export default class Footer extends Component {
     if (disabled === null)
       return null;
 
+    // request.returnURL is included for backwards compatibility
+    const returnUrl = clientReturnUrl || request.returnURL || '';
+    const isReturnPhoneNumber = returnUrl.substring(0, 4) === 'tel:';
+
+    // Determine labels and icons
     let yesLabel = t('.accept');
     let noLabel = t('.decline');
+    let yesIcon = 'checkmark-circle';
 
-    if (status === 'requestPermission' && irmaAction === 'issuing' && disclosures && disclosures.length > 0)
-      yesLabel = t('.next');
+    if (status === 'requestPermission') {
+      if (irmaAction === 'issuing' && disclosures && disclosures.length > 0)
+        yesLabel = t('.next');
+
+      if (irmaAction === 'disclosing' && isReturnPhoneNumber) {
+        yesLabel = t('.call');
+        yesIcon = 'call';
+      }
+    }
 
     if (status === 'requestPin') {
       // We probably shouldn't be dismissing the keyboard on every render,
@@ -109,7 +124,7 @@ export default class Footer extends Component {
         style={{marginLeft: 20}}
         testID="yesButton"
       >
-        <Icon name="checkmark-circle" />
+        <Icon name={yesIcon} />
         <Text>{ yesLabel }</Text>
       </Button>,
     ];

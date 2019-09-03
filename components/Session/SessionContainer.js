@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Platform, BackHandler, Linking } from 'react-native';
+import _ from 'lodash';
 
 import fullCredentials from 'store/mappers/fullCredentials';
 import fullDisclosuresCandidates from 'store/mappers/fullDisclosuresCandidates';
@@ -89,6 +90,29 @@ export default class SessionContainer extends Component {
     this.dismiss();
   }
 
+  componentDidUpdate(prevProps) {
+    const { navigation, session: { exitAfter, request, clientReturnUrl, status } } = this.props;
+
+    // request.returnURL is included for backwards compatibility
+    const returnUrl = clientReturnUrl || request.returnURL || '';
+    const isReturnPhoneNumber = returnUrl.substring(0, 4) === 'tel:';
+
+    const terminalStatuses = ['success', 'failure', 'cancelled'];
+    if (!_.includes(terminalStatuses, prevProps.session.status) && _.includes(terminalStatuses, status)) {
+      navigation.goBack();
+
+      if (isReturnPhoneNumber) {
+        if (status === 'success')
+          Linking.openURL(returnUrl);
+      } else if (exitAfter) {
+        if (returnUrl)
+          Linking.openURL(returnUrl);
+        else if (Platform.OS === 'android')
+          BackHandler.exitApp();
+      }
+    }
+  }
+
   static navigationOptions = ({ navigation }) => ({
     headerTitle: navigation.getParam('title', ''),
   })
@@ -99,18 +123,7 @@ export default class SessionContainer extends Component {
   }
 
   navigateBack = () => {
-    const { session: { exitAfter, request, clientReturnUrl, status } } = this.props;
-
-    // request.returnURL is included for backwards compatibility
-    const returnUrl = clientReturnUrl ? clientReturnUrl : request.returnURL;
-
-    // Telephone number URIs only have to be opened after successful sessions
-    if (exitAfter && returnUrl && (status === 'success' || returnUrl.substring(0, 4) !== 'tel:'))
-      Linking.openURL(returnUrl);
-    else if (exitAfter && Platform.OS === 'android')
-      BackHandler.exitApp();
-    else
-      this.props.navigation.goBack();
+    this.props.navigation.goBack();
   }
 
   navigateToEnrollment = () => {
