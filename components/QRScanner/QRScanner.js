@@ -16,6 +16,7 @@ import {
 
 const t = namespacedTranslation('QRScanner');
 export const headerTitle = t('.title');
+export const invalidQR = t('.invalidQR');
 
 export default class QRScanner extends Component {
   static propTypes = {

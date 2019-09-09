@@ -24,7 +24,7 @@ import PaddedContent from 'lib/PaddedContent';
 const paddingToBottom = 20;
 
 const mapStateToProps = (state, props) => {
-  const { sessionId } = props;
+  sessionId = props.navigation.getParam('sessionId');
 
   const {
     appUnlock: {

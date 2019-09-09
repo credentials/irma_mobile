@@ -44,10 +44,11 @@ export default class IssuanceSession extends Component {
     bottomReached: null,
   }
 
-  componentDidMount() {
-    const { setTopbarTitle } = this.props;
-    setTopbarTitle(t('.headerTitle'));
-  }
+  //TODO: Implement title changing
+  //componentDidMount() {
+  //  const { setTopbarTitle } = this.props;
+  //  setTopbarTitle(t('.headerTitle'));
+  //}
 
   renderHeader() {
     const {
