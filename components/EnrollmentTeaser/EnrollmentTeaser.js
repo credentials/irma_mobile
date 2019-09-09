@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dimensions, ImageBackground, Platform } from 'react-native';
+import { Dimensions, ImageBackground, Platform, StatusBar } from 'react-native';
 
 import {
   Button,
@@ -122,47 +122,50 @@ export default class EnrollmentTeaser extends Component {
 
   render() {
     return (
-      <Swiper
-        testID="EnrollmentTeaser"
-        loop={false}
-        paginationStyle={{bottom: 40}}
-        renderPagination={this.renderFooter}
-        showsButtons={true}
-        activeDotColor="#004C92"
-        nextButton={this.renderNext()}
-        prevButton={this.renderPrev()}
-      >
-        <ImageBackground
-          imageStyle={{marginTop: isSmallDevice && !isIos ? 225 : 300}}
-          source={passportImage}
-          style={{flex: 1, backgroundColor: '#2dbfce'}}
+      <>
+        <StatusBar hidden={true} />
+        <Swiper
+          testID="EnrollmentTeaser"
+          loop={false}
+          paginationStyle={{bottom: 40}}
+          renderPagination={this.renderFooter}
+          showsButtons={true}
+          activeDotColor="#004C92"
+          nextButton={this.renderNext()}
+          prevButton={this.renderPrev()}
         >
-          { this.renderTexts(
-              t('.slide1.statement'),
-              t('.slide1.quote'),
-          )}
-        </ImageBackground>
-        <ImageBackground
-          imageStyle={{marginTop: 100}}
-          source={shopImage}
-          style={{flex: 1, backgroundColor: '#abe3f4'}}
-        >
-          { this.renderTexts(
-              t('.slide2.statement'),
-              t('.slide2.quote'),
-          )}
-        </ImageBackground>
-        <ImageBackground
-          imageStyle={{marginTop: 100}}
-          source={authImage}
-          style={{flex: 1, backgroundColor: '#65b7cc'}}
-        >
-          { this.renderTexts(
-              t('.slide3.statement'),
-              t('.slide3.quote'),
-          )}
-        </ImageBackground>
-      </Swiper>
+          <ImageBackground
+            imageStyle={{marginTop: isSmallDevice && !isIos ? 225 : 300}}
+            source={passportImage}
+            style={{flex: 1, backgroundColor: '#2dbfce'}}
+          >
+            { this.renderTexts(
+                t('.slide1.statement'),
+                t('.slide1.quote'),
+            )}
+          </ImageBackground>
+          <ImageBackground
+            imageStyle={{marginTop: 100}}
+            source={shopImage}
+            style={{flex: 1, backgroundColor: '#abe3f4'}}
+          >
+            { this.renderTexts(
+                t('.slide2.statement'),
+                t('.slide2.quote'),
+            )}
+          </ImageBackground>
+          <ImageBackground
+            imageStyle={{marginTop: 100}}
+            source={authImage}
+            style={{flex: 1, backgroundColor: '#65b7cc'}}
+          >
+            { this.renderTexts(
+                t('.slide3.statement'),
+                t('.slide3.quote'),
+            )}
+          </ImageBackground>
+        </Swiper>
+      </>
     );
   }
 }
