@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Linking, Platform } from 'react-native';
+import { Linking } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Navigation, CREDENTIAL_DASHBOARD_ROOT_ID, setEnrollmentRoot, setCredentialDashboardSidebarEnabled, hideCredentialDashboardSidebar } from 'lib/navigation';
 import Sidebar, { t } from './Sidebar';
 
 const mapStateToProps = (state) => {
@@ -30,6 +29,7 @@ export default class SidebarContainer extends Component {
     canEnroll: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
     isEnrolled: PropTypes.bool.isRequired,
+    navigation: PropTypes.object.isRequired,
   }
 
   deleteAllCredentials = () => {
@@ -38,21 +38,24 @@ export default class SidebarContainer extends Component {
   }
 
   navigate = (name) => {
-    hideCredentialDashboardSidebar();
-    Navigation.push(CREDENTIAL_DASHBOARD_ROOT_ID, {
-      component: {
-        name,
-      },
-    });
+    const { navigation } = this.props;
+    navigation.navigate(name);
   }
 
   navigateToEnrollment = () => {
-    setEnrollmentRoot();
+    console.warn('not implemented');
   }
 
   navigateToMoreAttributes = () => {
+    const { navigation } = this.props;
+
     Linking.openURL(t('.moreAttributesURL')).catch();
-    hideCredentialDashboardSidebar();
+    navigation.closeDrawer();
+  }
+
+  closeSidebar = () => {
+    const { navigation } = this.props;
+    navigation.closeDrawer();
   }
 
   render() {
@@ -61,7 +64,7 @@ export default class SidebarContainer extends Component {
     return (
       <Sidebar
         canEnroll={canEnroll}
-        closeSidebar={hideCredentialDashboardSidebar}
+        closeSidebar={this.closeSidebar}
         deleteAllCredentials={this.deleteAllCredentials}
         isEnrolled={isEnrolled}
         navigate={this.navigate}

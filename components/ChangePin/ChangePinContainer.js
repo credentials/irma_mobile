@@ -26,25 +26,17 @@ const mapStateToProps = (state) => {
 @connect(mapStateToProps)
 export default class ChangePinContainer extends Component {
   static propTypes = {
-    componentId: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     error: PropTypes.object,
     remainingAttempts: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
     timeout: PropTypes.number,
+    navigation: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     error: null,
     timeout: null,
-  }
-
-  static options = {
-    topBar: {
-      title: {
-        text: t('.title'),
-      },
-    },
   }
 
   state = {
@@ -83,8 +75,8 @@ export default class ChangePinContainer extends Component {
   }
 
   navigateBack = () => {
-    const { componentId } = this.props;
-    Navigation.pop(componentId);
+    const { navigation } = this.props;
+    navigation.goBack();
   }
 
   render() {

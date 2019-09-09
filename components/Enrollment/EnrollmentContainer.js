@@ -102,7 +102,8 @@ export default class EnrollmentContainer extends Component {
   }
 
   navigateToDashboard = () => {
-    setCredentialDashboardRoot();
+    // TODO: This should be removed if the way of transitioning is accepted
+    console.warn('not implemented');
   }
 
   render() {

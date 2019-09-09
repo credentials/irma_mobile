@@ -65,7 +65,10 @@ export default class QRScannerContainer extends Component {
     const { hostname } = new URLParse(NativeModules.SourceCode.scriptURL);
     window.fetch(`http://${hostname}:7000?type=${type}`).then( (res) => {
       res.json().then( (sessionPointer) => {
-        startSessionAndNavigate({sessionPointer});
+        // startSessionAndNavigate({sessionPointer}); <-- TODO: Put this back instead of what is below
+
+        startSession({sessionPointer});
+        this.setState({displaySession: true});
       });
     });
   }

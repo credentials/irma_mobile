@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { BackHandler, Platform } from 'react-native';
+import { BackHandler, Keyboard } from 'react-native';
 
-import { Navigation } from 'lib/navigation';
-
-import AppUnlock, { t } from './AppUnlock';
-import Update from './children/Update';
+import AppUnlock, { headerTitle, HeaderLeftButton } from './AppUnlock';
 
 const mapStateToProps = (state) => {
   const {
@@ -17,9 +14,6 @@ const mapStateToProps = (state) => {
       remainingAttempts,
       status,
     },
-    irmaConfiguration: {
-      showingUpdate,
-    },
   } = state;
 
   return {
@@ -28,7 +22,6 @@ const mapStateToProps = (state) => {
     hadFailure,
     remainingAttempts,
     status,
-    showingUpdate,
   };
 };
 
@@ -37,39 +30,20 @@ export default class AppUnlockContainer extends Component {
 
   static propTypes = {
     blockedDuration: PropTypes.number.isRequired,
-    componentId: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     error: PropTypes.object,
     hadFailure: PropTypes.bool.isRequired,
     remainingAttempts: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
-    showingUpdate: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     error: null,
   }
 
-  static options = {
-    topBar: {
-      leftButtons: {
-        id: 'logo',
-        // Android needs extra padding for the icon, so hackily insert padding by using a different image
-        icon: Platform.OS === 'ios' ? require('assets/irmaLogoAppUnlock.png') : require('assets/irmaLogoAppUnlockAndroid.png'),
-      },
-      title: {
-        text: t('.title'),
-      },
-    },
-    layout: {
-      backgroundColor: 'transparent',
-    },
-    modalPresentationStyle: Platform.OS === 'ios' ? 'overFullScreen' : 'overCurrentContext',
-  }
-
-  constructor(props) {
-    super(props);
-    Navigation.events().bindComponent(this);
+  static navigationOptions = {
+    headerTitle,
+    headerLeft: <HeaderLeftButton />,
   }
 
   // Disable backpress on this screen
@@ -88,15 +62,9 @@ export default class AppUnlockContainer extends Component {
     dispatch({type: 'AppUnlock.Reset'});
   }
 
-  dismissModal = () => {
-    const { componentId } = this.props;
-    Navigation.dismissModal(componentId, {
-      animations: {
-        dismissModal: {
-          enabled: Platform.OS !== 'ios',
-        }
-      }
-    });
+  dismissAppUnlock = () => {
+    Keyboard.dismiss();
+    console.warn('not implemented');
   }
 
   authenticate = pin => {
@@ -111,33 +79,14 @@ export default class AppUnlockContainer extends Component {
     });
   }
 
-  setTopbarTitle = (text) => {
-    const { componentId } = this.props;
-    Navigation.mergeOptions(componentId, {
-      topBar: {
-        title: {
-          text,
-        },
-      },
-    });
-  }
-
   render() {
-    const { status, error, hadFailure, remainingAttempts, blockedDuration, showingUpdate } = this.props;
-    
-    if (showingUpdate) {
-      return (
-        <Update
-          setTopbarTitle={this.setTopbarTitle}
-        />
-      );
-    }
+    const { status, error, hadFailure, remainingAttempts, blockedDuration } = this.props;
 
     return (
       <AppUnlock
         authenticate={this.authenticate}
         blockedDuration={blockedDuration}
-        dismissModal={this.dismissModal}
+        dismissAppUnlock={this.dismissAppUnlock}
         error={error}
         hadFailure={hadFailure}
         remainingAttempts={remainingAttempts}

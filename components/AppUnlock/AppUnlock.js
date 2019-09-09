@@ -1,75 +1,48 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image, StyleSheet, Animated, Dimensions, TouchableWithoutFeedback, Keyboard, PixelRatio } from 'react-native';
-import ImageSequence from 'lib/ImageSequence';
+import { StyleSheet, Animated, Dimensions, Keyboard, Image as RNImage } from 'react-native';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 
 import {
+  Button,
   Text,
   View,
   Spinner,
 } from 'native-base';
 
 import Container from 'components/Container';
+import HeaderButton from 'components/HeaderButton';
 import PinEntry from './children/PinEntry';
-import vaultFrames from './children/vaultFrames';
 import { STATUS_AUTHENTICATED, STATUS_AUTHENTICATING } from 'store/reducers/appUnlock';
-
 import { namespacedTranslation } from 'lib/i18n';
+import irmaLogo from 'assets/irmaLogoAppUnlock.png';
 
 export const t = namespacedTranslation('AppUnlock');
-const isAnimationEnabled = vaultFrames.length > 1;
+
+export const headerTitle = t('.title');
+export const HeaderLeftButton = () => 
+  <HeaderButton source={irmaLogo} />;
 
 export default class AppUnlock extends Component {
 
   static propTypes = {
     authenticate: PropTypes.func.isRequired,
     blockedDuration: PropTypes.number.isRequired,
-    dismissModal: PropTypes.func.isRequired,
     error: PropTypes.object,
     hadFailure: PropTypes.bool.isRequired,
     remainingAttempts: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
+    dismissAppUnlock: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     error: null,
   };
 
-  state = {
-    animatedOpacity: new Animated.Value(1),
-    animatedBackgroundColor: new Animated.Value(0),
-  }
-
   componentDidUpdate(prevProps) {
-    const { status } = this.props;
+    const { status, dismissAppUnlock } = this.props;
     if (prevProps.status !== STATUS_AUTHENTICATED && status === STATUS_AUTHENTICATED)
-      this.startEntryAnimation();
-  }
-
-  startEntryAnimation = () => {
-    const { dismissModal } = this.props;
-    const { animatedOpacity, animatedBackgroundColor } = this.state;
-    const durationSubtraction = isAnimationEnabled ? 0 : 1200;
-
-    Keyboard.dismiss();
-
-    setTimeout(() => {
-      dismissModal();
-    }, 2200 - durationSubtraction);
-
-    Animated.parallel([
-      Animated.timing(animatedOpacity, {
-        toValue: 0,
-        duration: 400,
-        delay: 1200 - durationSubtraction,
-      }),
-      Animated.timing(animatedBackgroundColor, {
-        toValue: 1,
-        duration: 400,
-        delay: 2000 - durationSubtraction,
-      }),
-    ]).start();
+      dismissAppUnlock();
   }
 
   renderSpinner() {
@@ -122,65 +95,29 @@ export default class AppUnlock extends Component {
     );
   }
 
-  renderImageSequence() {
-    const { status } = this.props;
-    const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
-
-    return (
-      <TouchableWithoutFeedback>
-        <ImageSequence
-          images={vaultFrames}
-          framesPerSecond={24}
-          started={status === STATUS_AUTHENTICATED}
-          loop={false}
-          style={{width: screenWidth, height: screenWidth/500*888}}
-        />
-      </TouchableWithoutFeedback>
-    );
-  }
-
   render() {
     const { authenticate, remainingAttempts } = this.props;
-    const { animatedOpacity, animatedBackgroundColor } = this.state;
-
-    const backgroundColorStyle = {
-      backgroundColor: animatedBackgroundColor.interpolate({
-        inputRange: [0, 1],
-        outputRange: ['rgba(248, 248, 248, 1)', 'rgba(248, 248, 248, 0)'],
-      }),
-    };
-
-    const opacityStyle = {opacity: animatedOpacity};
 
     return (
-      <Animated.View style={[{flex: 1}, backgroundColorStyle, !isAnimationEnabled ? opacityStyle : null]}>
-        <View style={styles.vaultUnderlayView}>
-          { this.renderImageSequence() }
-        </View>
-        <Container transparent>
-          <Animated.View style={[{flex: 1, flexDirection: 'column'}, isAnimationEnabled ? opacityStyle : null]}>
-            <PinEntry
-              clearKey={remainingAttempts}
-              minLength={5}
-              onPinSubmit={authenticate}
-              recommendedLength={7}
-              style={{marginTop: Dimensions.get('window').width / 500 * 250 - 20}}
-            />
-            { this.renderSpinner() }
-            { this.renderFailure() }
-            { this.renderError() }
-          </Animated.View>
-        </Container>
-      </Animated.View>
+      <Container transparent>
+        <Animated.View style={{flex: 1, flexDirection: 'column'}}>
+          <PinEntry
+            clearKey={remainingAttempts}
+            minLength={5}
+            onPinSubmit={authenticate}
+            recommendedLength={7}
+            style={{marginTop: Dimensions.get('window').width / 500 * 250 - 20}}
+          />
+          { this.renderSpinner() }
+          { this.renderFailure() }
+          { this.renderError() }
+        </Animated.View>
+      </Container>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  vaultUnderlayView: {
-    position: 'absolute',
-    top: -20,
-  },
   spinnerStyle: {
     marginTop: -5,
   },

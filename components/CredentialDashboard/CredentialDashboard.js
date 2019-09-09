@@ -8,9 +8,12 @@ import PaddedContent from 'lib/PaddedContent';
 import CredentialCard from 'components/CredentialCard';
 import Container from 'components/Container';
 import ButtonImage from 'components/ButtonImage';
+import HeaderButton from 'components/HeaderButton';
 
 import registerIcon from 'assets/icons/streamline-regular/17/13/single-neutral-actions-add.png';
 import qrScannerIcon from 'assets/icons/streamline-light/20/08/qr-code-scan.png';
+import menuIcon from 'assets/icons/streamline-regular/01/03/navigation-menu.png';
+import lockIcon from 'assets/icons/streamline-regular/01/11/lock-1.png';
 
 import {
   Button,
@@ -21,6 +24,15 @@ import {
 } from 'native-base';
 
 export const t = namespacedTranslation('CredentialDashboard');
+
+export const MenuButton = ({ onPress }) =>
+  <HeaderButton onPress={onPress} source={menuIcon} />;
+
+export const LockButton = ({ onPress }) =>
+  <HeaderButton onPress={onPress} source={lockIcon} />;
+
+export const DoneButton = ({ onPress }) =>
+  <HeaderButton onPress={onPress} text={t('.done')} />;
 
 export default class CredentialDashboard extends Component {
 
