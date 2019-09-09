@@ -58,7 +58,7 @@ export default class Enrollment extends Component {
     const { validationForced, pinFormCollapsed } = this.state;
 
     const next = () => {
-      if(pin)
+      if (pin)
         this.setState({validationForced: false, pinFormCollapsed: true, emailFormCollapsed: false});
       else
         this.setState({validationForced: true});
@@ -94,23 +94,23 @@ export default class Enrollment extends Component {
     const { validationForced, emailFormCollapsed } = this.state;
 
     const next = () => {
-      if(!email) {
+      if (!email) {
         this.setState({validationForced: true});
         return;
       }
 
       this.setState({emailFormCollapsed: true, validationForced: false});
 
-      if(pin) {
+      if (pin)
         enroll({ pin, email });
-      } else
+      else
         this.setState({pinFormCollapsed: false});
     };
 
     const skip = () => {
       this.setState({emailFormCollapsed: true, validationForced: false});
 
-      if(pin)
+      if (pin)
         enroll({ pin, email: null });
       else
         this.setState({pinFormCollapsed: false});
@@ -144,7 +144,7 @@ export default class Enrollment extends Component {
   renderContent() {
     const { status, error } = this.props;
 
-    switch(status) {
+    switch (status) {
       case 'started':
         return (
           <View>
@@ -175,6 +175,9 @@ export default class Enrollment extends Component {
           </IconCard>,
           <ErrorCard key="error" error={error} />
         ];
+
+      default:
+        return null;
     }
   }
 

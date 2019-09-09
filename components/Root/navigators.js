@@ -19,9 +19,9 @@ const defaultNavigationOptions = {
     backgroundColor: nbVariables.colors.logoBlue,
   },
   headerTintColor: '#fff',
-  // headerTitleStyle: {
-  //   fontWeight: 'bold',
-  // },
+  headerTitleStyle: {
+    fontWeight: 'bold',
+  },
 };
 
 const MainStack = createStackNavigator({
