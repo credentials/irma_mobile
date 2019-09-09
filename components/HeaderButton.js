@@ -1,18 +1,20 @@
 import React from 'react';
-import { Image as RNImage } from 'react-native';
+import { Image as RNImage, View as RNView } from 'react-native';
 
 import { Button, Text } from 'native-base';
 
 const HeaderButton = ({ onPress, source, text }) => (
-  <Button transparent onPress={onPress}>
-    { !source ? null : (
-      <RNImage source={source} tintColor="white" />
-    )}
+  <RNView style={{marginLeft: 20, marginRight: 20}}>
+    <Button transparent onPress={onPress} style={{alignItems: 'center', justifyContent: 'center'}}>
+      { !source ? null : (
+        <RNImage source={source} tintColor="white" />
+      )}
 
-    { !text ? null : (
-      <Text>{ text }</Text> /* TODO: <-- this doesn't show */
-    )}
-  </Button>
+      { !text ? null : (
+        <Text style={{color: 'white'}}>{ text }</Text>
+      )}
+    </Button>
+  </RNView>
 );
 
 export default HeaderButton;
