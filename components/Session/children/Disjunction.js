@@ -12,13 +12,11 @@ import {
 
 import _ from 'lodash';
 
-import { getLanguage } from 'lib/i18n';
+import { lang } from 'lib/i18n';
 import CandidateSet from './CandidateSet';
 import HorizontalPicker from 'lib/HorizontalPicker';
 
 import SessionStyles, { disjunctionWidth } from './Styles';
-
-const lang = getLanguage();
 
 export default class Disjunction extends Component {
 

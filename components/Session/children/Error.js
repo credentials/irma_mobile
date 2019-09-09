@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 
 import ErrorCard from 'components/ErrorCard';
 
-// TODO: This component is a small wrapper that passes some session information to ErrorCard,
-// but should become obsolete when DisclosureSession / IssuanceSession / SigningSession,
-// have their enormous duplication sorted out.
 export default class Error extends Component {
   static propTypes = {
     session: PropTypes.object.isRequired,

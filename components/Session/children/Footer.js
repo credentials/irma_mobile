@@ -77,7 +77,7 @@ export default class Footer extends Component {
       yesLabel = t('.next');
 
     if (status === 'requestPin') {
-      // TODO: We probably shouldn't be dismissing the keyboard on every render,
+      // We probably shouldn't be dismissing the keyboard on every render,
       // and the responsibilty of hiding lies closer to the PinEntry component
       if (hidden) {
         Keyboard.dismiss();

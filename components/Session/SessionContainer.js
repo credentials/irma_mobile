@@ -157,7 +157,7 @@ export default class SessionContainer extends Component {
       this.setState({ bottomReached: this.wrapperHeight - this.contentHeight > -25 });
   }
 
-  // TODO: This nextStep function has been overloaded with too many responsibilies
+  // This nextStep function has been overloaded with too many responsibilies
   // It should be refactored along with the different session screens.
   // It returns false only when proceeding on an invalid pin
   nextStep = (proceed) => {

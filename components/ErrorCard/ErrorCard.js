@@ -67,7 +67,7 @@ export default class ErrorCard extends Component {
   report() {
     const reportObject = this.reportObject();
 
-    // TODO: Sentry unfortunately doesn't support seeing if captureMessage succeeded,
+    // Sentry unfortunately doesn't support seeing if captureMessage succeeded,
     // so we lie about the outcome and say it always succeeded.
     // See the mess in raven-js #803 and #524
     Sentry.captureMessage(`User reported: ${reportObject.type}`, {

@@ -121,8 +121,6 @@ export default class EnrollmentTeaser extends Component {
   }
 
   render() {
-    // TODO: Can the second image be edited to show the wine bottle more prominently, for the >18 use case?
-
     return (
       <Swiper
         testID="EnrollmentTeaser"

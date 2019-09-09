@@ -9,7 +9,3 @@ const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore);
 
 const store = createStoreWithMiddleware(rootReducer);
 export default store;
-
-// Deal with problem inherited from 5.4.*
-// AsyncStorage.removeItem('pin');
-// ^-- TODO: Remove this or move it somewhere else
