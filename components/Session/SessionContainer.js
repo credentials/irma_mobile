@@ -24,7 +24,7 @@ import PaddedContent from 'lib/PaddedContent';
 const paddingToBottom = 20;
 
 const mapStateToProps = (state, props) => {
-  sessionId = props.navigation.getParam('sessionId');
+  const sessionId = props.navigation.getParam('sessionId');
 
   const {
     appUnlock: {
@@ -62,7 +62,6 @@ const mapStateToProps = (state, props) => {
 export default class SessionContainer extends Component {
 
   static propTypes = {
-    componentId: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     irmaConfiguration: PropTypes.object.isRequired,
     session: PropTypes.object.isRequired,
@@ -94,7 +93,7 @@ export default class SessionContainer extends Component {
     headerTitle: navigation.getParam('title', ''),
   })
 
-  setTopbarTitle(title) {
+  setTopbarTitle = (title) => {
     const { navigation } = this.props;
     navigation.setParams({title});
   }
@@ -102,12 +101,12 @@ export default class SessionContainer extends Component {
   navigateBack = () => {
     const { session: { exitAfter, request } } = this.props;
 
-    console.warn('not implemented');
-
     if (exitAfter && request.returnURL)
       Linking.openURL(request.returnURL);
     else if (exitAfter && Platform.OS === 'android')
       BackHandler.exitApp();
+    else
+      this.props.navigation.goBack();
   }
 
   navigateToEnrollment = () => {

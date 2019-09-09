@@ -25,9 +25,6 @@ const t = namespacedTranslation('Session.DisclosureSession');
 export default class DisclosureSession extends Component {
 
   static propTypes = {
-    disclosures: PropTypes.array,
-    disclosuresCandidates: PropTypes.array,
-    irmaConfiguration: PropTypes.object.isRequired,
     makeDisclosureChoice: PropTypes.func.isRequired,
     navigateBack: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,
@@ -45,11 +42,10 @@ export default class DisclosureSession extends Component {
     bottomReached: null,
   }
 
-  //TODO: Implement title changing
-  //componentDidMount() {
-    //const { setTopbarTitle } = this.props;
-    //setTopbarTitle(t('.headerTitle'));
-  //}
+  componentDidMount() {
+    const { setTopbarTitle } = this.props;
+    setTopbarTitle(t('.headerTitle'));
+  }
 
   renderHeader() {
     const {

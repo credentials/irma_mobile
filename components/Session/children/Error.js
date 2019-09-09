@@ -10,10 +10,10 @@ export default class Error extends Component {
 
   render() {
     const {
-      session: { status, error, didRespondPermission, irmaAction, request }
+      session: { status, error, didRespondPermission, irmaAction, request },
     } = this.props;
 
-    if(status !== 'failure')
+    if (status !== 'failure')
       return null;
 
     const extraReportInfo = {
@@ -24,8 +24,8 @@ export default class Error extends Component {
 
     return (
       <ErrorCard
-          error={error}
-          extraReportInfo={extraReportInfo} />
+        error={error}
+        extraReportInfo={extraReportInfo} />
     );
   }
 }

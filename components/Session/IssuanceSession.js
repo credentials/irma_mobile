@@ -26,7 +26,6 @@ const t = namespacedTranslation('Session.IssuanceSession');
 export default class IssuanceSession extends Component {
 
   static propTypes = {
-    irmaConfiguration: PropTypes.object.isRequired,
     makeDisclosureChoice: PropTypes.func.isRequired,
     navigateBack: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,
@@ -44,11 +43,10 @@ export default class IssuanceSession extends Component {
     bottomReached: null,
   }
 
-  //TODO: Implement title changing
-  //componentDidMount() {
-  //  const { setTopbarTitle } = this.props;
-  //  setTopbarTitle(t('.headerTitle'));
-  //}
+  componentDidMount() {
+    const { setTopbarTitle } = this.props;
+    setTopbarTitle(t('.headerTitle'));
+  }
 
   renderHeader() {
     const {

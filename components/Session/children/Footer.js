@@ -39,7 +39,7 @@ export default class Footer extends Component {
 
     // Reset the hidden state when rendering the footer for a new status,
     // or for another amount of PIN attempts.
-    if(session.status !== nextSession.status ||
+    if (session.status !== nextSession.status ||
        session.remainingAttempts !== nextSession.remainingAttempts)
       this.setState({hidden: false});
   }
@@ -48,7 +48,7 @@ export default class Footer extends Component {
     const { nextStep } = this.props;
     const success = nextStep(proceed);
 
-    if(success)
+    if (success)
       this.setState({hidden: true});
   }
 
@@ -119,13 +119,13 @@ export default class Footer extends Component {
     const { session: { status, result, id }, navigateBack } = this.props;
     const { hidden } = this.state;
 
-    if(hidden || !_.includes(['success', 'failure', 'cancelled', 'unsatisfiableRequest', 'keyshareEnrollmentMissing', 'keyshareEnrollmentDeleted', 'keyshareBlocked', 'keyshareEnrollmentIncomplete'], status))
+    if (hidden || !_.includes(['success', 'failure', 'cancelled', 'unsatisfiableRequest', 'keyshareEnrollmentMissing', 'keyshareEnrollmentDeleted', 'keyshareBlocked', 'keyshareEnrollmentIncomplete'], status))
       return null;
 
     // Don't render anything for manual session result
-    if (id === 0 && status === 'success' && result !== undefined) {
+    if (id === 0 && status === 'success' && result !== undefined)
       return null;
-    }
+
 
     return (
       <Button style={{minWidth: 75, justifyContent: 'center'}} onPress={navigateBack} testID="dismissButton">
