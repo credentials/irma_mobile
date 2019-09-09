@@ -36,6 +36,11 @@ const MainStack = createStackNavigator({
   defaultNavigationOptions,
 });
 
+MainStack.navigationOptions = ({ navigation }) => ({
+  // Disable drawer on nested screens
+  drawerLockMode: navigation.state.index > 0 ? 'locked-closed' : 'unlocked',
+});
+
 const MainStackWithDrawer = createDrawerNavigator({
   CredentialDashboard: MainStack,
 }, {
