@@ -30,7 +30,6 @@ export default class Enrollment extends Component {
     email: PropTypes.string,
     enroll: PropTypes.func.isRequired,
     error: PropTypes.object,
-    navigateToDashboard: PropTypes.func.isRequired,
     pin: PropTypes.string,
     retryEnroll: PropTypes.func.isRequired,
     status: PropTypes.string.isRequired,
@@ -180,21 +179,14 @@ export default class Enrollment extends Component {
   }
 
   renderFooter() {
-    const { status, navigateToDashboard, retryEnroll, disableRetry } = this.props;
+    const { status, retryEnroll, disableRetry } = this.props;
 
     const wrapFooter = children =>
       <Footer style={{height: 60, paddingTop: 7}}>
         { children }
       </Footer>;
 
-    switch(status) {
-      case 'success':
-        return wrapFooter(
-          <Button primary onPress={navigateToDashboard}>
-            <Text>{ t('.finish') }</Text>
-          </Button>
-        );
-
+    switch (status) {
       case 'failure':
         return wrapFooter(
           <Button primary disabled={disableRetry} onPress={retryEnroll}>
