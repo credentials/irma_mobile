@@ -3,14 +3,16 @@ rootProject.name = 'IRMA'
 include ':app'
 include ':irmagobridge'
 
-include ':react-native-navigation'
 include ':rncamerakit'
-include ':react-native-image-sequence'
 include ':react-native-sentry'
 include ':react-native-languages'
+include ':react-native-gesture-handler'
+include ':react-native-reanimated'
+include ':@react-native-community_async-storage'
 
-project(':react-native-navigation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-navigation/lib/android/app/')
 project(':rncamerakit').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera-kit/android/')
-project(':react-native-image-sequence').projectDir = new File(rootProject.projectDir, '../lib/ImageSequence/android')
 project(':react-native-sentry').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sentry/android')
 project(':react-native-languages').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-languages/android')
+project(':react-native-gesture-handler').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-gesture-handler/android')
+project(':react-native-reanimated').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-reanimated/android')
+project(':@react-native-community_async-storage').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/async-storage/android')
