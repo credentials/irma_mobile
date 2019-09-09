@@ -104,20 +104,20 @@ export default class EnrollmentTeaser extends Component {
 
   renderNext() {
     const buttonText = {
-      color:"#004C92",
-      fontSize:50,
+      color: '#004C92',
+      fontSize: 50,
     };
 
-    return (<Text style={buttonText}>›</Text>)
+    return (<Text style={buttonText}>›</Text>);
   }
 
   renderPrev() {
     const buttonText = {
-      color:"#004C92",
-      fontSize:50,
+      color: '#004C92',
+      fontSize: 50,
     };
 
-    return (<Text style={buttonText}>‹</Text>)
+    return (<Text style={buttonText}>‹</Text>);
   }
 
   render() {

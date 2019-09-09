@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import EnrollmentTeaser, { headerTitle } from './EnrollmentTeaser';
+import EnrollmentTeaser from './EnrollmentTeaser';
 
 const mapStateToProps = (/*state*/) => {
   return {
@@ -19,7 +19,7 @@ export default class EnrollmentTeaserContainer extends Component {
   }
 
   static navigationOptions = {
-    headerTitle,
+    header: null,
   }
 
   navigateToEnrollment = () => {
