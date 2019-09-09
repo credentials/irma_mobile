@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 
 import Container from 'components/Container';
@@ -19,7 +18,8 @@ import PaddedContent from 'lib/PaddedContent';
 import ErrorCard from 'components/ErrorCard';
 import IconCard from 'components/IconCard';
 
-export const t = namespacedTranslation('Enrollment');
+const t = namespacedTranslation('Enrollment');
+export const headerTitle = t('.title');
 
 export default class Enrollment extends Component {
 

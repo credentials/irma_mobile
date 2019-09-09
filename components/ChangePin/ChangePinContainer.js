@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Navigation } from 'lib/navigation';
-import ChangePin, { t } from './ChangePin';
+import ChangePin, { headerTitle } from './ChangePin';
 
 const mapStateToProps = (state) => {
   const {
@@ -37,6 +36,10 @@ export default class ChangePinContainer extends Component {
   static defaultProps = {
     error: null,
     timeout: null,
+  }
+
+  static navigationOptions = {
+    title: headerTitle,
   }
 
   state = {

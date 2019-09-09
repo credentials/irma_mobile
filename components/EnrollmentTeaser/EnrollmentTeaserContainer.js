@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import EnrollmentTeaser from './EnrollmentTeaser';
+import EnrollmentTeaser, { headerTitle } from './EnrollmentTeaser';
 
 const mapStateToProps = (/*state*/) => {
   return {
@@ -18,11 +18,8 @@ export default class EnrollmentTeaserContainer extends Component {
     dispatch: PropTypes.func.isRequired,
   }
 
-  static options = {
-    topBar: {
-      visible: false,
-      drawBehind: true,
-    },
+  static navigationOptions = {
+    headerTitle,
   }
 
   navigateToEnrollment = () => {

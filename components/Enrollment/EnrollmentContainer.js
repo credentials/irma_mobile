@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactTimeout from 'react-timeout';
 
-import Enrollment, { t } from './Enrollment';
-import { setCredentialDashboardRoot } from 'lib/navigation';
+import Enrollment, { headerTitle } from './Enrollment';
 import { getLanguage } from 'lib/i18n';
 
 const mapStateToProps = (state) => {
@@ -36,19 +35,8 @@ export default class EnrollmentContainer extends Component {
     error: null,
   }
 
-  static options = {
-    topBar: {
-      title: {
-        text: t('.title'),
-        alignment: 'center',
-      },
-
-      // TODO: Dynamic backbutton visibility change (for enrollment success) is broken
-      // in react-native-navigation on Android. We do need it for non-success.
-      // backButton: {
-      //   visible: false,
-      // },
-    },
+  static navigationOptions = {
+    headerTitle,
   }
 
   state = {

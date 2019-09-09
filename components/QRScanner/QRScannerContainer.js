@@ -12,7 +12,7 @@ import {
 import { startSession, startSessionAndNavigate } from 'lib/navigation';
 
 import Session from 'components/Session';
-import QRScanner, { t } from './QRScanner';
+import QRScanner, { headerTitle } from './QRScanner';
 
 @connect()
 export default class QRScannerContainer extends Component {
@@ -22,12 +22,8 @@ export default class QRScannerContainer extends Component {
     dispatch: PropTypes.func.isRequired,
   }
 
-  static options = {
-    topBar: {
-      title: {
-        text: t('.title'),
-      },
-    },
+  static navigationOptions = {
+    headerTitle,
   }
 
   state = {

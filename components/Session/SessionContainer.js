@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Platform, BackHandler, Linking } from 'react-native';
 
-import { Navigation, setEnrollmentRoot } from 'lib/navigation';
 import fullCredentials from 'store/mappers/fullCredentials';
 import fullDisclosuresCandidates from 'store/mappers/fullDisclosuresCandidates';
 import fullMissingDisclosures from 'store/mappers/fullMissingDisclosures';
@@ -14,8 +13,6 @@ import SigningSession from './SigningSession';
 
 import Error from './children/Error';
 import Footer from './children/Footer';
-
-// import { sendMail } from 'lib/mail';
 
 import {
   Container,
@@ -70,6 +67,7 @@ export default class SessionContainer extends Component {
     irmaConfiguration: PropTypes.object.isRequired,
     session: PropTypes.object.isRequired,
     shouldAuthenticate: PropTypes.bool.isRequired,
+    navigation: PropTypes.object.isRequired,
   }
 
   state = {
@@ -92,21 +90,19 @@ export default class SessionContainer extends Component {
     this.dismiss();
   }
 
-  setTopbarTitle = (text) => {
-    const { componentId } = this.props;
-    Navigation.mergeOptions(componentId, {
-      topBar: {
-        title: {
-          text,
-        },
-      },
-    });
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: navigation.getParam('title', ''),
+  })
+
+  setTopbarTitle(title) {
+    const { navigation } = this.props;
+    navigation.setParams({title});
   }
 
   navigateBack = () => {
-    const { componentId, session: { exitAfter, request } } = this.props;
+    const { session: { exitAfter, request } } = this.props;
 
-    Navigation.popToRoot(componentId);
+    console.warn('not implemented');
 
     if (exitAfter && request.returnURL)
       Linking.openURL(request.returnURL);
@@ -114,13 +110,8 @@ export default class SessionContainer extends Component {
       BackHandler.exitApp();
   }
 
-  // sendMail() {
-  //   // const { session: { result, request }} = this.props;
-  //   // sendMail(result, JSON.parse(request));
-  // }
-
   navigateToEnrollment = () => {
-    setEnrollmentRoot();
+    console.warn('not implemented');
   }
 
   makeDisclosureChoice = (disclosureIndex, choice) => {
@@ -135,7 +126,7 @@ export default class SessionContainer extends Component {
   }
 
   pinChange = (pin) => {
-    this.setState({pin});
+    this.setState({ pin });
   }
 
   dismiss = () => {
@@ -147,15 +138,15 @@ export default class SessionContainer extends Component {
     });
   }
 
-  isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) =>
+  isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) =>
     layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
 
-  positionChanged = ({nativeEvent}) => {
+  positionChanged = ({ nativeEvent }) => {
     if (!this.state.bottomReached && this.isCloseToBottom(nativeEvent))
       this.setState({ bottomReached: true });
   }
 
-  onLayout = (wrapper, {nativeEvent}) => {
+  onLayout = (wrapper, { nativeEvent }) => {
     if (nativeEvent.layout.height < 100)
       return;
     if (wrapper)
@@ -163,7 +154,7 @@ export default class SessionContainer extends Component {
     else
       this.contentHeight = nativeEvent.layout.height;
     if (this.wrapperHeight !== 0 && this.contentHeight !== 0)
-      this.setState({bottomReached: this.wrapperHeight - this.contentHeight > -25});
+      this.setState({ bottomReached: this.wrapperHeight - this.contentHeight > -25 });
   }
 
   // TODO: This nextStep function has been overloaded with too many responsibilies
@@ -179,16 +170,16 @@ export default class SessionContainer extends Component {
     // In case we proceed on issuance and there are attributes
     // to disclose, continue to the disclosure step
     if (proceed && irmaAction === 'issuing' &&
-        !showDisclosureStep && disclosures.length > 0) {
+      !showDisclosureStep && disclosures.length > 0) {
 
-      this.setState({showDisclosureStep: true});
+      this.setState({ showDisclosureStep: true });
       return true;
     }
 
     // In case we're on pin entry, give a pin response
     if (status === 'requestPin') {
       if (proceed && !pin) {
-        this.setState({validationForced: true});
+        this.setState({ validationForced: true });
         return false;
       }
 
@@ -280,7 +271,7 @@ export default class SessionContainer extends Component {
         return (
           <Container>
             <PaddedContent>
-              <Text>Unrecognized IRMA action { session.irmaAction }.</Text>
+              <Text>Unrecognized IRMA action {session.irmaAction}.</Text>
             </PaddedContent>
           </Container>
         );

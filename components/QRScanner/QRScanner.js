@@ -14,7 +14,8 @@ import {
   View,
 } from 'native-base';
 
-export const t = namespacedTranslation('QRScanner');
+const t = namespacedTranslation('QRScanner');
+export const headerTitle = t('.title');
 
 export default class QRScanner extends Component {
   static propTypes = {

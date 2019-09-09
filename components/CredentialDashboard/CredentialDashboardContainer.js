@@ -4,10 +4,8 @@ import { connect } from 'react-redux';
 
 import store from 'store';
 
-import CredentialDashboard, { MenuButton, LockButton, DoneButton } from './CredentialDashboard';
+import CredentialDashboard, { headerTitle, MenuButton, LockButton, DoneButton } from './CredentialDashboard';
 import fullCredentials from 'store/mappers/fullCredentials';
-import nbVariables from 'lib/native-base-theme/variables/platform';
-import { Navigation, showAppUnlockModal, setEnrollmentRoot, showCredentialDashboardSidebar, QR_SCANNER_SCREEN } from 'lib/navigation';
 
 const mapStateToProps = (state) => {
   const {
@@ -57,7 +55,8 @@ export default class CredentialDashboardContainer extends React.Component {
     navigation: PropTypes.object.isRequired,
   }
 
-    static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation}) => ({
+    headerTitle,
     headerLeft: <MenuButton onPress={navigation.openDrawer} />,
     headerRight: (
       <LockButton
@@ -76,52 +75,6 @@ export default class CredentialDashboardContainer extends React.Component {
 
   constructor(props) {
     super(props);
-    // Navigation.events().bindComponent(this);
-  }
-
-  // navigationButtonPressed({ buttonId }) {
-  //   const { dispatch, shouldEnroll } = this.props;
-
-  //   switch (buttonId) {
-  //     // Show sidebar
-  //     case 'menuButton': {
-  //       showCredentialDashboardSidebar();
-  //       break;
-  //     }
-
-  //     // Go to unlock screen, with failsafe for when not enrolled
-  //     case 'lockButton': {
-  //       if (shouldEnroll) {
-  //         setEnrollmentRoot();
-  //         return;
-  //       }
-
-  //       dispatch({
-  //         type: 'AppUnlock.Lock',
-  //       });
-
-  //       showAppUnlockModal();
-  //       break;
-  //     }
-
-  //     // Done button handling for CredentialCard longtap
-  //     case 'doneButton': {
-  //       this.makeUneditable();
-  //       break;
-  //     }
-  //   }
-  // }
-
-  componentDidMount() {
-    // const { componentId, shouldEnroll } = this.props;
-
-    // if (shouldEnroll) {
-    //   Navigation.mergeOptions(componentId, {
-    //     topBar: {
-    //       rightButtons: [],
-    //     },
-    //   });
-    // }
   }
 
   navigateToQRScanner = () => {
@@ -130,7 +83,7 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   navigateToEnrollment = () => {
-    setEnrollmentRoot();
+    console.warn('not implemented');
   }
 
   deleteCredential = (credential) => {
@@ -141,25 +94,13 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   makeEditable = () => {
-    const { componentId } = this.props;
     this.setState({isEditable: true});
-
-    Navigation.mergeOptions(componentId, {
-      topBar: {
-        rightButtons: CredentialDashboardContainer.doneButton,
-      },
-    });
+    console.warn('not implemented');
   }
 
   makeUneditable = () => {
-    const { componentId } = this.props;
     this.setState({isEditable: false});
-
-    Navigation.mergeOptions(componentId, {
-      topBar: {
-        rightButtons: CredentialDashboardContainer.lockButton,
-      },
-    });
+    console.warn('not implemented');
   }
 
   render() {

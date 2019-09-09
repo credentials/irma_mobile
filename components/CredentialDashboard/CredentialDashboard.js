@@ -23,7 +23,8 @@ import {
   View,
 } from 'native-base';
 
-export const t = namespacedTranslation('CredentialDashboard');
+const t = namespacedTranslation('CredentialDashboard');
+export const headerTitle = t('.title');
 
 export const MenuButton = ({ onPress }) =>
   <HeaderButton onPress={onPress} source={menuIcon} />;

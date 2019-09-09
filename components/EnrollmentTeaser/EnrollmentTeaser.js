@@ -19,6 +19,8 @@ import shopImage from './children/shop.jpg';
 import authImage from './children/auth.jpg';
 
 const t = namespacedTranslation('EnrollmentTeaser');
+export const headerTitle = t('.title');
+
 const isSmallDevice = Dimensions.get('window').width < 350;
 const isIos = Platform.OS === 'ios';
 

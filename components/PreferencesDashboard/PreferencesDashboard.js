@@ -1,5 +1,5 @@
 import React from 'react';
-import { Linking } from 'react-native';
+import { Linking, NativeModules } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { namespacedTranslation } from 'lib/i18n';
@@ -10,8 +10,8 @@ import {
   Right,
   Switch,
 } from 'native-base';
+
 import PreferenceItem from './children/PreferenceItem';
-import { NativeModules } from 'react-native';
 const { IrmaVersion } = NativeModules;
 
 const t = namespacedTranslation('Preferences');
@@ -37,12 +37,8 @@ export default class PreferencesDashboard extends React.Component {
     enableCrashReporting: PropTypes.bool.isRequired,
   }
 
-  static options = {
-    topBar: {
-      title: {
-        text: t('.title'),
-      },
-    },
+  static navigationOptions = {
+    headerTitle: t('.title'),
   }
 
   setCrashReportingPreference = (enableCrashReporting) => {
