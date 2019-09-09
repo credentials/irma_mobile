@@ -43,6 +43,7 @@ export default class CredentialDashboard extends Component {
     isEditable: PropTypes.bool.isRequired,
     shouldEnroll: PropTypes.bool.isRequired,
     makeEditable: PropTypes.func.isRequired,
+    makeUneditable: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,
     navigateToQRScanner: PropTypes.func.isRequired,
   }
@@ -139,22 +140,44 @@ export default class CredentialDashboard extends Component {
     );
   }
 
-  renderFooter() {
+  renderScanQRButton() {
     const { shouldEnroll, navigateToQRScanner } = this.props;
 
     return (
+      <Button
+        style={{alignSelf: 'center'}}
+        testID="scanQRButton"
+        primary={!shouldEnroll}
+        light={shouldEnroll}
+        onPress={navigateToQRScanner}
+        iconLeft
+      >
+        <ButtonImage style={{tintColor: 'white'}} source={qrScannerIcon} />
+        <Text>{ t('.scanQRCode') }</Text>
+      </Button>
+    );
+  };
+
+  renderMakeUneditableButton() {
+    const { makeUneditable } = this.props;
+
+    return (
+      <Button
+        style={{alignSelf: 'center'}}
+        primary
+        onPress={makeUneditable}
+      >
+        <Text>{ t('.done') }</Text>
+      </Button>
+    );
+  }
+
+  renderFooter() {
+    const { isEditable } = this.props;
+
+    return (
       <Footer style={{paddingVertical: 10}}>
-        <Button
-          style={{alignSelf: 'center'}}
-          testID="scanQRButton"
-          primary={!shouldEnroll}
-          light={shouldEnroll}
-          onPress={navigateToQRScanner}
-          iconLeft
-        >
-          <ButtonImage style={{tintColor: 'white'}} source={qrScannerIcon} />
-          <Text>{ t('.scanQRCode') }</Text>
-        </Button>
+        { isEditable ? this.renderMakeUneditableButton() : this.renderScanQRButton() }
       </Footer>
     );
   }

@@ -95,12 +95,10 @@ export default class CredentialDashboardContainer extends React.Component {
 
   makeEditable = () => {
     this.setState({isEditable: true});
-    console.warn('not implemented');
   }
 
   makeUneditable = () => {
     this.setState({isEditable: false});
-    console.warn('not implemented');
   }
 
   render() {
@@ -117,6 +115,7 @@ export default class CredentialDashboardContainer extends React.Component {
         shouldEnroll={shouldEnroll}
         isEditable={isEditable}
         makeEditable={this.makeEditable}
+        makeUneditable={this.makeUneditable}
         navigateToEnrollment={this.navigateToEnrollment}
         navigateToQRScanner={this.navigateToQRScanner}
       />
