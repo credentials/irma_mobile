@@ -10,7 +10,6 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
-#import <ReactNativeNavigation/ReactNativeNavigation.h>
 
 @implementation AppDelegate
 
@@ -23,7 +22,12 @@
   NSURL *jsCodeLocation;
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 
-  [ReactNativeNavigation bootstrap:jsCodeLocation launchOptions:launchOptions];
+  // TODO: I'm not at all sure this is the correct invocation
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation 
+                                               moduleName:@"IRMA"
+                                               initialProperties:nil
+                                               launchOptions:launchOptions];
+
   return YES;
 }
 
