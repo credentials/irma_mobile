@@ -1,11 +1,13 @@
 import React, { Component, PureComponent } from 'react';
+import { StatusBar } from 'react-native';
 import { connect, Provider as ReduxProvider } from 'react-redux';
-import { Root as NBRoot, StyleProvider, View, Text } from 'native-base';
+import { Root as NBRoot, StyleProvider } from 'native-base';
 import { createAppContainer } from 'react-navigation';
 
 import store from 'store';
 import services from 'store/services';
 import getTheme from 'lib/native-base-theme/components';
+import nbVariables from 'lib/native-base-theme/variables/platform';
 
 import { AppUnlockNavigator, EnrollmentNavigator, MainNavigator } from './navigators';
 
@@ -49,7 +51,7 @@ const mapStateToProps = (state) => {
 
   return {
     irmaConfigurationLoaded,
-    
+
     cachedIsEnrolledLoaded,
     cachedIsEnrolled,
     isEnrolled,
@@ -105,10 +107,11 @@ class Root extends PureComponent {
   render() {
     const { navigator } = this.props;
     const Navigator = createAppContainer(navigator);
-   
+
     return (
       <StyleProvider style={getTheme()}>
         <NBRoot>
+          <StatusBar backgroundColor={nbVariables.colors.logoBlue} />
           <Navigator />
         </NBRoot>
       </StyleProvider>
