@@ -64,7 +64,6 @@ const ForcedUpdateStack = createStackNavigator({
   defaultNavigationOptions,
 });
 
-// TODO: Fill in loading stack
 const LoadingStack = createStackNavigator({
   Loading,
 }, {
