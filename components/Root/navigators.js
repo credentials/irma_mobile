@@ -1,4 +1,4 @@
-import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
+import { createStackNavigator, createDrawerNavigator, createSwitchNavigator } from 'react-navigation';
 
 import nbVariables from 'lib/native-base-theme/variables/platform';
 
@@ -13,6 +13,7 @@ import PreferencesDashboard from 'components/PreferencesDashboard';
 import QRScanner from 'components/QRScanner';
 import Session from 'components/Session';
 import Sidebar from 'components/Sidebar';
+import Loading from 'components/Loading';
 
 const defaultNavigationOptions = {
   headerStyle: {
@@ -31,29 +32,22 @@ const MainStack = createStackNavigator({
   PreferencesDashboard,
   QRScanner,
   Session,
-}, {
-  initialRouteName: 'CredentialDashboard',
-  defaultNavigationOptions,
-});
-
-MainStack.navigationOptions = ({ navigation }) => ({
-  // Disable drawer on nested screens
-  drawerLockMode: navigation.state.index > 0 ? 'locked-closed' : 'unlocked',
-});
-
-const MainStackWithDrawer = createDrawerNavigator({
-  CredentialDashboard: MainStack,
-}, {
-  initialRouteName: 'CredentialDashboard',
-  contentComponent: Sidebar,
-});
-
-const EnrollmentStack = createStackNavigator({
   Enrollment: Enrollment,
   EnrollmentTeaser: EnrollmentTeaser,
 }, {
-  initialRouteName: 'EnrollmentTeaser',
+  initialRouteName: 'CredentialDashboard',
   defaultNavigationOptions,
+    navigationOptions: ({ navigation }) => ({
+    // Disable drawer on nested screens
+    drawerLockMode: navigation.state.index > 0 ? 'locked-closed' : 'unlocked',
+  }),
+});
+
+const MainStackWithDrawer = createDrawerNavigator({
+  MainStack,
+}, {
+  initialRouteName: 'MainStack',
+  contentComponent: Sidebar,
 });
 
 const AppUnlockStack = createStackNavigator({
@@ -70,7 +64,23 @@ const ForcedUpdateStack = createStackNavigator({
   defaultNavigationOptions,
 });
 
-export const MainNavigator = MainStackWithDrawer;
-export const EnrollmentNavigator = EnrollmentStack;
-export const AppUnlockNavigator = AppUnlockStack;
-export const ForcedUpdateNavigator = ForcedUpdateStack;
+// TODO: Fill in loading stack
+const LoadingStack = createStackNavigator({
+  Loading,
+}, {
+  initialRouteName: 'Loading',
+  headerMode: 'none',
+});
+
+const RootSwitcher = createSwitchNavigator({
+  MainStackWithDrawer,
+  AppUnlockStack,
+  ForcedUpdateStack,
+  LoadingStack,
+}, {
+  initialRouteName: 'LoadingStack',
+  backBehaviour: 'none',
+  resetOnBlur: false,
+});
+
+export const RootNavigator = RootSwitcher;

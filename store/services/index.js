@@ -17,9 +17,9 @@ const services = [
   minimumVersion,
 ];
 
-export default () => {
+export default (safeNavigate) => {
   const unsubscriptions = services.map( service =>
-    service()
+    service(safeNavigate)
   );
 
   return () => {
