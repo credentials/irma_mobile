@@ -4,6 +4,7 @@ import { NativeModules, PermissionsAndroid, Vibration, Platform } from 'react-na
 import { connect } from 'react-redux';
 import { Sentry } from 'react-native-sentry';
 import { CameraKitCamera } from 'react-native-camera-kit';
+import _ from 'lodash';
 
 import {
   Toast,
@@ -78,7 +79,7 @@ export default class QRScannerContainer extends Component {
       // pass
     }
 
-    if (sessionPointer == null || typeof sessionPointer !== 'object' || typeof sessionPointer.irmaqr !== 'string') {
+    if (!_.isPlainObject(sessionPointer) || typeof sessionPointer.irmaqr !== 'string') {
       Toast.show({
         text: invalidQR,
         position: 'bottom',
