@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ReactTimeout from 'react-timeout';
 
 import Enrollment, { headerTitle } from './Enrollment';
-import { getLanguage } from 'lib/i18n';
+import { lang as language } from 'lib/i18n';
 
 const mapStateToProps = (state) => {
   const {
@@ -55,7 +55,6 @@ export default class EnrollmentContainer extends Component {
 
   enroll = ({ pin, email }) => {
     const { dispatch } = this.props;
-    const language = getLanguage();
 
     // We take the passed (pin and) email value, because the user could've skipped while having
     // validly filled the email fields. So we record the final value here for retries
@@ -72,7 +71,6 @@ export default class EnrollmentContainer extends Component {
   retryEnroll = () => {
     const { dispatch } = this.props;
     const { email, pin } = this.state;
-    const language = getLanguage();
 
     // Disallow retry for three seconds
     this.setState({disableRetry: true});
