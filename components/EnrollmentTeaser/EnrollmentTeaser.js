@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dimensions, ImageBackground, Platform, StatusBar } from 'react-native';
+import { withNavigationFocus } from 'react-navigation';
 
 import {
   Button,
@@ -24,11 +25,13 @@ export const headerTitle = t('.title');
 const isSmallDevice = Dimensions.get('window').width < 350;
 const isIos = Platform.OS === 'ios';
 
+@withNavigationFocus
 export default class EnrollmentTeaser extends Component {
 
   static propTypes = {
     navigateToEnrollment: PropTypes.func.isRequired,
     navigateToCredentialDashboard: PropTypes.func.isRequired,
+    isFocused: PropTypes.bool.isRequired,
   }
 
   renderFooter = (index, total, swiperLib) => {
@@ -123,7 +126,7 @@ export default class EnrollmentTeaser extends Component {
   render() {
     return (
       <>
-        <StatusBar hidden={true} />
+        <StatusBar hidden={this.props.isFocused} />
         <Swiper
           testID="EnrollmentTeaser"
           loop={false}
