@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Animated, Dimensions, Keyboard, Image as RNImage } from 'react-native';
+import { StyleSheet, Animated, Dimensions, Image as RNImage } from 'react-native';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 
 import {
-  Button,
   Text,
   View,
   Spinner,
@@ -13,14 +12,14 @@ import {
 import Container from 'components/Container';
 import HeaderButton from 'components/HeaderButton';
 import PinEntry from './children/PinEntry';
-import { STATUS_AUTHENTICATED, STATUS_AUTHENTICATING } from 'store/reducers/appUnlock';
+import { STATUS_AUTHENTICATING } from 'store/reducers/appUnlock';
 import { namespacedTranslation } from 'lib/i18n';
 import irmaLogo from 'assets/irmaLogoAppUnlock.png';
 
 export const t = namespacedTranslation('AppUnlock');
 
 export const headerTitle = t('.title');
-export const HeaderLeftButton = () => 
+export const HeaderLeftButton = () =>
   <HeaderButton source={irmaLogo} />;
 
 export default class AppUnlock extends Component {
@@ -32,18 +31,11 @@ export default class AppUnlock extends Component {
     hadFailure: PropTypes.bool.isRequired,
     remainingAttempts: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
-    dismissAppUnlock: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     error: null,
   };
-
-  componentDidUpdate(prevProps) {
-    const { status, dismissAppUnlock } = this.props;
-    if (prevProps.status !== STATUS_AUTHENTICATED && status === STATUS_AUTHENTICATED)
-      dismissAppUnlock();
-  }
 
   renderSpinner() {
     const { status } = this.props;
@@ -106,7 +98,7 @@ export default class AppUnlock extends Component {
             minLength={5}
             onPinSubmit={authenticate}
             recommendedLength={7}
-            style={{marginTop: Dimensions.get('window').width / 500 * 250 - 20}}
+            style={{marginTop: (Dimensions.get('window').width / 500 * 250) - 20}}
           />
           { this.renderSpinner() }
           { this.renderFailure() }

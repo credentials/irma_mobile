@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { BackHandler, Keyboard } from 'react-native';
+import { BackHandler } from 'react-native';
 
 import AppUnlock, { headerTitle, HeaderLeftButton } from './AppUnlock';
 
@@ -60,11 +60,6 @@ export default class AppUnlockContainer extends Component {
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch({type: 'AppUnlock.Reset'});
-  }
-
-  dismissAppUnlock = () => {
-    Keyboard.dismiss();
-    console.warn('not implemented');
   }
 
   authenticate = pin => {
