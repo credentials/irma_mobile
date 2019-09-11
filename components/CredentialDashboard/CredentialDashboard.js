@@ -32,9 +32,6 @@ export const MenuButton = ({ onPress }) =>
 export const LockButton = ({ onPress }) =>
   <HeaderButton onPress={onPress} source={lockIcon} />;
 
-export const DoneButton = ({ onPress }) =>
-  <HeaderButton onPress={onPress} text={t('.done')} />;
-
 export default class CredentialDashboard extends Component {
 
   static propTypes = {
@@ -107,25 +104,25 @@ export default class CredentialDashboard extends Component {
       isEditable,
     } = this.props;
 
-    const sortedCredentials = credentials.sort((a,b) => {
-      if (a.SignedOn > b.SignedOn) {
+    const sortedCredentials = credentials.sort((a, b) => {
+      if (a.SignedOn > b.SignedOn)
         return -1;
-      }
-      if (a.SignedOn < b.SignedOn) {
+
+      if (a.SignedOn < b.SignedOn)
         return +1;
-      }
-      if (a.CredentialType.fullID < b.CredentialType.fullID) {
+
+      if (a.CredentialType.fullID < b.CredentialType.fullID)
         return -1;
-      }
-      if (a.CredentialType.fullID > b.CredentialType.fullID) {
+
+      if (a.CredentialType.fullID > b.CredentialType.fullID)
         return +1;
-      }
-      if (a.Hash < b.Hash) {
+
+      if (a.Hash < b.Hash)
         return -1;
-      }
-      if (a.Hash > b.Hash) {
+
+      if (a.Hash > b.Hash)
         return +1;
-      }
+
       return 0;
     });
 
@@ -156,7 +153,7 @@ export default class CredentialDashboard extends Component {
         <Text>{ t('.scanQRCode') }</Text>
       </Button>
     );
-  };
+  }
 
   renderMakeUneditableButton() {
     const { makeUneditable } = this.props;

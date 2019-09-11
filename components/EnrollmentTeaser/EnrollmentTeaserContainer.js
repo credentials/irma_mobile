@@ -33,7 +33,7 @@ export default class EnrollmentTeaserContainer extends Component {
   }
 
   navigateToCredentialDashboard = () => {
-    console.warn('Not implemented');
+    this.props.navigation.goBack();
   }
 
   render() {

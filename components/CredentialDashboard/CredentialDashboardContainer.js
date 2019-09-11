@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import store from 'store';
 
-import CredentialDashboard, { headerTitle, MenuButton, LockButton, DoneButton } from './CredentialDashboard';
+import CredentialDashboard, { headerTitle, MenuButton, LockButton } from './CredentialDashboard';
 import fullCredentials from 'store/mappers/fullCredentials';
 
 const mapStateToProps = (state) => {
@@ -83,7 +83,7 @@ export default class CredentialDashboardContainer extends React.Component {
   }
 
   navigateToEnrollment = () => {
-    console.warn('not implemented');
+    this.props.navigation.navigate('EnrollmentTeaser');
   }
 
   deleteCredential = (credential) => {

@@ -42,10 +42,6 @@ export default class SidebarContainer extends Component {
     navigation.navigate(name);
   }
 
-  navigateToEnrollment = () => {
-    console.warn('not implemented');
-  }
-
   navigateToMoreAttributes = () => {
     const { navigation } = this.props;
 
@@ -68,7 +64,6 @@ export default class SidebarContainer extends Component {
         deleteAllCredentials={this.deleteAllCredentials}
         isEnrolled={isEnrolled}
         navigate={this.navigate}
-        navigateToEnrollment={this.navigateToEnrollment}
         navigateToMoreAttributes={this.navigateToMoreAttributes}
       />
     );

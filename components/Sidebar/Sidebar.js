@@ -32,7 +32,6 @@ export default class Sidebar extends Component {
     deleteAllCredentials: PropTypes.func.isRequired,
     isEnrolled: PropTypes.bool.isRequired,
     navigate: PropTypes.func.isRequired,
-    navigateToEnrollment: PropTypes.func.isRequired,
     navigateToMoreAttributes: PropTypes.func.isRequired,
   }
 
@@ -46,7 +45,7 @@ export default class Sidebar extends Component {
       iconImage: registerIcon,
       text: t('.register'),
       isVisible: () => this.props.canEnroll,
-      onPress: this.props.navigateToEnrollment,
+      navigateTo: 'EnrollmentTeaser',
     },
     {
       iconImage: changePinIcon,

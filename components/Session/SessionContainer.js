@@ -110,7 +110,7 @@ export default class SessionContainer extends Component {
   }
 
   navigateToEnrollment = () => {
-    console.warn('not implemented');
+    this.props.navigation.replace('EnrollmentTeaser');
   }
 
   makeDisclosureChoice = (disclosureIndex, choice) => {
