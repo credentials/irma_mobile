@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { BackHandler } from 'react-native';
 
 import AppUnlock, { headerTitle, HeaderLeftButton } from './AppUnlock';
 
@@ -45,17 +44,6 @@ export default class AppUnlockContainer extends Component {
     headerTitle,
     headerLeft: <HeaderLeftButton />,
   }
-
-  // Disable backpress on this screen
-  componentDidAppear() {
-    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
-  }
-
-  componentDidDisappear() {
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-  }
-
-  onBackPress = () => true
 
   componentWillUnmount() {
     const { dispatch } = this.props;
