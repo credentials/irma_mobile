@@ -40,6 +40,11 @@ public class MainApplication extends Application implements ReactApplication {
           new AsyncStoragePackage()
       );
     }
+    
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
+    }
   };
 
   @Override
