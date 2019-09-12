@@ -29,6 +29,7 @@ export default class EnrollmentContainer extends Component {
     error: PropTypes.object,
     status: PropTypes.string.isRequired,
     setTimeout: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -88,8 +89,7 @@ export default class EnrollmentContainer extends Component {
   }
 
   navigateToDashboard = () => {
-    // TODO: This should be removed if the way of transitioning is accepted
-    console.warn('not implemented');
+    this.props.navigation.popToTop();
   }
 
   render() {
