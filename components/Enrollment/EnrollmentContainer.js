@@ -87,6 +87,11 @@ export default class EnrollmentContainer extends Component {
     });
   }
 
+  navigateToDashboard = () => {
+    // TODO: This should be removed if the way of transitioning is accepted
+    console.warn('not implemented');
+  }
+
   render() {
     const { error, status } = this.props;
     const { disableRetry, email, pin } = this.state;
@@ -99,6 +104,7 @@ export default class EnrollmentContainer extends Component {
         email={email}
         enroll={this.enroll}
         error={error}
+        navigateToDashboard={this.navigateToDashboard}
         pin={pin}
         retryEnroll={this.retryEnroll}
         status={status}
