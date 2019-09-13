@@ -46,7 +46,6 @@ const mapStateToProps = (state) => {
 export default class CredentialDashboardContainer extends React.Component {
 
   static propTypes = {
-    // componentId: PropTypes.string.isRequired,
     credentials: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     shouldAuthenticate: PropTypes.bool.isRequired,

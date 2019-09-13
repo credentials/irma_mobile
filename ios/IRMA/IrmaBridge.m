@@ -2,8 +2,6 @@
 #import <React/RCTBridge.h>
 #import <React/RCTEventDispatcher.h>
 
-// TODO: The start method is deprecated; the native side should immediately start invoking irmagobridge
-
 @implementation IrmaBridge
 
 RCT_EXPORT_MODULE();
