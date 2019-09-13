@@ -22,7 +22,7 @@ const appStateValues = (appState) => {
   };
 
   if (isForegrounded)
-    values.lastForegroundedTime = new Date().valueOf();
+    values.lastForegroundedTime = moment().toISOString();
 
   return values;
 };

@@ -10,14 +10,13 @@ import {
   View,
 } from 'native-base';
 
-import { getLanguage, namespacedTranslation } from 'lib/i18n';
+import { lang, namespacedTranslation } from 'lib/i18n';
 import { CardItemThumb } from 'components/CredentialCard/helpers';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 
 import SessionStyles from './Styles';
 
 const t = namespacedTranslation('Session.Disjunction');
-const lang = getLanguage();
 
 export default class CandidateSet extends Component {
 

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Navigation } from 'lib/navigation';
-import ChangePin, { t } from './ChangePin';
+import ChangePin, { headerTitle } from './ChangePin';
 
 const mapStateToProps = (state) => {
   const {
@@ -26,12 +25,12 @@ const mapStateToProps = (state) => {
 @connect(mapStateToProps)
 export default class ChangePinContainer extends Component {
   static propTypes = {
-    componentId: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     error: PropTypes.object,
     remainingAttempts: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
     timeout: PropTypes.number,
+    navigation: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -39,12 +38,8 @@ export default class ChangePinContainer extends Component {
     timeout: null,
   }
 
-  static options = {
-    topBar: {
-      title: {
-        text: t('.title'),
-      },
-    },
+  static navigationOptions = {
+    title: headerTitle,
   }
 
   state = {
@@ -83,8 +78,8 @@ export default class ChangePinContainer extends Component {
   }
 
   navigateBack = () => {
-    const { componentId } = this.props;
-    Navigation.pop(componentId);
+    const { navigation } = this.props;
+    navigation.goBack();
   }
 
   render() {

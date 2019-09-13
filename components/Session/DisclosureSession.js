@@ -25,9 +25,6 @@ const t = namespacedTranslation('Session.DisclosureSession');
 export default class DisclosureSession extends Component {
 
   static propTypes = {
-    disclosures: PropTypes.array,
-    disclosuresCandidates: PropTypes.array,
-    irmaConfiguration: PropTypes.object.isRequired,
     makeDisclosureChoice: PropTypes.func.isRequired,
     navigateBack: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,

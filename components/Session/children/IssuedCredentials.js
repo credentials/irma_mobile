@@ -3,7 +3,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 import {
-  View
+  View,
 } from 'native-base';
 
 import CredentialCard from 'components/CredentialCard';
@@ -16,10 +16,10 @@ export default class IssuedCredentials extends Component {
 
   render() {
     const {
-      session: { status, issuedCredentials }
+      session: { status, issuedCredentials },
     } = this.props;
 
-    if(!_.includes(['requestPermission', 'success'], status))
+    if (!_.includes(['requestPermission', 'success'], status))
       return null;
 
     return (

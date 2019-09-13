@@ -20,12 +20,8 @@ const t = namespacedTranslation('About');
 
 export default class About extends React.Component {
 
-  static options = {
-    topBar: {
-      title: {
-        text: t('.title'),
-      },
-    },
+  static navigationOptions = {
+    title: t('.title'),
   }
 
   render() {

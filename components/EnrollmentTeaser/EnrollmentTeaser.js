@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dimensions, ImageBackground, Platform } from 'react-native';
+import { Dimensions, ImageBackground, Platform, StatusBar } from 'react-native';
+import { withNavigationFocus } from 'react-navigation';
 
 import {
   Button,
@@ -19,14 +20,18 @@ import shopImage from './children/shop.jpg';
 import authImage from './children/auth.jpg';
 
 const t = namespacedTranslation('EnrollmentTeaser');
+export const headerTitle = t('.title');
+
 const isSmallDevice = Dimensions.get('window').width < 350;
 const isIos = Platform.OS === 'ios';
 
+@withNavigationFocus
 export default class EnrollmentTeaser extends Component {
 
   static propTypes = {
     navigateToEnrollment: PropTypes.func.isRequired,
     navigateToCredentialDashboard: PropTypes.func.isRequired,
+    isFocused: PropTypes.bool.isRequired,
   }
 
   renderFooter = (index, total, swiperLib) => {
@@ -102,67 +107,68 @@ export default class EnrollmentTeaser extends Component {
 
   renderNext() {
     const buttonText = {
-      color:"#004C92",
-      fontSize:50,
+      color: '#004C92',
+      fontSize: 50,
     };
 
-    return (<Text style={buttonText}>›</Text>)
+    return (<Text style={buttonText}>›</Text>);
   }
 
   renderPrev() {
     const buttonText = {
-      color:"#004C92",
-      fontSize:50,
+      color: '#004C92',
+      fontSize: 50,
     };
 
-    return (<Text style={buttonText}>‹</Text>)
+    return (<Text style={buttonText}>‹</Text>);
   }
 
   render() {
-    // TODO: Can the second image be edited to show the wine bottle more prominently, for the >18 use case?
-
     return (
-      <Swiper
-        testID="EnrollmentTeaser"
-        loop={false}
-        paginationStyle={{bottom: 40}}
-        renderPagination={this.renderFooter}
-        showsButtons={true}
-        activeDotColor="#004C92"
-        nextButton={this.renderNext()}
-        prevButton={this.renderPrev()}
-      >
-        <ImageBackground
-          imageStyle={{marginTop: isSmallDevice && !isIos ? 225 : 300}}
-          source={passportImage}
-          style={{flex: 1, backgroundColor: '#2dbfce'}}
+      <>
+        <StatusBar hidden={this.props.isFocused} />
+        <Swiper
+          testID="EnrollmentTeaser"
+          loop={false}
+          paginationStyle={{bottom: 40}}
+          renderPagination={this.renderFooter}
+          showsButtons={true}
+          activeDotColor="#004C92"
+          nextButton={this.renderNext()}
+          prevButton={this.renderPrev()}
         >
-          { this.renderTexts(
-              t('.slide1.statement'),
-              t('.slide1.quote'),
-          )}
-        </ImageBackground>
-        <ImageBackground
-          imageStyle={{marginTop: 100}}
-          source={shopImage}
-          style={{flex: 1, backgroundColor: '#abe3f4'}}
-        >
-          { this.renderTexts(
-              t('.slide2.statement'),
-              t('.slide2.quote'),
-          )}
-        </ImageBackground>
-        <ImageBackground
-          imageStyle={{marginTop: 100}}
-          source={authImage}
-          style={{flex: 1, backgroundColor: '#65b7cc'}}
-        >
-          { this.renderTexts(
-              t('.slide3.statement'),
-              t('.slide3.quote'),
-          )}
-        </ImageBackground>
-      </Swiper>
+          <ImageBackground
+            imageStyle={{marginTop: isSmallDevice && !isIos ? 225 : 300}}
+            source={passportImage}
+            style={{flex: 1, backgroundColor: '#2dbfce'}}
+          >
+            { this.renderTexts(
+                t('.slide1.statement'),
+                t('.slide1.quote'),
+            )}
+          </ImageBackground>
+          <ImageBackground
+            imageStyle={{marginTop: 100}}
+            source={shopImage}
+            style={{flex: 1, backgroundColor: '#abe3f4'}}
+          >
+            { this.renderTexts(
+                t('.slide2.statement'),
+                t('.slide2.quote'),
+            )}
+          </ImageBackground>
+          <ImageBackground
+            imageStyle={{marginTop: 100}}
+            source={authImage}
+            style={{flex: 1, backgroundColor: '#65b7cc'}}
+          >
+            { this.renderTexts(
+                t('.slide3.statement'),
+                t('.slide3.quote'),
+            )}
+          </ImageBackground>
+        </Swiper>
+      </>
     );
   }
 }

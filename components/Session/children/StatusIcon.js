@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Icon
+  Icon,
 } from 'native-base';
 
 export default class StatusIcon extends Component {
@@ -14,7 +14,7 @@ export default class StatusIcon extends Component {
   iconProps() {
     const { status } = this.props;
 
-    switch(status) {
+    switch (status) {
       case 'communicating':
       case 'connected':
         return {name: 'chatboxes'};
@@ -47,11 +47,11 @@ export default class StatusIcon extends Component {
 
   render() {
     const style = {
-      fontSize: 28
+      fontSize: 28,
     };
 
     const iconProps = this.iconProps();
-    if(!iconProps)
+    if (!iconProps)
       return null;
 
     return (

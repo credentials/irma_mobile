@@ -26,7 +26,6 @@ const t = namespacedTranslation('Session.IssuanceSession');
 export default class IssuanceSession extends Component {
 
   static propTypes = {
-    irmaConfiguration: PropTypes.object.isRequired,
     makeDisclosureChoice: PropTypes.func.isRequired,
     navigateBack: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,

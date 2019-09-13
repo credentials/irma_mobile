@@ -4,36 +4,31 @@ import { NativeModules, PermissionsAndroid, Vibration, Platform } from 'react-na
 import { connect } from 'react-redux';
 import { Sentry } from 'react-native-sentry';
 import { CameraKitCamera } from 'react-native-camera-kit';
+import _ from 'lodash';
 
 import {
   Toast,
 } from 'native-base';
 
-import { startSession, startSessionAndNavigate } from 'lib/navigation';
+import { newSession } from 'store/reducers/sessions';
 
-import Session from 'components/Session';
-import QRScanner, { t } from './QRScanner';
+import QRScanner, { headerTitle, invalidQR } from './QRScanner';
 
 @connect()
 export default class QRScannerContainer extends Component {
 
   static propTypes = {
-    componentId: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired,
   }
 
-  static options = {
-    topBar: {
-      title: {
-        text: t('.title'),
-      },
-    },
+  static navigationOptions = {
+    headerTitle,
   }
 
   state = {
-    displaySession: false,
     hasCameraPermission: false,
-    sessionId: null,
+    sessionStarted: false,
   }
 
   componentDidMount() {
@@ -65,14 +60,16 @@ export default class QRScannerContainer extends Component {
     const { hostname } = new URLParse(NativeModules.SourceCode.scriptURL);
     window.fetch(`http://${hostname}:7000?type=${type}`).then( (res) => {
       res.json().then( (sessionPointer) => {
-        startSessionAndNavigate({sessionPointer});
+        const sessionMsg = newSession({request: sessionPointer});
+        this.props.dispatch(sessionMsg);
+        this.props.navigation.replace('Session', {sessionId: sessionMsg.sessionId});
       });
     });
   }
 
   readQRCode = (event) => {
-    const { sessionId } = this.state;
-    if (sessionId)
+    const { sessionStarted } = this.state;
+    if (sessionStarted)
       return;
 
     let sessionPointer;
@@ -82,9 +79,9 @@ export default class QRScannerContainer extends Component {
       // pass
     }
 
-    if (typeof sessionPointer !== 'object' || typeof sessionPointer.irmaqr !== 'string') {
+    if (!_.isPlainObject(sessionPointer) || typeof sessionPointer.irmaqr !== 'string') {
       Toast.show({
-        text: t('.invalidQR'),
+        text: invalidQR,
         position: 'bottom',
         duration: 2000,
       });
@@ -93,32 +90,24 @@ export default class QRScannerContainer extends Component {
     }
 
     // Show a green scanning reticle for a second while the session is started in the background
+    const sessionMsg = newSession({request: sessionPointer});
     this.setState({
-      sessionId: startSession({sessionPointer}),
+      sessionStarted: true,
     });
+    this.props.dispatch(sessionMsg);
 
     Vibration.vibrate();
 
-    setTimeout(() => this.setState({displaySession: true}), 1000);
+    setTimeout(() => this.props.navigation.replace('Session', {sessionId: sessionMsg.sessionId}), 1000);
   }
 
   render() {
-    const { hasCameraPermission, sessionId, displaySession } = this.state;
-
-    // Do an in place replacement with SessionContainer, which avoids problems with back handling
-    if (sessionId && displaySession) {
-      return (
-        <Session
-          {...this.props}
-          sessionId={sessionId}
-        />
-      );
-    }
+    const { hasCameraPermission, sessionStarted } = this.state;
 
     return (
       <QRScanner
         hasCameraPermission={hasCameraPermission}
-        hasStartedSession={Boolean(sessionId)}
+        hasStartedSession={sessionStarted}
         newTestSession={this.newTestSession}
         readQRCode={this.readQRCode}
       />

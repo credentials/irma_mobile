@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactTimeout from 'react-timeout';
 
-import Enrollment, { t } from './Enrollment';
-import { setCredentialDashboardRoot } from 'lib/navigation';
-import { getLanguage } from 'lib/i18n';
+import Enrollment, { headerTitle } from './Enrollment';
+import { lang as language } from 'lib/i18n';
 
 const mapStateToProps = (state) => {
   const {
@@ -30,25 +29,15 @@ export default class EnrollmentContainer extends Component {
     error: PropTypes.object,
     status: PropTypes.string.isRequired,
     setTimeout: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     error: null,
   }
 
-  static options = {
-    topBar: {
-      title: {
-        text: t('.title'),
-        alignment: 'center',
-      },
-
-      // TODO: Dynamic backbutton visibility change (for enrollment success) is broken
-      // in react-native-navigation on Android. We do need it for non-success.
-      // backButton: {
-      //   visible: false,
-      // },
-    },
+  static navigationOptions = {
+    headerTitle,
   }
 
   state = {
@@ -67,7 +56,6 @@ export default class EnrollmentContainer extends Component {
 
   enroll = ({ pin, email }) => {
     const { dispatch } = this.props;
-    const language = getLanguage();
 
     // We take the passed (pin and) email value, because the user could've skipped while having
     // validly filled the email fields. So we record the final value here for retries
@@ -84,7 +72,6 @@ export default class EnrollmentContainer extends Component {
   retryEnroll = () => {
     const { dispatch } = this.props;
     const { email, pin } = this.state;
-    const language = getLanguage();
 
     // Disallow retry for three seconds
     this.setState({disableRetry: true});
@@ -102,7 +89,7 @@ export default class EnrollmentContainer extends Component {
   }
 
   navigateToDashboard = () => {
-    setCredentialDashboardRoot();
+    this.props.navigation.popToTop();
   }
 
   render() {

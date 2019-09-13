@@ -268,3 +268,16 @@ export default function credentials(state = initialState, action) {
       return state;
   }
 }
+
+// Create a global counter per app instantiation for Session identifiers
+// Include a random starting point so we can discern errors in subsequent sessions
+let counter = Math.floor(Math.random() * 1000000000);
+const getAutoIncrementId = () => {
+  return counter++;
+};
+
+export const newSession = ({ ...args }) => ({
+  ...args,
+  type: 'IrmaBridge.NewSession',
+  sessionId: getAutoIncrementId(),
+});

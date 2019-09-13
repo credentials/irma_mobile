@@ -18,6 +18,10 @@ import {
 const t = namespacedTranslation('Session.StatusCard');
 
 export default class StatusCard extends Component {
+  static defaultProps = {
+    explanation: null,
+    heading: null,
+  }
 
   static propTypes = {
     explanation: PropTypes.node,
@@ -30,7 +34,7 @@ export default class StatusCard extends Component {
     const { session: { status } } = this.props;
     let { heading } = this.props;
 
-    if(!heading)
+    if (!heading)
       heading = <Text>{ t(`.heading.${status}`) }</Text>;
 
     return (
@@ -49,8 +53,8 @@ export default class StatusCard extends Component {
     const { navigateToEnrollment, session: { status, duration } } = this.props;
     let { explanation } = this.props;
 
-    if(!explanation) {
-      switch(status) {
+    if (!explanation) {
+      switch (status) {
         case 'keyshareEnrollmentMissing': {
           explanation = [
             <Text key="text">{ t('.explanation.keyshareEnrollmentMissing') }</Text>,
@@ -59,7 +63,7 @@ export default class StatusCard extends Component {
                 <Icon name="key" style={{color: 'white'}} />
                 <Text style={{color: 'white'}}>{ t('.explanation.registerMyIrma') }</Text>
               </Button>
-            </Body>
+            </Body>,
           ];
 
           break;
@@ -72,7 +76,7 @@ export default class StatusCard extends Component {
 
         default: {
           const explanationText = t(`.explanation.${status}`, {defaultValue: ''});
-          if(!explanationText)
+          if (!explanationText)
             return null;
 
           explanation = <Text>{ explanationText }</Text>;

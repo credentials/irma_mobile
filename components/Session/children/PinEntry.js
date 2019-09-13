@@ -25,7 +25,7 @@ export default class PinEntry extends Component {
 
   renderIncorrectMessage() {
     const { session: { remainingAttempts } } = this.props;
-    if(remainingAttempts === -1)
+    if (remainingAttempts === -1)
       return null;
 
     const attempts = t('.attempts', {count: remainingAttempts});
@@ -47,7 +47,7 @@ export default class PinEntry extends Component {
       session: {
         remainingAttempts,
       },
-      validationForced
+      validationForced,
     } = this.props;
 
     return (
@@ -55,7 +55,7 @@ export default class PinEntry extends Component {
         <FormInput
           inputType="pin"
           key={`attempt-${remainingAttempts}`}
-          label={ t('.label') }
+          label={t('.label')}
           onChange={pinChange}
           validationForced={validationForced}
           autoFocus={true}
@@ -67,7 +67,7 @@ export default class PinEntry extends Component {
 
   render() {
     const { session: { status } } = this.props;
-    if(status !== 'requestPin')
+    if (status !== 'requestPin')
       return null;
 
     return (
