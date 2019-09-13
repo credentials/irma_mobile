@@ -25,6 +25,8 @@ export default () => {
   const irmagoSubscription = irmaBridge.addListener('irmago', irmaBridgeListener);
   const logSubscription = irmaBridge.addListener('log', irmaBridgeLogListener);
 
+  NativeModules.IrmaBridge.start();
+
   return () => {
     irmagoSubscription.remove();
     logSubscription.remove();

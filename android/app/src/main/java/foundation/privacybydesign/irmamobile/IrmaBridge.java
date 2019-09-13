@@ -20,8 +20,8 @@ public class IrmaBridge extends ReactContextBaseJavaModule implements irmagobrid
         return "IrmaBridge";
     }
 
-    @Override
-    public void initialize() {
+    @ReactMethod
+    public void start() {
         ReactApplicationContext context = this.getReactApplicationContext();
         IrmaConfigurationCopier copier = new IrmaConfigurationCopier(context);
 
