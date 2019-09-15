@@ -10,6 +10,7 @@ cache:
   - node_modules/
 
 variables:
+  GIT_SUBMODULE_STRATEGY: normal
   PACKAGE_NAME: github.com/privacybydesign/irma_mobile
 
 before_script:
