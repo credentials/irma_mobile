@@ -29,6 +29,10 @@ var actionHandler = &ActionHandler{
 // clientHandler is used for messages coming in from irmago (see client_handler.go)
 var clientHandler = &ClientHandler{}
 
+// The OnStart function is used to deal with a bug? in gomobile on android
+func OnStart() {
+}
+
 // The Start function is invoked from Javascript via native code, when the app starts
 func Start(givenBridge IrmaBridge, appDataPath string, assetsPath string) {
 	raven.CapturePanic(func() {
