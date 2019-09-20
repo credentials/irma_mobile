@@ -83,6 +83,13 @@ The IRMA app manages the user's IRMA attributes: receiving new attributes, selec
   Then try `adb reconnect`
 
 - If your iOS build seems to fail with `error: An organization slug is required (provide with --org)`, this actually isn't a fatal error and IRMA.app will be successfully installed to your device. The error is due to a `sentry.properties` file which isn't necessary in development. This should be fixed to not be a failure in development.
+- If running `gomobile init` gives the error:
+
+  ```
+  gomobile: /usr/local/go/bin/go install golang.org/x/mobile/cmd/gobind failed: exit status 1
+  ../src/golang.org/x/mobile/internal/importers/ast.go:37:2: cannot find package "golang.org/x/tools/go/packages" in any of:
+  ```
+  Install the following package: `go get golang.org/x/tools/go/packages`.
 
 ### Manual testing
 
