@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image, Alert } from 'react-native';
+import { Image, Alert, View } from 'react-native';
 
 import attributesIcon from 'assets/icons/streamline-regular/01/03/navigation-menu-4.png';
 import registerIcon from 'assets/icons/streamline-regular/17/13/single-neutral-actions-add.png';
@@ -124,7 +124,9 @@ export default class Sidebar extends Component {
     return (
       <Container>
         <Content bounces={false} style={styles.content}>
-          <Image source={irmaLogo} style={styles.topImage} />
+          <View style={{flexDirection: 'column', alignItems: 'center'}}>
+            <Image source={irmaLogo} style={styles.topImage} />
+          </View>
           <List>
             { this.sidebarListItems.map(this.renderSidebarListItem) }
           </List>

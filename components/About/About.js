@@ -30,7 +30,7 @@ export default class About extends React.Component {
         <PaddedContent>
           <Hyperlink linkDefault={true} linkStyle={{ color: '#2980b9' }}>
             <Card>
-              <CardItem>
+              <CardItem style={{flexDirection: 'column', alignItems: 'center'}}>
                 <Image
                   source={irmaLogo}
                   style={{height: 120, position: 'relative', resizeMode: 'contain'}}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Animated, Dimensions, Image as RNImage } from 'react-native';
+import { StyleSheet, Image, Dimensions } from 'react-native';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 
 import {
@@ -10,17 +10,14 @@ import {
 } from 'native-base';
 
 import Container from 'components/Container';
-import HeaderButton from 'components/HeaderButton';
 import PinEntry from './children/PinEntry';
 import { STATUS_AUTHENTICATING } from 'store/reducers/appUnlock';
 import { namespacedTranslation } from 'lib/i18n';
-import irmaLogo from 'assets/irmaLogoAppUnlock.png';
+import irmaLogo from 'assets/irmaLogo.png';
 
 export const t = namespacedTranslation('AppUnlock');
 
 export const headerTitle = t('.title');
-export const HeaderLeftButton = () =>
-  <HeaderButton source={irmaLogo} />;
 
 export default class AppUnlock extends Component {
 
@@ -89,21 +86,31 @@ export default class AppUnlock extends Component {
 
   render() {
     const { authenticate, remainingAttempts } = this.props;
+    const quarterWidth = Dimensions.get('window').width / 4;
 
     return (
-      <Container transparent>
-        <Animated.View style={{flex: 1, flexDirection: 'column'}}>
+      <Container>
+        <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
+          <Image
+              source={irmaLogo}
+              style={{
+                marginTop: quarterWidth - 30,
+                height: 120,
+                position: 'relative',
+                resizeMode: 'contain',
+              }}
+          />
           <PinEntry
             clearKey={remainingAttempts}
             minLength={5}
             onPinSubmit={authenticate}
             recommendedLength={7}
-            style={{marginTop: (Dimensions.get('window').width / 500 * 250) - 20}}
+            style={{marginTop: quarterWidth - 80 }}
           />
           { this.renderSpinner() }
           { this.renderFailure() }
           { this.renderError() }
-        </Animated.View>
+        </View>
       </Container>
     );
   }

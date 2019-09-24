@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import AppUnlock, { headerTitle, HeaderLeftButton } from './AppUnlock';
+import AppUnlock, { headerTitle } from './AppUnlock';
 
 const mapStateToProps = (state) => {
   const {
@@ -42,7 +42,6 @@ export default class AppUnlockContainer extends Component {
 
   static navigationOptions = {
     headerTitle,
-    headerLeft: <HeaderLeftButton />,
   }
 
   componentWillUnmount() {
