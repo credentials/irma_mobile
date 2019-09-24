@@ -7,7 +7,7 @@ const HeaderButton = ({ onPress, source, text }) => (
   <RNView style={{marginLeft: 20, marginRight: 20}}>
     <Button transparent onPress={onPress} style={{alignItems: 'center', justifyContent: 'center'}}>
       { !source ? null : (
-        <RNImage source={source} tintColor="white" />
+        <RNImage source={source} style={{tintColor: 'white'}} />
       )}
 
       { !text ? null : (

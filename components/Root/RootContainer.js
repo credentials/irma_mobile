@@ -79,7 +79,7 @@ export default class Root extends Component {
       <ReduxProvider store={store}>
         <StyleProvider style={getTheme()}>
           <NBRoot>
-            <StatusBar backgroundColor={nbVariables.colors.logoBlue} />
+            <StatusBar backgroundColor={nbVariables.colors.logoBlue} barStyle={'light-content'} />
             <AppContainer ref={(ref) => {
                 this.navigationRef = ref;
               }} />
