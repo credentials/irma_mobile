@@ -105,6 +105,14 @@ export default function appUnlock(state = initialState, action) {
         ...statusValues(STATUS_AUTHENTICATED),
       };
     }
+    
+    // When starting enrollment, stop blink by saying we're authenticated
+    case 'IrmaBridge.Enroll': {
+      return {
+        ...state,
+        ...statusValues(STATUS_AUTHENTICATED),
+      }
+    }
 
     default:
       return state;
