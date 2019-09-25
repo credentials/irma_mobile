@@ -60,7 +60,7 @@ func sendAuthenticateError(err *irma.SessionError) {
 	})
 }
 
-func sendLogs(before string, max int, logs []map[string]interface{}) {
+func sendLogs(logs []map[string]interface{}) {
 	logDebug("Handling SendLogs")
 
 	action := &OutgoingAction{
