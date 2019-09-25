@@ -1,18 +1,17 @@
 buildscript {
     ext {
-        buildToolsVersion = "27.0.3"
+        buildToolsVersion = "28.0.3"
         minSdkVersion = 19
-        compileSdkVersion = 27
-        targetSdkVersion = 26
-        supportLibVersion = "27.1.1"
-        reactNavigationRNVersion = "reactNative57"
+        compileSdkVersion = 28
+        targetSdkVersion = 28
+        supportLibVersion = "28.0.0"
     }
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.4.0'
     }
 }
 
@@ -30,11 +29,6 @@ allprojects {
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.4'
-    distributionUrl = distributionUrl.replace("bin", "all")
-}
-
 subprojects { subproject ->
     afterEvaluate {project ->
         // Override some compilation values for Android dependencies
@@ -42,18 +36,6 @@ subprojects { subproject ->
             android {
                 compileSdkVersion rootProject.ext.compileSdkVersion
                 buildToolsVersion rootProject.ext.buildToolsVersion
-            }
-        }
-
-        // Ignore React Native Navigation flavors other than the target flavor
-        if (subproject.name == 'react-native-navigation') {
-            android {
-                variantFilter { variant ->
-                    def names = variant.flavors*.name
-                    if (!names.contains(rootProject.ext.reactNavigationRNVersion)) {
-                        setIgnore(true)
-                    }
-                }
             }
         }
     }

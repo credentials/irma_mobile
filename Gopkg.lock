@@ -2,187 +2,254 @@
 
 
 [[projects]]
+  digest = "1:ab972abb4f8af4e054fa53e6f2160251598cd11d484f5581094925e00a4c59c0"
   name = "github.com/bwesterb/byteswriter"
   packages = ["."]
+  pruneopts = "UT"
   revision = "fe2f57e9fb9cee2d2843caa9e7bc1baa081fb567"
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:469eeffd72bb1e02907f8a75d1063dc3c1bbd38c65c6735bda353be6c53c742c"
   name = "github.com/bwesterb/go-atum"
   packages = ["."]
-  revision = "9965266e59eee42f26153a8be40c1463c79ed17b"
-  version = "v1.0.0"
+  pruneopts = "UT"
+  revision = "1ace26c6d4315cb157d5a66aba183ead7e54a52c"
+  version = "v1.0.1"
 
 [[projects]]
+  digest = "1:07b1ec08df55782bc78d3733fb7b04eb3a9272d835a4d0f2541f7a3096840c1b"
   name = "github.com/bwesterb/go-pow"
   packages = ["."]
+  pruneopts = "UT"
   revision = "c84a42458d2e58f61395e19d07cfc9630df15dc6"
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:a951081f63ff0d551027cbc11044336d50891c11105c52e154dd0d9ceec647a3"
   name = "github.com/bwesterb/go-xmssmt"
   packages = ["."]
-  revision = "3dc1e812afc06ff57e314a9a2257c2ccba5264dc"
-  version = "v1.0.0"
+  pruneopts = "UT"
+  revision = "26732eb53ce3bdcf1949a7c571dbe0de9c52f0c9"
+  version = "v1.0.4"
 
 [[projects]]
+  digest = "1:fed1f537c2f1269fe475a8556c393fe466641682d73ef8fd0491cd3aa1e47bad"
   name = "github.com/certifi/gocertifi"
   packages = ["."]
+  pruneopts = "UT"
   revision = "deb3ae2ef2610fde3330947281941c562861188b"
   version = "2018.01.18"
 
 [[projects]]
+  digest = "1:47056e6fe3a3524238d48ddcb6d38bfcfa6db346a11d73d83f1620a8cbf69793"
   name = "github.com/cespare/xxhash"
   packages = ["."]
-  revision = "3b82fb7d186719faeedd0c2864f868c74fbf79a1"
-  version = "v2.0.0"
+  pruneopts = "UT"
+  revision = "de209a9ffae3256185a6bb135d1a0ada7b2b5f09"
+  version = "v2.1.0"
 
 [[projects]]
+  digest = "1:76dc72490af7174349349838f2fe118996381b31ea83243812a97e5a0fd5ed55"
   name = "github.com/dgrijalva/jwt-go"
   packages = ["."]
+  pruneopts = "UT"
   revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
   version = "v3.2.0"
 
 [[projects]]
+  digest = "1:edb569dd02419a41ddd98768cc0e7aec922ef19dae139731e5ca750afcf6f4c5"
   name = "github.com/edsrzf/mmap-go"
   packages = ["."]
+  pruneopts = "UT"
   revision = "188cc3b666ba704534fa4f96e9e61f21f1e1ba7c"
   version = "v1.0.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:b39cde42897191f6864cca339b94315f6ab957553c175a46392be3fe9824141b"
   name = "github.com/getsentry/raven-go"
   packages = ["."]
+  pruneopts = "UT"
   revision = "5c24d5110e0e198d9ae16f1f3465366085001d92"
 
 [[projects]]
+  digest = "1:aacef5f5e45685f2aeda5534d0a750dee6859de7e9088cdd06192787bb01ae6d"
   name = "github.com/go-errors/errors"
   packages = ["."]
+  pruneopts = "UT"
   revision = "a6af135bd4e28680facf08a3d206b454abc877a4"
   version = "v1.0.1"
 
 [[projects]]
+  digest = "1:0ade334594e69404d80d9d323445d2297ff8161637f9b2d347cc6973d2d6f05b"
   name = "github.com/hashicorp/errwrap"
   packages = ["."]
+  pruneopts = "UT"
   revision = "8a6fb523712970c966eefc6b39ed2c5e74880354"
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:af105c7c5dc0b4ae41991f122cae860b9600f7d226072c2a83127048c991660c"
   name = "github.com/hashicorp/go-cleanhttp"
   packages = ["."]
+  pruneopts = "UT"
   revision = "eda1e5db218aad1db63ca4642c8906b26bcf2744"
   version = "v0.5.1"
 
 [[projects]]
+  digest = "1:cf6b61e1b4c26b0c7526cee4a0cee6d8302b17798af4b2a56a90eedac0aef11a"
+  name = "github.com/hashicorp/go-hclog"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "5ccdce08c75b6c7b37af61159f13f6a4f5e2e928"
+  version = "v0.9.2"
+
+[[projects]]
+  digest = "1:f668349b83f7d779567c880550534addeca7ebadfdcf44b0b9c39be61864b4b7"
   name = "github.com/hashicorp/go-multierror"
   packages = ["."]
+  pruneopts = "UT"
   revision = "886a7fbe3eb1c874d46f623bfa70af45f425b3d1"
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:bc4393e7d030ef4a548d9643997e2ae9064ed93d7ed140569b27336ee3b77464"
   name = "github.com/hashicorp/go-retryablehttp"
   packages = ["."]
-  revision = "85a8ee556d7323a4faf0f4c17ee900e9ff1482e8"
-  version = "v0.5.4"
+  pruneopts = "UT"
+  revision = "a83ad44d6a5fc343d7c4babf601092b3c189f402"
+  version = "v0.6.2"
 
 [[projects]]
   branch = "master"
+  digest = "1:451f5997f3f720404631a8ec1cced207a30e8ec835ba25a0ab262e70b602f2b7"
   name = "github.com/jasonlvhit/gocron"
   packages = ["."]
-  revision = "f1cf2bd73e84a479e339a71f89b49b474ed6903c"
+  pruneopts = "UT"
+  revision = "985d45da66c50c0e855d0efdc31b0c2801b1c35b"
 
 [[projects]]
+  digest = "1:31e761d97c76151dde79e9d28964a812c46efc5baee4085b86f68f0c654450de"
   name = "github.com/konsorten/go-windows-terminal-sequences"
   packages = ["."]
+  pruneopts = "UT"
   revision = "f55edac94c9bbba5d6182a4be46d86a2c9b5b50e"
   version = "v1.0.2"
 
 [[projects]]
   branch = "master"
+  digest = "1:6491080aa184f88c2bb8e2f6056e5e0e9a578b2d8666efbd6e97bc37a0c41e72"
   name = "github.com/nightlyone/lockfile"
   packages = ["."]
+  pruneopts = "UT"
   revision = "0ad87eef1443f64d3d8c50da647e2b1552851124"
 
 [[projects]]
+  digest = "1:cf31692c14422fa27c83a05292eb5cbe0fb2775972e8f1f8446a71549bd8980b"
   name = "github.com/pkg/errors"
   packages = ["."]
+  pruneopts = "UT"
   revision = "ba968bfe8b2f7e042a574c888954fccecfa385b4"
   version = "v0.8.1"
 
 [[projects]]
   branch = "master"
+  digest = "1:efc4c33449984cda3f7880142fbf35fdc16c7e9c4c27c50a8e77bd055400cceb"
   name = "github.com/privacybydesign/gabi"
   packages = [
     ".",
     "big",
-    "safeprime"
+    "safeprime",
   ]
+  pruneopts = "UT"
   revision = "ce779395f4c98898f21f8c49f71f4b3353995127"
 
 [[projects]]
   branch = "master"
+  digest = "1:ad2bd83ae8ef4dd3306e2dd3b0112491d0d95b0e3db1ae4d9f2a859374a92dd9"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
     "internal/disable_sigpipe",
     "internal/fs",
-    "irmaclient"
+    "irmaclient",
   ]
-  revision = "c8fd650e9a4953677b7bfdeeb2a24715ae55bfb7"
+  pruneopts = "UT"
+  revision = "f8b269e7be2225bcb42baa770136dc1a87979ed4"
 
 [[projects]]
+  digest = "1:04457f9f6f3ffc5fea48e71d62f2ca256637dee0a04d710288e27e05c8b41976"
   name = "github.com/sirupsen/logrus"
   packages = ["."]
+  pruneopts = "UT"
   revision = "839c75faf7f98a33d445d181f3018b5c3409a45e"
   version = "v1.4.2"
 
 [[projects]]
   branch = "master"
+  digest = "1:f10bb2efe706eea8e386fa5021281e302a58e8fa0ba9f2e31ad9ca2cb234b282"
   name = "github.com/templexxx/cpufeat"
   packages = ["."]
+  pruneopts = "UT"
   revision = "cef66df7f161dee20f4d650da7268d77eaaec82d"
 
 [[projects]]
+  digest = "1:a0a269bea865974fc4d583373c984a5aa60cf98b5aa4f3e1b5de527891d37845"
   name = "github.com/templexxx/xor"
   packages = ["."]
+  pruneopts = "UT"
   revision = "0af8e873c554da75f37f2049cdffda804533d44c"
   version = "0.1.2"
 
 [[projects]]
   branch = "master"
+  digest = "1:fd5705ffb618d324b4dac34e75907a32c7e1635e0e6988edbe304d06eea04d8b"
   name = "github.com/timshannon/bolthold"
   packages = ["."]
-  revision = "aa134f742c1c6cd601585d3725c0ad59eaea4db8"
+  pruneopts = "UT"
+  revision = "a85bcc049a2edd8d12f9b3a5944fd72299959d19"
 
 [[projects]]
+  digest = "1:f2ac2c724fc8214bb7b9dd6d4f5b7a983152051f5133320f228557182263cb94"
   name = "go.etcd.io/bbolt"
   packages = ["."]
+  pruneopts = "UT"
   revision = "a0458a2b35708eef59eb5f620ceb3cd1c01a824d"
   version = "v1.3.3"
 
 [[projects]]
   branch = "master"
+  digest = "1:cfe9591f030d0eddb3d9c1a9ee1a2c3404c880d869a1fc250f0e5b0cf774ee5e"
   name = "golang.org/x/crypto"
   packages = [
     "ed25519",
     "ed25519/internal/edwards25519",
-    "sha3"
+    "sha3",
   ]
-  revision = "4def268fd1a49955bfb3dda92fe3db4f924f2285"
+  pruneopts = "UT"
+  revision = "9ee001bba392397c76f100a2d5b13afc86f167f1"
 
 [[projects]]
   branch = "master"
+  digest = "1:d316a0442d11de60979bec58172150184128011baff0e22dd3c2b06d00dcfcc2"
   name = "golang.org/x/sys"
   packages = [
     "cpu",
     "unix",
-    "windows"
+    "windows",
   ]
-  revision = "04f50cda93cbb67f2afa353c52f342100e80e625"
+  pruneopts = "UT"
+  revision = "2837fb4f24fee082b8c39b1a6dc9e0ed9f3fbd4f"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ad82f3334e50de14e042b7ff67ff660a956fb9ec55595c929f0aaf77c0e62f18"
+  input-imports = [
+    "github.com/getsentry/raven-go",
+    "github.com/go-errors/errors",
+    "github.com/privacybydesign/irmago",
+    "github.com/privacybydesign/irmago/irmaclient",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -1,6 +1,8 @@
+image: privacybydesign/android_golang_dep_mobile_node_yarn:latest
+
 stages:
   - build
-  
+
 cache:
   key: $CI_COMMIT_REF_SLUG
   paths:
@@ -8,20 +10,36 @@ cache:
   - node_modules/
 
 variables:
-  PACKAGE_NAME: github.com/privacybydesign/irmago
+  GIT_SUBMODULE_STRATEGY: normal
+  PACKAGE_NAME: github.com/privacybydesign/irma_mobile
 
 before_script:
   - set -euxo pipefail
+
+  # Signing key
+  - mkdir -p ~/.gradle
+  - echo -e "IRMA_RELEASE_STORE_FILE=${HOME}/.gradle/ci.keystore\nIRMA_RELEASE_KEY_ALIAS=ci\nIRMA_RELEASE_STORE_PASSWORD=123456\nIRMA_RELEASE_KEY_PASSWORD=123456" > ~/.gradle/gradle.properties
+  - keytool -genkey -v -keystore ~/.gradle/ci.keystore -alias ci -keyalg RSA -keysize 2048 -keypass 123456 -storepass 123456 -dname "cn=CI, ou=CI, o=CI, c=CI" -validity 20000
+
+  # GOPATH shenanigans
   - mkdir -p "$GOPATH/src/$(dirname "$PACKAGE_NAME")"
-  - rm -f "$GOPATH/src/$PACKAGE_NAME"
   - ln -s "$CI_PROJECT_DIR" "$GOPATH/src/$PACKAGE_NAME"
-  - cd "$GOPATH/src/$PACKAGE_NAME/ios"
-  - dep ensure
-  - yarn install
+  - cd "$GOPATH/src/$PACKAGE_NAME"
+
+  # Dependencies
+  - dep ensure -v
+  - yarn install --check-files
 
 build:
-  tags:
-    - macos
   stage: build
   script: 
-    - xcodebuild build -project IRMA.xcodeproj -scheme IRMA-Alpha
+    # TODO: Remove this hacky commenting of Sentry gradle plugin
+    - sed -i -E 's/^(apply from.*sentry.gradle)/\/\/\1/' android/app/build.gradle
+
+    # Actually build
+    - cd android
+    - ./gradlew assembleRelease
+    - mv app/build/outputs/apk/release/*apk ../
+  artifacts: 
+    paths:
+      - app-arm64-v8a-release.apk

@@ -25,14 +25,11 @@ const t = namespacedTranslation('Session.SigningSession');
 export default class SigningSession extends Component {
 
   static propTypes = {
-    irmaConfiguration: PropTypes.object.isRequired,
     makeDisclosureChoice: PropTypes.func.isRequired,
-    message: PropTypes.string,
     navigateBack: PropTypes.func.isRequired,
     navigateToEnrollment: PropTypes.func.isRequired,
     nextStep: PropTypes.func.isRequired,
     pinChange: PropTypes.func.isRequired,
-    // sendMail: PropTypes.func.isRequired,
     session: PropTypes.object.isRequired,
     setTopbarTitle: PropTypes.func.isRequired,
     validationForced: PropTypes.bool.isRequired,
@@ -125,7 +122,7 @@ export default class SigningSession extends Component {
   renderDisclosures() {
     const { makeDisclosureChoice, session, session: { status } } = this.props;
     // if(status !== 'requestPermission')
-    if(!_.includes(['requestPermission', 'success'], status))
+    if (!_.includes(['requestPermission', 'success'], status))
       return null;
 
     return (

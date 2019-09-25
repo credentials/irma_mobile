@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 
 import Container from 'components/Container';
@@ -19,7 +18,8 @@ import PaddedContent from 'lib/PaddedContent';
 import ErrorCard from 'components/ErrorCard';
 import IconCard from 'components/IconCard';
 
-export const t = namespacedTranslation('Enrollment');
+const t = namespacedTranslation('Enrollment');
+export const headerTitle = t('.title');
 
 export default class Enrollment extends Component {
 
@@ -59,7 +59,7 @@ export default class Enrollment extends Component {
     const { validationForced, pinFormCollapsed } = this.state;
 
     const next = () => {
-      if(pin)
+      if (pin)
         this.setState({validationForced: false, pinFormCollapsed: true, emailFormCollapsed: false});
       else
         this.setState({validationForced: true});
@@ -95,23 +95,23 @@ export default class Enrollment extends Component {
     const { validationForced, emailFormCollapsed } = this.state;
 
     const next = () => {
-      if(!email) {
+      if (!email) {
         this.setState({validationForced: true});
         return;
       }
 
       this.setState({emailFormCollapsed: true, validationForced: false});
 
-      if(pin) {
+      if (pin)
         enroll({ pin, email });
-      } else
+      else
         this.setState({pinFormCollapsed: false});
     };
 
     const skip = () => {
       this.setState({emailFormCollapsed: true, validationForced: false});
 
-      if(pin)
+      if (pin)
         enroll({ pin, email: null });
       else
         this.setState({pinFormCollapsed: false});
@@ -145,7 +145,7 @@ export default class Enrollment extends Component {
   renderContent() {
     const { status, error } = this.props;
 
-    switch(status) {
+    switch (status) {
       case 'started':
         return (
           <View>
@@ -176,6 +176,9 @@ export default class Enrollment extends Component {
           </IconCard>,
           <ErrorCard key="error" error={error} />
         ];
+
+      default:
+        return null;
     }
   }
 

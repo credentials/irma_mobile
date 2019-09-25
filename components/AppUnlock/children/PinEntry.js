@@ -177,11 +177,11 @@ const styles = StyleSheet.create({
     tintColor: 'white',
   },
   filledDigitStyle: {
-    backgroundColor: '#00B1E6',
+    backgroundColor: '#004C92',
     borderColor: 'white',
   },
   activeDigitStyle: {
-    borderColor: '#00B1E6',
+    borderColor: '#004C92',
   },
   optionalDigitStyle: {
     borderStyle: 'dashed',

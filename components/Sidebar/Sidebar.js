@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image, Alert } from 'react-native';
+import { Image, Alert, View } from 'react-native';
 
 import attributesIcon from 'assets/icons/streamline-regular/01/03/navigation-menu-4.png';
 import registerIcon from 'assets/icons/streamline-regular/17/13/single-neutral-actions-add.png';
@@ -10,13 +10,6 @@ import moreAttributesIcon from 'assets/icons/streamline-regular/01/43/add-circle
 import historyIcon from 'assets/icons/streamline-regular/01/44/synchronize-arrow-clock.png';
 import deleteAllIcon from 'assets/icons/streamline-regular/01/23/bin-1.png';
 import aboutIcon from 'assets/icons/streamline-regular/01/14/information-circle.png';
-
-import {
-  CHANGE_PIN_SCREEN,
-  PREFERENCES_DASHBOARD_SCREEN,
-  ABOUT_SCREEN,
-  LOG_DASHBOARD_SCREEN,
-} from 'lib/navigation';
 
 import {
   Container,
@@ -40,7 +33,6 @@ export default class Sidebar extends Component {
     deleteAllCredentials: PropTypes.func.isRequired,
     isEnrolled: PropTypes.bool.isRequired,
     navigate: PropTypes.func.isRequired,
-    navigateToEnrollment: PropTypes.func.isRequired,
     navigateToMoreAttributes: PropTypes.func.isRequired,
   }
 
@@ -54,18 +46,18 @@ export default class Sidebar extends Component {
       iconImage: registerIcon,
       text: t('.register'),
       isVisible: () => this.props.canEnroll,
-      onPress: this.props.navigateToEnrollment,
+      navigateTo: 'EnrollmentTeaser',
     },
     {
       iconImage: changePinIcon,
       text: t('.changePin'),
       isVisible: () => this.props.isEnrolled,
-      navigateTo: CHANGE_PIN_SCREEN,
+      navigateTo: 'ChangePin',
     },
     {
       iconImage: preferencesIcon,
       text: t('.preferences'),
-      navigateTo: PREFERENCES_DASHBOARD_SCREEN,
+      navigateTo: 'PreferencesDashboard',
     },
     {
       iconImage: moreAttributesIcon,
@@ -75,7 +67,7 @@ export default class Sidebar extends Component {
     {
       iconImage: historyIcon,
       text: t('.history'),
-      navigateTo: LOG_DASHBOARD_SCREEN,
+      navigateTo: 'LogDashboard',
     },
     {
       iconImage: deleteAllIcon,
@@ -101,7 +93,7 @@ export default class Sidebar extends Component {
     {
       iconImage: aboutIcon,
       text: t('.about'),
-      navigateTo: ABOUT_SCREEN,
+      navigateTo: 'About',
     },
   ]
 
@@ -138,7 +130,9 @@ export default class Sidebar extends Component {
     return (
       <Container>
         <Content bounces={false} style={styles.content}>
-          <Image source={irmaLogo} style={styles.topImage} />
+          <View style={{flexDirection: 'column', alignItems: 'center'}}>
+            <Image source={irmaLogo} style={styles.topImage} />
+          </View>
           <List>
             { this.sidebarListItems.map(this.renderSidebarListItem) }
           </List>

@@ -29,6 +29,10 @@ var actionHandler = &ActionHandler{
 // clientHandler is used for messages coming in from irmago (see client_handler.go)
 var clientHandler = &ClientHandler{}
 
+// The OnStart function is used to deal with a bug? in gomobile on android
+func OnStart() {
+}
+
 // The Start function is invoked from Javascript via native code, when the app starts
 func Start(givenBridge IrmaBridge, appDataPath string, assetsPath string) {
 	raven.CapturePanic(func() {
@@ -67,12 +71,14 @@ func recoveredStart(givenBridge IrmaBridge, appDataPath string, assetsPath strin
 		return
 	}
 
-	// Update schemes before boot
-	err = client.Configuration.UpdateSchemes()
-	if err != nil {
-		logError(errors.WrapPrefix(err, "Cannot update schemes", 0))
-		// Continuing here should be safe
-	}
+	// TODO: Find another moment to update schemes; not _immediately_ after boot
+	// It's a major slowdown, especially when the client has a bad connection (and we retry multiple times)
+
+	// err = client.Configuration.UpdateSchemes()
+	// if err != nil {
+	//   logError(errors.WrapPrefix(err, "Cannot update schemes", 0))
+	//   // Continuing here should be safe
+	// }
 
 	// Grab information from the client and send it to irma_mobile
 	sendEnrollmentStatus()

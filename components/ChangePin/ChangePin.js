@@ -18,7 +18,8 @@ import PaddedContent from 'lib/PaddedContent';
 import ErrorCard from 'components/ErrorCard';
 import IconCard from 'components/IconCard';
 
-export const t = namespacedTranslation('ChangePin');
+const t = namespacedTranslation('ChangePin');
+export const headerTitle = t('.title');
 
 export default class ChangePin extends Component {
   static propTypes = {

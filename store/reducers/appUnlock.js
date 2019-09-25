@@ -22,7 +22,7 @@ const appStateValues = (appState) => {
   };
 
   if (isForegrounded)
-    values.lastForegroundedTime = new Date().valueOf();
+    values.lastForegroundedTime = moment().toISOString();
 
   return values;
 };
@@ -104,6 +104,14 @@ export default function appUnlock(state = initialState, action) {
         ...state,
         ...statusValues(STATUS_AUTHENTICATED),
       };
+    }
+    
+    // When starting enrollment, stop blink by saying we're authenticated
+    case 'IrmaBridge.Enroll': {
+      return {
+        ...state,
+        ...statusValues(STATUS_AUTHENTICATED),
+      }
     }
 
     default:

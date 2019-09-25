@@ -1,3 +1,4 @@
+export PATH=$PATH:/usr/local/go/bin
 go_version=$(go version)
 if [[ $go_version = *'go1.9.4'* ]]; then
   export CGO_CFLAGS_ALLOW='-fmodules|-fblocks'
