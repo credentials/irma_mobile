@@ -3,6 +3,7 @@ package irmagobridge
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"github.com/go-errors/errors"
 	"github.com/privacybydesign/irmago"
 	"github.com/privacybydesign/irmago/irmaclient"
@@ -228,7 +229,9 @@ func (ah *ActionHandler) LoadLogs(action *LoadLogsAction) error {
 	if action.Before == "" {
 		logEntries, err = client.LoadNewestLogs(action.Max)
 	} else {
-		logEntries, err = client.LoadLogsBefore(action.Before, action.Max)
+	    if beforeInt, err := strconv.ParseUint(action.Before, 10, 64); err == nil {
+	        logEntries, err = client.LoadLogsBefore(beforeInt, action.Max)
+	    }
 	}
 	if err != nil {
 		logError(errors.WrapPrefix(err, "Could not collect logs to send", 0))

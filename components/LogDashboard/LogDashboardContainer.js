@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import LogDashboard, { t } from './LogDashboard';
 
@@ -48,12 +47,8 @@ export default class LogDashboardContainer extends Component {
     loadedLogs: null,
   };
 
-  static options = {
-    topBar: {
-      title: {
-        text: t('.title'),
-      },
-    },
+  static navigationOptions = {
+    title: t('.title'),
   };
 
   state = {
