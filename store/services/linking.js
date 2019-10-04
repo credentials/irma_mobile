@@ -3,6 +3,7 @@ import { NavigationActions } from 'react-navigation';
 
 import store from 'store';
 import { newSession } from 'store/reducers/sessions';
+import { forceLockCheck } from 'store/services/appState';
 import parseIrmaUrl from 'lib/parseIrmaUrl';
 
 let doNavigate = () => {};
@@ -20,11 +21,12 @@ const handleInitialUrl = () => {
 
 // Store any non-intial incoming URL
 const handleUrl = (event) => {
+  const justLocked = forceLockCheck();
   const request = parseIrmaUrl(event.url);
   if (request === null) return;
   const sessionMsg = newSession({request, exitAfter: true});
   store.dispatch(sessionMsg);
-  doNavigate(NavigationActions.navigate({routeName: 'Session', params: {sessionId: sessionMsg.sessionId}}));
+  doNavigate(NavigationActions.navigate({routeName: 'Session', params: {sessionId: sessionMsg.sessionId}}), {forceOnStack: justLocked});
 };
 
 export default (safeNavigate) => {
