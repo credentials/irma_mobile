@@ -29,6 +29,23 @@ const onAppBecomesActive = () => {
   }
 };
 
+export const forceLockCheck = () => {
+  const {
+    appUnlock: {
+      lastForegroundedTime,
+    },
+  } = store.getState();
+
+  if (moment(lastForegroundedTime).isBefore(moment().subtract(5, 'minutes'))) {
+    store.dispatch({
+      type: 'AppUnlock.Lock',
+    });
+    return true;
+  }
+
+  return false;
+}
+
 // Function that listens for change in foreground/background appState,
 // records that state and calls event handler when app changes to foreground
 const appStateChangeListener = (appState) => {

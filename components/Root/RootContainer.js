@@ -65,8 +65,8 @@ export default class Root extends Component {
     }
   }
 
-  safeNavigate = (navaction) => {
-    if (this.navigationRef.state.nav.routes[this.navigationRef.state.nav.index].key === 'MainStackWithDrawer') {
+  safeNavigate = (navaction, {forceOnStack}={forceOnStack: false}) => {
+    if (!forceOnStack && this.navigationRef.state.nav.routes[this.navigationRef.state.nav.index].key === 'MainStackWithDrawer') {
       this.navigationRef.dispatch(navaction);
     } else {
       if (this.withheldNavigationEvents.length < 5)
