@@ -39,6 +39,7 @@ export default class CredentialCard extends Component {
     onReorderPress: PropTypes.func,
     onReorderPressOut: PropTypes.func,
     showActionButtons: PropTypes.bool,
+    drawCard: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -51,6 +52,7 @@ export default class CredentialCard extends Component {
     onReorderPress: () => {},
     onReorderPressOut: () => {},
     showActionButtons: true,
+    drawCard: true,
   }
 
   state = {
@@ -211,9 +213,31 @@ export default class CredentialCard extends Component {
     );
   }
 
-  render() {
-    const { onLongPress, onPressOut } = this.props;
+  renderCardContent() {
     const { collapsed, showAdditionalInfo } = this.state;
+
+    return (
+      <View>
+        { this.renderHeader() }
+        <Collapsible collapsed={collapsed} extraData={showAdditionalInfo}>
+          {/* <Collapsible collapsed={!showAdditionalInfo}>
+                { this.renderCredentialDescription() }
+              </Collapsible> */}
+          { this.renderAttributes() }
+        </Collapsible>
+        { this.renderIssuer() }
+        <Collapsible collapsed={collapsed} extraData={showAdditionalInfo}>
+          { this.renderActionButtons() }
+        </Collapsible>
+      </View>
+    );
+  }
+
+  render() {
+    const { onLongPress, onPressOut, drawCard } = this.props;
+
+    if (!drawCard)
+      return this.renderCardContent();
 
     return (
       <TouchableOpacity
@@ -223,17 +247,7 @@ export default class CredentialCard extends Component {
         activeOpacity={0.6}
       >
         <Card rounded>
-          { this.renderHeader() }
-          <Collapsible collapsed={collapsed} extraData={showAdditionalInfo}>
-            {/* <Collapsible collapsed={!showAdditionalInfo}>
-              { this.renderCredentialDescription() }
-            </Collapsible> */}
-            { this.renderAttributes() }
-          </Collapsible>
-          { this.renderIssuer() }
-          <Collapsible collapsed={collapsed} extraData={showAdditionalInfo}>
-            { this.renderActionButtons() }
-          </Collapsible>
+          { this.renderCardContent() }
         </Card>
       </TouchableOpacity>
     );

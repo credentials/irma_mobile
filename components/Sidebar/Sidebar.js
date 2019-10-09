@@ -7,6 +7,7 @@ import registerIcon from 'assets/icons/streamline-regular/17/13/single-neutral-a
 import changePinIcon from 'assets/icons/streamline-regular/01/10/password-lock-1.png';
 import preferencesIcon from 'assets/icons/streamline-regular/01/12/cog.png';
 import moreAttributesIcon from 'assets/icons/streamline-regular/01/43/add-circle.png';
+import historyIcon from 'assets/icons/streamline-regular/01/44/synchronize-arrow-clock.png';
 import deleteAllIcon from 'assets/icons/streamline-regular/01/23/bin-1.png';
 import aboutIcon from 'assets/icons/streamline-regular/01/14/information-circle.png';
 
@@ -62,6 +63,11 @@ export default class Sidebar extends Component {
       iconImage: moreAttributesIcon,
       text: t('.moreAttributes'),
       onPress: this.props.navigateToMoreAttributes,
+    },
+    {
+      iconImage: historyIcon,
+      text: t('.history'),
+      navigateTo: 'LogDashboard',
     },
     {
       iconImage: deleteAllIcon,

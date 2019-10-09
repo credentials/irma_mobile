@@ -2,8 +2,7 @@ package irmagobridge
 
 import (
 	"encoding/json"
-
-	raven "github.com/getsentry/raven-go"
+	"github.com/getsentry/raven-go"
 	"github.com/go-errors/errors"
 )
 
@@ -84,6 +83,12 @@ func recoveredReceiveAction(actionJSONString string) {
 
 	case "UpdateSchemes":
 		err = actionHandler.updateSchemes()
+
+	case "LoadLogs":
+		action := &LoadLogsAction{}
+		if err = json.Unmarshal(actionJSON, &action); err == nil {
+			err = actionHandler.LoadLogs(action)
+		}
 
 	default:
 		err = errors.Errorf("Unrecognized action type %s", actionType)

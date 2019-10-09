@@ -10,6 +10,7 @@ import Enrollment from 'components/Enrollment';
 import EnrollmentTeaser from 'components/EnrollmentTeaser';
 import ForcedUpdate from 'components/ForcedUpdate';
 import PreferencesDashboard from 'components/PreferencesDashboard';
+import LogDashboard from 'components/LogDashboard';
 import QRScanner from 'components/QRScanner';
 import Session from 'components/Session';
 import Sidebar from 'components/Sidebar';
@@ -30,6 +31,7 @@ const MainStack = createStackNavigator({
   CredentialDashboard,
   ChangePin,
   PreferencesDashboard,
+  LogDashboard,
   QRScanner,
   Session,
   Enrollment: Enrollment,
