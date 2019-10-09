@@ -167,7 +167,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:e21fd501ce08b788d2fa82121805af5893321b7c2d10d881044ac3e27fbcfca1"
+  digest = "1:e22ea2c6dcccd6ea79a8005fd6d9ae162fb9869465d4efa6071b6dcca4fc610e"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
@@ -176,7 +176,7 @@
     "irmaclient",
   ]
   pruneopts = "UT"
-  revision = "82d4a148c2f04e6bcac0beea22b27fbb5d9562aa"
+  revision = "7276abc1e3077264e817528a48f7b22960c6722c"
 
 [[projects]]
   digest = "1:04457f9f6f3ffc5fea48e71d62f2ca256637dee0a04d710288e27e05c8b41976"
