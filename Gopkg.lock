@@ -123,11 +123,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:451f5997f3f720404631a8ec1cced207a30e8ec835ba25a0ab262e70b602f2b7"
+  digest = "1:174e9284d0cc4caba0f06e90a6c93254f6c70326f81f0ae355632fd56dd48d9c"
   name = "github.com/jasonlvhit/gocron"
   packages = ["."]
   pruneopts = "UT"
-  revision = "985d45da66c50c0e855d0efdc31b0c2801b1c35b"
+  revision = "57f89394836a3cf351337b15507fd5a8d76b694e"
 
 [[projects]]
   digest = "1:31e761d97c76151dde79e9d28964a812c46efc5baee4085b86f68f0c654450de"
@@ -167,7 +167,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:ad2bd83ae8ef4dd3306e2dd3b0112491d0d95b0e3db1ae4d9f2a859374a92dd9"
+  digest = "1:e21fd501ce08b788d2fa82121805af5893321b7c2d10d881044ac3e27fbcfca1"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
@@ -176,7 +176,7 @@
     "irmaclient",
   ]
   pruneopts = "UT"
-  revision = "f8b269e7be2225bcb42baa770136dc1a87979ed4"
+  revision = "82d4a148c2f04e6bcac0beea22b27fbb5d9562aa"
 
 [[projects]]
   digest = "1:04457f9f6f3ffc5fea48e71d62f2ca256637dee0a04d710288e27e05c8b41976"
@@ -228,11 +228,11 @@
     "sha3",
   ]
   pruneopts = "UT"
-  revision = "9ee001bba392397c76f100a2d5b13afc86f167f1"
+  revision = "34f69633bfdcf9db92f698f8487115767eebef81"
 
 [[projects]]
   branch = "master"
-  digest = "1:d316a0442d11de60979bec58172150184128011baff0e22dd3c2b06d00dcfcc2"
+  digest = "1:377fb54789fb675f0425deb0b164c6f398b533536a90e7f0a93505cdfd59c016"
   name = "golang.org/x/sys"
   packages = [
     "cpu",
@@ -240,7 +240,7 @@
     "windows",
   ]
   pruneopts = "UT"
-  revision = "2837fb4f24fee082b8c39b1a6dc9e0ed9f3fbd4f"
+  revision = "543471e840be449c53d44b32c7adf1261ad67e37"
 
 [solve-meta]
   analyzer-name = "dep"
