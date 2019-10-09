@@ -71,20 +71,19 @@ func recoveredStart(givenBridge IrmaBridge, appDataPath string, assetsPath strin
 		return
 	}
 
-	// TODO: Find another moment to update schemes; not _immediately_ after boot
-	// It's a major slowdown, especially when the client has a bad connection (and we retry multiple times)
-
-	// err = client.Configuration.UpdateSchemes()
-	// if err != nil {
-	//   logError(errors.WrapPrefix(err, "Cannot update schemes", 0))
-	//   // Continuing here should be safe
-	// }
-
 	// Grab information from the client and send it to irma_mobile
 	sendEnrollmentStatus()
 	sendConfiguration()
 	sendPreferences()
 	sendCredentials()
+
+	// Do update of schemes out of band to not inflict network delays during startup.
+	go func() {
+		err := client.Configuration.UpdateSchemes()
+		if err != nil {
+			logError(errors.WrapPrefix(err, "Cannot update schemes", 0))
+		}
+	}()
 }
 
 func logError(err error) {
