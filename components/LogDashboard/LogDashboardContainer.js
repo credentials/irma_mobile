@@ -102,8 +102,8 @@ export default class LogDashboardContainer extends Component {
         return;
       }
 
-      const lastLoaded = loadedLogs[loadedLogs.length - 1].time;
-      if (logs.length === 0 || lastLoaded !== logs[logs.length - 1].time) {
+      const lastLoaded = loadedLogs[loadedLogs.length - 1].id;
+      if (logs.length === 0 || lastLoaded !== logs[logs.length - 1].id) {
         this.setState({
           logs: logs.concat(loadedLogs),
           loadingFinished: loadedLogs.length < MAX_LOAD_LOGS,
