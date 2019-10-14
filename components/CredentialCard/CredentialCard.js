@@ -31,6 +31,7 @@ export default class CredentialCard extends Component {
   static propTypes = {
     credential: PropTypes.object.isRequired,
     isEditable: PropTypes.bool,
+    isDeletable: PropTypes.bool,
     lockMode: PropTypes.oneOf(['unlocked', 'open', 'closed']),
     onDeletePress: PropTypes.func,
     onLongPress: PropTypes.func,
@@ -44,6 +45,7 @@ export default class CredentialCard extends Component {
 
   static defaultProps = {
     isEditable: false,
+    isDeletable: true,
     lockMode: 'unlocked',
     onDeletePress: () => {},
     onLongPress: () => {},
@@ -93,46 +95,53 @@ export default class CredentialCard extends Component {
   }
 
   renderHeader() {
-    const { credential, isEditable, onDeletePress, onReorderPress, onReorderPressOut } = this.props;
+    const { credential, isEditable, isDeletable, onDeletePress, onReorderPress, onReorderPressOut } = this.props;
     const { showAdditionalInfo } = this.state;
     const { CredentialType, hasExpired } = credential;
 
     return (
       <CardItem header style={[styles.headerCardItem, styles.borderBottom]}>
-        <Body style={{flex: 2}}>
-          <Text style={[styles.credentialNameText, hasExpired ? styles.expiredName : null]}>
-            { CredentialType.Name[lang] }
-          </Text>
-          <Text note>
-            { showAdditionalInfo && credential.Attributes.length > 1 ? CredentialType.Description[lang] :
-                t('common.attributes', {count: credential.Attributes.length})
-            }
-          </Text>
-        </Body>
-        <Right style={{flex: 1}}>
-          { isEditable ?
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <TouchableWithoutFeedback
-                onPress={onDeletePress}
-              >
-                <ButtonImage source={deleteIcon} style={{width: 28, height: 28, marginTop: 8, marginBottom: 10}} />
-              </TouchableWithoutFeedback>
+        <View style={{flexDirection: 'row'}}>
+          <Body style={{flex: 2, alignItems: 'flex-start'}}>
+            <Text style={[styles.credentialNameText, hasExpired ? styles.expiredName : null]}>
+              { CredentialType.Name[lang] }
+            </Text>
+            <Text note>
+              { showAdditionalInfo && credential.Attributes.length > 1 ? CredentialType.Description[lang] :
+                  t('common.attributes', {count: credential.Attributes.length})
+              }
+            </Text>
+          </Body>
+          <Right style={{flex: 1}}>
+            { isEditable && isDeletable ?
+              <View style={{flex: 1, flexDirection: 'row'}}>
+                <TouchableWithoutFeedback
+                  onPress={onDeletePress}
+                >
+                  <ButtonImage source={deleteIcon} style={{width: 28, height: 28, marginTop: 8, marginBottom: 10}} />
+                </TouchableWithoutFeedback>
 
-              {/* <TouchableWithoutFeedback
-                onLongPress={() => {console.log('got reorder longpress'); onReorderPress();}}
-                onPressOut={() => {console.log('got reorder out'); onReorderPressOut();}}
-              >
-                <Icon
-                  name="ios-reorder"
-                  style={styles.reorderIcon}
-                />
-              </TouchableWithoutFeedback> */}
-            </View> :
-            <View style={{flex: 1, paddingTop: 4}}>
-              <CardItemThumb source={{uri: CredentialType.logoUri}} />
-            </View>
-          }
-        </Right>
+                {/* <TouchableWithoutFeedback
+                  onLongPress={() => {console.log('got reorder longpress'); onReorderPress();}}
+                  onPressOut={() => {console.log('got reorder out'); onReorderPressOut();}}
+                >
+                  <Icon
+                    name="ios-reorder"
+                    style={styles.reorderIcon}
+                  />
+                </TouchableWithoutFeedback> */}
+              </View> :
+              <View style={{flex: 1, paddingTop: 4}}>
+                <CardItemThumb source={{uri: CredentialType.logoUri}} />
+              </View>
+            }
+          </Right>
+        </View>
+        {!isDeletable && isEditable ?
+          <Text note style={styles.disallowedDeleteWarning}>
+            {t('CredentialCard.disallowedDelete')}
+          </Text> : null
+        }
       </CardItem>
     );
   }
@@ -272,6 +281,7 @@ const styles = StyleSheet.create({
 
   // Header
   headerCardItem: {
+    flexDirection: 'column',
     paddingTop: 12,
     paddingBottom: 8,
   },
@@ -285,6 +295,11 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginTop: 4,
     marginRight: 16,
+  },
+  disallowedDeleteWarning: {
+    color: '#FF3B30',
+    textAlign: 'left',
+    alignSelf: 'stretch',
   },
   reorderIcon: {
     fontSize: 52,
