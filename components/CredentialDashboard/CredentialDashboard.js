@@ -131,6 +131,7 @@ export default class CredentialDashboard extends Component {
         key={credential.Hash}
         credential={credential}
         isEditable={isEditable}
+        isDeletable={!credential.CredentialType.DisallowDelete}
         onDeletePress={() => this.showDeleteCredentialDialog(credential)}
         onLongPress={makeEditable}
       />
