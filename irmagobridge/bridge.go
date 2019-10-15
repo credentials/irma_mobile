@@ -42,6 +42,11 @@ func Start(givenBridge IrmaBridge, appDataPath string, assetsPath string) {
 
 func recoveredStart(givenBridge IrmaBridge, appDataPath string, assetsPath string) {
 	bridge = givenBridge
+	// Check whether recoveredStart has been executed before
+	if client != nil {
+		logDebug("Client already initialized, skipping recoveredStart")
+		return
+	}
 
 	// Check for user data directory, and create version-specific directory
 	exists, err := pathExists(appDataPath)
