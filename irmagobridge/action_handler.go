@@ -219,7 +219,7 @@ func (ah *ActionHandler) updateSchemes() error {
 
 type LoadLogsAction struct {
 	Before uint64
-	Max int
+	Max    int
 }
 
 func (ah *ActionHandler) LoadLogs(action *LoadLogsAction) error {
@@ -230,10 +230,9 @@ func (ah *ActionHandler) LoadLogs(action *LoadLogsAction) error {
 	if action.Before == 0 {
 		logEntries, err = client.LoadNewestLogs(action.Max)
 	} else {
-	    logEntries, err = client.LoadLogsBefore(action.Before, action.Max)
+		logEntries, err = client.LoadLogsBefore(action.Before, action.Max)
 	}
 	if err != nil {
-		logError(errors.WrapPrefix(err, "Could not collect logs to send", 0))
 		return err
 	}
 
@@ -243,7 +242,7 @@ func (ah *ActionHandler) LoadLogs(action *LoadLogsAction) error {
 		if entry.Type == irmaclient.ActionRemoval {
 			removed = entry.Removed
 		} else {
-		    removed = make(map[irma.CredentialTypeIdentifier][]irma.TranslatedString)
+			removed = make(map[irma.CredentialTypeIdentifier][]irma.TranslatedString)
 		}
 		disclosedCredentials, err := entry.GetDisclosedCredentials(client.Configuration)
 		if err != nil {
@@ -257,7 +256,6 @@ func (ah *ActionHandler) LoadLogs(action *LoadLogsAction) error {
 		if err != nil {
 			return err
 		}
-		entry.SessionRequest()
 		logsOutgoing[i] = map[string]interface{}{
 			"id":                   entry.ID,
 			"type":                 entry.Type,
