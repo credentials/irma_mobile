@@ -27,6 +27,17 @@ func (sh *SessionHandler) StatusUpdate(irmaAction irma.Action, status irma.Statu
 	sendAction(action)
 }
 
+func (sh *SessionHandler) ClientReturnURLFound(clientReturnURL string) {
+	logDebug("Handling ClientReturnURLFound")
+	action := &OutgoingAction{
+		"type":            "IrmaSession.ClientReturnURLFound",
+		"sessionId":       sh.sessionID,
+		"clientReturnUrl": clientReturnURL,
+	}
+
+	sendAction(action)
+}
+
 func (sh *SessionHandler) Success(result string) {
 	logDebug("Handling Success")
 	action := &OutgoingAction{

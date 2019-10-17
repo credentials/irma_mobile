@@ -99,10 +99,14 @@ export default class SessionContainer extends Component {
   }
 
   navigateBack = () => {
-    const { session: { exitAfter, request } } = this.props;
+    const { session: { exitAfter, request, clientReturnUrl, status } } = this.props;
 
-    if (exitAfter && request.returnURL)
-      Linking.openURL(request.returnURL);
+    // request.returnURL is included for backwards compatibility
+    const returnUrl = clientReturnUrl ? clientReturnUrl : request.returnURL;
+
+    // Telephone number URIs only have to be opened after successful sessions
+    if (exitAfter && returnUrl && (status === 'success' || returnUrl.substring(0, 4) !== 'tel:'))
+      Linking.openURL(clientReturnUrl);
     else if (exitAfter && Platform.OS === 'android')
       BackHandler.exitApp();
     else

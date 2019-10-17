@@ -19,6 +19,7 @@ const isValidSessionAction = (state, action) => {
     }
 
     case 'IrmaSession.StatusUpdate':
+    case 'IrmaSession.ClientReturnURLFound':
     case 'IrmaSession.Success':
     case 'IrmaSession.Failure':
     case 'IrmaSession.Cancelled':
@@ -77,6 +78,16 @@ export default function credentials(state = initialState, action) {
           ...state[sessionId],
           irmaAction: action.irmaAction,
           status: action.status,
+        }
+      };
+    }
+
+    case 'IrmaSession.ClientReturnURLFound': {
+      return {
+        ...state,
+        [sessionId]: {
+          ...state[sessionId],
+          clientReturnUrl: action.clientReturnUrl,
         }
       };
     }
