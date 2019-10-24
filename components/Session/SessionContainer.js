@@ -106,7 +106,7 @@ export default class SessionContainer extends Component {
 
     // Telephone number URIs only have to be opened after successful sessions
     if (exitAfter && returnUrl && (status === 'success' || returnUrl.substring(0, 4) !== 'tel:'))
-      Linking.openURL(clientReturnUrl);
+      Linking.openURL(returnUrl);
     else if (exitAfter && Platform.OS === 'android')
       BackHandler.exitApp();
     else
