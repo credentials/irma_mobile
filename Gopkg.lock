@@ -123,11 +123,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:174e9284d0cc4caba0f06e90a6c93254f6c70326f81f0ae355632fd56dd48d9c"
+  digest = "1:4a71114c27ec056e4a400fa2ed4e5caa08afc32fdbb67c5f5ccb74385c4a7e49"
   name = "github.com/jasonlvhit/gocron"
   packages = ["."]
   pruneopts = "UT"
-  revision = "57f89394836a3cf351337b15507fd5a8d76b694e"
+  revision = "47e27a9e0dc7cbe56e05a51111d316b6818a762d"
 
 [[projects]]
   digest = "1:31e761d97c76151dde79e9d28964a812c46efc5baee4085b86f68f0c654450de"
@@ -167,7 +167,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:e22ea2c6dcccd6ea79a8005fd6d9ae162fb9869465d4efa6071b6dcca4fc610e"
+  digest = "1:abb3cf814df6df6ebc5122b4e1a14bb2b1947a51ed697da2ee96c9cefcce775a"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
@@ -176,7 +176,7 @@
     "irmaclient",
   ]
   pruneopts = "UT"
-  revision = "7276abc1e3077264e817528a48f7b22960c6722c"
+  revision = "7f3992064cc583bf677e8cf2ca943082aff3b934"
 
 [[projects]]
   digest = "1:04457f9f6f3ffc5fea48e71d62f2ca256637dee0a04d710288e27e05c8b41976"
@@ -204,11 +204,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:fd5705ffb618d324b4dac34e75907a32c7e1635e0e6988edbe304d06eea04d8b"
+  digest = "1:875a34271d9ceb9136ec4a0455859d08dc40d0510a32881801b35ddeb0bf3a48"
   name = "github.com/timshannon/bolthold"
   packages = ["."]
   pruneopts = "UT"
-  revision = "a85bcc049a2edd8d12f9b3a5944fd72299959d19"
+  revision = "ccb01ed9dec4272145c1e7fa5c2970bc9ff63ce8"
 
 [[projects]]
   digest = "1:f2ac2c724fc8214bb7b9dd6d4f5b7a983152051f5133320f228557182263cb94"
@@ -228,11 +228,11 @@
     "sha3",
   ]
   pruneopts = "UT"
-  revision = "34f69633bfdcf9db92f698f8487115767eebef81"
+  revision = "87dc89f01550277dc22b74ffcf4cd89fa2f40f4c"
 
 [[projects]]
   branch = "master"
-  digest = "1:377fb54789fb675f0425deb0b164c6f398b533536a90e7f0a93505cdfd59c016"
+  digest = "1:9a7e33a18b6fb80e9815211b7e9dfc8ac60bb167f84d7793589498feb21a1c8d"
   name = "golang.org/x/sys"
   packages = [
     "cpu",
@@ -240,7 +240,7 @@
     "windows",
   ]
   pruneopts = "UT"
-  revision = "543471e840be449c53d44b32c7adf1261ad67e37"
+  revision = "e66fe6eb8e0cbfacade8b490cf55cd2494f4db62"
 
 [solve-meta]
   analyzer-name = "dep"
