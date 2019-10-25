@@ -91,26 +91,11 @@ export default class SessionContainer extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { navigation, session: { exitAfter, request, clientReturnUrl, status } } = this.props;
+    const { session: { status } } = this.props;
 
-    // request.returnURL is included for backwards compatibility
-    const returnUrl = clientReturnUrl || request.returnURL || '';
-    const isReturnPhoneNumber = returnUrl.substring(0, 4) === 'tel:';
-
-    const terminalStatuses = ['success', 'failure', 'cancelled'];
-    if (!_.includes(terminalStatuses, prevProps.session.status) && _.includes(terminalStatuses, status)) {
-      navigation.goBack();
-
-      if (isReturnPhoneNumber) {
-        if (status === 'success')
-          Linking.openURL(returnUrl);
-      } else if (exitAfter) {
-        if (returnUrl)
-          Linking.openURL(returnUrl);
-        else if (Platform.OS === 'android')
-          BackHandler.exitApp();
-      }
-    }
+    const terminalStatuses = ['success', 'cancelled'];
+    if (!_.includes(terminalStatuses, prevProps.session.status) && _.includes(terminalStatuses, status))
+      this.navigateBack();
   }
 
   static navigationOptions = ({ navigation }) => ({
@@ -123,7 +108,22 @@ export default class SessionContainer extends Component {
   }
 
   navigateBack = () => {
-    this.props.navigation.goBack();
+    const { navigation, session: { exitAfter, request, clientReturnUrl, status } } = this.props;
+    navigation.goBack();
+
+    // request.returnURL is included for backwards compatibility
+    const returnUrl = clientReturnUrl || request.returnURL || '';
+    const isReturnPhoneNumber = returnUrl.substring(0, 4) === 'tel:';
+
+    if (isReturnPhoneNumber) {
+      if (status === 'success')
+        Linking.openURL(returnUrl);
+    } else if (exitAfter) {
+      if (returnUrl)
+        Linking.openURL(returnUrl);
+      else if (Platform.OS === 'android')
+        BackHandler.exitApp();
+    }
   }
 
   navigateToEnrollment = () => {
