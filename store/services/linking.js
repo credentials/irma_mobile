@@ -8,13 +8,17 @@ import parseIrmaUrl from 'lib/parseIrmaUrl';
 
 let doNavigate = () => {};
 
+let appLoaded = false;
+
 // Store any initial incoming URL
 const handleInitialUrl = () => {
   Linking.getInitialURL().then( irmaUrl => {
+    if (appLoaded) return;
     const request = parseIrmaUrl(irmaUrl);
     if (request === null) return;
     const sessionMsg = newSession({request, exitAfter: true});
     store.dispatch(sessionMsg);
+    appLoaded = true;
     doNavigate(NavigationActions.navigate({routeName: 'Session', params: {sessionId: sessionMsg.sessionId}}));
   });
 };
