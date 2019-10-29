@@ -52,14 +52,10 @@ export default class DisclosureSession extends Component {
       session: {
         status,
         serverName,
-        request,
-        clientReturnUrl,
+        returnUrl,
+        isReturnPhoneNumber,
       },
     } = this.props;
-
-    // request.returnURL is included for backwards compatibility
-    const returnUrl = clientReturnUrl || request.returnURL || '';
-    const isReturnPhoneNumber = returnUrl.substring(0, 4) === 'tel:';
 
     switch (status) {
       case 'success':

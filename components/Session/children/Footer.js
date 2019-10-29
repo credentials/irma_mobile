@@ -58,8 +58,7 @@ export default class Footer extends Component {
         irmaAction,
         status,
         disclosures,
-        request,
-        clientReturnUrl,
+        isReturnPhoneNumber,
       },
       disabled,
     } = this.props;
@@ -71,10 +70,6 @@ export default class Footer extends Component {
     // We don't know yet whether the buttons should be enabled; do nothing
     if (disabled === null)
       return null;
-
-    // request.returnURL is included for backwards compatibility
-    const returnUrl = clientReturnUrl || request.returnURL || '';
-    const isReturnPhoneNumber = returnUrl.substring(0, 4) === 'tel:';
 
     // Determine labels and icons
     let yesLabel = t('.accept');

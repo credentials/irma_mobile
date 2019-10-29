@@ -51,6 +51,16 @@ const isValidSessionAction = (state, action) => {
 const initialDisclosureChoices = (disclosuresCandidates) =>
   disclosuresCandidates.map(dc => dc[0]);
 
+const returnUrlProperties = (returnUrl) => {
+  if (!returnUrl)
+    return {};
+
+  return {
+    returnUrl,
+    isReturnPhoneNumber: returnUrl.substring(0, 4) === 'tel:',
+  };
+};
+
 const initialState = {};
 export default function credentials(state = initialState, action) {
 
@@ -59,7 +69,7 @@ export default function credentials(state = initialState, action) {
 
   const { sessionId } = action;
 
-  switch(action.type) {
+  switch (action.type) {
     case 'IrmaBridge.NewSession': {
       return {
         ...state,
@@ -67,7 +77,8 @@ export default function credentials(state = initialState, action) {
           id: sessionId,
           request: action.request,
           exitAfter: action.exitAfter,
-        }
+          ...returnUrlProperties(action.request.returnUrl),
+        },
       };
     }
 
@@ -87,8 +98,8 @@ export default function credentials(state = initialState, action) {
         ...state,
         [sessionId]: {
           ...state[sessionId],
-          clientReturnUrl: action.clientReturnUrl,
-        }
+          ...returnUrlProperties(action.clientReturnUrl),
+        },
       };
     }
 

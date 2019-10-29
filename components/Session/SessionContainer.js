@@ -108,12 +108,8 @@ export default class SessionContainer extends Component {
   }
 
   navigateBack = () => {
-    const { navigation, session: { exitAfter, request, clientReturnUrl, status } } = this.props;
+    const { navigation, session: { exitAfter, returnUrl, isReturnPhoneNumber, status } } = this.props;
     navigation.goBack();
-
-    // request.returnURL is included for backwards compatibility
-    const returnUrl = clientReturnUrl || request.returnURL || '';
-    const isReturnPhoneNumber = returnUrl.substring(0, 4) === 'tel:';
 
     if (isReturnPhoneNumber) {
       if (status === 'success')
