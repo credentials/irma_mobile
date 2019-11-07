@@ -1,5 +1,4 @@
 const initialState = {
-  initialSessionPointerLoaded: false,
   initialSessionPointer: null,
   sessionPointer: null,
 
@@ -12,9 +11,12 @@ const initialState = {
 export default function navigation(state = initialState, action) {
   switch (action.type) {
     case 'Navigation.SetInitialSessionPointer': {
+      // Handle the initialSessionPointer once in the application lifetime
+      if (state.initialSessionPointer)
+        return state;
+
       return {
         ...state,
-        initialSessionPointerLoaded: true,
         initialSessionPointer: action.initialSessionPointer,
       };
     }

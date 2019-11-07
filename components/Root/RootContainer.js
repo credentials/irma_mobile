@@ -6,6 +6,8 @@ import { createAppContainer, NavigationActions } from 'react-navigation';
 
 import store from 'store';
 import services from 'store/services';
+import { newSession } from 'store/reducers/sessions';
+import { forceLockCheck } from 'store/services/appState';
 import getTheme from 'lib/native-base-theme/components';
 import nbVariables from 'lib/native-base-theme/variables/platform';
 
@@ -17,9 +19,17 @@ export default class Root extends Component {
   navigationRef = null
   unsubscribeServices = null
   localStoreUnsubscribe = null
+
   componentDidMount() {
-    this.localStoreUnsubscribe = store.subscribe(this.navigationStoreListener);
-    this.unsubscribeServices = services(this.safeNavigate);
+    let state = store.getState();
+    this.localStoreUnsubscribe = store.subscribe(() => {
+      const prevState = state;
+      const nextState = store.getState();
+      state = nextState;
+
+      this.navigationStoreDidUpdate(prevState, nextState);
+    });
+    this.unsubscribeServices = services();
   }
 
   componentWillUnmount() {
@@ -28,7 +38,7 @@ export default class Root extends Component {
   }
 
   withheldNavigationEvents = []
-  navigationStoreListener = () => {
+  navigationStoreDidUpdate = (prevState, state) => {
     const {
       appUnlock: {
         isAuthenticated,
@@ -40,9 +50,12 @@ export default class Root extends Component {
       },
       navigation: {
         showForcedUpdate,
+        initialSessionPointer,
+        sessionPointer,
       },
-    } = store.getState();
+    } = state;
 
+    // Determine navigation stack
     let targetRoute = null;
     if (showForcedUpdate)
       targetRoute = 'ForcedUpdateStack';
@@ -63,14 +76,32 @@ export default class Root extends Component {
           this.navigationRef.dispatch(NavigationActions.navigate({routeName: 'EnrollmentTeaser'}));
       }
     }
+
+    // Handle navigation when initialSessionPointer is set
+    if (prevState.navigation.initialSessionPointer !== initialSessionPointer) {
+      const sessionAction = newSession({request: initialSessionPointer, exitAfter: true});
+      store.dispatch(sessionAction);
+
+      const navigationAction = NavigationActions.navigate({routeName: 'Session', params: {sessionId: sessionAction.sessionId}});
+      this.safeNavigate(navigationAction);
+    }
+
+    // Handle when a new sessionPointer is set
+    if (prevState.navigation.sessionPointer !== sessionPointer) {
+      const sessionAction = newSession({request: sessionPointer, exitAfter: true});
+      store.dispatch(sessionAction);
+
+      const navigationAction = NavigationActions.navigate({routeName: 'Session', params: {sessionId: sessionAction.sessionId}});
+      this.safeNavigate(navigationAction, {forceOnStack: forceLockCheck()});
+    }
   }
 
-  safeNavigate = (navaction, {forceOnStack}={forceOnStack: false}) => {
+  safeNavigate = (navigationAction, {forceOnStack = false} = {}) => {
     if (!forceOnStack && this.navigationRef.state.nav.routes[this.navigationRef.state.nav.index].key === 'MainStackWithDrawer') {
-      this.navigationRef.dispatch(navaction);
+      this.navigationRef.dispatch(navigationAction);
     } else {
       if (this.withheldNavigationEvents.length < 5)
-        this.withheldNavigationEvents.push(navaction);
+        this.withheldNavigationEvents.push(navigationAction);
     }
   }
 
