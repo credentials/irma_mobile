@@ -167,7 +167,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:abb3cf814df6df6ebc5122b4e1a14bb2b1947a51ed697da2ee96c9cefcce775a"
+  digest = "1:7286f36f766ac0e724296d6f6959eacb5e273ea81d311359e3eecc62dce57f8a"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
@@ -176,7 +176,7 @@
     "irmaclient",
   ]
   pruneopts = "UT"
-  revision = "7f3992064cc583bf677e8cf2ca943082aff3b934"
+  revision = "b3f694e51dcfdf0033fb39f7226bc71153a066f0"
 
 [[projects]]
   digest = "1:04457f9f6f3ffc5fea48e71d62f2ca256637dee0a04d710288e27e05c8b41976"
@@ -246,41 +246,10 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/bwesterb/byteswriter",
-    "github.com/bwesterb/go-atum",
-    "github.com/bwesterb/go-pow",
-    "github.com/bwesterb/go-xmssmt",
-    "github.com/certifi/gocertifi",
-    "github.com/cespare/xxhash",
-    "github.com/dgrijalva/jwt-go",
-    "github.com/edsrzf/mmap-go",
     "github.com/getsentry/raven-go",
     "github.com/go-errors/errors",
-    "github.com/hashicorp/errwrap",
-    "github.com/hashicorp/go-cleanhttp",
-    "github.com/hashicorp/go-multierror",
-    "github.com/hashicorp/go-retryablehttp",
-    "github.com/jasonlvhit/gocron",
-    "github.com/konsorten/go-windows-terminal-sequences",
-    "github.com/nightlyone/lockfile",
-    "github.com/pkg/errors",
-    "github.com/privacybydesign/gabi",
-    "github.com/privacybydesign/gabi/big",
-    "github.com/privacybydesign/gabi/safeprime",
     "github.com/privacybydesign/irmago",
-    "github.com/privacybydesign/irmago/internal/disable_sigpipe",
-    "github.com/privacybydesign/irmago/internal/fs",
     "github.com/privacybydesign/irmago/irmaclient",
-    "github.com/sirupsen/logrus",
-    "github.com/templexxx/cpufeat",
-    "github.com/templexxx/xor",
-    "github.com/timshannon/bolthold",
-    "go.etcd.io/bbolt",
-    "golang.org/x/crypto/ed25519",
-    "golang.org/x/crypto/ed25519/internal/edwards25519",
-    "golang.org/x/crypto/sha3",
-    "golang.org/x/sys/unix",
-    "golang.org/x/sys/windows",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
