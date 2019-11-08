@@ -66,6 +66,14 @@
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:938a2672d6ebbb7f7bc63eee3e4b9464c16ffcf77ec8913d3edbf32b4e3984dd"
+  name = "github.com/fatih/color"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "570b54cabe6b8eb0bc2dfce68d964677d63b5260"
+  version = "v1.5.0"
+
+[[projects]]
   branch = "master"
   digest = "1:b39cde42897191f6864cca339b94315f6ab957553c175a46392be3fe9824141b"
   name = "github.com/getsentry/raven-go"
@@ -98,12 +106,12 @@
   version = "v0.5.1"
 
 [[projects]]
-  digest = "1:cf6b61e1b4c26b0c7526cee4a0cee6d8302b17798af4b2a56a90eedac0aef11a"
+  digest = "1:aa40cb84bb38458098a6d8394484e79d28e9fa033dd77c4f79564050e98761c7"
   name = "github.com/hashicorp/go-hclog"
   packages = ["."]
   pruneopts = "UT"
-  revision = "5ccdce08c75b6c7b37af61159f13f6a4f5e2e928"
-  version = "v0.9.2"
+  revision = "234833755cb25ae46996d0ef823326f492f89243"
+  version = "v0.10.0"
 
 [[projects]]
   digest = "1:f668349b83f7d779567c880550534addeca7ebadfdcf44b0b9c39be61864b4b7"
@@ -114,20 +122,20 @@
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:bc4393e7d030ef4a548d9643997e2ae9064ed93d7ed140569b27336ee3b77464"
+  digest = "1:c56f955f851cd25996e8b6cc996cb168756802e5aa19ec0981104f2a98a46bdb"
   name = "github.com/hashicorp/go-retryablehttp"
   packages = ["."]
   pruneopts = "UT"
-  revision = "a83ad44d6a5fc343d7c4babf601092b3c189f402"
-  version = "v0.6.2"
+  revision = "0cb7eb3851dd713f70a95911bfa978f2edeafb3d"
+  version = "v0.6.3"
 
 [[projects]]
   branch = "master"
-  digest = "1:4a71114c27ec056e4a400fa2ed4e5caa08afc32fdbb67c5f5ccb74385c4a7e49"
+  digest = "1:7e3565584f665926ec7ce4cc08d367e0e8eab45b65b785161dae24df5e8778b4"
   name = "github.com/jasonlvhit/gocron"
   packages = ["."]
   pruneopts = "UT"
-  revision = "47e27a9e0dc7cbe56e05a51111d316b6818a762d"
+  revision = "f82992d443f4e4ef20773085d53136c447162560"
 
 [[projects]]
   digest = "1:31e761d97c76151dde79e9d28964a812c46efc5baee4085b86f68f0c654450de"
@@ -136,6 +144,22 @@
   pruneopts = "UT"
   revision = "f55edac94c9bbba5d6182a4be46d86a2c9b5b50e"
   version = "v1.0.2"
+
+[[projects]]
+  digest = "1:4a29eeb25603debe8f2098a9902c4d3851034cf70d33be428826e86e8c30a1b0"
+  name = "github.com/mattn/go-colorable"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "98ec13f34aabf44cc914c65a1cfb7b9bc815aef1"
+  version = "v0.1.4"
+
+[[projects]]
+  digest = "1:d62282425ffb75047679d7e2c3b980eea7f82c05ef5fb9142ee617ebac6e7432"
+  name = "github.com/mattn/go-isatty"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "88ba11cfdc67c7588b30042edf244b2875f892b6"
+  version = "v0.0.10"
 
 [[projects]]
   branch = "master"
@@ -167,7 +191,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:7286f36f766ac0e724296d6f6959eacb5e273ea81d311359e3eecc62dce57f8a"
+  digest = "1:4137a32685f2da802368454e8e7559687ac238c7bf4fa46bd342df29e8b96131"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
@@ -176,7 +200,7 @@
     "irmaclient",
   ]
   pruneopts = "UT"
-  revision = "b3f694e51dcfdf0033fb39f7226bc71153a066f0"
+  revision = "2f634b0141ccafa928951c6deebbc90a1980b92c"
 
 [[projects]]
   digest = "1:04457f9f6f3ffc5fea48e71d62f2ca256637dee0a04d710288e27e05c8b41976"
@@ -220,7 +244,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:cfe9591f030d0eddb3d9c1a9ee1a2c3404c880d869a1fc250f0e5b0cf774ee5e"
+  digest = "1:de3ada36fec2d05c0efdfc94521e0bbb2db9d7538446987822482709de5bd4dc"
   name = "golang.org/x/crypto"
   packages = [
     "ed25519",
@@ -228,11 +252,11 @@
     "sha3",
   ]
   pruneopts = "UT"
-  revision = "87dc89f01550277dc22b74ffcf4cd89fa2f40f4c"
+  revision = "f4817d981bb690635456c5c1c6aa0585e5d45891"
 
 [[projects]]
   branch = "master"
-  digest = "1:9a7e33a18b6fb80e9815211b7e9dfc8ac60bb167f84d7793589498feb21a1c8d"
+  digest = "1:92c957c2713e817f2c5e25735152837312e3e0458e784a5e168d725474ac8995"
   name = "golang.org/x/sys"
   packages = [
     "cpu",
@@ -240,7 +264,7 @@
     "windows",
   ]
   pruneopts = "UT"
-  revision = "e66fe6eb8e0cbfacade8b490cf55cd2494f4db62"
+  revision = "c1f44814a5cd81a6d1cb589ef1e528bc5d305e07"
 
 [solve-meta]
   analyzer-name = "dep"
