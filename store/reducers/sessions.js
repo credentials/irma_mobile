@@ -77,7 +77,7 @@ export default function credentials(state = initialState, action) {
           id: sessionId,
           request: action.request,
           exitAfter: action.exitAfter,
-          ...returnUrlProperties(action.request.returnUrl),
+          ...returnUrlProperties(action.request.returnURL),
         },
       };
     }
