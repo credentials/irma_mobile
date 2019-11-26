@@ -57,7 +57,7 @@ const returnUrlProperties = (returnUrl) => {
 
   return {
     returnUrl,
-    isReturnPhoneNumber: returnUrl.substring(0, 4) === 'tel:',
+    isReturnPhoneNumber: false, //returnUrl.substring(0, 4) === 'tel:',
   };
 };
 
