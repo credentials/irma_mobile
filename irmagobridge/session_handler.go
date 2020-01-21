@@ -1,6 +1,7 @@
 package irmagobridge
 
 import (
+	"errors"
 	"github.com/privacybydesign/irmago"
 	"github.com/privacybydesign/irmago/irmaclient"
 )
@@ -92,55 +93,86 @@ func (sh *SessionHandler) UnsatisfiableRequest(request irma.SessionRequest,
 	sendAction(action)
 }
 
+func CheckContainsCredentialIdentifiers(request *irma.DisclosureRequest) *irma.SessionError {
+	for _, discon := range request.Disclose {
+		for _, con := range discon {
+			for _, attrReq := range con {
+				if attrReq.Type.IsCredential() {
+					return &irma.SessionError{
+						ErrorType: irma.ErrorInvalidRequest,
+						Err:       errors.New("Request should only contain AttributeIdentifiers"),
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
 func (sh *SessionHandler) RequestIssuancePermission(request *irma.IssuanceRequest, candidates [][][]*irma.AttributeIdentifier, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestIssuancePermission")
 	disclose := request.Disclose
 	if disclose == nil {
 		disclose = irma.AttributeConDisCon{}
 	}
-	action := &OutgoingAction{
-		"type":                  "IrmaSession.RequestIssuancePermission",
-		"sessionId":             sh.sessionID,
-		"serverName":            serverName,
-		"issuedCredentials":     request.CredentialInfoList,
-		"disclosures":           disclose,
-		"disclosuresLabels":     request.Labels,
-		"disclosuresCandidates": candidates,
-	}
+	err := CheckContainsCredentialIdentifiers(request.Disclosure())
+	if err != nil {
+		sh.Failure(err)
+	} else {
+		action := &OutgoingAction{
+			"type":                  "IrmaSession.RequestIssuancePermission",
+			"sessionId":             sh.sessionID,
+			"serverName":            serverName,
+			"issuedCredentials":     request.CredentialInfoList,
+			"disclosures":           disclose,
+			"disclosuresLabels":     request.Labels,
+			"disclosuresCandidates": candidates,
+		}
 
-	sh.permissionHandler = ph
-	sendAction(action)
+		sh.permissionHandler = ph
+		sendAction(action)
+	}
 }
 
 func (sh *SessionHandler) RequestVerificationPermission(request *irma.DisclosureRequest, candidates [][][]*irma.AttributeIdentifier, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestVerificationPermission")
-	action := &OutgoingAction{
-		"type":                  "IrmaSession.RequestVerificationPermission",
-		"sessionId":             sh.sessionID,
-		"serverName":            serverName,
-		"disclosures":           request.Disclose,
-		"disclosuresLabels":     request.Labels,
-		"disclosuresCandidates": candidates,
-	}
+	err := CheckContainsCredentialIdentifiers(request)
+	if err != nil {
+		sh.Failure(err)
+	} else {
+		action := &OutgoingAction{
+			"type":                  "IrmaSession.RequestVerificationPermission",
+			"sessionId":             sh.sessionID,
+			"serverName":            serverName,
+			"disclosures":           request.Disclose,
+			"disclosuresLabels":     request.Labels,
+			"disclosuresCandidates": candidates,
+		}
 
-	sh.permissionHandler = ph
-	sendAction(action)
+		sh.permissionHandler = ph
+		sendAction(action)
+	}
 }
 
 func (sh *SessionHandler) RequestSignaturePermission(request *irma.SignatureRequest, candidates [][][]*irma.AttributeIdentifier, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestSignaturePermission")
-	action := &OutgoingAction{
-		"type":                  "IrmaSession.RequestSignaturePermission",
-		"sessionId":             sh.sessionID,
-		"serverName":            serverName,
-		"disclosures":           request.Disclose,
-		"disclosuresLabels":     request.Labels,
-		"disclosuresCandidates": candidates,
-		"message":               request.Message,
-	}
+	err := CheckContainsCredentialIdentifiers(request.Disclosure())
+	if err != nil {
+		sh.Failure(err)
+	} else {
+		action := &OutgoingAction{
+			"type":                  "IrmaSession.RequestSignaturePermission",
+			"sessionId":             sh.sessionID,
+			"serverName":            serverName,
+			"disclosures":           request.Disclose,
+			"disclosuresLabels":     request.Labels,
+			"disclosuresCandidates": candidates,
+			"message":               request.Message,
+		}
 
-	sh.permissionHandler = ph
-	sendAction(action)
+		sh.permissionHandler = ph
+		sendAction(action)
+	}
 }
 
 func (sh *SessionHandler) RequestPin(remainingAttempts int, ph irmaclient.PinHandler) {
