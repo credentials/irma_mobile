@@ -103,10 +103,6 @@ export const CredentialAttribute = ({attribute, hasExpired = false, showDescript
   const nameStyle = {color: '#828282', fontSize: 14};
   const expiredStyle = {color: '#a7a7a7'};
 
-  // TODO: Decide how to handle empty attribute values. For now, just render them.
-  // if (attribute.Value[lang] === '')
-  //  return null;
-
   const style = {
     flex: 1,
     flexDirection: 'column',
