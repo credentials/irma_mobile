@@ -62,7 +62,7 @@ const returnUrlProperties = (returnUrl) => {
 };
 
 const initialState = {};
-export default function credentials(state = initialState, action) {
+export default function sessions(state = initialState, action) {
 
   if(!isValidSessionAction(state, action))
     return state;
