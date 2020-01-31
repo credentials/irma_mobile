@@ -263,6 +263,12 @@ export default function credentials(state = initialState, action) {
         ...state,
         [sessionId]: {
           ...state[sessionId],
+          // Reset disclosure values, because one of these credentials might be deleted due to this session
+          disclosures: [],
+          disclosuresLabels: null,
+          disclosuresCandidates: [],
+          disclosureChoices: [],
+          disclosureIndices: [],
         }
       };
     }
