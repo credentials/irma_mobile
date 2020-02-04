@@ -97,13 +97,14 @@ export default class CredentialCard extends Component {
   renderHeader() {
     const { credential, isEditable, isDeletable, onDeletePress, onReorderPress, onReorderPressOut } = this.props;
     const { showAdditionalInfo } = this.state;
-    const { CredentialType, hasExpired } = credential;
+    const { CredentialType, hasExpired, Revoked } = credential;
+    const invalid = Revoked || hasExpired;
 
     return (
       <CardItem header style={[styles.headerCardItem, styles.borderBottom]}>
         <View style={{flexDirection: 'row'}}>
           <Body style={{flex: 2, alignItems: 'flex-start'}}>
-            <Text style={[styles.credentialNameText, hasExpired ? styles.expiredName : null]}>
+            <Text style={[styles.credentialNameText, invalid ? styles.expiredText : null]}>
               { CredentialType.Name[lang] }
             </Text>
             <Text note>
@@ -148,17 +149,22 @@ export default class CredentialCard extends Component {
 
   renderIssuer() {
     const { credential } = this.props;
-    const { hasExpired, Expires, Issuer } = credential;
+    const { Revoked, hasExpired, Expires, Issuer } = credential;
+
+    const invalid = Revoked || hasExpired;
+    const expiresAt = moment.unix(Expires).format('D MMM YYYY');
+    let validity = `${t('.expires')} ${expiresAt}`;
+    if (hasExpired) validity = `${t('.expires')} ${expiresAt}`;
+    if (Revoked) validity = t('.revoked');
 
     return (
       <CardItem style={styles.issuerDiv}>
         <Body>
-          <Text style={hasExpired ? styles.expiredText : null}>
+          <Text style={invalid ? styles.expiredText : null}>
             { t('.issuedBy') }: { Issuer.Name[lang] }
           </Text>
-          <Text note style={hasExpired ? styles.expiredExpiry : null}>
-            { hasExpired ? t('.expired') : t('.expires') }
-            { ' ' }{ moment.unix(Expires).format('D MMM YYYY') }
+          <Text note style={invalid ? styles.expiredExpiry : null}>
+            { validity }
           </Text>
         </Body>
       </CardItem>

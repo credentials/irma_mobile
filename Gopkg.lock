@@ -2,6 +2,23 @@
 
 
 [[projects]]
+  branch = "master"
+  digest = "1:e140071a6fe384a35227148248d831f3b76118ac4f2850418ae043ce2025faac"
+  name = "astuart.co/go-sse"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "6cc042ab6f6dd996c6502f96872bd120afd1b4b3"
+  source = "github.com/sietseringers/go-sse"
+
+[[projects]]
+  digest = "1:0ed909fe743d21ca6dd7673b71b7c614ea7edc93c9c0d719344c66e2d48e65fb"
+  name = "github.com/alexandrevicenzi/go-sse"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "fcf9dcef90b06336afdab9ff5027d61279b39710"
+  version = "v1.5.0"
+
+[[projects]]
   digest = "1:ab972abb4f8af4e054fa53e6f2160251598cd11d484f5581094925e00a4c59c0"
   name = "github.com/bwesterb/byteswriter"
   packages = ["."]
@@ -16,6 +33,14 @@
   pruneopts = "UT"
   revision = "1ace26c6d4315cb157d5a66aba183ead7e54a52c"
   version = "v1.0.1"
+
+[[projects]]
+  digest = "1:fc31cd6fc2f965a819bc4e132c2d79bc23faa52cf15886c86cf22a45e46fd599"
+  name = "github.com/bwesterb/go-exptable"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "dd5d262925640ee5ec74905aef1111d3328493a2"
+  version = "v1.0.0"
 
 [[projects]]
   digest = "1:07b1ec08df55782bc78d3733fb7b04eb3a9272d835a4d0f2541f7a3096840c1b"
@@ -74,6 +99,14 @@
   version = "v1.5.0"
 
 [[projects]]
+  digest = "1:0886f4871903067916897c67caeb787f81c9a155391da901aa25f26802953ec6"
+  name = "github.com/fxamacker/cbor"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "6faee5e1f8b6270f9bdcfefbc9bdfa8c026de629"
+  version = "v1.5.0"
+
+[[projects]]
   branch = "master"
   digest = "1:b39cde42897191f6864cca339b94315f6ab957553c175a46392be3fe9824141b"
   name = "github.com/getsentry/raven-go"
@@ -88,6 +121,14 @@
   pruneopts = "UT"
   revision = "a6af135bd4e28680facf08a3d206b454abc877a4"
   version = "v1.0.1"
+
+[[projects]]
+  digest = "1:a3af33fd30536d9c5a7b6ad542390919e57c1125097a194c7b3d9904109a0611"
+  name = "github.com/go-sql-driver/mysql"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "17ef3dd9d98b69acec3e85878995ada9533a9370"
+  version = "v1.5.0"
 
 [[projects]]
   digest = "1:0ade334594e69404d80d9d323445d2297ff8161637f9b2d347cc6973d2d6f05b"
@@ -138,12 +179,45 @@
   revision = "f82992d443f4e4ef20773085d53136c447162560"
 
 [[projects]]
+  digest = "1:860544fe1253cf0f7b9acdf763a0662fd0180a0d30635536efa126544831cd54"
+  name = "github.com/jinzhu/gorm"
+  packages = [
+    ".",
+    "dialects/mysql",
+    "dialects/postgres",
+  ]
+  pruneopts = "UT"
+  revision = "79a77d771dee4e4b60e9c543e8663bbc80466670"
+  version = "v1.9.12"
+
+[[projects]]
+  digest = "1:01ed62f8f4f574d8aff1d88caee113700a2b44c42351943fa73cc1808f736a50"
+  name = "github.com/jinzhu/inflection"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f5c5f50e6090ae76a29240b61ae2a90dd810112e"
+  version = "v1.0.0"
+
+[[projects]]
   digest = "1:31e761d97c76151dde79e9d28964a812c46efc5baee4085b86f68f0c654450de"
   name = "github.com/konsorten/go-windows-terminal-sequences"
   packages = ["."]
   pruneopts = "UT"
   revision = "f55edac94c9bbba5d6182a4be46d86a2c9b5b50e"
   version = "v1.0.2"
+
+[[projects]]
+  digest = "1:707178a91d4d0a2382ac044a49cdea18959d6f3453a7ed0f8940ac2e48bfb26f"
+  name = "github.com/lib/pq"
+  packages = [
+    ".",
+    "hstore",
+    "oid",
+    "scram",
+  ]
+  pruneopts = "UT"
+  revision = "99274577be97ac9b1d95a2d61d566dc9b7cc6a54"
+  version = "v1.3.0"
 
 [[projects]]
   digest = "1:4a29eeb25603debe8f2098a9902c4d3851034cf70d33be428826e86e8c30a1b0"
@@ -163,6 +237,54 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:2b32af4d2a529083275afc192d1067d8126b578c7a9613b26600e4df9c735155"
+  name = "github.com/mgutz/ansi"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "9520e82c474b0a04dd04f8a40959027271bab992"
+
+[[projects]]
+  branch = "master"
+  digest = "1:130cefe87d7eeefc824978dcb78e35672d4c49a11f25c153fbf0cfd952756fa3"
+  name = "github.com/minio/blake2b-simd"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "3f5f724cb5b182a5c278d6d3d55b40e7f8c2efb4"
+
+[[projects]]
+  digest = "1:0d8b29788bd5eef02a1d7cff49bc557d66dccbfe5c386b6422d8a4e4752a5e14"
+  name = "github.com/minio/sha256-simd"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "6de4475307716de15b286880ff321c9547086fdd"
+  version = "v0.1.1"
+
+[[projects]]
+  digest = "1:b6299badabd66eaede0651e2eaede106d8298b25564e4a7f23e335471d3e5a35"
+  name = "github.com/mr-tron/base58"
+  packages = ["base58"]
+  pruneopts = "UT"
+  revision = "b1dd383fd2c02d7933db93f157e339f1899b5163"
+  version = "v1.1.3"
+
+[[projects]]
+  digest = "1:9b6ec330cdda76d7b8fb3cb4238d7ab8ee98f672859fcb3dcc7dd395312f5770"
+  name = "github.com/multiformats/go-multihash"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "6b39927dce4869bc1726861b65ada415ee1f7fc7"
+  version = "v0.0.13"
+
+[[projects]]
+  digest = "1:6be8092c93e6eb9ec606a153d16fa042e087be8be9a91f49515dfe0d0b504a5f"
+  name = "github.com/multiformats/go-varint"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "99465703c4a9cf53a0235e52608cb055e9d39c29"
+  version = "v0.0.5"
+
+[[projects]]
+  branch = "master"
   digest = "1:6491080aa184f88c2bb8e2f6056e5e0e9a578b2d8666efbd6e97bc37a0c41e72"
   name = "github.com/nightlyone/lockfile"
   packages = ["."]
@@ -178,20 +300,24 @@
   version = "v0.8.1"
 
 [[projects]]
-  branch = "master"
-  digest = "1:efc4c33449984cda3f7880142fbf35fdc16c7e9c4c27c50a8e77bd055400cceb"
+  branch = "revocation"
+  digest = "1:322d0956598ddfb325d6b22928468377e13627c769712cfb9d08fd2eafc17038"
   name = "github.com/privacybydesign/gabi"
   packages = [
     ".",
     "big",
+    "internal/common",
+    "keyproof",
+    "revocation",
     "safeprime",
+    "signed",
   ]
   pruneopts = "UT"
-  revision = "ce779395f4c98898f21f8c49f71f4b3353995127"
+  revision = "9df3e395ec4d83370421a872bdad7bd54a2ed8e1"
 
 [[projects]]
-  branch = "master"
-  digest = "1:76c1c50473351220b1c586fc0269cf146706da9fc05f090f0a6d86fafc2d899f"
+  branch = "revocation"
+  digest = "1:26016554420b76f4cda623a1b114b131525eb8e887bb57f6b47af396c0cdb8ca"
   name = "github.com/privacybydesign/irmago"
   packages = [
     ".",
@@ -200,7 +326,7 @@
     "irmaclient",
   ]
   pruneopts = "UT"
-  revision = "36ab84c97ac789aa4df4a03fbf7ea66fe6ab341e"
+  revision = "c2e8d5bfbed8a824639319bd99a5978910fa1dcd"
 
 [[projects]]
   digest = "1:04457f9f6f3ffc5fea48e71d62f2ca256637dee0a04d710288e27e05c8b41976"
@@ -209,6 +335,14 @@
   pruneopts = "UT"
   revision = "839c75faf7f98a33d445d181f3018b5c3409a45e"
   version = "v1.4.2"
+
+[[projects]]
+  digest = "1:919bb3aa6d9d0b67648c219fa4925312bc3c2872da19e818fa769e9c97a2b643"
+  name = "github.com/spaolacci/murmur3"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "9f5d223c60793748f04a9d5b4b4eacddfc1f755d"
+  version = "v1.1"
 
 [[projects]]
   branch = "master"
@@ -235,6 +369,22 @@
   revision = "ccb01ed9dec4272145c1e7fa5c2970bc9ff63ce8"
 
 [[projects]]
+  digest = "1:39a425f98fb19427061a693fe6bf0683c9bddec4b25b17067e34fdb465e39cb9"
+  name = "github.com/x-cray/logrus-prefixed-formatter"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "bb2702d423886830dee131692131d35648c382e2"
+  version = "v0.5.2"
+
+[[projects]]
+  digest = "1:93f4c18679de6a3e34b9a3de10c5436e9888b5879ed7de0520749e1eac546bd8"
+  name = "github.com/x448/float16"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "cb9afec31f2649663ebb64da5c6c32c3d365c3ca"
+  version = "v0.8.4"
+
+[[projects]]
   digest = "1:f2ac2c724fc8214bb7b9dd6d4f5b7a983152051f5133320f228557182263cb94"
   name = "go.etcd.io/bbolt"
   packages = ["."]
@@ -244,12 +394,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:de3ada36fec2d05c0efdfc94521e0bbb2db9d7538446987822482709de5bd4dc"
+  digest = "1:4121ea1bca194eba08c90aeca1c7589a81a270e3556aed1ab41a9f9b98a31ca6"
   name = "golang.org/x/crypto"
   packages = [
+    "blake2s",
     "ed25519",
     "ed25519/internal/edwards25519",
     "sha3",
+    "ssh/terminal",
   ]
   pruneopts = "UT"
   revision = "f4817d981bb690635456c5c1c6aa0585e5d45891"

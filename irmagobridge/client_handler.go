@@ -5,6 +5,11 @@ import "github.com/privacybydesign/irmago"
 type ClientHandler struct {
 }
 
+func (ch *ClientHandler) Revoked(cred *irma.CredentialIdentifier) {
+	logDebug("Handling Revoked")
+	sendCredentials()
+}
+
 func (ch *ClientHandler) UpdateConfiguration(new *irma.IrmaIdentifierSet) {
 	logDebug("Handling UpdateConfiguration")
 	sendConfiguration()
@@ -91,7 +96,7 @@ func (ch *ClientHandler) ChangePinIncorrect(managerIdentifier irma.SchemeManager
 	logDebug("Handling ChangePinIncorrect")
 
 	action := &OutgoingAction{
-		"type": "IrmaClient.ChangePinIncorrect",
+		"type":              "IrmaClient.ChangePinIncorrect",
 		"remainingAttempts": attempts,
 	}
 
@@ -102,7 +107,7 @@ func (ch *ClientHandler) ChangePinBlocked(managerIdentifier irma.SchemeManagerId
 	logDebug("Handling ChangePinBlocked")
 
 	action := &OutgoingAction{
-		"type": "IrmaClient.ChangePinBlocked",
+		"type":    "IrmaClient.ChangePinBlocked",
 		"timeout": timeout,
 	}
 
