@@ -11,4 +11,5 @@ if [ -z "$GOPATH" ]; then
 fi
 
 export PATH="$GOPATH/bin:$PATH"
+export GO111MODULE=off
 $GOPATH/bin/gomobile bind -target ios github.com/privacybydesign/irma_mobile/irmagobridge
