@@ -60,8 +60,8 @@ func recoveredReceiveAction(actionJSONString string) {
 			err = actionHandler.RespondPin(action)
 		}
 
-	case "DeleteAllCredentials":
-		err = actionHandler.DeleteAllCredentials()
+	case "RemoveStorage":
+		err = actionHandler.RemoveStorage()
 
 	case "DeleteCredential":
 		action := &DeleteCredentialAction{}

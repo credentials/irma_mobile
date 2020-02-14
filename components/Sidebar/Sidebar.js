@@ -30,7 +30,7 @@ export default class Sidebar extends Component {
   static propTypes = {
     canEnroll: PropTypes.bool.isRequired,
     closeSidebar: PropTypes.func.isRequired,
-    deleteAllCredentials: PropTypes.func.isRequired,
+    removeStorage: PropTypes.func.isRequired,
     isEnrolled: PropTypes.bool.isRequired,
     navigate: PropTypes.func.isRequired,
     navigateToMoreAttributes: PropTypes.func.isRequired,
@@ -74,7 +74,7 @@ export default class Sidebar extends Component {
       text: t('.deleteAll.menu'),
       isVisible: () => this.props.isEnrolled,
       onPress: () => {
-        const { closeSidebar, deleteAllCredentials } = this.props;
+        const { closeSidebar, removeStorage } = this.props;
 
         Alert.alert(
           t('.deleteAll.title'),
@@ -82,7 +82,7 @@ export default class Sidebar extends Component {
           [
             {text: t('.deleteAll.cancel'), style: 'cancel'},
             {text: t('.deleteAll.ok'), onPress: () => {
-              deleteAllCredentials();
+              removeStorage();
               closeSidebar();
             }},
           ],

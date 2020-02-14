@@ -32,9 +32,9 @@ export default class SidebarContainer extends Component {
     navigation: PropTypes.object.isRequired,
   }
 
-  deleteAllCredentials = () => {
+  removeStorage = () => {
     const { dispatch } = this.props;
-    dispatch({type: 'IrmaBridge.DeleteAllCredentials'});
+    dispatch({type: 'IrmaBridge.RemoveStorage'});
   }
 
   navigate = (name) => {
@@ -61,7 +61,7 @@ export default class SidebarContainer extends Component {
       <Sidebar
         canEnroll={canEnroll}
         closeSidebar={this.closeSidebar}
-        deleteAllCredentials={this.deleteAllCredentials}
+        removeStorage={this.removeStorage}
         isEnrolled={isEnrolled}
         navigate={this.navigate}
         navigateToMoreAttributes={this.navigateToMoreAttributes}
