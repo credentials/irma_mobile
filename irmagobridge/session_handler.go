@@ -79,9 +79,30 @@ func (sh *SessionHandler) Cancelled() {
 	sendAction(action)
 }
 
+func checkContainsCredentialIdentifiers(request *irma.DisclosureRequest) *irma.SessionError {
+	for _, discon := range request.Disclose {
+		for _, con := range discon {
+			for _, attrReq := range con {
+				if attrReq.Type.IsCredential() {
+					return &irma.SessionError{
+						ErrorType: irma.ErrorInvalidRequest,
+						Err:       errors.New("Request should only contain AttributeTypeIdentifiers"),
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
 func (sh *SessionHandler) UnsatisfiableRequest(request irma.SessionRequest,
 	serverName irma.TranslatedString, missing irmaclient.MissingAttributes) {
 	logDebug("Handling UnsatisfiableRequest")
+	err := checkContainsCredentialIdentifiers(request.Disclosure())
+	if err != nil {
+		sh.Failure(err)
+		return
+	}
 	action := &OutgoingAction{
 		"type":               "IrmaSession.UnsatisfiableRequest",
 		"sessionId":          sh.sessionID,
@@ -93,29 +114,13 @@ func (sh *SessionHandler) UnsatisfiableRequest(request irma.SessionRequest,
 	sendAction(action)
 }
 
-func CheckContainsCredentialIdentifiers(request *irma.DisclosureRequest) *irma.SessionError {
-	for _, discon := range request.Disclose {
-		for _, con := range discon {
-			for _, attrReq := range con {
-				if attrReq.Type.IsCredential() {
-					return &irma.SessionError{
-						ErrorType: irma.ErrorInvalidRequest,
-						Err:       errors.New("Request should only contain AttributeIdentifiers"),
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
 func (sh *SessionHandler) RequestIssuancePermission(request *irma.IssuanceRequest, candidates [][][]*irma.AttributeIdentifier, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestIssuancePermission")
 	disclose := request.Disclose
 	if disclose == nil {
 		disclose = irma.AttributeConDisCon{}
 	}
-	err := CheckContainsCredentialIdentifiers(request.Disclosure())
+	err := checkContainsCredentialIdentifiers(request.Disclosure())
 	if err != nil {
 		sh.Failure(err)
 		return
@@ -136,7 +141,7 @@ func (sh *SessionHandler) RequestIssuancePermission(request *irma.IssuanceReques
 
 func (sh *SessionHandler) RequestVerificationPermission(request *irma.DisclosureRequest, candidates [][][]*irma.AttributeIdentifier, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestVerificationPermission")
-	err := CheckContainsCredentialIdentifiers(request)
+	err := checkContainsCredentialIdentifiers(request)
 	if err != nil {
 		sh.Failure(err)
 		return
@@ -156,7 +161,7 @@ func (sh *SessionHandler) RequestVerificationPermission(request *irma.Disclosure
 
 func (sh *SessionHandler) RequestSignaturePermission(request *irma.SignatureRequest, candidates [][][]*irma.AttributeIdentifier, serverName irma.TranslatedString, ph irmaclient.PermissionHandler) {
 	logDebug("Handling RequestSignaturePermission")
-	err := CheckContainsCredentialIdentifiers(request.Disclosure())
+	err := checkContainsCredentialIdentifiers(request.Disclosure())
 	if err != nil {
 		sh.Failure(err)
 		return
