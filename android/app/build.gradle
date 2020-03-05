@@ -23,8 +23,8 @@ android {
         applicationId "org.irmacard.cardemu"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 67
-        versionName "5.7.3"
+        versionCode 68
+        versionName "5.8.0"
     }
 
     compileOptions {
