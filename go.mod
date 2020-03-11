@@ -19,6 +19,7 @@ require (
 	github.com/privacybydesign/irmago v0.5.0-rc.1.0.20200311101446-0828d8e73771
 	github.com/timshannon/bolthold v0.0.0-20200310154430-7be3f3bd401d // indirect
 	golang.org/x/crypto v0.0.0-20200302210943-78000ba7a073 // indirect
+	golang.org/x/mobile v0.0.0-20200222142934-3c8601c510d0 // indirect
 	golang.org/x/sys v0.0.0-20200302150141-5c8b2ff67527 // indirect
 )
 
