@@ -53,7 +53,7 @@
   "scripts": {
     "start": "react-native start",
     "android": "npm-run-all go:build_check android:run",
-    "android:run": "rm android/irmagobridge/irmagobridge.aar; react-native run-android",
+    "android:run": "gomobile bind -target android -o android/irmagobridge/irmagobridge.aar github.com/privacybydesign/irma_mobile/irmagobridge && react-native run-android",
     "ios": "npm-run-all go:build_check ios:run",
     "ios:run": "react-native run-ios --simulator \"iPhone 6\"",
     "go:build_check": "go build ./irmagobridge",
