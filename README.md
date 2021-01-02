@@ -1,3 +1,5 @@
+_This project is deprecated and therefore not maintained anymore. The live repository of the IRMA app is now at [github.com/privacybydesign/irmamobile](https://github.com/privacybydesign/irmamobile) (without underscore)._
+
 irma_mobile
 ===========
 
